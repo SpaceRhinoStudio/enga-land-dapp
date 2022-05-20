@@ -27,7 +27,7 @@
 
 <div class="relative flex mx-2 bg-primary-600 rounded-lg py-1 pl-3">
   <select
-    on:change={() => dispatch('change', value)}
+    on:change={e => dispatch('change', e.currentTarget.value)}
     bind:this={ref}
     bind:value
     disabled={disabled || isLoading}

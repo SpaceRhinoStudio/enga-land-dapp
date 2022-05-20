@@ -10,7 +10,7 @@
   import { deviceScreen$ } from './helpers/media-queries'
   import { __$ } from './locales'
   import Modal from './Modal.svelte'
-  import { selectedNetworkController$ } from './observables/web3-network'
+  import { selectedNetwork$, selectedNetworkController$ } from './observables/web3-network'
   import Select from './Select.svelte'
   import type { Web3ProviderId } from './types'
   import { keysOf } from './utils/type-safe'
@@ -20,8 +20,6 @@
 </script>
 
 <Modal acceptExit bind:toggle let:isOpen>
-  <!-- {#if isOpen} -->
-  <!-- <div transition:fade> -->
   <Card
     className={{
       container: `w-full sm:w-auto ${$deviceScreen$ === 'xs' ? '!rounded-b-none' : ''}`,
@@ -34,7 +32,9 @@
       {/each}
     </div>
     <div class="flex items-center justify-between w-full py-3 sm:py-0">
-      <Select on:change={x => selectedNetworkController$.next({ Set: x.detail })}>
+      <Select
+        value={$selectedNetwork$}
+        on:change={x => selectedNetworkController$.next({ Set: x.detail })}>
         <optgroup label="Live">
           <option value={Network.BSCMainnet}>
             {config.Chains.bsc.config.chainName}
@@ -57,7 +57,4 @@
       </Button>
     </div>
   </Card>
-
-  <!-- </div> -->
-  <!-- {/if} -->
 </Modal>
