@@ -12,12 +12,6 @@
   const items = [Routes.marketplace, ...(routeConfig[Routes.dapp].subRoutes ?? [])].map(
     x => routeConfig[x],
   )
-
-  let toggle: () => void
-  // let visible = true
-  // setInterval(() => {
-  //   visible = !visible
-  // }, 3000)
 </script>
 
 <svelte:head>
