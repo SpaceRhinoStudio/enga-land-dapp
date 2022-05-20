@@ -1,0 +1,5 @@
+.svelte-kit
+package-lock.json
+dist
+out
+./contracts

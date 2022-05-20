@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_twitch" data-name="vuesax/linear/twitch" transform="translate(-290 -597)">
+    <g id="twitch">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(290 597)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M2,0H19V12l-5,5H9L7,20H4V17H0V3Z" transform="translate(292.5 599)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H2V6H0Z" transform="translate(299 604)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H2V6H0Z" transform="translate(304 604)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(290 597)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

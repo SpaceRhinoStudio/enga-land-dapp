@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_glass" data-name="vuesax/linear/glass" transform="translate(-364 -508)">
+    <g id="glass">
+      <path id="Vector" d="M0,0H4" transform="translate(374 525.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,15V5C0,1,1,0,5,0" transform="translate(366 510.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M5,15V5C5,1,4,0,0,0" transform="translate(381 510.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M8,2.8V6.09c0,2-.8,2.8-2.8,2.8H2.8c-2,0-2.8-.8-2.8-2.8V2.8C0,.8.8,0,2.8,0H5.2C7.2,0,8,.8,8,2.8Z" transform="translate(366 521.11)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M8,2.8V6.09c0,2-.8,2.8-2.8,2.8H2.8c-2,0-2.8-.8-2.8-2.8V2.8C0,.8.8,0,2.8,0H5.2C7.2,0,8,.8,8,2.8Z" transform="translate(378 521.11)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(364 508)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

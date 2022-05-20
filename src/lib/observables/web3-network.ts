@@ -1,0 +1,35 @@
+import { config } from '$lib/configs'
+import { Network } from '$lib/configs/web3'
+import { localCache } from '$lib/contexts/local-cache'
+import { controlStreamPayload } from '$lib/operators/control-stream-payload'
+import { distinctUntilChanged, filter, map, ReplaySubject, Subject } from 'rxjs'
+
+export const selectedNetwork$ = new ReplaySubject<Network>(1)
+
+export const selectedNetworkController$ = new Subject<Partial<{ Set: string }>>()
+
+selectedNetworkController$
+  .pipe(
+    controlStreamPayload('Set'),
+    filter(x =>
+      [Network.BSCMainnet, Network.BSCTestnet, Network.Local].includes(
+        //@ts-expect-error validating
+        x,
+      ),
+    ),
+    map(x => x as Network),
+    distinctUntilChanged(),
+  )
+  .subscribe(selectedNetwork$)
+
+selectedNetwork$
+  .pipe(distinctUntilChanged())
+  .subscribe(localCache.observe<Network>(config.SelectedNetworkStorageKey, Network.BSCMainnet))
+
+localCache
+  .observe<Network>(config.SelectedNetworkStorageKey, Network.BSCMainnet)
+  .pipe(
+    distinctUntilChanged(),
+    map(x => ({ Set: x })),
+  )
+  .subscribe(selectedNetworkController$)

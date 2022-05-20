@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_sun-fog" data-name="vuesax/linear/sun-fog" transform="translate(-428 -252)">
+    <g id="sun-fog">
+      <path id="Vector" d="M13,6.5a6.5,6.5,0,0,0-13,0" transform="translate(433.5 257.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M17.01,2.99l.13-.13ZM10,.08v0ZM.08,10h0ZM20,10h0ZM2.99,2.99l-.13-.13" transform="translate(430 254)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H16" transform="translate(432 267)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H12" transform="translate(434 270)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H6" transform="translate(437 273)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(428 252)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

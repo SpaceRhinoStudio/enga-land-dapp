@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_flash-slash" data-name="vuesax/linear/flash-slash" transform="translate(-492 -316)">
+    <g id="flash-slash">
+      <path id="Vector" d="M0,7.32V9.76c0,1.68.91,2.02,2.02.76l7.57-8.6C10.52.87,10.13,0,8.72,0H7.79" transform="translate(501.18 326.72)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M10.1,6.841V1.521c0-1.68-.91-2.02-2.02-.76l-7.57,8.6c-.93,1.05-.54,1.92.87,1.92h3.09v1.18" transform="translate(496.725 317.999)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M20,0,0,20" transform="translate(494 318)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(492 316)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_mobile-programming" data-name="vuesax/linear/mobile-programming" transform="translate(-428 -252)">
+    <g id="mobile-programming">
+      <path id="Vector" d="M0,0,.03,1.53A1.512,1.512,0,0,0,1.53,3H4.55a1.5,1.5,0,0,0,1.5-1.5V0" transform="translate(436.93 254)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M2,0,0,2,2,4" transform="translate(443 269)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0,2,2,0,4" transform="translate(448 269)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M10,20H5c-3.5,0-5-2-5-5V5C0,2,1.5,0,5,0h8c3.5,0,5,2,5,5v7" transform="translate(431 254)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(428 252)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

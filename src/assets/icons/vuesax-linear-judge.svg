@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_judge" data-name="vuesax/linear/judge" transform="translate(-684 -572)">
+    <g id="judge">
+      <path id="Vector" d="M4.95,4.95,0,0" transform="translate(699.06 585.56)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M11.2,11.185l-3.54,3.54a2,2,0,0,1-2.83,0l-4.24-4.24a2,2,0,0,1,0-2.83L7.655.585a2,2,0,0,1,2.83,0l4.24,4.24a2,2,0,0,1,0,2.83Z" transform="translate(687.865 574.375)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H6" transform="translate(686 593)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0,7.07,7.07" transform="translate(690.56 579.92)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(684 572)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

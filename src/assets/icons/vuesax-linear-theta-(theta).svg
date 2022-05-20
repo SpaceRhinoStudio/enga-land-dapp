@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_theta-_theta_" data-name="vuesax/linear/theta-(theta)" transform="translate(-672 -277)">
+    <g id="theta-_theta_" data-name="theta-(theta)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(672 277)" fill="none"/>
+      <path id="Vector" d="M8.1,12H1.9A1.9,1.9,0,0,1,0,10.1V1.9A1.839,1.839,0,0,1,1.9,0H8.2a1.9,1.9,0,0,1,1.9,1.9v8.3A1.973,1.973,0,0,1,8.1,12Z" transform="translate(679 283)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0V2" transform="translate(684 285.5)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H4" transform="translate(682 287.5)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,2V0" transform="translate(684 290.5)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H4" transform="translate(682 290.5)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M13,20H7c-5,0-7-2-7-7V7C0,2,2,0,7,0h6c5,0,7,2,7,7v6C20,18,18,20,13,20Z" transform="translate(674 279)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-7" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(672 277)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

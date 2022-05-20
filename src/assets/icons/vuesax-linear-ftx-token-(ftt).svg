@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_ftx-token-_ftt_" data-name="vuesax/linear/ftx-token-(ftt)" transform="translate(-672 -213)">
+    <g id="ftx-token-_ftt_" data-name="ftx-token-(ftt)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(672 213)" fill="none"/>
+      <path id="Vector" d="M13,0H1A.945.945,0,0,0,0,1V4A.945.945,0,0,0,1,5H13a.945.945,0,0,0,1-1V1A.945.945,0,0,0,13,0Z" transform="translate(680 215)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H5V5H0Z" transform="translate(679 230)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H5V5H0Z" transform="translate(674 222.5)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H8.5V4.7H0Z" transform="translate(681.5 222.6)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(672 213)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

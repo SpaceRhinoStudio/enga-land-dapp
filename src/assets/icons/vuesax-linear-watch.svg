@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_watch" data-name="vuesax/linear/watch" transform="translate(-620 -380)">
+    <g id="watch">
+      <path id="Vector" d="M3.5,14h7q3.495,0,3.5-3.5v-7Q14,.005,10.5,0h-7Q.005,0,0,3.5v7Q0,13.995,3.5,14Z" transform="translate(625 385)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M8,0H0" transform="translate(628 382)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M8,0H0" transform="translate(628 402)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0V3H3" transform="translate(631.5 389.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(620 380)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

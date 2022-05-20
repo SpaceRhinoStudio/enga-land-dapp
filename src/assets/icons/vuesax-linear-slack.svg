@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_slack" data-name="vuesax/linear/slack" transform="translate(-288 -469)">
+    <g id="slack">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(288 469)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M1.9,0A1.9,1.9,0,0,0,0,1.9V6.5a1.9,1.9,0,0,0,3.8,0V1.8A1.817,1.817,0,0,0,1.9,0Z" transform="translate(300.6 471.3)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,3.2H1.6A1.58,1.58,0,0,0,3.2,1.6,1.58,1.58,0,0,0,1.6,0,1.58,1.58,0,0,0,0,1.6Z" transform="translate(306.6 476.4)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,1.9A1.9,1.9,0,0,0,1.9,3.8H6.5A1.9,1.9,0,0,0,6.5,0H1.9A1.965,1.965,0,0,0,0,1.9Z" transform="translate(290 476.3)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M3.2,3.1V1.6A1.58,1.58,0,0,0,1.6,0,1.58,1.58,0,0,0,0,1.6,1.58,1.58,0,0,0,1.6,3.2H3.2Z" transform="translate(295.2 471)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M1.9,8.4A1.9,1.9,0,0,0,3.8,6.5V1.9A1.9,1.9,0,1,0,0,1.9V6.5A2.043,2.043,0,0,0,1.9,8.4Z" transform="translate(295.5 482.4)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M3.2,0H1.6A1.58,1.58,0,0,0,0,1.6,1.58,1.58,0,0,0,1.6,3.2,1.58,1.58,0,0,0,3.2,1.6Z" transform="translate(290.2 482.4)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-7" data-name="Vector" d="M8.4,1.9A1.9,1.9,0,0,0,6.5,0H1.9a1.9,1.9,0,0,0,0,3.8H6.5A1.967,1.967,0,0,0,8.4,1.9Z" transform="translate(301.6 481.9)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-8" data-name="Vector" d="M0,0V1.6A1.58,1.58,0,0,0,1.6,3.2,1.58,1.58,0,0,0,3.2,1.6,1.58,1.58,0,0,0,1.6,0Z" transform="translate(301.6 487.8)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-9" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(288 469)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

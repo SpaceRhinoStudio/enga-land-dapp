@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_music-library-2" data-name="vuesax/linear/music-library-2" transform="translate(-236 -578)">
+    <g id="music-library-2">
+      <path id="Vector" d="M20,5V9c0,3.5-2,5-5,5H5c-3,0-5-1.5-5-5V5C0,2.35,1.15.85,3,.28A6.623,6.623,0,0,1,5,0H15a6.623,6.623,0,0,1,2,.28C18.85.85,20,2.35,20,5Z" transform="translate(238 586)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M14,2V3.28A6.623,6.623,0,0,0,12,3H2a6.623,6.623,0,0,0-2,.28V2A2.006,2.006,0,0,1,2,0H12A2.006,2.006,0,0,1,14,2Z" transform="translate(241 583)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M8,1.51V3H0V1.51A1.515,1.515,0,0,1,1.51,0H6.49A1.515,1.515,0,0,1,8,1.51Z" transform="translate(244 580)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-4" data-name="Vector" d="M2.64,1.32A1.32,1.32,0,1,1,1.32,0,1.32,1.32,0,0,1,2.64,1.32Z" transform="translate(243.75 594.81)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-5" data-name="Vector" d="M4.85,6.3V1.134c0-1.1-.69-1.26-1.39-1.06L.81.794A1.051,1.051,0,0,0,0,1.854v5.33" transform="translate(246.4 588.946)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-6" data-name="Vector" d="M2.64,1.32A1.32,1.32,0,1,1,1.32,0,1.32,1.32,0,0,1,2.64,1.32Z" transform="translate(248.61 593.93)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-7" data-name="Vector" d="M0,1.32,4.85,0" transform="translate(246.4 591.03)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-8" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(236 578)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_java-script" data-name="vuesax/linear/java-script" transform="translate(-1056 -405)">
+    <g id="java-script">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(1056 405)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M1,0H16.8a.972.972,0,0,1,1,1.1L16,17.3a1.068,1.068,0,0,1-.7.9L9.2,19.9a.446.446,0,0,1-.5,0L2.6,18.2a.876.876,0,0,1-.7-.9L0,1.1A1.028,1.028,0,0,1,1,0Z" transform="translate(1059.1 407)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-2" data-name="Vector" d="M3.1,0V9L0,8.1" transform="translate(1063.5 412)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M3.6,0,.5.4v5l3.1-.5V8.1L0,9" transform="translate(1068.9 412)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(1056 405)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

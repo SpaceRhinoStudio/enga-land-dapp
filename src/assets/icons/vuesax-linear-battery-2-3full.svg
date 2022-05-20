@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_battery-2_3full" data-name="vuesax/linear/battery-2/3full" transform="translate(-300 -188)">
+    <g id="battery-2_3full" data-name="battery-2/3full">
+      <path id="Vector" d="M0,0C1.5,0,1.5.5,1.5,1.5v2C1.5,4.5,1.5,5,0,5" transform="translate(320.5 197.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0A8.2,8.2,0,0,1,0,4" transform="translate(306.38 198)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0A8.2,8.2,0,0,1,0,4" transform="translate(309.88 198)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M11,14H5c-4,0-5-1-5-5V5C0,1,1,0,5,0h6c4,0,5,1,5,5V9C16,13,15,14,11,14Z" transform="translate(302 193)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(300 188)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

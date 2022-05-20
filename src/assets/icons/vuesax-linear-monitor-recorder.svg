@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_monitor-recorder" data-name="vuesax/linear/monitor-recorder" transform="translate(-492 -188)">
+    <g id="monitor-recorder">
+      <path id="Vector" d="M20,9.89v.89c0,3.56-.89,4.44-4.44,4.44H4.44C.89,15.22,0,14.33,0,10.78V4.44C0,.89.89,0,4.44,0H6" transform="translate(494 190)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0V4.78" transform="translate(504 205.22)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H20" transform="translate(494 201)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H9" transform="translate(499.5 210)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M6.6,7.36H1.84A1.685,1.685,0,0,1,0,5.52V2A2.006,2.006,0,0,1,2,0H6.6A1.835,1.835,0,0,1,8.44,1.84V5.52A1.835,1.835,0,0,1,6.6,7.36Z" transform="translate(503.26 190.01)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M1.21,4.657,0,3.807V1.047L1.21.2c.6-.41,1.09-.16,1.09.57V4.1C2.3,4.827,1.81,5.077,1.21,4.657Z" transform="translate(511.7 191.263)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-7" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(492 188)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

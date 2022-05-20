@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="money-time" transform="translate(-748 -380)">
+    <path id="Vector" d="M5,2.5A2.5,2.5,0,1,1,2.5,0,2.5,2.5,0,0,1,5,2.5Z" transform="translate(757.5 389.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-2" data-name="Vector" d="M0,0V5" transform="translate(766.5 389.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <g id="Group">
+      <path id="Vector-3" data-name="Vector" d="M8,4A4,4,0,1,1,4,0,4,4,0,0,1,8,4Z" transform="translate(749 394)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M1.25,0V.93a.99.99,0,0,1-.49.86L0,2.25" transform="translate(752 396.75)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+    <path id="Vector-5" data-name="Vector" d="M0,11.2V5C0,1.5,2,0,5,0H15c3,0,5,1.5,5,5v6c0,3.5-2,5-5,5H6.5" transform="translate(750 384)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(748 380)" fill="none" opacity="0"/>
+  </g>
+</svg>

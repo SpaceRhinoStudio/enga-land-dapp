@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="wallet" transform="translate(-236 -444)">
+    <path id="Vector" d="M20,5v5a4.724,4.724,0,0,1-5,5H5a4.724,4.724,0,0,1-5-5V5A4.654,4.654,0,0,1,4.19.06,5.322,5.322,0,0,1,5,0H15a4.573,4.573,0,0,1,.75.05A4.664,4.664,0,0,1,20,5Z" transform="translate(238 451)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-2" data-name="Vector" d="M11.56,5.05A4.573,4.573,0,0,0,10.81,5H.81A5.322,5.322,0,0,0,0,5.06a3.043,3.043,0,0,1,.58-.78L3.83,1.02a3.525,3.525,0,0,1,4.96,0l1.75,1.77A3.374,3.374,0,0,1,11.56,5.05Z" transform="translate(242.191 446)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-3" data-name="Vector" d="M5,0H2A2,2,0,0,0,2,4H5" transform="translate(253 456.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(236 444)" fill="none" opacity="0"/>
+  </g>
+</svg>

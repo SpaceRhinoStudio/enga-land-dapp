@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_pharagraphspacing" data-name="vuesax/linear/pharagraphspacing" transform="translate(-556 -252)">
+    <g id="pharagraphspacing">
+      <path id="Vector" d="M0,0H18" transform="translate(559 274)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H18" transform="translate(559 254)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0V12" transform="translate(568 258)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M5.66,2.83,2.83,0,0,2.83" transform="translate(565.17 256.89)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M5.66,0,2.83,2.83,0,0" transform="translate(565.17 267.89)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(580 276) rotate(180)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

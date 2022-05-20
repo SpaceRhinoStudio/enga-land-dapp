@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_heart-tick" data-name="vuesax/linear/heart-tick" transform="translate(-684 -188)">
+    <g id="heart-tick">
+      <g id="Group">
+        <path id="Vector" d="M9.6,4.8a4.647,4.647,0,0,1-.7,2.47,4.772,4.772,0,0,1-8.2,0A4.738,4.738,0,0,1,0,4.8a4.8,4.8,0,0,1,9.6,0Z" transform="translate(696.4 200.4)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M0,1.18,1.18,2.36,3.74,0" transform="translate(699.33 204.02)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(708 212) rotate(180)" fill="none" opacity="0"/>
+      <g id="Group-2" data-name="Group">
+        <path id="Vector-4" data-name="Vector" d="M20,5.59a11.027,11.027,0,0,1-1.31,5.22,4.8,4.8,0,0,0-7.06,6.49,10.245,10.245,0,0,1-1.01.41,2.181,2.181,0,0,1-1.24,0C6.48,16.72,0,12.59,0,5.59A5.552,5.552,0,0,1,10,2.23,5.552,5.552,0,0,1,20,5.59Z" transform="translate(686 191.1)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+    </g>
+  </g>
+</svg>

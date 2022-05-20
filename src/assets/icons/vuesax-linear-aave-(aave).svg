@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_aave-_aave_" data-name="vuesax/linear/aave-(aave)" transform="translate(-738 -279)">
+    <g id="aave-_aave_" data-name="aave-(aave)">
+      <g id="Group">
+        <path id="Vector" d="M0,9,4,0,8,9" transform="translate(746 286)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M0,0H4" transform="translate(746 291)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(740 281)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(738 279)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

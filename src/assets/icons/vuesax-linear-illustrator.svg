@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_illustrator" data-name="vuesax/linear/illustrator" transform="translate(-96 -531)">
+    <g id="illustrator">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(96 531)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M0,8,3.5,0,7.1,8" transform="translate(102.7 539)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H5.4" transform="translate(103.5 544.3)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,5.3V0" transform="translate(112.3 541.7)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M13,20H7c-5,0-7-2-7-7V7C0,2,2,0,7,0h6c5,0,7,2,7,7v6C20,18,18,20,13,20Z" transform="translate(98 533)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector_1" data-name="Vector 1" d="M0,0H0" transform="translate(112.34 539.034) rotate(-90)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(96 531)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

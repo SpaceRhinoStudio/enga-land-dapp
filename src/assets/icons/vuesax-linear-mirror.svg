@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_mirror" data-name="vuesax/linear/mirror" transform="translate(-236 -636)">
+    <g id="mirror">
+      <path id="Vector" d="M16,8A8,8,0,1,1,8,0,8,8,0,0,1,16,8Z" transform="translate(240 638)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H12" transform="translate(242 658)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(236 636)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

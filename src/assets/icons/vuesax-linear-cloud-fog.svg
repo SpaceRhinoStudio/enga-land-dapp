@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_cloud-fog" data-name="vuesax/linear/cloud-fog" transform="translate(-364 -252)">
+    <g id="cloud-fog">
+      <g id="Group">
+        <path id="Vector" d="M.488,8.646c-3.2-8.93,10.33-12.49,11.88-3.12a5.062,5.062,0,0,1,4.03,3.12" transform="translate(367.802 254.974)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M0,.41A3.882,3.882,0,0,1,1.67,0" transform="translate(378.54 260.52)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-3" data-name="Vector" d="M0,0H16" transform="translate(368 267.03)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H12" transform="translate(370 270.03)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H6" transform="translate(373 273.03)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(364 252)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_shapes" data-name="vuesax/linear/shapes" transform="translate(-618 -318)">
+    <g id="shapes">
+      <path id="Vector" d="M15,5.25v4.5C15,13.5,13.5,15,9.75,15H5.25C1.5,15,0,13.5,0,9.75V5.25C0,1.5,1.5,0,5.25,0h4.5C13.5,0,15,1.5,15,5.25Z" transform="translate(619.97 325)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M10.97,5.5a5.486,5.486,0,0,1-5,5.47v-.72C5.97,6.5,4.47,5,.72,5H0a5.49,5.49,0,0,1,10.91-.23A4.315,4.315,0,0,1,10.97,5.5Z" transform="translate(629 320)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(618 318)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

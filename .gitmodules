@@ -1,0 +1,3 @@
+[submodule "contracts/Fundraising"]
+	path = contracts/Fundraising
+	url = git@github.com:Project-Ilkka/Fundraising.git

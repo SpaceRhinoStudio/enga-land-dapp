@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_xiaomi" data-name="vuesax/linear/xiaomi" transform="translate(-674 -533)">
+    <g id="xiaomi">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(674 533)" fill="none" opacity="0.58"/>
+      <g id="Group">
+        <path id="Vector" d="M0,6V0H4A2.006,2.006,0,0,1,6,2V6" transform="translate(681.5 542)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M0,3V0" transform="translate(684.5 545)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M0,6V0" transform="translate(690.5 542)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(676 535)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(674 533)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

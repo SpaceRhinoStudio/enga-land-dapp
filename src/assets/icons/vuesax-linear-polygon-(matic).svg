@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_polygon-_matic_" data-name="vuesax/linear/polygon-(matic)" transform="translate(-224 -277)">
+    <g id="polygon-_matic_" data-name="polygon-(matic)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(224 277)" fill="none"/>
+      <path id="Vector" d="M9,7.8,4.5,10.4,0,7.8V2.6L4.5,0,9,2.6V4.2" transform="translate(227 281.3)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,2.6,4.5,0,9,2.6V7.8L4.5,10.4,0,7.8V6.1" transform="translate(236 286.5)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(224 277)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

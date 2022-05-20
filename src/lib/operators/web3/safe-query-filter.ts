@@ -1,0 +1,52 @@
+import { config } from '$lib/configs'
+import type { TypedEvent, TypedEventFilter } from 'engaland_fundraising_app/typechain/common'
+import type { Contract } from 'ethers'
+import _ from 'lodash'
+import { from, map, merge, mergeAll, Observable, of, reduce, switchMap } from 'rxjs'
+
+export function safeQueryFilter<
+  T extends Contract,
+  _EventArgsArray extends unknown[],
+  _EventArgsObject,
+>(
+  contract: T,
+  filter: TypedEventFilter<_EventArgsArray, _EventArgsObject>,
+  start: string | number,
+  end: string | number,
+): Observable<TypedEvent<_EventArgsArray & _EventArgsObject>[]> {
+  return of(contract.provider).pipe(
+    switchMap(x =>
+      merge(
+        _.isNumber(start)
+          ? of({ start })
+          : from(x.getBlock(start).then(x => ({ start: x.number }))),
+        _.isNumber(end) ? of({ end }) : from(x.getBlock(end).then(x => ({ end: x.number }))),
+      ).pipe(reduce((acc, curr) => ({ ...acc, ...curr }), {} as { start: number; end: number })),
+    ),
+    map(({ start, end }) => {
+      const res: { start: number; end: number }[] = []
+      let _start = start
+      let _end = end
+      do {
+        if (end - _start > config.logQueryMaximumBlockRange - 1) {
+          _end = _start + config.logQueryMaximumBlockRange - 1
+        } else {
+          _end = end
+        }
+        res.push({ start: _start, end: _end })
+        _start = _end + 1
+      } while (end === _start)
+      return res
+    }),
+    switchMap(blockNumbers =>
+      from(blockNumbers.map(({ start, end }) => contract.queryFilter(filter, start, end))).pipe(
+        mergeAll(),
+        mergeAll(),
+        reduce(
+          (acc, curr) => [...acc, curr as TypedEvent<_EventArgsArray & _EventArgsObject>],
+          [] as TypedEvent<_EventArgsArray & _EventArgsObject>[],
+        ),
+      ),
+    ),
+  )
+}

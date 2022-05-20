@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_direct-inbox" data-name="vuesax/linear/direct-inbox" transform="translate(-556 -186)">
+    <g id="direct-inbox">
+      <path id="Vector" d="M0,0V7L2,5" transform="translate(568 188)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M2,2,0,0" transform="translate(566 193)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H4.41A.988.988,0,0,1,5.3.55L6.47,2.89A2,2,0,0,0,8.26,4h3.53a2,2,0,0,0,1.79-1.11L14.75.55A1,1,0,0,1,15.64,0H20" transform="translate(557.98 199)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M5,0C1.46.52,0,2.6,0,6.87v4c0,5,2,7,7,7h6c5,0,7-2,7-7v-4C20,2.6,18.54.52,15,0" transform="translate(558 190.13)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(556 186)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

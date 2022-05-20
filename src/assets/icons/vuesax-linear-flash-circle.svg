@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_flash-circle" data-name="vuesax/linear/flash-circle" transform="translate(-556 -316)">
+    <g id="flash-circle">
+      <path id="Vector" d="M.653,6.142h1.74v4.05a.651.651,0,0,0,1.14.43l4.26-4.84A.651.651,0,0,0,7.3,4.7H5.563V.652a.651.651,0,0,0-1.14-.43L.163,5.062A.651.651,0,0,0,.653,6.142Z" transform="translate(564.027 322.578)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(557.97 318)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(556 316)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

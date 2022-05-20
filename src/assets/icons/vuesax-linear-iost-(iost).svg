@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_iost-_iost_" data-name="vuesax/linear/iost-(iost)" transform="translate(-672 -341)">
+    <g id="iost-_iost_" data-name="iost-(iost)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(672 341)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M7.5.3,1,4.1A2.062,2.062,0,0,0,0,5.8v7.7a1.936,1.936,0,0,0,1,1.7L7.5,19a1.817,1.817,0,0,0,2,0L16,15.2a2.062,2.062,0,0,0,1-1.7V5.8a1.936,1.936,0,0,0-1-1.7L9.5.3A1.817,1.817,0,0,0,7.5.3Z" transform="translate(675.5 343.3)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M10,3,5,0,0,3,10,9,5,12,0,9" transform="translate(679 347)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-3" data-name="Vector" d="M2,0,0,2" transform="translate(681.5 351)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-4" data-name="Vector" d="M2,0,0,2" transform="translate(684.5 353)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(672 341)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

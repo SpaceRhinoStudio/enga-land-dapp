@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_grid-edit" data-name="vuesax/linear/grid-edit" transform="translate(-748 -380)">
+    <g id="grid-edit">
+      <g id="Group">
+        <path id="Vector" d="M20,9V7c0-5-2-7-7-7H7C2,0,0,2,0,7v6c0,5,2,7,7,7H8" transform="translate(750 382)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <g id="Group-2" data-name="Group">
+          <path id="Vector-2" data-name="Vector" d="M0,0H19.97" transform="translate(750.03 388.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+          <path id="Vector-3" data-name="Vector" d="M0,0H9.97" transform="translate(750.03 395.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        </g>
+        <g id="Group-3" data-name="Group">
+          <path id="Vector-4" data-name="Vector" d="M0,19.98V0" transform="translate(756.51 382.01)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+          <path id="Vector-5" data-name="Vector" d="M0,9.98V0" transform="translate(763.51 382.01)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        </g>
+      </g>
+      <g id="Group-4" data-name="Group">
+        <path id="Vector-6" data-name="Vector" d="M4.74.671.59,4.821a1.513,1.513,0,0,0-.35.69L.01,7.1a.744.744,0,0,0,.89.89l1.59-.23a1.421,1.421,0,0,0,.69-.35l4.15-4.15a1.6,1.6,0,0,0,0-2.6A1.594,1.594,0,0,0,4.74.671Z" transform="translate(761.99 393.999)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-7" data-name="Vector" d="M0,0A3.761,3.761,0,0,0,2.6,2.6" transform="translate(766.14 395.26)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-8" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(748 380)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

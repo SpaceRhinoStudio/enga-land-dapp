@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_refresh-right-square" data-name="vuesax/linear/refresh-right-square" transform="translate(-620 -380)">
+    <g id="refresh-right-square">
+      <path id="Vector" d="M7,20h6c5,0,7-2,7-7V7c0-5-2-7-7-7H7C2,0,0,2,0,7v6C0,18,2,20,7,20Z" transform="translate(622 382)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-2" data-name="Vector" d="M6.67.25A5.743,5.743,0,0,0,5,0,4.991,4.991,0,1,0,9.16,2.22" transform="translate(627 387.26)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M1.66,1.91,0,0" transform="translate(632.72 385.74)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-4" data-name="Vector" d="M1.94,0,0,1.42" transform="translate(632.44 387.65)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(620 380)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

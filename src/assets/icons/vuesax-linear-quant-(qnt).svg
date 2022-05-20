@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_quant-_qnt_" data-name="vuesax/linear/quant-(qnt)" transform="translate(-992 -341)">
+    <g id="quant-_qnt_" data-name="quant-(qnt)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(992 341)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M9,0,0,5V15l9,5,5-2.5L18,20V15l-4-2.2L18,10V5Z" transform="translate(995 343)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M5,0,0,2.8V8.4l5,2.8,5-2.8V2.8Z" transform="translate(999 347.4)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0,4,2.2" transform="translate(995 348)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,2.2,4,0" transform="translate(995 355.8)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M4,0,0,2.2" transform="translate(1009 348)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M0,4V0" transform="translate(1004 343)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-7" data-name="Vector" d="M0,4V0" transform="translate(1004 359)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-8" data-name="Vector" d="M0,5V0" transform="translate(1009 356)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-9" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(992 341)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

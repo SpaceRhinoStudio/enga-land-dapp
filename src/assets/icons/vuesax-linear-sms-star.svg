@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_sms-star" data-name="vuesax/linear/sms-star" transform="translate(-108 -314)">
+    <g id="sms-star">
+      <path id="Vector" d="M20,8v4c0,3.5-2,5-5,5H5c-3,0-5-1.5-5-5V5C0,1.5,2,0,5,0h5" transform="translate(110 317.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0,3.13,2.5a3.166,3.166,0,0,0,3.75,0" transform="translate(115 323)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-3" data-name="Vector" d="M4.485.817l.28.57a1.251,1.251,0,0,0,.8.6l.38.06c1.14.19,1.41,1.03.59,1.86l-.35.35a1.266,1.266,0,0,0-.29,1.02l.05.21c.31,1.38-.42,1.91-1.62,1.19l-.26-.15a1.229,1.229,0,0,0-1.12,0l-.26.15c-1.21.73-1.94.19-1.62-1.19l.05-.21a1.266,1.266,0,0,0-.29-1.02l-.35-.35c-.82-.83-.55-1.67.59-1.86l.38-.06a1.243,1.243,0,0,0,.8-.6l.28-.57C3.065-.273,3.945-.273,4.485.817Z" transform="translate(122.995 316.003)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(108 314)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_simcard" data-name="vuesax/linear/simcard" transform="translate(-364 -380)">
+    <g id="simcard">
+      <path id="Vector" d="M16.54,4.53,13.47,1.46A4.994,4.994,0,0,0,9.93,0H5A4.724,4.724,0,0,0,0,5V15a4.724,4.724,0,0,0,5,5h8a4.724,4.724,0,0,0,5-5V8.07A5,5,0,0,0,16.54,4.53Z" transform="translate(367 382.01)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-2" data-name="Vector" d="M2,0,0,2,2,4" transform="translate(371.5 394)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M0,0,2,2,0,4" transform="translate(378.5 394)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(388 404) rotate(180)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

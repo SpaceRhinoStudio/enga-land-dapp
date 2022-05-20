@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_forward-square" data-name="vuesax/linear/forward-square" transform="translate(-492 -380)">
+    <g id="forward-square">
+      <path id="Vector" d="M7,20h6c5,0,7-2,7-7V7c0-5-2-7-7-7H7C2,0,0,2,0,7v6C0,18,2,20,7,20Z" transform="translate(494 382)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-2" data-name="Vector" d="M8,6.16H3.08A3.08,3.08,0,1,1,3.08,0H9.85" transform="translate(499 389.22)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M0,3.15,1.57,1.57,0,0" transform="translate(507.43 387.62)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(492 380)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

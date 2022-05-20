@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_litecoin_ltc_" data-name="vuesax/linear/litecoin(ltc)" transform="translate(-480 -277)">
+    <g id="litecoin_ltc_" data-name="litecoin(ltc)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(480 277)" fill="none"/>
+      <path id="Vector" d="M3.6,0H6.1L4,7.9H8.2l-.5,2.8H0L3,0Z" transform="translate(488 283.4)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M7.7,0,0,1.5" transform="translate(487.3 288)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(482 279)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(480 277)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_sticker" data-name="vuesax/linear/sticker" transform="translate(-620 -444)">
+    <g id="sticker">
+      <path id="Vector" d="M19.961,10.861a3.333,3.333,0,0,1-.1.55,6,6,0,0,0-8.45,8.45,3.333,3.333,0,0,1-.55.1,10.106,10.106,0,0,1-2.62-.11,10.006,10.006,0,1,1,11.61-11.61A10.106,10.106,0,0,1,19.961,10.861Z" transform="translate(621.969 445.999)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M9.86,1.41a2.986,2.986,0,0,1-.77,1.3L2.71,9.09a2.986,2.986,0,0,1-1.3.77A6,6,0,0,1,9.86,1.41Z" transform="translate(631.97 456)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(620 444)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

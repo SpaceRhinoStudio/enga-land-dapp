@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_airplane-square" data-name="vuesax/linear/airplane-square" transform="translate(-499 -188)">
+    <g id="airplane-square">
+      <path id="Vector" d="M4.34,14.073l1.68-1.42a.765.765,0,0,1,.93,0l1.67,1.42a.722.722,0,0,0,1.01-.42l.32-.96a.8.8,0,0,0-.17-.74L8.14,10.3a.827.827,0,0,1-.21-.51V7.942a.466.466,0,0,1,.7-.46l3.35,1.44a.672.672,0,0,0,1.01-.66v-.93a1.451,1.451,0,0,0-.81-1.23L8.24,4.4a.534.534,0,0,1-.3-.46V1.872A2.219,2.219,0,0,0,6.84.082a.763.763,0,0,0-.69,0,2.182,2.182,0,0,0-1.1,1.79v2.07a.554.554,0,0,1-.3.46L.81,6.1A1.471,1.471,0,0,0,0,7.332v.93a.67.67,0,0,0,1.01.66l3.35-1.44a.465.465,0,0,1,.7.46v1.85a.837.837,0,0,1-.21.51l-1.67,1.64a.8.8,0,0,0-.17.74l.32.96A.717.717,0,0,0,4.34,14.073Z" transform="translate(504.52 192.928)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M7,20h6c5,0,7-2,7-7V7c0-5-2-7-7-7H7C2,0,0,2,0,7v6C0,18,2,20,7,20Z" transform="translate(501 190)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(523 212) rotate(180)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_gemini" data-name="vuesax/linear/gemini" transform="translate(-172 -188)">
+    <g id="gemini">
+      <path id="Vector" d="M0,0A19.451,19.451,0,0,0,20,0" transform="translate(174 190)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,2.767a19.451,19.451,0,0,1,20,0" transform="translate(174 207.232)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0,.13.24a17.627,17.627,0,0,1-.1,16.59" transform="translate(177.3 191.58)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M2.117,16.83A17.683,17.683,0,0,1,2.017.24L2.147,0" transform="translate(188.553 191.58)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(172 188)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

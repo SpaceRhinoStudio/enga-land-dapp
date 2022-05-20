@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_polkadot-_dot_" data-name="vuesax/linear/polkadot-(dot)" transform="translate(-160 -277)">
+    <g id="polkadot-_dot_" data-name="polkadot-(dot)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(160 277)" fill="none"/>
+      <path id="Vector" d="M.9,11A6.756,6.756,0,0,1,0,7.5,7.555,7.555,0,0,1,7.5,0,7.555,7.555,0,0,1,15,7.5,7.555,7.555,0,0,1,7.5,15s-2.7,0-3.7,2.2A4.844,4.844,0,0,0,3.5,19l2-14" transform="translate(164.5 279)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector_1" data-name="Vector 1" d="M0,0H0" transform="translate(174 298) rotate(-90)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(160 277)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

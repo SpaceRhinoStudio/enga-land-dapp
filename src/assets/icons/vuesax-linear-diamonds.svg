@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_diamonds" data-name="vuesax/linear/diamonds" transform="translate(-556 -572)">
+    <g id="diamonds">
+      <path id="Vector" d="M14.29,0H5.7A2.862,2.862,0,0,0,2.79,1.89L.23,7.65a3.465,3.465,0,0,0,.56,3.43l6.86,7.54a3.136,3.136,0,0,0,4.71,0l6.85-7.55a3.442,3.442,0,0,0,.55-3.43L17.2,1.88A2.867,2.867,0,0,0,14.29,0Z" transform="translate(558 574.15)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H17" transform="translate(559.5 580)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(556 572)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

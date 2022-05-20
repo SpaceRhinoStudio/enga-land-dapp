@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_figma" data-name="vuesax/linear/figma" transform="translate(-994 -533)">
+    <g id="figma">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(994 533)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M6.7,0H3.4A3.351,3.351,0,0,0,0,3.3,3.329,3.329,0,0,0,3.3,6.6H6.7Z" transform="translate(999.3 535)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M6.6,0H3.3A3.329,3.329,0,0,0,0,3.3,3.329,3.329,0,0,0,3.3,6.6H6.6Z" transform="translate(999.4 541.7)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M6.6,0H3.3A3.329,3.329,0,0,0,0,3.3,3.329,3.329,0,0,0,3.3,6.6,3.329,3.329,0,0,0,6.6,3.3Z" transform="translate(999.4 548.3)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H3.3A3.329,3.329,0,0,1,6.6,3.3,3.329,3.329,0,0,1,3.3,6.6H0Z" transform="translate(1006 535)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M3.3,0A3.329,3.329,0,0,1,6.6,3.3,3.329,3.329,0,0,1,3.3,6.6,3.329,3.329,0,0,1,0,3.3,3.329,3.329,0,0,1,3.3,0Z" transform="translate(1006 541.7)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(994 533)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

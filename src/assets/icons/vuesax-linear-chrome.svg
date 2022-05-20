@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_chrome" data-name="vuesax/linear/chrome" transform="translate(-236 -444)">
+    <g id="chrome">
+      <path id="Vector" d="M10,20A10,10,0,1,0,0,10,10,10,0,0,0,10,20Z" transform="translate(238 446)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M4,8A4,4,0,1,0,0,4,4,4,0,0,0,4,8Z" transform="translate(244 452)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M9.17.5A21.482,21.482,0,0,0,0,.5" transform="translate(248 451.505)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0,.02.06A24.143,24.143,0,0,0,4.59,7.94" transform="translate(239.95 450.06)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,7.94A21.556,21.556,0,0,0,4.55.08L4.58,0" transform="translate(246.88 458)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(236 444)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

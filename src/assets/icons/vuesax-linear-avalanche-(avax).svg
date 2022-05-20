@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_avalanche-_avax_" data-name="vuesax/linear/avalanche-(avax)" transform="translate(-800 -277)">
+    <g id="avalanche-_avax_" data-name="avalanche-(avax)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(800 277)" fill="none"/>
+      <g id="Group">
+        <path id="Vector" d="M.081,9.825l5.6-9.6a.468.468,0,0,1,.8,0l1.5,2a1.822,1.822,0,0,1,.1,2l-3.3,5.3a1.859,1.859,0,0,1-1.5.9H.381C.081,10.525-.119,10.125.081,9.825Z" transform="translate(806.019 282.775)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M1.978.225l-1.9,3.2a.449.449,0,0,0,.4.7h3.8a.449.449,0,0,0,.4-.7l-1.9-3.2A.468.468,0,0,0,1.978.225Z" transform="translate(813.222 289.175)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-3" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(802 279)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(800 277)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

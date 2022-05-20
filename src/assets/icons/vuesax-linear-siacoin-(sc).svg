@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_siacoin-_sc_" data-name="vuesax/linear/siacoin-(sc)" transform="translate(-736 -341)">
+    <g id="siacoin-_sc_" data-name="siacoin-(sc)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(736 341)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M6,.8A10.571,10.571,0,0,1,10,0,10,10,0,1,1,0,10,10.571,10.571,0,0,1,.8,6" transform="translate(738 343)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M8.4,8.4V4.2A4.225,4.225,0,0,0,4.2,0,4.225,4.225,0,0,0,0,4.2,4.225,4.225,0,0,0,4.2,8.4Z" transform="translate(743.6 348.8)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M3,1.5A1.5,1.5,0,1,1,1.5,0,1.5,1.5,0,0,1,3,1.5Z" transform="translate(739.5 344.5)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(736 341)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

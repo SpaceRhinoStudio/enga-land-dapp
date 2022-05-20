@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_youtube" data-name="vuesax/linear/youtube" transform="translate(-864 -469)">
+    <g id="youtube">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(864 469)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M15,16H5a4.724,4.724,0,0,1-5-5V5A4.724,4.724,0,0,1,5,0H15a4.724,4.724,0,0,1,5,5v6A4.724,4.724,0,0,1,15,16Z" transform="translate(866 473)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M1.8.273l2.5,1.5a1.154,1.154,0,0,1,0,2.1l-2.5,1.5c-1,.6-1.8.1-1.8-1v-3C0,.073.8-.327,1.8.273Z" transform="translate(873.6 478.227)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(864 469)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

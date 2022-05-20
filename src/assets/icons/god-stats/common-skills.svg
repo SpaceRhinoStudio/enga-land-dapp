@@ -1,0 +1,54 @@
+<svg id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    viewBox="0 0 207.72 207.72">
+    <defs>
+        <style>
+            .cls-1-alksjd {
+                fill: #5b5b5b;
+                stroke: #fff;
+                stroke-miterlimit: 10;
+                stroke-width: 4px;
+            }
+
+            .cls-2-alpoksijd {
+                fill: url(#linear-gradient-com);
+            }
+
+            .cls-3-asjkf {
+                fill: #05e88b;
+            }
+
+            .cls-4-asldkaj {
+                fill: #fff;
+            }
+        </style>
+        <linearGradient id="linear-gradient-com" x1="1.163" y1="-1.937" x2="2.012" y2="-1.087"
+            gradientUnits="objectBoundingBox">
+            <stop offset="0" stop-color="#58595b" />
+            <stop offset="0.199" stop-color="#454546" />
+            <stop offset="0.479" stop-color="#323031" />
+            <stop offset="0.75" stop-color="#262324" />
+            <stop offset="1" stop-color="#231f20" />
+        </linearGradient>
+    </defs>
+    <path class="cls-1-alksjd" d="M398,308" transform="translate(-292.85 -202.85)" />
+    <rect class="cls-2-alpoksijd" x="310.22" y="220.22" width="173" height="173" rx="44.58"
+        transform="translate(-393.54 167.5) rotate(-45)" />
+    <path class="cls-3-asjkf"
+        d="M396.71,400.2a36.75,36.75,0,0,1-26.07-10.78L314,332.78a36.91,36.91,0,0,1,0-52.13L370.64,224a36.91,36.91,0,0,1,52.13,0l56.64,56.64a36.85,36.85,0,0,1,0,52.13l-56.64,56.64A36.74,36.74,0,0,1,396.71,400.2Zm0-183a32.78,32.78,0,0,0-23.24,9.6l-56.64,56.65a32.88,32.88,0,0,0,0,46.47l56.64,56.64a32.89,32.89,0,0,0,46.47,0L476.58,330a32.85,32.85,0,0,0,0-46.47l-56.64-56.65A32.78,32.78,0,0,0,396.71,217.23Z"
+        transform="translate(-292.85 -202.85)" />
+    <path class="cls-1-alksjd" d="M373.08,335.16" transform="translate(-292.85 -202.85)" />
+    <path class="cls-4-asldkaj"
+        d="M396.71,353.56a31.44,31.44,0,0,1-31.4-31.4V304.92H384v17.24a12.67,12.67,0,0,0,25.34,0V304.92h18.73v17.24A31.43,31.43,0,0,1,396.71,353.56Z"
+        transform="translate(-292.85 -202.85)" />
+    <rect class="cls-4-asldkaj" x="72.46" y="85.03" width="18.87" height="11.41" />
+    <rect class="cls-4-asldkaj" x="116.39" y="85.03" width="18.87" height="11.41" />
+    <path class="cls-4-asldkaj"
+        d="M396.72,275.17a3.11,3.11,0,0,1-3.11-3.11V263a3.11,3.11,0,0,1,6.21,0v9.09A3.1,3.1,0,0,1,396.72,275.17Z"
+        transform="translate(-292.85 -202.85)" />
+    <path class="cls-4-asldkaj"
+        d="M411.89,278.38a3.11,3.11,0,0,1-2.2-5.3l6.43-6.43a3.1,3.1,0,0,1,4.39,4.39l-6.43,6.43A3.07,3.07,0,0,1,411.89,278.38Z"
+        transform="translate(-292.85 -202.85)" />
+    <path class="cls-4-asldkaj"
+        d="M381.54,278.38a3.07,3.07,0,0,1-2.19-.91L372.92,271a3.1,3.1,0,0,1,4.39-4.39l6.43,6.43a3.11,3.11,0,0,1-2.2,5.3Z"
+        transform="translate(-292.85 -202.85)" />
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_dent-_dent_" data-name="vuesax/linear/dent-(dent)" transform="translate(-160 -405)">
+    <g id="dent-_dent_" data-name="dent-(dent)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(160 405)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M1.3,12.2A1.324,1.324,0,0,1,0,10.9V1.3A1.324,1.324,0,0,1,1.3,0,1.324,1.324,0,0,1,2.6,1.3V11A1.24,1.24,0,0,1,1.3,12.2Z" transform="translate(170.7 410.9)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M.2.638A1.374,1.374,0,0,1,2,.138l8.4,4.8a1.436,1.436,0,0,1,.5,1.8,1.436,1.436,0,0,1-1.8.5L.7,2.438A1.215,1.215,0,0,1,.2.638Z" transform="translate(166.496 413.262)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M.182,6.782a1.334,1.334,0,0,1,.5-1.8l8.4-4.8a1.334,1.334,0,0,1,1.8.5,1.334,1.334,0,0,1-.5,1.8l-8.4,4.8A1.374,1.374,0,0,1,.182,6.782Z" transform="translate(166.518 413.318)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(162 407)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(160 405)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

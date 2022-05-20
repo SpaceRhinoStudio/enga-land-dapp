@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">
+  <g id="grid-6" transform="translate(-236 -252)">
+    <path id="Vector" d="M24.5,11.6H0V0H12.88C20.16,0,24.5,4.34,24.5,11.6Z" transform="translate(255.5 255.9)" fill="#fff"/>
+    <path id="Vector-2" data-name="Vector" d="M24.5,0c-.1,7.14-4.42,11.4-11.62,11.4H0V0Z" transform="translate(255.5 284.5)" fill="#fff"/>
+    <path id="Vector-3" data-name="Vector" d="M12.5,0V40h-.88C4.34,40,0,35.66,0,28.38V11.62C0,4.34,4.34,0,11.62,0Z" transform="translate(240 255.9)" fill="#fff"/>
+    <path id="Vector-4" data-name="Vector" d="M0,0H24.5V11H0Z" transform="translate(255.5 270.5)" fill="#fff"/>
+    <path id="Vector-5" data-name="Vector" d="M0,0H48V48H0Z" transform="translate(284 300) rotate(180)" fill="none" opacity="0"/>
+  </g>
+</svg>

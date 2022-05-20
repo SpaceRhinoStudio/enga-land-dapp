@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_cloud-remove" data-name="vuesax/linear/cloud-remove" transform="translate(-364 -252)">
+    <g id="cloud-remove">
+      <g id="Group">
+        <path id="Vector" d="M2.11,2.11,0,0" transform="translate(374.86 267.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M2.12,0,0,2.12" transform="translate(374.83 267.52)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(364 252)" fill="none" opacity="0"/>
+      <g id="Group-2" data-name="Group">
+        <path id="Vector-4" data-name="Vector" d="M3.51,0a3.742,3.742,0,0,0,0,7.47H5.43" transform="translate(366.03 263.12)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-5" data-name="Vector" d="M.49,8.65C-2.72-.28,10.82-3.85,12.37,5.53a5.325,5.325,0,0,1-.84,10.59h-.09" transform="translate(369.1 254.47)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-6" data-name="Vector" d="M10,5a4.714,4.714,0,0,1-.46,2.06,4.111,4.111,0,0,1-.27.51,4.967,4.967,0,0,1-8.54,0,4.111,4.111,0,0,1-.27-.51A4.714,4.714,0,0,1,0,5,5,5,0,0,1,10,5Z" transform="translate(371 263.53)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    </g>
+  </g>
+</svg>

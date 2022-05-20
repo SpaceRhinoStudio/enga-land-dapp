@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_google" data-name="vuesax/linear/google" transform="translate(-610 -533)">
+    <g id="google">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(610 533)" fill="none" opacity="0.58"/>
+      <g id="Group">
+        <path id="Vector" d="M13.8,0H7.4L0,12.7,3.2,18H18s3.2-5.5,3.2-5.4S13.8,0,13.8,0Z" transform="translate(611.4 536)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M0,0,10.6,18" transform="translate(618.8 536)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M10.6,0,0,18" transform="translate(614.6 536)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-4" data-name="Vector" d="M0,0H20.5" transform="translate(611.5 548.7)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(610 533)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

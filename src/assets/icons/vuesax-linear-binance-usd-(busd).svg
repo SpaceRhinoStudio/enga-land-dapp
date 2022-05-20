@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_binance-usd-_busd_" data-name="vuesax/linear/binance-usd-(busd)" transform="translate(-416 -213)">
+    <g id="binance-usd-_busd_" data-name="binance-usd-(busd)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(416 213)" fill="none"/>
+      <path id="Vector" d="M5.25.15.15,5.25a.483.483,0,0,0,0,.7l1.7,1.7a.483.483,0,0,0,.7,0l5.1-5.1a.483.483,0,0,0,0-.7L5.95.15A.483.483,0,0,0,5.25.15Z" transform="translate(422.15 215.25)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M9.15.15l-9,9a.483.483,0,0,0,0,.7l1.7,1.7a.483.483,0,0,0,.7,0l9-9a.483.483,0,0,0,0-.7L9.85.15A.483.483,0,0,0,9.15.15Z" transform="translate(422.15 219.15)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M9.15.15l-9,9a.483.483,0,0,0,0,.7l1.7,1.7a.483.483,0,0,0,.7,0l9-9a.483.483,0,0,0,0-.7L9.85.15A.483.483,0,0,0,9.15.15Z" transform="translate(426.05 223.05)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M1.85,4.25.15,2.55a.483.483,0,0,1,0-.7L1.85.15a.483.483,0,0,1,.7,0l1.7,1.7a.483.483,0,0,1,0,.7l-1.7,1.7A.483.483,0,0,1,1.85,4.25Z" transform="translate(418.25 222.55)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(416 213)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

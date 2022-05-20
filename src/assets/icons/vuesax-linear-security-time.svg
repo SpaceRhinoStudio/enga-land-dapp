@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_security-time" data-name="vuesax/linear/security-time" transform="translate(-428 -188)">
+    <g id="security-time">
+      <g id="Group">
+        <path id="Vector" d="M7.08.233,2.09,2.1A3.472,3.472,0,0,0,0,5.122v7.43a4.862,4.862,0,0,0,1.73,3.44l4.3,3.21a4.552,4.552,0,0,0,5.14,0l4.3-3.21a4.862,4.862,0,0,0,1.73-3.44V5.122A3.472,3.472,0,0,0,15.11,2.1L10.12.233A5.085,5.085,0,0,0,7.08.233Z" transform="translate(431.41 189.997)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <g id="Group-2" data-name="Group">
+        <path id="Vector-2" data-name="Vector" d="M8,4A4,4,0,1,1,4,0,4,4,0,0,1,8,4Z" transform="translate(436 195.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M1.25,0V.93a.99.99,0,0,1-.49.86L0,2.25" transform="translate(439 198.25)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(428 188)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

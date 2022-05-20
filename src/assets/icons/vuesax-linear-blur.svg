@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_blur" data-name="vuesax/linear/blur" transform="translate(-236 -380)">
+    <g id="blur">
+      <path id="Vector" d="M8.7.21a.991.991,0,0,0-1.22,0C5.58,1.66-.03,6.39,0,11.9a8.1,8.1,0,0,0,16.2.01C16.21,6.48,10.59,1.67,8.7.21Z" transform="translate(239.91 382)" fill="none" stroke="#292d32" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0V20" transform="translate(248 382)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,3.74,7.7,0" transform="translate(248 395.22)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,3.58,7.37,0" transform="translate(248 390.38)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,2.45,5.03,0" transform="translate(248 386.51)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(236 380)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

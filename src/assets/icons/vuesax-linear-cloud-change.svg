@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_cloud-change" data-name="vuesax/linear/cloud-change" transform="translate(-302 -444)">
+    <g id="cloud-change">
+      <g id="Group">
+        <path id="Vector" d="M2.111,5.2a2.255,2.255,0,0,0,0,4.5h6.67a3.2,3.2,0,0,0,.51-6.37c-.93-5.64-9.08-3.5-7.15,1.87" transform="translate(307.999 450.653)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <g id="Group-2" data-name="Group">
+        <path id="Vector-2" data-name="Vector" d="M0,0A7,7,0,0,0,7,7L5.95,5.25" transform="translate(304 459)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M7,7A7,7,0,0,0,0,0L1.05,1.75" transform="translate(317 446)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(326 468) rotate(180)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

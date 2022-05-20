@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_zel-_zel_" data-name="vuesax/linear/zel-(zel)" transform="translate(-608 -405)">
+    <g id="zel-_zel_" data-name="zel-(zel)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(608 405)" fill="none" opacity="0.58"/>
+      <g id="Group">
+        <path id="Vector" d="M5,1.5V4.3L2.5,5.8,0,4.3V1.5L2.5,0,3.7.7Z" transform="translate(613.5 415)" fill="none" stroke="#17191c" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M5,1.5V4.3L2.5,5.8,0,4.3V1.5L1.3.7,2.5,0Z" transform="translate(621.5 415)" fill="none" stroke="#17191c" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M5.6,1.5V2.9l-1.3.8V5.4l-1.5.9L1.3,5.4V3.7L0,2.9V1.5L2.8,0Z" transform="translate(617.2 412.8)" fill="none" stroke="#17191c" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(610 407)" fill="none" stroke="#17191c" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(608 405)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

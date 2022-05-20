@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_document-cloud" data-name="vuesax/linear/document-cloud" transform="translate(-620 -188)">
+    <g id="document-cloud">
+      <g id="Group">
+        <path id="Vector" d="M12,0H7C2,0,0,2,0,7v6c0,5,2,7,7,7" transform="translate(622 190)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M0,0V3" transform="translate(642 198)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M8,8H4C1,8,0,7,0,4V0Z" transform="translate(634 190)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <g id="Group-2" data-name="Group">
+        <path id="Vector-4" data-name="Vector" d="M1.762,4.316a1.873,1.873,0,0,0,0,3.74h5.56a2.706,2.706,0,0,0,1.82-.7,2.67,2.67,0,0,0-1.4-4.59,3.111,3.111,0,1,0-5.96,1.56" transform="translate(631.997 201.944)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(620 188)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

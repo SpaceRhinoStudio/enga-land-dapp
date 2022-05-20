@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <g id="marketplace-listings" transform="translate(-684 -316)">
+    <path id="Vector" d="M22.5,6.25v12.5c0,3.75-1.875,6.25-6.25,6.25h-10C1.875,25,0,22.5,0,18.75V6.25C0,2.5,1.875,0,6.25,0h10C20.625,0,22.5,2.5,22.5,6.25Z" transform="translate(687.75 318.5)" fill="none" stroke="#948f9f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-2" data-name="Vector" d="M8.75,0V9.825a.627.627,0,0,1-1.05.462L4.8,7.613a.62.62,0,0,0-.85,0l-2.9,2.675A.627.627,0,0,1,0,9.825V0Z" transform="translate(694.625 318.5)" fill="none" stroke="#948f9f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-3" data-name="Vector" d="M0,0H5.313" transform="translate(700.563 333.5)" fill="none" stroke="#948f9f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-4" data-name="Vector" d="M0,0H10.625" transform="translate(695.25 338.5)" fill="none" stroke="#948f9f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-5" data-name="Vector" d="M0,0H30V30H0Z" transform="translate(714 346) rotate(180)" fill="none" opacity="0"/>
+  </g>
+</svg>

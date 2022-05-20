@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_solana-_sol_" data-name="vuesax/linear/solana-(sol)" transform="translate(-608 -213)">
+    <g id="solana-_sol_" data-name="solana-(sol)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(608 213)" fill="none"/>
+      <path id="Vector" d="M17,0H2.5a.909.909,0,0,0-.8.4L.2,2.4A1,1,0,0,0,1,4H15.5a.909.909,0,0,0,.8-.4l1.5-2A1,1,0,0,0,17,0Z" transform="translate(611 216.5)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M1,0H15.5a.909.909,0,0,1,.8.4l1.5,2A1,1,0,0,1,17,4H2.5a.909.909,0,0,1-.8-.4L.2,1.6A1,1,0,0,1,1,0Z" transform="translate(611 223)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M17,0H2.5a.909.909,0,0,0-.8.4L.2,2.4A1,1,0,0,0,1,4H15.5a.909.909,0,0,0,.8-.4l1.5-2A1,1,0,0,0,17,0Z" transform="translate(611 229.5)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(608 213)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

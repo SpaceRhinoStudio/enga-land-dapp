@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_maker-_mkr_" data-name="vuesax/linear/maker-(mkr)" transform="translate(-1056 -277)">
+    <g id="maker-_mkr_" data-name="maker-(mkr)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(1056 277)" fill="none"/>
+      <path id="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(1058 279)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-2" data-name="Vector" d="M0,5V0L4.2,2.5V5" transform="translate(1062.6 286.5)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M4.2,5V0L0,2.5V5" transform="translate(1069.2 286.5)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(1056 277)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

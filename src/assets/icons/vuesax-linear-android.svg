@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_android" data-name="vuesax/linear/android" transform="translate(-800 -469)">
+    <g id="android">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(800 469)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M2,0V3A1,1,0,0,1,0,3V0Z" transform="translate(809 487)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M2,0V3A1,1,0,0,1,0,3V0Z" transform="translate(813 487)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M10,2V7A2.006,2.006,0,0,1,8,9H2A2.006,2.006,0,0,1,0,7V2A2.006,2.006,0,0,1,2,0H8A2.006,2.006,0,0,1,10,2Z" transform="translate(807 478)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M2,1V5A.945.945,0,0,1,1,6,.945.945,0,0,1,0,5V1A.945.945,0,0,1,1,0,.945.945,0,0,1,2,1Z" transform="translate(803 479)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M2,1V5A.945.945,0,0,1,1,6,.945.945,0,0,1,0,5V1A.945.945,0,0,1,1,0,.945.945,0,0,1,2,1Z" transform="translate(819 479)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M2,0H0" transform="translate(811 487)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-7" data-name="Vector" d="M1.6,6H6.4A1.639,1.639,0,0,0,8,4.286,4.162,4.162,0,0,0,4,0,4.162,4.162,0,0,0,0,4.286,1.639,1.639,0,0,0,1.6,6Z" transform="translate(808 470)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-8" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(800 469)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

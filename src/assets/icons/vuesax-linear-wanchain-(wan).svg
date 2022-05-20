@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_wanchain-_wan_" data-name="vuesax/linear/wanchain-(wan)" transform="translate(-288 -405)">
+    <g id="wanchain-_wan_" data-name="wanchain-(wan)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(288 405)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M9,2.7,4.5,0,0,2.7" transform="translate(295.5 411.2)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0V6.1L4.5,3.4,9,6.1V0" transform="translate(295.5 414)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M4.4,0,2.2,1.5,0,0" transform="translate(297.8 421.2)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(290 407)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(288 405)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

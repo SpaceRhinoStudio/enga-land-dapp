@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_video-time" data-name="vuesax/linear/video-time" transform="translate(-746 -578)">
+    <g id="video-time">
+      <path id="Vector" d="M20,7v6c0,.22,0,.44-.02.65a4.5,4.5,0,1,0-6.33,6.33c-.21.02-.43.02-.65.02H7c-5,0-7-2-7-7V7C0,2,2,0,7,0h6C18,0,20,2,20,7Z" transform="translate(748 580)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H18.96" transform="translate(748.52 585.11)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-3" data-name="Vector" d="M0,0V4.86" transform="translate(754.52 580.11)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-4" data-name="Vector" d="M0,0V4.41" transform="translate(761.48 580.11)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <g id="Group-2" data-name="Group">
+        <path id="Vector-5" data-name="Vector" d="M9,4.5A4.5,4.5,0,0,1,4.5,9,4.5,4.5,0,0,1,0,4.5,4.448,4.448,0,0,1,1.69.99a4.49,4.49,0,0,1,6.29.66A4.451,4.451,0,0,1,9,4.5Z" transform="translate(760 592)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-6" data-name="Vector" d="M1.4,0V1.69L0,2.53" transform="translate(763.38 595.09)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-7" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(746 578)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

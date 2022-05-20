@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_filter-add" data-name="vuesax/linear/filter-add" transform="translate(-428 -700)">
+    <g id="filter-add">
+      <path id="Vector" d="M9.5,4.75A4.686,4.686,0,0,1,8.81,7.2a4.733,4.733,0,0,1-8.12,0A4.66,4.66,0,0,1,0,4.75a4.75,4.75,0,1,1,9.5,0Z" transform="translate(440.13 710)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-2" data-name="Vector" d="M3.55,0H0" transform="translate(443.11 714.73)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M0,0V3.55" transform="translate(444.88 713)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(452 724) rotate(180)" fill="none" opacity="0"/>
+      <g id="Group-2" data-name="Group">
+        <path id="Vector-5" data-name="Vector" d="M17.38,2.02V4.24a3.825,3.825,0,0,1-1.01,2.33L14.61,8.12A4.421,4.421,0,0,0,13.57,8a4.754,4.754,0,0,0-4.75,4.75,4.686,4.686,0,0,0,.69,2.45,4.481,4.481,0,0,0,1.5,1.53v.34a2.23,2.23,0,0,1-.91,1.72l-1.41.91a2.058,2.058,0,0,1-3.13-1.72V12.63a3.91,3.91,0,0,0-.81-2.12L.91,6.47A3.407,3.407,0,0,1,0,4.45V2.12A2.051,2.051,0,0,1,2.02,0H15.36A2.027,2.027,0,0,1,17.38,2.02Z" transform="translate(431.31 702)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+    </g>
+  </g>
+</svg>

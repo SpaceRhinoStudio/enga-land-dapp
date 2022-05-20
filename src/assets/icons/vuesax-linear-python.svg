@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_python" data-name="vuesax/linear/python" transform="translate(-544 -469)">
+    <g id="python">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(544 469)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M0,5.625v-3.7A1.805,1.805,0,0,1,1.4.225a20.112,20.112,0,0,1,6,0,1.645,1.645,0,0,1,1.4,1.7v5.9a2.22,2.22,0,0,1-2.2,2.2H2.2a2.22,2.22,0,0,0-2.2,2.2v5.9a1.805,1.805,0,0,0,1.4,1.7,20.113,20.113,0,0,0,6,0,1.645,1.645,0,0,0,1.4-1.7v-3.7" transform="translate(551.6 470.975)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M4.4,0H8.1A1.805,1.805,0,0,1,9.8,1.4a20.112,20.112,0,0,1,0,6A1.645,1.645,0,0,1,8.1,8.8H0" transform="translate(556 476.6)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M10.025,0h-8.1a1.805,1.805,0,0,0-1.7,1.4,20.112,20.112,0,0,0,0,6,1.645,1.645,0,0,0,1.7,1.4h3.7" transform="translate(545.975 476.6)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector_1" data-name="Vector 1" d="M0,0H0" transform="translate(554 473.85) rotate(-90)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector_2" data-name="Vector 2" d="M0,0H0" transform="translate(558 488.15) rotate(-90)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(544 469)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

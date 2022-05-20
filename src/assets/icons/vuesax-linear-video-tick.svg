@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_video-tick" data-name="vuesax/linear/video-tick" transform="translate(-682 -578)">
+    <g id="video-tick">
+      <path id="Vector" d="M20,7v6c0,.22,0,.44-.02.65a4.5,4.5,0,0,0-7.33,5.17,4.334,4.334,0,0,0,1.01,1.16c-.21.02-.43.02-.66.02H7c-5,0-7-2-7-7V7C0,2,2,0,7,0h6C18,0,20,2,20,7Z" transform="translate(684 580)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H18.96" transform="translate(684.52 585.11)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-3" data-name="Vector" d="M0,0V4.86" transform="translate(690.52 580.11)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-4" data-name="Vector" d="M0,0V4.41" transform="translate(697.48 580.11)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <g id="Group-2" data-name="Group">
+        <path id="Vector-5" data-name="Vector" d="M9,4.5a4.5,4.5,0,0,1-.65,2.32,4.327,4.327,0,0,1-.89,1.06,4.454,4.454,0,0,1-5.79.1H1.66A4.334,4.334,0,0,1,.65,6.82,4.5,4.5,0,0,1,0,4.5,4.448,4.448,0,0,1,1.69.99a4.49,4.49,0,0,1,6.29.66A4.451,4.451,0,0,1,9,4.5Z" transform="translate(696 592)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-6" data-name="Vector" d="M0,1.11,1.11,2.22,3.51,0" transform="translate(698.75 595.39)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-7" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(682 578)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

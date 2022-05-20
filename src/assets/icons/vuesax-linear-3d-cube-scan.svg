@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_3d-cube-scan" data-name="vuesax/linear/3d-cube-scan" transform="translate(-172 -188)">
+    <g id="_3d-cube-scan" data-name="3d-cube-scan">
+      <path id="Vector" d="M0,7V5A4.724,4.724,0,0,1,5,0H15a4.724,4.724,0,0,1,5,5V7" transform="translate(174 190)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0V2A4.724,4.724,0,0,0,5,7H15a4.724,4.724,0,0,0,5-5V0" transform="translate(174 203)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-3" data-name="Vector" d="M0,0,5.3,3.07,10.56.02" transform="translate(178.7 197.26)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-4" data-name="Vector" d="M0,5.45V0" transform="translate(184 200.32)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-5" data-name="Vector" d="M4.52.292l-3.2,1.78A2.844,2.844,0,0,0,0,4.313V7.7a2.818,2.818,0,0,0,1.32,2.24l3.2,1.78a2.862,2.862,0,0,0,2.49,0l3.2-1.78A2.844,2.844,0,0,0,11.53,7.7V4.313a2.818,2.818,0,0,0-1.32-2.24L7.01.292A2.8,2.8,0,0,0,4.52.292Z" transform="translate(178.24 193.997)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(172 188)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

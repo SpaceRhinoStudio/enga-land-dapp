@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_health" data-name="vuesax/linear/health" transform="translate(-492 -252)">
+    <g id="health">
+      <path id="Vector" d="M7,20h6c5,0,7-2,7-7V7c0-5-2-7-7-7H7C2,0,0,2,0,7v6C0,18,2,20,7,20Z" transform="translate(493.97 254)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,2.114l6-.02a2.178,2.178,0,0,1,1.87,1.27l1.14,2.88c.26.65.67.65.93,0L12.23.434c.22-.56.63-.58.91-.05l1.04,1.97a2.207,2.207,0,0,0,1.77,1.07h4.06" transform="translate(493.97 262.586)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(492 252)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

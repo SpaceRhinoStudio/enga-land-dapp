@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_triangle" data-name="vuesax/linear/triangle" transform="translate(-736 -469)">
+    <g id="triangle">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(736 469)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M10,0,0,10,10,20V16L4,10l6-6Z" transform="translate(736.9 471)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0,10,10,0,20V16l6-6L0,4Z" transform="translate(748.9 471)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M3,0,0,3,3,6Z" transform="translate(743.9 478)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(736 469)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="62.8" height="93.494" viewBox="0 0 62.8 93.494">
+  <g id="Common_skils_icon" data-name="Common skils icon" transform="translate(-72.46 -57.216)">
+    <path id="Path_2888" data-name="Path 2888" d="M398,308" transform="translate(-292.85 -202.85)" fill="#5b5b5b"
+      stroke="#fff" stroke-miterlimit="10" stroke-width="4" />
+    <path id="Path_2890" data-name="Path 2890" d="M373.08,335.16" transform="translate(-292.85 -202.85)" fill="#5b5b5b"
+      stroke="#fff" stroke-miterlimit="10" stroke-width="4" />
+    <path id="Path_2891" data-name="Path 2891"
+      d="M396.71,353.56a31.44,31.44,0,0,1-31.4-31.4V304.92H384v17.24a12.67,12.67,0,1,0,25.34,0V304.92h18.73v17.24a31.43,31.43,0,0,1-31.36,31.4Z"
+      transform="translate(-292.85 -202.85)" fill="#fff" />
+    <rect id="Rectangle_3183" data-name="Rectangle 3183" width="18.87" height="11.41" transform="translate(72.46 85.03)"
+      fill="#fff" />
+    <rect id="Rectangle_3184" data-name="Rectangle 3184" width="18.87" height="11.41"
+      transform="translate(116.39 85.03)" fill="#fff" />
+    <path id="Path_2892" data-name="Path 2892"
+      d="M396.72,275.17a3.11,3.11,0,0,1-3.11-3.11V263a3.11,3.11,0,0,1,6.21,0v9.09a3.1,3.1,0,0,1-3.1,3.08Z"
+      transform="translate(-292.85 -202.85)" fill="#fff" />
+    <path id="Path_2893" data-name="Path 2893"
+      d="M411.89,278.38a3.11,3.11,0,0,1-2.2-5.3l6.43-6.43a3.1,3.1,0,0,1,4.39,4.39l-6.43,6.43a3.07,3.07,0,0,1-2.19.91Z"
+      transform="translate(-292.85 -202.85)" fill="#fff" />
+    <path id="Path_2894" data-name="Path 2894"
+      d="M381.54,278.38a3.07,3.07,0,0,1-2.19-.91L372.92,271a3.1,3.1,0,0,1,4.39-4.39l6.43,6.43a3.11,3.11,0,0,1-2.2,5.3Z"
+      transform="translate(-292.85 -202.85)" fill="#fff" />
+  </g>
+</svg>

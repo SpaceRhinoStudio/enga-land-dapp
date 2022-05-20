@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_music-playlist" data-name="vuesax/linear/music-playlist" transform="translate(-300 -514)">
+    <g id="music-playlist">
+      <path id="Vector" d="M15,15H5c-3,0-5-1.5-5-5V5C0,1.5,2,0,5,0H15c3,0,5,1.5,5,5v5C20,13.5,18,15,15,15Z" transform="translate(302 521)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H12" transform="translate(306 518.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H6" transform="translate(309 516)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-4" data-name="Vector" d="M2.74,1.37A1.37,1.37,0,1,1,1.37,0,1.37,1.37,0,0,1,2.74,1.37Z" transform="translate(307.52 530.37)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-5" data-name="Vector" d="M5.02,6.523V1.173c0-1.14-.71-1.3-1.44-1.1L.84.823A1.093,1.093,0,0,0,0,1.923v5.51" transform="translate(310.26 524.307)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-6" data-name="Vector" d="M2.74,1.37A1.37,1.37,0,1,1,1.37,0,1.37,1.37,0,0,1,2.74,1.37Z" transform="translate(312.54 529.46)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-7" data-name="Vector" d="M0,1.37,5.02,0" transform="translate(310.26 526.46)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-8" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(300 514)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

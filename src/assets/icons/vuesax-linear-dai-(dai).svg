@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_dai-_dai_" data-name="vuesax/linear/dai-(dai)" transform="translate(-992 -277)">
+    <g id="dai-_dai_" data-name="dai-(dai)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(992 277)" fill="none"/>
+      <path id="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(994 279)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0V10H4A4.951,4.951,0,0,0,9,5,4.951,4.951,0,0,0,4,0Z" transform="translate(1000 284)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H12" transform="translate(998.5 287)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H12" transform="translate(998.5 291)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(992 277)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

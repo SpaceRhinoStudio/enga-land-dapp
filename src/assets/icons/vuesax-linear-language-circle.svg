@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_language-circle" data-name="vuesax/linear/language-circle" transform="translate(-172 -380)">
+    <g id="language-circle">
+      <g id="Group">
+        <path id="Vector" d="M9.98,0H0" transform="translate(179.01 388.96)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M0,0V1.68" transform="translate(184 387.28)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M7.5,0A7.643,7.643,0,0,1,0,7.78" transform="translate(179 388.94)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-4" data-name="Vector" d="M4.55,2.47A5.762,5.762,0,0,1,0,0" transform="translate(184.45 394.25)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-5" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(174 382)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(196 404) rotate(180)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

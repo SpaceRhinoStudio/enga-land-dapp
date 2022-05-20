@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_ram" data-name="vuesax/linear/ram" transform="translate(-492 -316)">
+    <g id="ram">
+      <path id="Vector" d="M0,5V15c0,3,1.47,5,5,5h7c3.47,0,5-2,5-5V13.83a1.966,1.966,0,0,0-.59-1.41l-.83-.83a1.983,1.983,0,0,1-.59-1.41V8a1,1,0,0,1,1-1,1,1,0,0,0,1-1V5c0-3-1.53-5-5-5h-7C1.47,0,0,2,0,5Z" transform="translate(495.5 318)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M.01,4.97,0,2A1.993,1.993,0,0,1,2,0H6.01a2,2,0,0,1,2,1.99l.03,2.99" transform="translate(499.98 333)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M6,0H0" transform="translate(499.97 323.78)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(492 316)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

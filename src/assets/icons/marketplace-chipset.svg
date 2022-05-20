@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <g id="marketplace-chipset" transform="translate(-684 -188)">
+    <path id="Vector" d="M20.817,6.44a11.967,11.967,0,0,1-.162,2.587l-.913,5.862c-.775,4.887-3.038,6.538-7.925,5.775L5.954,19.74a9.19,9.19,0,0,1-3.937-1.388C.2,17.09-.321,15.015.179,11.815L1.1,5.953C1.879,1.065,4.142-.585,9.029.178l5.863.925C18.817,1.715,20.654,3.315,20.817,6.44Z" transform="translate(686.471 190.497)" fill="none" stroke="#948f9f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-2" data-name="Vector" d="M21.138,7.9l-1.875,5.638c-1.562,4.7-4.063,5.95-8.763,4.387L4.863,16.05C2.025,15.113.45,13.813,0,11.913A9.19,9.19,0,0,0,3.937,13.3l5.863.925c4.887.762,7.15-.888,7.925-5.775l.913-5.862A11.967,11.967,0,0,0,18.8,0C21.787,1.587,22.438,3.988,21.138,7.9Z" transform="translate(688.488 196.938)" fill="none" stroke="#948f9f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-3" data-name="Vector" d="M4.35,2.175A2.175,2.175,0,1,1,2.175,0,2.175,2.175,0,0,1,4.35,2.175Z" transform="translate(692.125 194.875)" fill="none" stroke="#948f9f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-4" data-name="Vector" d="M0,0H30V30H0Z" transform="translate(714 218) rotate(180)" fill="none" opacity="0"/>
+  </g>
+</svg>

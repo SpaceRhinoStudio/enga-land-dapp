@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_polyswarm-_nct_" data-name="vuesax/linear/polyswarm-(nct)" transform="translate(-736 -405)">
+    <g id="polyswarm-_nct_" data-name="polyswarm-(nct)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(736 405)" fill="none" opacity="0.58"/>
+      <g id="Group">
+        <path id="Vector" d="M6,0h5a7,7,0,0,1,0,14H0" transform="translate(739.5 408.2)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M0,0H10.6a3.757,3.757,0,0,1,3.7,3.7,3.757,3.757,0,0,1-3.7,3.7H4.8" transform="translate(739.2 411.8)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M3,0H0" transform="translate(741.5 415.8)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-4" data-name="Vector" d="M4,0H0" transform="translate(738.5 425.8)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(736 405)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

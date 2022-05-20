@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_nebulas-_nas_" data-name="vuesax/linear/nebulas-(nas)" transform="translate(-480 -405)">
+    <g id="nebulas-_nas_" data-name="nebulas-(nas)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(480 405)" fill="none" opacity="0.58"/>
+      <g id="Group">
+        <path id="Vector" d="M2.5,0,0,8,5,5.6Z" transform="translate(489.5 410.2)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M8.1.8,12,2,7.5,4.6l-.4-.2L0,2,4,0" transform="translate(486 415.2)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M3.5,1.6l-1,3L0,0" transform="translate(489.5 418.6)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(482 407)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(480 405)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

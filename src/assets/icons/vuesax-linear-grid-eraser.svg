@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_grid-eraser" data-name="vuesax/linear/grid-eraser" transform="translate(-108 -444)">
+    <g id="grid-eraser">
+      <g id="Group">
+        <path id="Vector" d="M20,9V7c0-5-2-7-7-7H7C2,0,0,2,0,7v6c0,5,2,7,7,7H8" transform="translate(110 446)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <g id="Group-2" data-name="Group">
+          <path id="Vector-2" data-name="Vector" d="M0,0H19.97" transform="translate(110.03 452.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+          <path id="Vector-3" data-name="Vector" d="M0,0H9.97" transform="translate(110.03 459.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        </g>
+        <g id="Group-3" data-name="Group">
+          <path id="Vector-4" data-name="Vector" d="M0,19.98V0" transform="translate(116.51 446.01)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+          <path id="Vector-5" data-name="Vector" d="M0,9.98V0" transform="translate(123.51 446.01)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        </g>
+      </g>
+      <path id="Vector-6" data-name="Vector" d="M5.78,3.49l-1.9,1.9a1.364,1.364,0,0,1-1.91,0L.39,3.8a1.364,1.364,0,0,1,0-1.91L2.29,0Z" transform="translate(121.02 460.21)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-7" data-name="Vector" d="M6.31,3.9,3.5,6.71,0,3.21,2.81.39a1.364,1.364,0,0,1,1.91,0L6.3,1.98A1.367,1.367,0,0,1,6.31,3.9Z" transform="translate(123.3 457)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-8" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(108 444)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

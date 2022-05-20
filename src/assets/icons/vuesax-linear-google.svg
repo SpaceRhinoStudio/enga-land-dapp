@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_google" data-name="vuesax/linear/google" transform="translate(-162 -597)">
+    <g id="google">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(162 597)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M19.4,8.2H10v3.7h5.5a4.787,4.787,0,0,1-2,3.2,5.826,5.826,0,0,1-3.5,1,6,6,0,0,1-5.7-4.2,6.448,6.448,0,0,1-.3-2,6.448,6.448,0,0,1,.3-2c.1-.2.1-.4.2-.5A5.961,5.961,0,0,1,10,3.8a5.649,5.649,0,0,1,3.9,1.5l2.8-2.8A10.026,10.026,0,0,0,10,0,9.836,9.836,0,0,0,1.1,5.5,9.969,9.969,0,0,0,0,10a9.969,9.969,0,0,0,1.1,4.5A9.836,9.836,0,0,0,10,20a9.515,9.515,0,0,0,6.6-2.4,9.7,9.7,0,0,0,3-7.4A11.245,11.245,0,0,0,19.4,8.2Z" transform="translate(164.2 599)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(162 597)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

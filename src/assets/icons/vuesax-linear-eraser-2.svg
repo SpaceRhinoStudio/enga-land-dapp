@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_eraser" data-name="vuesax/linear/eraser" transform="translate(-684 -252)">
+    <g id="eraser">
+      <path id="Vector" d="M7,20h6c5,0,7-2,7-7V7c0-5-2-7-7-7H7C2,0,0,2,0,7v6C0,18,2,20,7,20Z" transform="translate(686 254)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-2" data-name="Vector" d="M.487,8.57l1.94,1.94a1.666,1.666,0,0,0,2.34,0l5.75-5.75a1.666,1.666,0,0,0,0-2.34L8.577.48a1.666,1.666,0,0,0-2.34,0L.487,6.23A1.648,1.648,0,0,0,.487,8.57Z" transform="translate(690.503 258.51)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M0,0,4.27,4.27" transform="translate(693.31 262.42)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(684 252)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

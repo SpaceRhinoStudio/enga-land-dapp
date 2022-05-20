@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_augur-_rep_" data-name="vuesax/linear/augur-(rep)" transform="translate(-96 -405)">
+    <g id="augur-_rep_" data-name="augur-(rep)">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(96 405)" fill="none" opacity="0.58"/>
+      <path id="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(98 407)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,5,2.5,0h1L6,5" transform="translate(105 411)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M1,0,0,2,5,5l5-3L9,0" transform="translate(103 418)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(96 405)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_link-circle" data-name="vuesax/linear/link-circle" transform="translate(-684 -316)">
+    <g id="link-circle">
+      <path id="Vector" d="M1.9,7.451a2.866,2.866,0,0,1-1.52-1.32,3.221,3.221,0,0,1,1.11-4.24L3.834.441a2.852,2.852,0,0,1,4.03,1.05,3.221,3.221,0,0,1-1.11,4.24l-.31.22" transform="translate(690.036 323.059)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M6.344,0a2.866,2.866,0,0,1,1.52,1.32,3.221,3.221,0,0,1-1.11,4.24L4.414,7.01A2.852,2.852,0,0,1,.384,5.96a3.221,3.221,0,0,1,1.11-4.24L1.8,1.5" transform="translate(693.766 325.45)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(686 318)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(684 316)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

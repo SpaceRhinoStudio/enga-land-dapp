@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_story" data-name="vuesax/linear/story" transform="translate(-748 -508)">
+    <g id="story">
+      <g id="Group">
+        <path id="Vector" d="M10.67,1.83a6.251,6.251,0,1,1-8.84,0A6.253,6.253,0,0,1,10.67,1.83Z" transform="translate(753.75 514.12)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M6.243,10.51a9.89,9.89,0,0,1-4.91-4.26A9.891,9.891,0,0,1,.083,0" transform="translate(750.007 519.13)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M0,2.12a9.952,9.952,0,0,1,12.19-.07" transform="translate(753.85 510.36)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-4" data-name="Vector" d="M0,10.51A9.89,9.89,0,0,0,4.91,6.25,9.891,9.891,0,0,0,6.16,0" transform="translate(763.75 519.13)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(772 532) rotate(180)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

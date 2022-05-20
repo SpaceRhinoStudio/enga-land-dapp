@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_tree" data-name="vuesax/linear/tree" transform="translate(-108 -636)">
+    <g id="tree">
+      <g id="Group">
+        <path id="Vector" d="M9.576,8.115H1.236c-1.18,0-1.59-.79-.9-1.75L4.506.525a1.025,1.025,0,0,1,1.79,0l4.17,5.84C11.166,7.325,10.756,8.115,9.576,8.115Z" transform="translate(114.594 637.945)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M12.816,7.94H1.646c-1.58,0-2.12-1.05-1.19-2.33L4.446,0h5.57l3.99,5.61C14.936,6.89,14.4,7.94,12.816,7.94Z" transform="translate(112.774 646.06)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-3" data-name="Vector" d="M0,4V0" transform="translate(120 654)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(108 636)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

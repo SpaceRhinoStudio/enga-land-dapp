@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_radar-2" data-name="vuesax/linear/radar-2" transform="translate(-620 -188)">
+    <g id="radar-2">
+      <path id="Vector" d="M4,2A10.013,10.013,0,1,1,1.33,5.02L10,10" transform="translate(622 190)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M.83,2.96A5.92,5.92,0,0,0,0,6,6,6,0,1,0,6,0,5.883,5.883,0,0,0,3.45.57" transform="translate(626 194)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(620 188)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

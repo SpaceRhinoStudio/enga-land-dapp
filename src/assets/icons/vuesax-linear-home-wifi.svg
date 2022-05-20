@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_home-wifi" data-name="vuesax/linear/home-wifi" transform="translate(-108 -764)">
+    <g id="home-wifi">
+      <path id="Vector" d="M8.073.636l-6.93,5.55A3.373,3.373,0,0,0,.033,9.1l1.33,7.96a3.19,3.19,0,0,0,3.04,2.57H15.6a3.209,3.209,0,0,0,3.04-2.57l1.33-7.96a3.429,3.429,0,0,0-1.11-2.91L11.933.646A3.225,3.225,0,0,0,8.073.636Z" transform="translate(109.997 766.184)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-2" data-name="Vector" d="M0,.908a2.93,2.93,0,0,1,4.24,0" transform="translate(117.88 777.473)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M8.49,1.81A6.64,6.64,0,0,0,6.73.57a5.7,5.7,0,0,0-4.97,0A6.8,6.8,0,0,0,0,1.81" transform="translate(115.75 774.45)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-4" data-name="Vector" d="M.5.5H.5" transform="translate(119.5 780.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(108 764)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

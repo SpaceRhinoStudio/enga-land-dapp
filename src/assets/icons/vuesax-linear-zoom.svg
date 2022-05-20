@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_zoom" data-name="vuesax/linear/zoom" transform="translate(-354 -597)">
+    <g id="zoom">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(354 597)" fill="none" opacity="0.58"/>
+      <g id="Group">
+        <path id="Vector" d="M0,.9V3.7A2.862,2.862,0,0,0,2.8,6.5H6.5a.9.9,0,0,0,.9-.9V2.8A2.8,2.8,0,0,0,4.6,0H.9A.9.9,0,0,0,0,.9Z" transform="translate(360 605.8)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M2.8,0V5.6L0,3.7V1.9Z" transform="translate(369.2 606.2)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-3" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(356 599)" fill="none" stroke="#17191c" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(354 597)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

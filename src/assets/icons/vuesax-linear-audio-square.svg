@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_audio-square" data-name="vuesax/linear/audio-square" transform="translate(-364 -578)">
+    <g id="audio-square">
+      <path id="Vector" d="M20,13V7c0-5-2-7-7-7H7C2,0,0,2,0,7v6c0,5,2,7,7,7h6C18,20,20,18,20,13Z" transform="translate(366 580)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <g id="Group">
+        <path id="Vector-2" data-name="Vector" d="M4.24,2.12A2.12,2.12,0,1,1,2.12,0,2.12,2.12,0,0,1,4.24,2.12Z" transform="translate(371.5 591.06)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M0,7.41V0" transform="translate(375.74 585.77)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-4" data-name="Vector" d="M1.39.073l2.34.78a1.606,1.606,0,0,1,1.03,1.43V2.9a.991.991,0,0,1-1.39,1l-2.34-.78A1.606,1.606,0,0,1,0,1.693v-.62A.992.992,0,0,1,1.39.073Z" transform="translate(375.74 584.697)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(364 578)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

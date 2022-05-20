@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <g id="marketplace-sales" transform="translate(-428 -188)">
+    <path id="Vector" d="M10,5A5,5,0,1,1,5,0,5,5,0,0,1,10,5Z" transform="translate(438 201.75)" fill="none" stroke="#948f9f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-2" data-name="Vector" d="M0,1.225l.813.812a.611.611,0,0,0,.862.013L3.9,0" transform="translate(441.05 205.525)" fill="none" stroke="#948f9f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-3" data-name="Vector" d="M7.189,17.5h7.5c5.025,0,5.925-2.012,6.188-4.462l.938-7.5C22.151,2.488,21.276,0,15.939,0h-10C.6,0-.274,2.488.064,5.538L1,13.038C1.264,15.488,2.164,17.5,7.189,17.5Z" transform="translate(432.062 198)" fill="none" stroke="#948f9f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-4" data-name="Vector" d="M0,7.077V5.865A5.966,5.966,0,0,1,5.075.027a5.626,5.626,0,0,1,6.175,5.6V7.352" transform="translate(437.375 190.51)" fill="none" stroke="#948f9f" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-5" data-name="Vector" d="M0,0H30V30H0Z" transform="translate(428 188)" fill="none" opacity="0"/>
+  </g>
+</svg>

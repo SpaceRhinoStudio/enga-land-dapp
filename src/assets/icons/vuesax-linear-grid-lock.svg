@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_grid-lock" data-name="vuesax/linear/grid-lock" transform="translate(-684 -380)">
+    <g id="grid-lock">
+      <g id="Group">
+        <path id="Vector" d="M20,9V7c0-5-2-7-7-7H7C2,0,0,2,0,7v6c0,5,2,7,7,7H8" transform="translate(686 382)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <g id="Group-2" data-name="Group">
+          <path id="Vector-2" data-name="Vector" d="M0,0H19.97" transform="translate(686.03 388.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+          <path id="Vector-3" data-name="Vector" d="M0,0H9.97" transform="translate(686.03 395.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        </g>
+        <g id="Group-3" data-name="Group">
+          <path id="Vector-4" data-name="Vector" d="M0,19.98V0" transform="translate(692.51 382.01)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+          <path id="Vector-5" data-name="Vector" d="M0,9.98V0" transform="translate(699.51 382.01)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        </g>
+      </g>
+      <g id="Group-4" data-name="Group">
+        <path id="Vector-6" data-name="Vector" d="M0,3.2V2.4C0,1.07.4,0,2.4,0S4.8,1.07,4.8,2.4v.8" transform="translate(699.6 394)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-7" data-name="Vector" d="M6,4.8H2c-1.6,0-2-.4-2-2V2C0,.4.4,0,2,0H6C7.6,0,8,.4,8,2v.8C8,4.4,7.6,4.8,6,4.8Z" transform="translate(698 397.2)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-8" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(684 380)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

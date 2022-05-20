@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_global-refresh" data-name="vuesax/linear/global-refresh" transform="translate(-108 -252)">
+    <g id="global-refresh">
+      <g id="Group">
+        <path id="Vector" d="M20,10A10,10,0,1,0,10,20" transform="translate(110 254)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M.463,0h1a28.424,28.424,0,0,0,0,18h-1" transform="translate(115.538 255)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-3" data-name="Vector" d="M0,0A28.554,28.554,0,0,1,1.46,9" transform="translate(123 255)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-4" data-name="Vector" d="M0,1V0A28.555,28.555,0,0,0,9,1.46" transform="translate(111 267)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <path id="Vector-5" data-name="Vector" d="M0,1.463a28.424,28.424,0,0,1,18,0" transform="translate(111 259.537)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <g id="Group-2" data-name="Group">
+        <path id="Vector-6" data-name="Vector" d="M4.99.18A4.383,4.383,0,0,0,3.74,0,3.74,3.74,0,1,0,7.48,3.74a3.7,3.7,0,0,0-.63-2.08" transform="translate(122.51 266.52)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        <g id="Group-3" data-name="Group">
+          <path id="Vector-7" data-name="Vector" d="M1.25,1.43,0,0" transform="translate(126.79 265.37)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+          <path id="Vector-8" data-name="Vector" d="M1.46,0,0,1.06" transform="translate(126.58 266.8)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+        </g>
+      </g>
+      <path id="Vector-9" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(132 276) rotate(180)" fill="none" opacity="0"/>
+      <path id="Vector-10" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(132 276) rotate(180)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

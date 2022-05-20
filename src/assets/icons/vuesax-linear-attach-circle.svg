@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_attach-circle" data-name="vuesax/linear/attach-circle" transform="translate(-108 -316)">
+    <g id="attach-circle">
+      <g id="Group">
+        <path id="Vector" d="M5.445,4.81,4.035,6.22a2,2,0,0,0,2.83,2.83l2.22-2.22a4,4,0,0,0-5.66-5.66L1,3.59A3.428,3.428,0,0,0,1,8.44" transform="translate(114.755 322.99)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-2" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(110 318)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(108 316)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

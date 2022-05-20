@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_celsius-_cel_-" data-name="vuesax/linear/celsius-(cel)-" transform="translate(-288 -341)">
+    <g id="celsius-_cel_-" data-name="celsius-(cel)-">
+      <path id="BG_1" data-name="BG 1" d="M0,0H24V24H0Z" transform="translate(288 341)" fill="none"/>
+      <path id="Vector" d="M9.7,8.7a5.545,5.545,0,0,1-4.3,2.2A5.378,5.378,0,0,1,0,5.5,5.425,5.425,0,0,1,8.7,1.1" transform="translate(294.6 347.6)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M2.4,1.2A1.2,1.2,0,1,1,1.2,0,1.2,1.2,0,0,1,2.4,1.2Z" transform="translate(304.2 350)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(290 343)" fill="none" stroke="#17191c" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(288 341)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

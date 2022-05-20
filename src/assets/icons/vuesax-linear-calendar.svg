@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_calendar" data-name="vuesax/linear/calendar" transform="translate(-300 -252)">
+    <g id="calendar">
+      <path id="Vector" d="M0,0V3" transform="translate(308 254)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0V3" transform="translate(316 254)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M13,0c3.33.18,5,1.45,5,6.15v6.18c0,4.12-1,6.18-6,6.18H6c-5,0-6-2.06-6-6.18V6.15C0,1.45,1.67.19,5,0Z" transform="translate(303 255.5)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M17.5,0H0" transform="translate(303.25 269.6)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M2.5,0A2.019,2.019,0,0,0,.23,1.97,1.625,1.625,0,0,0,.96,3.36,1.847,1.847,0,0,0,0,4.98C0,6.22.95,6.99,2.5,6.99S5,6.22,5,4.98a1.825,1.825,0,0,0-.97-1.62,1.615,1.615,0,0,0,.73-1.39A2.01,2.01,0,0,0,2.5,0Zm0,2.84a.812.812,0,0,1-.9-.8.8.8,0,0,1,.9-.79.8.8,0,0,1,.9.79A.812.812,0,0,1,2.5,2.84Zm0,2.91c-.66,0-1.14-.33-1.14-.93S1.84,3.9,2.5,3.9s1.14.33,1.14.92S3.16,5.75,2.5,5.75Z" transform="translate(309.5 260.25)" fill="#292d32"/>
+      <path id="Vector-6" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(300 252)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

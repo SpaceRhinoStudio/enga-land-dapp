@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 30 30">
+  <g id="marketplace-endro" transform="translate(-748 -188)">
+    <path id="Vector" d="M14.288,16.247H3A2.994,2.994,0,0,1,.375,11.809l2.913-5.3L6.013,1.547a3,3,0,0,1,5.25,0L14,6.509,15.313,8.9l1.6,2.913A2.994,2.994,0,0,1,14.288,16.247Z" transform="translate(750.5 190.503)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-2" data-name="Vector" d="M16.25,8.125A8.125,8.125,0,0,1,0,8.125c0-.212.013-.412.025-.625H5.538A2.994,2.994,0,0,0,8.162,3.063L6.563.15A7.982,7.982,0,0,1,8.125,0,8.125,8.125,0,0,1,16.25,8.125Z" transform="translate(759.25 199.25)" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Vector-3" data-name="Vector" d="M0,0H30V30H0Z" transform="translate(748 188)" fill="none" opacity="0"/>
+  </g>
+</svg>

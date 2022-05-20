@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_cloud" data-name="vuesax/linear/cloud" transform="translate(-236 -188)">
+    <g id="cloud">
+      <path id="Vector" d="M5.23,9.056a3.789,3.789,0,0,0-1.72-.41,3.742,3.742,0,0,0,0,7.47H14.6a5.325,5.325,0,0,0,.84-10.59C13.88-3.844.35-.284,3.56,8.646" transform="translate(238.04 191.954)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,.41A3.882,3.882,0,0,1,1.67,0" transform="translate(251.85 197.51)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(260 212) rotate(180)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

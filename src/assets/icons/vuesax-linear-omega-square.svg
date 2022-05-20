@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_omega-square" data-name="vuesax/linear/omega-square" transform="translate(-556 -316)">
+    <g id="omega-square">
+      <path id="Vector" d="M20,13V7c0-5-2-7-7-7H7C2,0,0,2,0,7v6c0,5,2,7,7,7h6C18,20,20,18,20,13Z" transform="translate(558 318)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M10,9.5H6.9L8.52,7.71A4.762,4.762,0,0,0,9.76,4.53a4.424,4.424,0,0,0-1.39-3.2,4.934,4.934,0,0,0-6.74,0A4.424,4.424,0,0,0,.24,4.53,4.724,4.724,0,0,0,1.48,7.71L3.1,9.5H0" transform="translate(563 323.25)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(556 316)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

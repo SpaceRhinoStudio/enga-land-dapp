@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_like-tag" data-name="vuesax/linear/like-tag" transform="translate(-428 -252)">
+    <g id="like-tag">
+      <g id="Group">
+        <path id="Vector" d="M0,8.145,1.61,9.4a1.6,1.6,0,0,0,.99.31H4.58a1.578,1.578,0,0,0,1.46-1.09l1.25-3.79a.974.974,0,0,0-.99-1.35H4.22a.525.525,0,0,1-.52-.62L3.96,1.2A1.017,1.017,0,0,0,2.14.415L.01,3.585" transform="translate(437.65 257.655)" fill="none" stroke="#292d32" stroke-width="1.5"/>
+        <path id="Vector-2" data-name="Vector" d="M0,6.08V.99C0,.26.31,0,1.04,0h.52C2.29,0,2.6.26,2.6.99V6.08c0,.73-.31.99-1.04.99H1.04C.31,7.07,0,6.81,0,6.08Z" transform="translate(435 259.72)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      </g>
+      <path id="Vector-3" data-name="Vector" d="M15,16.85h-.76a2.988,2.988,0,0,0-2.12.87l-1.71,1.69a2.022,2.022,0,0,1-2.83,0L5.87,17.72a3,3,0,0,0-2.12-.87H3a2.983,2.983,0,0,1-3-2.97V2.97A2.983,2.983,0,0,1,3,0H15a2.983,2.983,0,0,1,3,2.97V13.88A2.99,2.99,0,0,1,15,16.85Z" transform="translate(431 254.01)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(428 252)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_wind" data-name="vuesax/linear/wind" transform="translate(-236 -252)">
+    <g id="wind">
+      <path id="Vector" d="M0,0H16.5A3.5,3.5,0,1,1,13,3.5V3" transform="translate(238 267)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,7H16.5A3.5,3.5,0,1,0,13,3.5V4" transform="translate(238 257)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,5.38H7.31A2.69,2.69,0,1,0,4.62,2.69v.38" transform="translate(238 255.62)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(236 252)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

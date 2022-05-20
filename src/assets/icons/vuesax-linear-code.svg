@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_code" data-name="vuesax/linear/code" transform="translate(-556 -252)">
+    <g id="code">
+      <path id="Vector" d="M1.792,0A4.217,4.217,0,0,0,.172,1.43a1.028,1.028,0,0,0,0,1.14A4.217,4.217,0,0,0,1.792,4" transform="translate(563.208 265)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M0,0A4.217,4.217,0,0,1,1.62,1.43a1.028,1.028,0,0,1,0,1.14A4.217,4.217,0,0,1,0,4" transform="translate(571.21 265)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M7,20h6c5,0,7-2,7-7V7c0-5-2-7-7-7H7C2,0,0,2,0,7v6C0,18,2,20,7,20Z" transform="translate(558 254)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,.01,19.22,0" transform="translate(558.23 260)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-5" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(556 252)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

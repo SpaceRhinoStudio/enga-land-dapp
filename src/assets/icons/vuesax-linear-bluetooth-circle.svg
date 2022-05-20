@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_bluetooth-circle" data-name="vuesax/linear/bluetooth-circle" transform="translate(-174 -444)">
+    <g id="bluetooth-circle">
+      <path id="Vector" d="M0,8.917l6.62-6.07a.57.57,0,0,0-.02-.89L4.54.237C4-.213,3.57,0,3.57.7v9.33c0,.7.44.9.97.46L6.6,8.767a.57.57,0,0,0,.02-.89L0,1.807" transform="translate(182.59 450.643)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M20,10A10,10,0,1,1,10,0,10,10,0,0,1,20,10Z" transform="translate(176 446)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(174 444)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>

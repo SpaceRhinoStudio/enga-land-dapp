@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+  <g id="vuesax_linear_3square" data-name="vuesax/linear/3square" transform="translate(-172 -316)">
+    <g id="_3square" data-name="3square">
+      <path id="Vector" d="M10,5V7.38C10,9.25,9.25,10,7.37,10H2.62C.75,10,0,9.25,0,7.38V2.63C0,.75.75,0,2.62,0H5V2.37C5,4.25,5.75,5,7.62,5Z" transform="translate(174 328)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-2" data-name="Vector" d="M10,5V7.37C10,9.25,9.25,10,7.37,10H2.62C.75,10,0,9.25,0,7.37V2.62C0,.75.75,0,2.62,0H5V2.37C5,4.25,5.75,5,7.62,5Z" transform="translate(179 323)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-3" data-name="Vector" d="M10,2.62V7.37C10,9.25,9.25,10,7.37,10H2.62C.75,10,0,9.25,0,7.37V2.62C0,.75.75,0,2.62,0H7.37C9.25,0,10,.75,10,2.62Z" transform="translate(184 318)" fill="none" stroke="#292d32" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+      <path id="Vector-4" data-name="Vector" d="M0,0H24V24H0Z" transform="translate(172 316)" fill="none" opacity="0"/>
+    </g>
+  </g>
+</svg>
