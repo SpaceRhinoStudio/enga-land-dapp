@@ -10,7 +10,15 @@
 
   export let goToTopButton: boolean = false
   export let hideThreshold: number = 40
-  export let hintDownscaleFactor: number = 4
+  export let hintDownscaleFactor: { start?: number; end?: number } = {}
+  $: {
+    if (_.isUndefined(hintDownscaleFactor.start)) {
+      hintDownscaleFactor = { ...hintDownscaleFactor, start: 4 }
+    }
+    if (_.isUndefined(hintDownscaleFactor.end)) {
+      hintDownscaleFactor = { ...hintDownscaleFactor, end: 4 }
+    }
+  }
   export let horizontalScrollButtons: boolean = false
 
   let outerRef: HTMLElement | undefined
@@ -85,7 +93,7 @@
     class="absolute -top-px left-0 right-0 bg-gradient-to-b to-transparent pointer-events-none select-none -translate-y-px {className?.hint ??
       'from-primary-990'}"
     style="height: {(outerBounds.height + outerBounds.paddingY) /
-      hintDownscaleFactor}px; opacity: {Math.min(scroll.top ?? 0, hideThreshold) /
+      (hintDownscaleFactor.start ?? 1)}px; opacity: {Math.min(scroll.top ?? 0, hideThreshold) /
       hideThreshold};" />
 
   <!-- bottomHint -->
@@ -94,7 +102,7 @@
     class="absolute -bottom-px left-0 right-0 bg-gradient-to-t to-transparent pointer-events-none select-none {className?.hint ??
       'from-primary-990'}"
     style="height: {(outerBounds.height + outerBounds.paddingY) /
-      hintDownscaleFactor}px; opacity: {Math.min(
+      (hintDownscaleFactor.end ?? 1)}px; opacity: {Math.min(
       innerBounds.height - ((scroll.top ?? 0) + outerBounds.height),
       hideThreshold,
     ) / hideThreshold}" />
@@ -105,7 +113,7 @@
     class="absolute -left-px top-0 bottom-0 bg-gradient-to-r to-transparent pointer-events-none select-none {className?.hint ??
       'from-primary-990'}"
     style="width: {(outerBounds.width + outerBounds.paddingX) /
-      hintDownscaleFactor}px; opacity: {Math.min(scroll.left ?? 0, hideThreshold) /
+      (hintDownscaleFactor.start ?? 1)}px; opacity: {Math.min(scroll.left ?? 0, hideThreshold) /
       hideThreshold};" />
 
   <!-- rightHint -->
@@ -114,7 +122,7 @@
     class="absolute -right-px top-0 bottom-0 bg-gradient-to-l to-transparent pointer-events-none select-none {className?.hint ??
       'from-primary-990'}"
     style="width: {(outerBounds.width + outerBounds.paddingX) /
-      hintDownscaleFactor}px; opacity: {Math.min(
+      (hintDownscaleFactor.end ?? 1)}px; opacity: {Math.min(
       innerBounds.scrollWidth - ((scroll.left ?? 0) + outerBounds.width),
       hideThreshold,
     ) / hideThreshold};" />

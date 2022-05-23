@@ -9,7 +9,7 @@
   import MobileHoverFix from '$lib/helpers/mobile-hover-fix.svelte'
   import MainLoadingOverlay from '$lib/MainLoadingOverlay.svelte'
   import IsNavigating from '$lib/IsNavigating.svelte'
-  import { blur, type TransitionConfig } from 'svelte/transition'
+  import { type TransitionConfig } from 'svelte/transition'
   import { portalMap, create_portal_root } from '$lib/actions/portal'
   import _ from 'lodash'
   import { spring } from 'svelte/motion'
@@ -52,6 +52,8 @@
         class="w-screen relative">
         <Header />
         <WithScrollHint
+          goToTopButton
+          hintDownscaleFactor={{ start: 25 }}
           className={{
             container:
               'w-full h-[calc(100vh-theme(spacing.24))] md:h-[calc(100vh-theme(spacing.28))] mt-24 md:mt-28',
