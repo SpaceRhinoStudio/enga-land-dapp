@@ -9,7 +9,7 @@
   export let data: unknown
   export let predicate: (data: unknown) => boolean = e => !isSentinel(e) && !_.isUndefined(e)
   export let className: {
-    [key in 'container' | 'wrapper']?: string
+    [key in 'container' | 'wrapper' | 'spinner']?: string
   } = {}
 
   let children: ('loading' | 'data' | 'before' | 'after')[]
@@ -41,7 +41,7 @@
         <slot name="before" />
       {/if}
       {#if x === 'loading'}
-        <LoadingSpinner />
+        <LoadingSpinner className={className.spinner ?? ''} />
       {/if}
       {#if x === 'data'}
         <slot name="data" {data} />

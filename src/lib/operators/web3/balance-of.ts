@@ -1,4 +1,4 @@
-import type { ERC20 } from 'engaland_fundraising_app/typechain'
+import type { EngaToken, ERC20 } from 'engaland_fundraising_app/typechain'
 import type { BigNumber } from 'ethers'
 import { reEmitUntilChanged } from '$lib/operators/repeat-on-trigger'
 import { merge, type OperatorFunction, pipe, switchMap } from 'rxjs'
@@ -6,7 +6,7 @@ import type { Nil } from '$lib/types'
 import { fromEventFilter } from './from-event-filter'
 import { withValidSignerAddress } from './signer'
 
-export const signerBalanceOf: OperatorFunction<ERC20 | Nil, BigNumber | Nil> = pipe(
+export const signerBalanceOf: OperatorFunction<ERC20 | EngaToken | Nil, BigNumber | Nil> = pipe(
   withValidSignerAddress(
     reEmitUntilChanged(([x, address]) =>
       merge(

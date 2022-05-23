@@ -37,7 +37,7 @@ export function matchFrom$(screen: Screens): Observable<boolean> {
   return matchMedia$(`screen and (min-width: ${config.Screens[screen]})`)
 }
 
-export const deviceScreen$ = combineLatest({
+export const deviceScreen$: Observable<'xs' | 'sm' | 'md' | 'lg'> = combineLatest({
   xs: matchUntil$('sm'),
   sm: matchBetween$('sm', 'md'),
   md: matchBetween$('md', 'lg'),

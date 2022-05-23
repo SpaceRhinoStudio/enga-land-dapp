@@ -1,10 +1,16 @@
+<script lang="ts">
+  export let className = ''
+</script>
+
 <div
   class={`
-  spinner
-  relative
-  children:border-white
-  children:rounded-full
-  children:absolute`}>
+    spinner
+    relative
+    children:border-white
+    children:rounded-full
+    children:absolute
+    ${className}
+  `}>
   <div />
   <div />
   <div />

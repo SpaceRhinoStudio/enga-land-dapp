@@ -78,13 +78,11 @@ export interface WebsiteLocaleData {
         allocations: string
         ENGA: string
         price: string
-        total: string
       }
-      seedSale: string
+      earlyInvestors: string
       preSale: string
       dao: string
       stakeHolders: string
-      earlyInvestors: string
       initialSupply: string
     }
     vestings: {

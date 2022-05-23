@@ -19,10 +19,7 @@ import { safeCatchAndIgnoreAlreadyInProgressError } from '$lib/operators/web3/ig
 import _ from 'lodash'
 import type { Contract } from 'ethers'
 import { withUpdatesUntilChanged } from '$lib/operators/with-updates-from'
-import {
-  SelectedWeb3Signer$,
-  SelectedWeb3SignersAddress$,
-} from '$lib/observables/selected-web3-provider'
+import { SelectedWeb3Signer$, signerAddress$ } from '$lib/observables/selected-web3-provider'
 import { noSentinelOrUndefined } from '$lib/utils/no-sentinel-or-undefined'
 import { reEmitUntilChanged } from '$lib/operators/repeat-on-trigger'
 import type { Nil } from '$lib/types'
@@ -169,7 +166,7 @@ export function withValidSignerAddress<T extends Contract>(
 ): OperatorFunction<InputType<T>, unknown> {
   return pipe(
     passNil(
-      withUpdatesUntilChanged(SelectedWeb3SignersAddress$),
+      withUpdatesUntilChanged(signerAddress$),
       switchMap(([contract, address]) =>
         _.isUndefined(address)
           ? of(undefined)

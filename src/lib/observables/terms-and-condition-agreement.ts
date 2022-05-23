@@ -22,7 +22,7 @@ import {
 } from 'rxjs'
 import { ajax } from 'rxjs/ajax'
 import { noSentinel } from '$lib/utils/no-sentinel-or-undefined'
-import { SelectedWeb3Signer$, SelectedWeb3SignersAddress$ } from './selected-web3-provider'
+import { SelectedWeb3Signer$, signerAddress$ } from './selected-web3-provider'
 import { selectedNetwork$ } from './web3-network'
 export const termsAndConditionsAgreementsController$: Subject<
   Partial<{ Signature: string; Loading: boolean; Request: true }>
@@ -63,57 +63,56 @@ type TermsAndConditionsApiResponse = {
   success: boolean
 }
 
-export const termsAndConditionsAgreements$: Observable<boolean | undefined> =
-  SelectedWeb3SignersAddress$.pipe(
-    passUndefined(
-      reEmitUntilChanged(
-        termsAndConditionsAgreementsController$.pipe(
-          controlStreamPayload('Signature'),
-          tap(() =>
-            termsAndConditionsAgreementsController$.next({
-              Loading: true,
-            }),
-          ),
-          withLatestFrom(selectedNetwork$),
-          switchMap(([x, network]) =>
-            ajax({
-              method: 'POST',
-              url: `${config.apiAddress}/tos/sign`,
-              body: {
-                signature: x,
-                network: config.Chains[network].id.toString(),
-              },
-            }).pipe(
-              map(x => (x.status === 201 || x.status === 200 ? true : SENTINEL)),
-              catchError(() => of(SENTINEL)),
-              tap(
-                x =>
-                  isSentinel(x) &&
-                  __$.subscribe(__ => flashToast$.next(__.web3Provider.submittingSignatureFailed)),
-              ),
-              tap(() =>
-                termsAndConditionsAgreementsController$.next({
-                  Loading: false,
-                }),
-              ),
-              filter(noSentinel),
-            ),
-          ),
+export const termsAndConditionsAgreements$: Observable<boolean | undefined> = signerAddress$.pipe(
+  passUndefined(
+    reEmitUntilChanged(
+      termsAndConditionsAgreementsController$.pipe(
+        controlStreamPayload('Signature'),
+        tap(() =>
+          termsAndConditionsAgreementsController$.next({
+            Loading: true,
+          }),
         ),
-      ),
-      withUpdatesFrom(selectedNetwork$),
-      switchMap(([address, network]) =>
-        ajax<TermsAndConditionsApiResponse>({
-          method: 'GET',
-          url: `${config.apiAddress}/tos/verify`,
-          queryParams: {
-            address,
-            network: config.Chains[network].id.toString(),
-          },
-        }).pipe(
-          map(x => x.response.success),
-          catchError(() => of(false)),
+        withLatestFrom(selectedNetwork$),
+        switchMap(([x, network]) =>
+          ajax({
+            method: 'POST',
+            url: `${config.apiAddress}/tos/sign`,
+            body: {
+              signature: x,
+              network: config.Chains[network].id.toString(),
+            },
+          }).pipe(
+            map(x => (x.status === 201 || x.status === 200 ? true : SENTINEL)),
+            catchError(() => of(SENTINEL)),
+            tap(
+              x =>
+                isSentinel(x) &&
+                __$.subscribe(__ => flashToast$.next(__.web3Provider.submittingSignatureFailed)),
+            ),
+            tap(() =>
+              termsAndConditionsAgreementsController$.next({
+                Loading: false,
+              }),
+            ),
+            filter(noSentinel),
+          ),
         ),
       ),
     ),
-  )
+    withUpdatesFrom(selectedNetwork$),
+    switchMap(([address, network]) =>
+      ajax<TermsAndConditionsApiResponse>({
+        method: 'GET',
+        url: `${config.apiAddress}/tos/verify`,
+        queryParams: {
+          address,
+          network: config.Chains[network].id.toString(),
+        },
+      }).pipe(
+        map(x => x.response.success),
+        catchError(() => of(false)),
+      ),
+    ),
+  ),
+)

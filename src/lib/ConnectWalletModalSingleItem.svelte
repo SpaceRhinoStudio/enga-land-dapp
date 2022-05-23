@@ -6,7 +6,7 @@
   import {
     IsConnectingToSelectedProvider$,
     SelectedWeb3ProviderIdController$,
-    SelectedWeb3SignersAddress$,
+    signerAddress$,
   } from './observables/selected-web3-provider'
   import SvgIcon from './SVGIcon.svelte'
   import type { Web3ProviderId } from './types'
@@ -42,7 +42,7 @@
       IsConnectingToSelectedProvider$.pipe(
         auditTime(1000),
         filter(x => !x),
-        withLatestFrom(SelectedWeb3SignersAddress$),
+        withLatestFrom(signerAddress$),
       ),
     ).then(([, x]) => {
       loading = null

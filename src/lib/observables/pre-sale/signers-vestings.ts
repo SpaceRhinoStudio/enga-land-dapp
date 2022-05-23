@@ -6,7 +6,7 @@ import {
 } from '../../../contracts/fundraising-contracts'
 import type { BigNumber } from 'ethers'
 import _ from 'lodash'
-import { SelectedWeb3SignersAddress$ } from '$lib/observables/selected-web3-provider'
+import { signerAddress$ } from '$lib/observables/selected-web3-provider'
 import { passNil } from '$lib/operators/pass-undefined'
 import { reEmitOnTrigger } from '$lib/operators/repeat-on-trigger'
 import { fromEventFilter } from '$lib/operators/web3/from-event-filter'
@@ -43,7 +43,7 @@ export const preSaleSignersVestings$: Observable<VestingType[] | undefined | nul
   SeedSaleContract$,
 ).pipe(
   passNil(
-    withUpdatesFrom(SelectedWeb3SignersAddress$),
+    withUpdatesFrom(signerAddress$),
     switchMap(([contract, address]) =>
       _.isUndefined(address) ? of(undefined) : of([contract, address] as const),
     ),

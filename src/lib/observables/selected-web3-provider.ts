@@ -161,7 +161,7 @@ export const SelectedWeb3SignerWithAddress$: Observable<JsonRpcSigner | undefine
     shareReplay(1),
   )
 
-export const SelectedWeb3SignersAddress$ = SelectedWeb3ProviderMeta$.pipe(
+export const signerAddress$ = SelectedWeb3ProviderMeta$.pipe(
   passUndefined(web3SignersAddress),
   distinctUntilChanged(),
   shareReplay(1),

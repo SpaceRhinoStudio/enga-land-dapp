@@ -5,7 +5,7 @@
   import { __$ } from './locales'
   import {
     SelectedWeb3ProviderIdController$,
-    SelectedWeb3SignersAddress$,
+    signerAddress$,
   } from './observables/selected-web3-provider'
   import ShortenedHash from './ShortenedHash.svelte'
   import SvgIcon from './SVGIcon.svelte'
@@ -22,18 +22,18 @@
 
 <DropDown
   {upward}
-  canExpand={!!$SelectedWeb3SignersAddress$?.length}
+  canExpand={!!$signerAddress$?.length}
   let:isDropped
   className={{ dropContainer: '!left-auto right-0' }}>
   <div
     class="flex justify-between dropdown group relative transition-all cursor-pointer"
     on:click={e => {
-      if (!$SelectedWeb3SignersAddress$?.length) {
+      if (!$signerAddress$?.length) {
         toggle()
       }
     }}>
     <SvgIcon
-      Icon={$SelectedWeb3SignersAddress$?.length ? UserIcon : WalletIcon}
+      Icon={$signerAddress$?.length ? UserIcon : WalletIcon}
       width={'1.5rem'}
       height={'1.5rem'}
       className="h-11 w-11 bg-secondary-500 rounded-xl justify-center items-center text-text-hover shadow-glow shadow-secondary-700" />
@@ -42,15 +42,11 @@
         ? 'flex'
         : 'md:flex hidden'}">
       <Fade
-        visible={!!$SelectedWeb3SignersAddress$?.length}
+        visible={!!$signerAddress$?.length}
         className={{ container: 'flex items-center' }}
         mode="width">
         <div class="relative flex justify-between transition-all cursor-pointer">
-          <ShortenedHash
-            hash={$SelectedWeb3SignersAddress$ ?? ''}
-            leading={4}
-            trailing={4}
-            className="mr-2" />
+          <ShortenedHash hash={$signerAddress$ ?? ''} leading={4} trailing={4} className="mr-2" />
           {#if !alwaysExpand}
             <SvgIcon
               Icon={ArrowDown}
@@ -60,7 +56,7 @@
           {/if}
         </div>
       </Fade>
-      <Fade visible={!$SelectedWeb3SignersAddress$?.length} mode="width">
+      <Fade visible={!$signerAddress$?.length} mode="width">
         {$__$?.header.connectWallet}
       </Fade>
     </span>
