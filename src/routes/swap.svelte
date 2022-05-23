@@ -20,11 +20,11 @@
   $: notFunding = _.isNull($preSaleTotalCollateralRaised$) || _.isNull($preSaleGoal$)
 </script>
 
-<div class="flex flex-col items-center w-full">
+<div class="flex flex-col items-center">
   <Fade
     visible={$preSaleStatus$ === undefined}
     className={{
-      container: `flex flex-col ${$preSaleStatus$ === undefined && 'grow'}`,
+      container: `flex flex-col max-w-full ${$preSaleStatus$ === undefined && 'grow'}`,
       wrapper: 'grow',
     }}
     mode="height">
@@ -35,7 +35,7 @@
   <Fade
     visible={$preSaleStatus$ === PreSaleStatus.Pending}
     className={{
-      container: `flex flex-col ${$preSaleStatus$ === PreSaleStatus.Pending && 'grow'}`,
+      container: `flex flex-col max-w-full ${$preSaleStatus$ === PreSaleStatus.Pending && 'grow'}`,
       wrapper: 'grow',
     }}
     mode="height">
@@ -44,6 +44,7 @@
     </div>
   </Fade>
   <Fade
+    className={{ container: 'max-w-full' }}
     visible={!_.isUndefined($preSaleStatus$) && $preSaleStatus$ !== PreSaleStatus.Pending}
     mode="height">
     <div class="flex flex-col space-y-6">
@@ -51,7 +52,7 @@
       <div
         class="flex flex-col items-stretch md:flex-row-reverse justify-center md:space-x-reverse md:space-x-7 space-y-6 md:space-y-0">
         <SwapCard />
-        <div class="flex flex-col gap-6 justify-between w-96">
+        <div class="flex flex-col gap-6 justify-between md:w-96">
           <PreSaleAllocationTable />
           <div class="flex flex-col justify-center grow">
             <Card>
