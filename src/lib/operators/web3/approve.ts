@@ -4,11 +4,11 @@ import { passNil } from '$lib/operators/pass-undefined'
 import { map, type OperatorFunction, pipe } from 'rxjs'
 import type { Contract } from 'ethers'
 import { waitForTransaction } from './wait-for-transaction'
-import { withValidSignerAddress } from './signer'
 import { pipeIfNot } from '$lib/operators/pipe-if-not'
 import { signerAllowance } from './allowance'
 import { parseEther } from '$lib/utils/parse-ether'
 import type { Nil } from '$lib/types'
+import { withValidSignerAddress } from './with-valid-signer'
 
 export function signerApprove(
   _amount: string,

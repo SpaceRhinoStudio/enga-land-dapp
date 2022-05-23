@@ -4,7 +4,7 @@ import { reEmitUntilChanged } from '$lib/operators/repeat-on-trigger'
 import { merge, type OperatorFunction, pipe, switchMap } from 'rxjs'
 import type { Nil } from '$lib/types'
 import { fromEventFilter } from './from-event-filter'
-import { withValidSignerAddress } from './signer'
+import { withValidSignerAddress } from './with-valid-signer'
 
 export const signerBalanceOf: OperatorFunction<ERC20 | EngaToken | Nil, BigNumber | Nil> = pipe(
   withValidSignerAddress(

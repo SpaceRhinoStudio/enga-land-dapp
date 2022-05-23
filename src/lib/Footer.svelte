@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import SvgIcon from './SVGIcon.svelte'
   import Logo from '../assets/EngalandLogo.svg'
   import Link from './Link.svelte'
@@ -30,10 +30,15 @@
   const socials = [Routes.telegram, Routes.twitter, Routes.discord, Routes.reddit].map(
     x => routeConfig[x],
   )
+
+  export let clientHeight: number
+  export let style = ''
 </script>
 
 <footer
-  class="bg-primary-800 w-full md:shadow-float flex justify-center {!$canHover$ ? 'relative' : ''}">
+  bind:clientHeight
+  class="absolute bottom-0 bg-primary-800 !max-w-none left-1/2 -translate-x-1/2 md:shadow-float flex justify-center transition-transform duration-500"
+  {style}>
   <div class="max-w-[min(calc(100%-theme(spacing.10)),theme(screens.2xl))] w-screen relative">
     <div class="container flex flex-wrap items-center justify-between mx-auto">
       <nav
@@ -47,7 +52,6 @@
             predicate={_.negate(_.isUndefined)}
             className={{
               container: 'text-right ml-2 min-w-[theme(spacing.5)] flex gap-2',
-              wrapper: 'flex',
             }}>
             <span slot="before" class="enga_price flex">1 ENGA:</span>
             <span slot="data" class="text-yellow-400">

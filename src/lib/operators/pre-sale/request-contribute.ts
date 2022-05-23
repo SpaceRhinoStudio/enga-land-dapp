@@ -4,12 +4,12 @@ import { preSaleStatus$ } from '$lib/observables/pre-sale/status'
 import { preSaleTargetCollateralAllowance$ } from '$lib/observables/pre-sale/target-collateral-allowance'
 import { PreSaleStatus } from '$lib/operators/pre-sale/status'
 import { passNil } from '$lib/operators/pass-undefined'
-import { withValidSignerAddress } from '$lib/operators/web3/signer'
 import { waitForTransaction } from '$lib/operators/web3/wait-for-transaction'
 import { filter, map, type OperatorFunction, pipe, withLatestFrom } from 'rxjs'
 import { noNil, noSentinelOrUndefined } from '$lib/utils/no-sentinel-or-undefined'
 import { parseEther } from '$lib/utils/parse-ether'
 import { PreSaleContract$ } from '../../../contracts/fundraising-contracts'
+import { withValidSignerAddress } from '../web3/with-valid-signer'
 
 export function requestContribute(
   _amount: string,

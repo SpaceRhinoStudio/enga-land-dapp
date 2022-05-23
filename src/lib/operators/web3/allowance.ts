@@ -6,7 +6,7 @@ import { reEmitUntilChanged } from '$lib/operators/repeat-on-trigger'
 import { map, mergeMap, type OperatorFunction } from 'rxjs'
 import type { Nil } from '$lib/types'
 import { fromEventFilter } from './from-event-filter'
-import { withValidSignerAddress } from './signer'
+import { withValidSignerAddress } from './with-valid-signer'
 
 export const allowance: OperatorFunction<
   | readonly [erc20: ERC20 | undefined, owner: string | undefined, spender: string | undefined]

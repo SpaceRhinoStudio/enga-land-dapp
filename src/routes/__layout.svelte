@@ -31,6 +31,9 @@
 
   let isReady = false
   onMount(() => (isReady = true))
+
+  let footerHeight: number
+  let mainHeight: number
 </script>
 
 <MobileHoverFix />
@@ -54,6 +57,7 @@
         <WithScrollHint
           goToTopButton
           hintDownscaleFactor={{ start: 25 }}
+          mode="vertical"
           className={{
             container:
               'w-full h-[calc(100vh-theme(spacing.24))] md:h-[calc(100vh-theme(spacing.28))] mt-24 md:mt-28',
@@ -61,10 +65,12 @@
               'min-h-[calc(100vh-theme(spacing.24))] md:min-h-[calc(100vh-theme(spacing.28))] flex flex-col',
           }}>
           <main
-            class="w-screen max-w-[min(calc(100%-theme(spacing.10)),theme(screens.xl))] children:max-w-full mx-auto py-5 grow flex flex-col">
+            bind:clientHeight={mainHeight}
+            style="padding-bottom: calc({footerHeight}px + 1.25rem);"
+            class="relative w-screen max-w-[min(calc(100%-theme(spacing.10)),theme(screens.xl))] children:max-w-full mx-auto py-5 grow flex flex-col">
             <slot />
+            <Footer bind:clientHeight={footerHeight} />
           </main>
-          <Footer />
         </WithScrollHint>
       </div>
     </IsNavigating>

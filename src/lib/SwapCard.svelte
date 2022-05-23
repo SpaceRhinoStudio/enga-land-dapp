@@ -250,6 +250,7 @@
             }}
             predicate={e => !e}>
             <Fade
+              slot="data"
               visible={!!$hasAgreed$}
               mode="width"
               on:click={handleAgree}
@@ -257,6 +258,7 @@
               <SvgIcon Icon={TickSquareIcon} width="1.25rem" height="1.25rem" />
             </Fade>
             <Fade
+              slot="data"
               visible={!$hasAgreed$}
               mode="width"
               on:click={handleAgree}

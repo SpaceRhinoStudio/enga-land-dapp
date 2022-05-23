@@ -10,6 +10,7 @@ const svgPlugin = svg({
       'removeXMLNS',
       'minifyStyles',
       'removeDimensions',
+      'prefixIds',
       {
         name: 'preset-default',
         params: {
@@ -17,6 +18,7 @@ const svgPlugin = svg({
             removeViewBox: false,
             removeUselessStrokeAndFill: false,
             removeUnknownsAndDefaults: false,
+            cleanupIDs: false,
           },
         },
       },

@@ -23,9 +23,10 @@
 
   let selectedItemTitle: string
   $: selectedItemTitle = ref?.innerHTML?.split(`${value}">`)[1]?.split('<')[0] ?? ''
+  export let className: { [key in 'container']?: string } = {}
 </script>
 
-<div class="relative flex mx-2 bg-primary-600 rounded-lg py-1 pl-3">
+<div class="relative flex mx-2 bg-primary-600 rounded-lg py-1 pl-3 {className.container ?? ''}">
   <select
     on:change={e => dispatch('change', e.currentTarget.value)}
     bind:this={ref}

@@ -26,7 +26,7 @@
   export let isOpen = false
 </script>
 
-<Modal animateWidth className={{ bg: '!items-start' }} acceptExit bind:isOpen>
+<Modal animateWidth neverFullWidth className={{ bg: '!items-start' }} acceptExit bind:isOpen>
   <nav
     class="flex flex-col bg-primary-990 h-[var(--h-screen)] top-0 left-0 z-40 overflow-y-auto max-w-xs w-screen px-6">
     <div class="space-y-7 sticky top-0 z-10">

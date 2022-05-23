@@ -37,9 +37,22 @@ export function matchFrom$(screen: Screens): Observable<boolean> {
   return matchMedia$(`screen and (min-width: ${config.Screens[screen]})`)
 }
 
-export const deviceScreen$: Observable<'xs' | 'sm' | 'md' | 'lg'> = combineLatest({
+export const deviceScreen$: Observable<{
+  exact: 'xs' | 'sm' | 'md' | 'lg'
+  isMobile: boolean
+  isTablet: boolean
+  isDesktop: boolean
+}> = combineLatest({
   xs: matchUntil$('sm'),
   sm: matchBetween$('sm', 'md'),
   md: matchBetween$('md', 'lg'),
   lg: matchFrom$('lg'),
-}).pipe(map(x => (x.xs ? 'xs' : x.sm ? 'sm' : x.md ? 'md' : 'lg')))
+}).pipe(
+  map(x => (x.xs ? 'xs' : x.sm ? 'sm' : x.md ? 'md' : 'lg')),
+  map(x => ({
+    exact: x,
+    isMobile: x === 'xs' || x === 'sm',
+    isTablet: x === 'md',
+    isDesktop: x === 'lg',
+  })),
+)

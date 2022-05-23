@@ -2,6 +2,7 @@
   import LoadingOverlay from './LoadingOverlay.svelte'
   export let active = false
   export let isLoading = false
+  let isJobLoading = false
   export let secondary = false
   export let disabled = false
   export let job: () => Promise<void> | void
@@ -27,7 +28,7 @@
         : 'border-primary-600 active:bg-primary-600'
     }
     ${
-      isLoading
+      isLoading || isJobLoading
         ? 'cursor-wait disabled:cursor-wait text-transparent hover:text-transparent disabled:text-transparent'
         : ''
     }
@@ -39,13 +40,13 @@
     ${className}
 `}
   on:click={async () => {
-    if (!isLoading && !disabled) {
-      isLoading = true
+    if (!isLoading && !isJobLoading && !disabled) {
+      isJobLoading = true
       await job()
-      isLoading = false
+      isJobLoading = false
     }
   }}
-  disabled={isLoading || disabled}>
+  disabled={isLoading || isJobLoading || disabled}>
   <slot />
-  <LoadingOverlay visible={!!isLoading} />
+  <LoadingOverlay visible={isLoading || isJobLoading} />
 </button>

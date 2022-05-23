@@ -30,7 +30,7 @@
 
   const cells = writable<{ [row: symbol]: symbol[] }>({})
   const isCollapsed = writable<boolean>(true)
-  $: isCollapsed.set($deviceScreen$ === 'xs' || $deviceScreen$ === 'sm')
+  $: isCollapsed.set($deviceScreen$.isMobile)
 
   setContext<TableContext>(table, {
     headers,

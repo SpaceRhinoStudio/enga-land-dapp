@@ -20,6 +20,7 @@
     }
   }
   export let horizontalScrollButtons: boolean = false
+  export let mode: 'vertical' | 'horizontal' | 'both' = 'both'
 
   let outerRef: HTMLElement | undefined
 
@@ -59,6 +60,8 @@
           outerBounds.width < outerBounds.scrollWidth &&
           'snap-x snap-mandatory snap-always scrollbar-hide'
         }
+        ${mode === 'vertical' && 'overflow-x-hidden'}
+        ${mode === 'horizontal' && 'overflow-y-hidden'}
         ${className.wrapper}
     `}
     use:resize_observer
@@ -88,44 +91,53 @@
   </div>
 
   <!-- topHint -->
-  <div
-    data-name="top-hint"
-    class="absolute -top-px left-0 right-0 bg-gradient-to-b to-transparent pointer-events-none select-none -translate-y-px {className?.hint ??
-      'from-primary-990'}"
-    style="height: {(outerBounds.height + outerBounds.paddingY) /
-      (hintDownscaleFactor.start ?? 1)}px; opacity: {Math.min(scroll.top ?? 0, hideThreshold) /
-      hideThreshold};" />
+  {#if mode !== 'horizontal'}
+    <div
+      data-name="top-hint"
+      class="absolute -top-px left-0 right-0 bg-gradient-to-b to-transparent pointer-events-none select-none -translate-y-px {className?.hint ??
+        'from-primary-990'}"
+      style="height: {(outerBounds.height + outerBounds.paddingY) /
+        (hintDownscaleFactor.start ?? 1)}px; opacity: {Math.min(scroll.top ?? 0, hideThreshold) /
+        hideThreshold};" />
+  {/if}
 
   <!-- bottomHint -->
-  <div
-    data-name="bottom-hint"
-    class="absolute -bottom-px left-0 right-0 bg-gradient-to-t to-transparent pointer-events-none select-none {className?.hint ??
-      'from-primary-990'}"
-    style="height: {(outerBounds.height + outerBounds.paddingY) /
-      (hintDownscaleFactor.end ?? 1)}px; opacity: {Math.min(
-      innerBounds.height - ((scroll.top ?? 0) + outerBounds.height),
-      hideThreshold,
-    ) / hideThreshold}" />
+  {#if mode !== 'horizontal'}
+    <div
+      data-name="bottom-hint"
+      class="absolute -bottom-px left-0 right-0 bg-gradient-to-t to-transparent pointer-events-none select-none {className?.hint ??
+        'from-primary-990'}"
+      style="height: {(outerBounds.height + outerBounds.paddingY) /
+        (hintDownscaleFactor.end ?? 1)}px; opacity: {Math.min(
+        innerBounds.height - ((scroll.top ?? 0) + outerBounds.height),
+        hideThreshold,
+      ) / hideThreshold}" />
+  {/if}
 
   <!-- leftHint -->
-  <div
-    data-name="left-hint"
-    class="absolute -left-px top-0 bottom-0 bg-gradient-to-r to-transparent pointer-events-none select-none {className?.hint ??
-      'from-primary-990'}"
-    style="width: {(outerBounds.width + outerBounds.paddingX) /
-      (hintDownscaleFactor.start ?? 1)}px; opacity: {Math.min(scroll.left ?? 0, hideThreshold) /
-      hideThreshold};" />
+  {#if mode !== 'vertical'}
+    <div
+      data-name="left-hint"
+      class="absolute -left-px top-0 bottom-0 bg-gradient-to-r to-transparent pointer-events-none select-none {className?.hint ??
+        'from-primary-990'}"
+      style="width: {(outerBounds.width + outerBounds.paddingX) /
+        (hintDownscaleFactor.start ?? 1)}px; opacity: {Math.min(scroll.left ?? 0, hideThreshold) /
+        hideThreshold};" />
+  {/if}
 
   <!-- rightHint -->
-  <div
-    data-name="right-hint"
-    class="absolute -right-px top-0 bottom-0 bg-gradient-to-l to-transparent pointer-events-none select-none {className?.hint ??
-      'from-primary-990'}"
-    style="width: {(outerBounds.width + outerBounds.paddingX) /
-      (hintDownscaleFactor.end ?? 1)}px; opacity: {Math.min(
-      innerBounds.scrollWidth - ((scroll.left ?? 0) + outerBounds.width),
-      hideThreshold,
-    ) / hideThreshold};" />
+  {#if mode !== 'vertical'}
+    <div
+      data-name="right-hint"
+      class="absolute -right-px top-0 bottom-0 bg-gradient-to-l to-transparent pointer-events-none select-none {className?.hint ??
+        'from-primary-990'}"
+      style="width: {(outerBounds.width + outerBounds.paddingX) /
+        (hintDownscaleFactor.end ?? 1)}px; opacity: {Math.min(
+        innerBounds.scrollWidth - ((scroll.left ?? 0) + outerBounds.width),
+        hideThreshold,
+      ) / hideThreshold};" />
+  {/if}
+
   {#if goToTopButton}
     <!-- goToTopButton -->
     <div

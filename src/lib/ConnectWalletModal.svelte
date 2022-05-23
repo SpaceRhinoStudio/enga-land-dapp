@@ -1,12 +1,9 @@
 <script lang="ts">
-  import { fade } from 'svelte/transition'
-
   import Button from './Button.svelte'
   import Card from './Card.svelte'
   import { config } from './configs'
   import { Network } from './configs/web3'
   import ConnectWalletModalSingleItem from './ConnectWalletModalSingleItem.svelte'
-  import Fade from './Fade.svelte'
   import { deviceScreen$ } from './helpers/media-queries'
   import { __$ } from './locales'
   import Modal from './Modal.svelte'
@@ -22,7 +19,7 @@
 <Modal acceptExit bind:toggle let:isOpen>
   <Card
     className={{
-      container: `w-full sm:w-auto ${$deviceScreen$ === 'xs' ? '!rounded-b-none' : ''}`,
+      container: `${$deviceScreen$.exact === 'xs' ? '!rounded-b-none' : ''}`,
       wrapper: 'flex flex-col justify-center items-center gap-4',
     }}>
     <span slot="header">{$__$?.web3Provider.connect.title}</span>

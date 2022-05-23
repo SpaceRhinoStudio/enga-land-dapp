@@ -7,7 +7,7 @@
   export let trailing = 4
 </script>
 
-<span class={className}>
+<span class="flex {className ?? ''}">
   <span class="font-mono">
     {shortenString(hash, leading, {
       trimEnd: true,

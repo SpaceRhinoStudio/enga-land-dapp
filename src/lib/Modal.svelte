@@ -12,6 +12,7 @@
   }
   export let animateWidth = false
   export let className: { [key in 'bg']?: string } = {}
+  export let neverFullWidth = false
 
   const dispatch = createEventDispatcher<{ requestExit: true }>()
   function dismiss() {
@@ -48,7 +49,12 @@
         ${className.bg}
       `}
       on:click|self={dismiss}>
-      <Fade mode={animateWidth ? 'width' : 'height'} visible={isOpen}>
+      <Fade
+        mode={animateWidth ? 'width' : 'height'}
+        visible={isOpen}
+        className={neverFullWidth
+          ? {}
+          : { container: 'w-full sm:w-max', wrapper: 'w-full sm:w-max' }}>
         <slot {isOpen} />
       </Fade>
     </div>

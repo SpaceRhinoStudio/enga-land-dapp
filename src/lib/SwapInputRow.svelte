@@ -89,21 +89,19 @@
 <div class="text-text-secondary text-sm space-y-2">
   <div class="flex justify-between text-xs md:text-2xs items-center">
     <slot name="title" />
-    <div class="flex space-x-1 items-center">
-      <span class="mr-2">
+    <WithLoading
+      className={{
+        container: 'flex items-center',
+        wrapper: 'overflow-hidden items-center',
+        spinner: 'scale-75',
+      }}
+      data={$balance$}>
+      <span slot="before" class="mr-2">
         {$__$?.presale.contribution.balance}:
       </span>
-      <WithLoading
-        className={{
-          container: 'flex items-center',
-          wrapper: 'overflow-hidden',
-          spinner: 'scale-75',
-        }}
-        data={$balance$}>
-        <span>{$balance$}</span>
-      </WithLoading>
-      <span>{$ticker$}</span>
-    </div>
+      <span slot="data">{$balance$}</span>
+    </WithLoading>
+    <span>{$ticker$}</span>
   </div>
   <Input
     {icon}
