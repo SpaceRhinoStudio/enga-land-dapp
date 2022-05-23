@@ -1,5 +1,5 @@
 {
-  // "extends": "./.svelte-kit/tsconfig.json",
+  "extends": "./.svelte-kit/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
     "paths": {
@@ -9,6 +9,7 @@
     "checkJs": false,
     "sourceMap": true,
     "preserveValueImports": true,
+    "importsNotUsedAsValues": "preserve",
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "allowJs": true,
     "skipLibCheck": true,
