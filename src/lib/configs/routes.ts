@@ -66,7 +66,7 @@ export enum Routes {
 }
 
 export type RouteConfig = {
-  href: string
+  href: string | RegExp
   id: Routes
   icon: any
   subRoutes?: Routes[]
@@ -288,7 +288,7 @@ export const routeConfig: {
   },
   [Routes.mpEndroSingle]: {
     id: Routes.mpEndroSingle,
-    href: '/marketplace/endro/single',
+    href: /\/endro\/[A-z0-9#]*/,
     preview: true,
     disabled: false,
     icon: undefined,

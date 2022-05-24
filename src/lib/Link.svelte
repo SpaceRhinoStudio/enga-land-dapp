@@ -3,18 +3,10 @@
   import { page } from '$app/stores'
   import _ from 'lodash'
   import { createEventDispatcher } from 'svelte'
-
-  type MatchResult = {
-    partial: boolean
-    exact: boolean
-  }
-
-  function sanitizeHref(href: string) {
-    return href.split('/').filter(_.negate(_.isEmpty)).join('/')
-  }
+  import { routeMatch, RouteMatchResult } from './helpers/route-match'
 
   export let element = 'a'
-  export let href: string | undefined
+  export let href: string | RegExp | undefined
   export let disabled = false
   export let className: {
     [key in 'element' | 'exactMatch' | 'partialMatch' | 'text' | 'textEnabled']?: string
@@ -22,17 +14,10 @@
   export let newTab = false
 
   const dispatch = createEventDispatcher<{ click: MouseEvent }>()
-  let match: MatchResult = { partial: false, exact: false }
+  let match: RouteMatchResult = { partial: false, exact: false }
 
   $: {
-    if (!_.isUndefined(href)) {
-      const x = sanitizeHref($page.url.pathname)
-      match = {
-        exact: x === sanitizeHref(href),
-        partial:
-          `/${x}/`.search(`/${sanitizeHref(href)}${sanitizeHref(href).length ? '/' : ''}`) !== -1,
-      }
-    }
+    match = routeMatch(href, $page.url.pathname)
   }
 </script>
 
@@ -56,15 +41,15 @@
     }
     ${match.exact ? className.exactMatch : match.partial ? className.partialMatch : ''}
     ${className.element ?? ''}`}
-  href={!match.exact ? href : undefined}
-  rel={href?.includes('://') ? 'external' : undefined}
+  href={!match.exact && _.isString(href) ? href : undefined}
+  rel={_.isString(href) && href?.includes('://') ? 'external' : undefined}
   target={newTab ? '_blank' : undefined}
   on:click={e => {
     if (disabled) {
       return
     }
     dispatch('click', e)
-    if (href && element !== 'a' && !match.exact) {
+    if (href && _.isString(href) && element !== 'a' && !match.exact) {
       goto(href)
     }
   }}>

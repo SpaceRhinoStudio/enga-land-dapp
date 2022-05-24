@@ -10,8 +10,15 @@
   import HeaderSubNav from './HeaderSubNav.svelte'
   import ConnectWalletButton from './ConnectWalletButton.svelte'
   import Sidebar from './Sidebar.svelte'
+  import { config } from './configs'
+  import { routeMatch } from './helpers/route-match'
+  import { page } from '$app/stores'
+  import _ from 'lodash'
 
-  let isPreview: boolean
+  let isPreview = false
+  $: isPreview =
+    _.values(config.routeConfig).find(x => routeMatch(x.href, $page.url.pathname).exact)?.preview ??
+    false
   const routes = [Routes.home, Routes.dapp, Routes.marketplace].map(x => routeConfig[x])
 
   let isOpen = false
@@ -38,8 +45,11 @@
           className={isPreview ? '-translate-y-3' : ''} />
         {#if isPreview}
           <div
-            class="absolute top-full -translate-y-1 left-1/2 -right-1/2 -translate-x-1/2 animate-pulse">
-            <div class="bg-red-700 rounded-lg p-1 text-xs text-center">Preview Data</div>
+            class="absolute top-full -translate-y-2 md:-translate-y-1 -left-1/2 md:left-1/2 -right-1/2 md:-translate-x-1/2 animate-pulse">
+            <div
+              class="md:bg-red-700 rounded-lg p-1 md:text-xs text-center text-red-700 font-bold md:text-text-primary md:font-normal">
+              Preview Data
+            </div>
           </div>
         {/if}
       </div>

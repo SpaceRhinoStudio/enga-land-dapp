@@ -88,7 +88,7 @@
         </div>
       </div>
       <Button
-        job={() => goto(`/${forSale ? 'marketplace' : 'dashboard'}/endro/single#${endro.id}`)}
+        job={() => goto(`/endro/${endro.id}${forSale ? '#marketplace' : ''}`)}
         active
         className="!py-2.5">
         {forSale ? $__$?.marketplace.purchase : $__$?.dashboard.manage}
@@ -109,7 +109,7 @@
     class="grid grid-flow-row grow text-text-secondary text-xs md:text-lg cursor-pointer"
     on:click={() => {
       $deviceScreen$.isMobile && (backfaceVisible = true)
-      !$deviceScreen$.isMobile && goto(`/marketplace/endro/single#${endro.id}`)
+      !$deviceScreen$.isMobile && goto(`/endro/${endro.id}#marketplace`)
     }}>
     <table class="md:table hidden">
       <tbody>

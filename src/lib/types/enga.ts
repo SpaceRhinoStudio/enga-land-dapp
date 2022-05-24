@@ -17,7 +17,7 @@ export type EndroMeta = {
   owner: string
   realm: Realms
   marketPrice?: BigNumber
-  image: StaticImageData | undefined
+  image: string | undefined
 }
 
 export enum GodStats {
@@ -57,14 +57,14 @@ export type EndroItemMeta = {
   id: string
   name: string
   rarity: ItemRarity
-  image?: string | StaticImageData
+  image?: string
   type: EndroItemType
   slot?: CosmeticSlots
   mintDate?: Date
   modifiers?: {
     [key in 'brs' | GodStats]?: number
   }
-  consumableModifiers?: unknown
+  // consumableModifiers?: unknown
 }
 
 export enum Realms {
