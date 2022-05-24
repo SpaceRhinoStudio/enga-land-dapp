@@ -10,6 +10,7 @@ import MaleWML from '../../../assets/samples/Male WML.png'
 import { filter, map, Observable, take } from 'rxjs'
 import { __$ } from '$lib/locales'
 import { noSentinelOrUndefined } from '$lib/utils/no-sentinel-or-undefined'
+import { nanoid } from 'nanoid'
 const dummyImages = [FemaleAfrican, FemaleAsian, FemaleWML, MaleAfrican, MaleAsian, MaleWML]
 
 export function rndEndro(): Observable<EndroMeta> {
@@ -18,7 +19,7 @@ export function rndEndro(): Observable<EndroMeta> {
     filter(noSentinelOrUndefined),
     take(1),
     map(__ => ({
-      id: `${rnd(1000)}`,
+      id: nanoid(),
       title: `${__?.EngaVerse.realms[realm]}-${rnd(10000)}`,
       rarity: rnd(1000),
       level: rnd(25),

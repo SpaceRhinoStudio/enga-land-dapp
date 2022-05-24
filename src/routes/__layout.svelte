@@ -12,14 +12,14 @@
   import { type TransitionConfig } from 'svelte/transition'
   import { portalMap, create_portal_root } from '$lib/actions/portal'
   import _ from 'lodash'
-  import { spring } from 'svelte/motion'
-  import { onMount, tick } from 'svelte'
+  import { onMount } from 'svelte'
   import Footer from '$lib/Footer.svelte'
   import WithScrollHint from '$lib/WithScrollHint.svelte'
   import { zeroIfNegative } from '$lib/utils/zero'
+  import { useWobble } from '$lib/helpers/wobble-svelte'
 
-  let shouldBlur = spring(0, { precision: 0.1, stiffness: 0.05 })
-  $: shouldBlur.set($portalMap.every(x => x.index === null) || $portalMap.length === 0 ? 0 : 1)
+  const [shouldBlur, setShouldBlur] = useWobble({})
+  $: setShouldBlur($portalMap.every(x => x.index === null) || $portalMap.length === 0 ? 0 : 1)
 
   function fadeAndBlur(node: HTMLElement, { delay = 0, duration = 500 }): TransitionConfig {
     return {

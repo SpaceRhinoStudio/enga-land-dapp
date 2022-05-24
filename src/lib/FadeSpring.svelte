@@ -1,79 +1,60 @@
 <script lang="ts">
-  import { onDestroy } from 'svelte'
-
-  import { spring } from 'svelte/motion'
+  import { SpringConfig } from 'wobble'
   import { resize_observer } from './actions/resize-observer'
-  import { zeroIfNegative } from './utils/zero'
-
-  interface SpringOpts {
-    stiffness?: number
-    damping?: number
-    precision?: number
-  }
+  import { useWobble } from './helpers/wobble-svelte'
 
   export let visible: boolean
   export let mode: 'height' | 'width' | 'both' | 'opacity'
   export let className: { [key in 'container' | 'wrapper']?: string } = {}
   export let width: number | undefined = undefined
   export let height: number | undefined = undefined
-  export let springOptions: SpringOpts = { damping: 1, stiffness: 0.1, precision: 0.1 }
-  export let startFromZero = false
+  export let springOptions: Partial<SpringConfig> = { fromValue: 0, stiffness: 1, damping: 1000 }
+  //TODO add this back
+  // export let startFromZero = false
   export let delay = 0
   export let style = ''
 
-  let isTimeoutOver = delay === 0 ? true : false
-  let introTimeout: NodeJS.Timeout | undefined =
-    delay !== 0
-      ? setTimeout(() => {
-          isTimeoutOver = true
-          containerWidth.set(startFromZero ? 0 : width)
-          containerHeight.set(startFromZero ? 0 : height)
-        }, delay)
-      : undefined
+  const [containerWidth, setContainerWidth] = useWobble(springOptions)
+  const [containerHeight, setContainerHeight] = useWobble(springOptions)
+  const [opacity, setOpacity] = useWobble(springOptions)
 
-  onDestroy(() => clearTimeout(introTimeout))
+  $: setTimeout(() => {
+    if ((mode === 'height' || mode == 'both') && height !== undefined) {
+      setContainerHeight(visible ? height : 0)
+    }
+  }, delay)
 
-  export const containerWidth = spring<number | undefined>(startFromZero ? 0 : width, springOptions)
-  export const containerHeight = spring<number | undefined>(
-    startFromZero ? 0 : height,
-    springOptions,
-  )
-  export const opacity = spring<number>(startFromZero ? 0 : visible ? 1 : 0)
+  $: setTimeout(() => {
+    if ((mode === 'width' || mode === 'both') && width !== undefined) {
+      setContainerWidth(visible ? width : 0)
+    }
+  }, delay)
 
-  $: isTimeoutOver &&
-    (mode === 'height' || mode == 'both') &&
-    height !== undefined &&
-    containerHeight.set(visible ? height : 0)
-
-  $: isTimeoutOver &&
-    (mode === 'width' || mode === 'both') &&
-    width !== undefined &&
-    containerWidth.set(visible ? width : 0)
-
-  $: isTimeoutOver && mode === 'opacity' && opacity.set(visible ? 1 : 0)
+  $: setTimeout(() => {
+    setOpacity(visible ? 1 : 0)
+  }, delay)
 
   export let isRendering = visible
   $: isRendering =
-    mode === 'opacity'
-      ? zeroIfNegative($opacity) !== 0
+    visible ||
+    (mode === 'opacity'
+      ? $opacity !== 0
       : mode === 'width'
-      ? zeroIfNegative($containerWidth) !== 0 || width === undefined
+      ? $containerWidth !== 0 || width === undefined
       : mode === 'height'
-      ? zeroIfNegative($containerHeight) !== 0 || height === undefined
+      ? $containerHeight !== 0 || height === undefined
       : mode === 'both'
-      ? zeroIfNegative($containerWidth) !== 0 ||
-        zeroIfNegative($containerHeight) !== 0 ||
+      ? $containerWidth !== 0 ||
+        $containerHeight !== 0 ||
         width === undefined ||
         height === undefined
-      : false
+      : false)
 
   let widthStyle = ''
-  $: widthStyle =
-    mode === 'width' || mode === 'both' ? `width: ${zeroIfNegative($containerWidth)}px; ` : ''
+  $: widthStyle = mode === 'width' || mode === 'both' ? `width: ${$containerWidth}px; ` : ''
 
   let heightStyle = ''
-  $: heightStyle =
-    mode === 'height' || mode === 'both' ? `height: ${zeroIfNegative($containerHeight)}px;` : ''
+  $: heightStyle = mode === 'height' || mode === 'both' ? `height: ${$containerHeight}px;` : ''
 
   let willChangeStyle = ''
   $: willChangeStyle = `will-change: ${mode === 'width' || mode === 'both' ? 'width, ' : ''}${
@@ -81,18 +62,18 @@
   }opacity; `
 
   let opacityStyle = ''
-  $: opacityStyle = `opacity: ${mode === 'opacity' ? $opacity : ''}${
-    mode === 'height' || mode === 'both'
-      ? zeroIfNegative($containerHeight ?? 1) / (height ?? 1)
-      : ''
-  }${mode === 'width' ? zeroIfNegative($containerWidth ?? 1) / (width ?? 1) : ''}; `
+  $: opacityStyle = `opacity: ${$opacity}; `
 </script>
 
 {#if isRendering}
   <div
-    class="{mode === 'both' || mode === 'height' || mode === 'width'
-      ? 'overflow-hidden '
-      : ''}{className.container ?? ''}"
+    class="{mode === 'both'
+      ? 'overflow-hidden'
+      : mode === 'height'
+      ? 'overflow-y-hidden'
+      : mode === 'width'
+      ? 'overflow-x-hidden'
+      : ''} {className.container ?? ''}"
     style="{widthStyle}{heightStyle}{willChangeStyle}{opacityStyle}{style}">
     <div
       class="{className.wrapper ?? 'p-px'} {mode === 'width' || mode === 'both'

@@ -1,8 +1,7 @@
 <script lang="ts">
   import _ from 'lodash'
-
-  import { spring } from 'svelte/motion'
   import { canHover$ } from './helpers/media-queries'
+  import { useWobble } from './helpers/wobble-svelte'
 
   function computeOpacity(full: number | undefined, current: number | undefined): number {
     return Math.abs(1 - Math.abs((full ?? 0) / 2 - (current ?? 0)) / (((full ?? 1) * 1) / 2))
@@ -13,11 +12,11 @@
   let viewportHeight: number = 0
   let viewportWidth: number = 0
   let mousePosition: { x: number; y: number } = { x: 0, y: 0 }
-  let x = spring(0, { damping: 0.9, stiffness: 0.02, precision: 0.1 })
-  let y = spring(0, { damping: 0.9, stiffness: 0.02, precision: 0.1 })
+  let [x, setX] = useWobble({ damping: 2.5, stiffness: 3 })
+  let [y, setY] = useWobble({ damping: 2.5, stiffness: 3 })
   $: {
-    x.set(mousePosition.x)
-    y.set(mousePosition.y)
+    setX(mousePosition.x)
+    setY(mousePosition.y)
   }
   let opacity = 1
   $: fadeOutAtEdge &&

@@ -72,7 +72,8 @@
     "mocha": "^10.0.0",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
-    "tailwindcss-children": "^2.1.0"
+    "tailwindcss-children": "^2.1.0",
+    "wobble": "^1.5.1"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx,svelte}": "eslint --cache --fix",

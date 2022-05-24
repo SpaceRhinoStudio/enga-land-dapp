@@ -1,6 +1,6 @@
 <script lang="ts">
   import Button from '$lib/Button.svelte'
-  import { fade, scale, TransitionConfig, slide, fly } from 'svelte/transition'
+  import { fade } from 'svelte/transition'
   import Card from '$lib/Card.svelte'
   import Fade from '$lib/Fade.svelte'
   import LoadingSpinner from '$lib/LoadingSpinner.svelte'
@@ -18,12 +18,12 @@
   import PageTitle from '$lib/PageTitle.svelte'
   import Select from '$lib/Select.svelte'
   import { genArr } from '$lib/utils/random'
-  import { animationFrameScheduler, concatMap, delay, map, of, pipe } from 'rxjs'
+  import { map } from 'rxjs'
   import { EngaTokenContract$ } from '../contracts/fundraising-contracts'
   import { MarketplaceSortOptionsArray, EndroSortOptionsArray } from '$lib/types/marketplace'
   import ShowcaseCard from '$lib/ShowcaseCard.svelte'
   import { onMount } from 'svelte'
-  import { quintOut } from 'svelte/easing'
+  import FadeSpring from '$lib/FadeSpring.svelte'
 
   const engaBalance$ = EngaTokenContract$.pipe(
     signerBalanceOf,
@@ -86,22 +86,27 @@
           </div>
         </Card>
         {#if $endroMarketplaceItems$ === undefined}
-          <div transition:fade class="h-96 w-full flex justify-center items-center absolute z-0">
+          <div
+            transition:fade={{ delay: 1300 }}
+            class="h-96 w-full flex justify-center items-center absolute z-0">
             <LoadingSpinner />
           </div>
         {/if}
-        <div class="!mb-28 relative z-10">
-          <div class="flex flex-col md:px-5">
-            {#each $endroMarketplaceItems$ ?? [] as x (x.id)}
-              <div transition:fly={{ delay: 100, duration: 300, y: 350 }} class="pt-4">
-                <ShowcaseCard endroOptions={{ endro: x, forSale: true }} />
-              </div>
-            {/each}
-          </div>
-        </div>
+        <FadeSpring
+          springOptions={{ damping: 1000, stiffness: 5 }}
+          delay={300}
+          visible={!!$endroMarketplaceItems$?.length}
+          mode="height"
+          className={{ container: '!mb-28 relative z-10', wrapper: 'flex flex-col md:px-5' }}>
+          {#each $endroMarketplaceItems$ ?? [] as x (x.id)}
+            <div class="pt-4 pb-2">
+              <ShowcaseCard endroOptions={{ endro: x, forSale: true }} />
+            </div>
+          {/each}
+        </FadeSpring>
         {#if $endroMarketplaceItems$ !== undefined}
           <div
-            transition:fade={{ delay: 1000 }}
+            transition:fade={{ delay: 1300 }}
             class="absolute bottom-0 w-full flex justify-center">
             <Button
               job={() => endroMarketplaceItemsController$.next({ Load: true })}

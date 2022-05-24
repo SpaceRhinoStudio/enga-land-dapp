@@ -1,9 +1,10 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
-  import { spring } from 'svelte/motion'
-  import { fade } from 'svelte/transition'
+  import { fade, fly } from 'svelte/transition'
   import { changePortalVisibility, portal, portalMap } from './actions/portal'
   import Fade from './Fade.svelte'
+  import cn from 'classnames'
+  import { useWobble } from './helpers/wobble-svelte'
 
   export let isOpen = false
   export let acceptExit = true
@@ -25,8 +26,8 @@
   let node: HTMLElement
   let index: number | null = null
 
-  let shouldBlur = spring(0, { precision: 0.1 })
-  $: node && shouldBlur.set($portalMap.some(x => (x.index ?? -1) > (index ?? -1)) ? 1 : 0)
+  const [shouldBlur, setShouldBlur] = useWobble({})
+  $: node && setShouldBlur($portalMap.some(x => (x.index ?? -1) > (index ?? -1)) ? 1 : 0)
 
   $: index = changePortalVisibility(node, isOpen)
 </script>
@@ -44,19 +45,19 @@
         fixed inset-0
         bg-black bg-opacity-40
         flex flex-col items-center justify-end sm:justify-center
-        overflow-y-auto
+        overflow-hidden
+        #sm:overflow-y-auto
         overscroll-none
         ${className.bg}
       `}
       on:click|self={dismiss}>
-      <Fade
-        mode={animateWidth ? 'width' : 'height'}
-        visible={isOpen}
-        className={neverFullWidth
-          ? {}
-          : { container: 'w-full sm:w-max', wrapper: 'w-full sm:w-max' }}>
-        <slot {isOpen} />
-      </Fade>
+      {#if isOpen}
+        <div
+          transition:fly={{ ...(animateWidth ? { x: -500 } : { y: 500 }), duration: 500 }}
+          class={cn(!neverFullWidth && 'w-full sm:w-max')}>
+          <slot {isOpen} />
+        </div>
+      {/if}
     </div>
   {/if}
 </div>

@@ -1,17 +1,6 @@
 import { rndEndro } from '$lib/helpers/random/endro'
 import { controlStreamPayload } from '$lib/operators/control-stream-payload'
-import {
-  animationFrameScheduler,
-  concatMap,
-  delay,
-  mergeAll,
-  mergeMap,
-  Observable,
-  of,
-  scan,
-  Subject,
-  tap,
-} from 'rxjs'
+import { concatAll, concatMap, delay, Observable, scan, Subject, tap } from 'rxjs'
 import type { EndroMeta } from '$lib/types/enga'
 import { genArr } from '$lib/utils/random'
 
@@ -25,9 +14,8 @@ export const endroMarketplaceItems$: Observable<EndroMeta[]> =
     controlStreamPayload('Load'),
     tap(() => endroMarketplaceItemsController$.next({ isLoading: true })),
     delay(3000),
-    mergeMap(() => genArr(10, () => rndEndro())),
+    concatMap(() => genArr(10, () => rndEndro())),
     tap(() => endroMarketplaceItemsController$.next({ isLoading: false })),
-    mergeAll(),
+    concatAll(),
     scan((acc, x) => [...acc, x], [] as EndroMeta[]),
-    concatMap(x => of(x).pipe(delay(0, animationFrameScheduler))),
   )
