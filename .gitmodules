@@ -1,3 +1,4 @@
 [submodule "contracts/Fundraising"]
 	path = contracts/Fundraising
-	url = git@github.com:Project-Ilkka/Fundraising.git
+	url = git@github.com:SpaceRhinoStudio/fundraising-dapp.git
+	branch = main
