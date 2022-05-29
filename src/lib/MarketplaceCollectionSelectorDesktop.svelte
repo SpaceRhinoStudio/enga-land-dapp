@@ -2,7 +2,7 @@
   import Card from './Card.svelte'
   import { config } from './configs'
   import { Routes } from './configs/routes'
-  import { deviceScreen$ } from './helpers/media-queries'
+  import { screen$ } from './helpers/media-queries'
   import Link from './Link.svelte'
   import { __$ } from './locales'
   import SvgIcon from './SVGIcon.svelte'
@@ -23,7 +23,7 @@
   ].map(x => config.routeConfig[x])
 </script>
 
-{#if !$deviceScreen$.isMobile}
+{#if !$screen$.isMobile}
   <Card
     className={{
       container: 'sticky top-6',

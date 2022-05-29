@@ -19,7 +19,7 @@
   import CardCut from './CardCut.svelte'
   import ChipsetItemImage from './ChipsetItemImage.svelte'
   import GodStat from './GodStat.svelte'
-  import { deviceScreen$ } from './helpers/media-queries'
+  import { screen$ } from './helpers/media-queries'
   import { __$ } from './locales'
   import ShortenedHash from './ShortenedHash.svelte'
   import SvgIcon from './SVGIcon.svelte'
@@ -87,28 +87,25 @@
       'mix-blend-mode: unset',
     )}
     class="absolute z-[-1] right-1 top-1/2 -translate-y-1/2 bottom-1/4 left-3/4 rounded-full" />
-  {#if !$deviceScreen$.isMobile}
+  {#if !$screen$.isMobile}
     <div class={cn(bgClassName, 'w-40 rounded-2xl md:rounded-[1.8rem] -mr-40')} />
   {/if}
   <CardCut
-    cutHeight={$deviceScreen$.isMobile ? '0.7rem' : '1.3rem'}
-    hScale={$deviceScreen$.isMobile ? 1 : 1.3}
-    cornerRadius={$deviceScreen$.isMobile ? '0.9rem' : '1.7rem'}
+    cutHeight={$screen$.isMobile ? '0.7rem' : '1.3rem'}
+    hScale={$screen$.isMobile ? 1 : 1.3}
+    cornerRadius={$screen$.isMobile ? '0.9rem' : '1.7rem'}
     mode="outCutRight"
     className={{
       container: 'md:w-56 w-full h-full md:my-3 md:ml-3 md:h-auto',
       wrapper: 'h-full w-full relative overflow-hidden group flex',
     }}>
     <div
-      class={cn(
-        'h-full w-full p-1 md:p-2',
-        $deviceScreen$.isMobile ? bgClassName : 'bg-text-primary',
-      )}>
+      class={cn('h-full w-full p-1 md:p-2', $screen$.isMobile ? bgClassName : 'bg-text-primary')}>
       <CardCut
         mode="outCutRight"
-        cutHeight={$deviceScreen$.isMobile ? '0.5rem' : '1.3rem'}
-        hScale={$deviceScreen$.isMobile ? 0.9 : 1.3}
-        cornerRadius={$deviceScreen$.isMobile ? '0.7rem' : '1.6rem'}
+        cutHeight={$screen$.isMobile ? '0.5rem' : '1.3rem'}
+        hScale={$screen$.isMobile ? 0.9 : 1.3}
+        cornerRadius={$screen$.isMobile ? '0.7rem' : '1.6rem'}
         className={{
           container: 'w-full h-full #pr-px md:pr-0',
           wrapper: 'w-full h-full',
@@ -116,9 +113,9 @@
         <div class="h-full w-full p-px bg-neutral-200">
           {#if image || opifexMeta || itemMeta?.image || itemMeta?.type === EndroItemType.chipset}
             <CardCut
-              cutHeight={$deviceScreen$.isMobile ? '0.4rem' : '1.1rem'}
-              hScale={$deviceScreen$.isMobile ? 0.9 : 1.3}
-              cornerRadius={$deviceScreen$.isMobile ? '0.65rem' : '1.4rem'}
+              cutHeight={$screen$.isMobile ? '0.4rem' : '1.1rem'}
+              hScale={$screen$.isMobile ? 0.9 : 1.3}
+              cornerRadius={$screen$.isMobile ? '0.65rem' : '1.4rem'}
               className={{
                 container: 'h-full w-full #pr-px md:pr-0',
                 wrapper: cn(
@@ -163,7 +160,7 @@
                   <div class="flex w-full justify-center items-center">
                     {#each chipsetModifiers?.[0] ?? [] as x}
                       <GodStat
-                        dimensions={$deviceScreen$.isMobile ? undefined : '2.5rem'}
+                        dimensions={$screen$.isMobile ? undefined : '2.5rem'}
                         alwaysDesktop
                         justIcon
                         type={x} />
@@ -175,7 +172,7 @@
                   <div class="flex w-full justify-center items-center">
                     {#each chipsetModifiers?.[1] ?? [] as x}
                       <GodStat
-                        dimensions={$deviceScreen$.isMobile ? undefined : '2.5rem'}
+                        dimensions={$screen$.isMobile ? undefined : '2.5rem'}
                         alwaysDesktop
                         justIcon
                         type={x} />
@@ -216,8 +213,8 @@
             <div class="absolute top-3 md:top-4 right-6 md:right-8">
               <SvgIcon
                 Icon={realmsIconMap[endroMeta.realm]}
-                height={$deviceScreen$.isMobile ? '1.5rem' : '2rem'}
-                width={$deviceScreen$.isMobile ? '1.5rem' : '2rem'}
+                height={$screen$.isMobile ? '1.5rem' : '2rem'}
+                width={$screen$.isMobile ? '1.5rem' : '2rem'}
                 dontFill />
             </div>
           {/if}

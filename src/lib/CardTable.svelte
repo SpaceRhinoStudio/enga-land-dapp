@@ -15,7 +15,7 @@
   import { setContext } from 'svelte'
   import { writable, type Readable } from 'svelte/store'
   import Fade from './Fade.svelte'
-  import { deviceScreen$ } from './helpers/media-queries'
+  import { screen$ } from './helpers/media-queries'
   import LoadingSpinner from './LoadingSpinner.svelte'
   import { __$ } from './locales'
   import TableSeparator from './TableSeparator.svelte'
@@ -30,7 +30,7 @@
 
   const cells = writable<{ [row: symbol]: symbol[] }>({})
   const isCollapsed = writable<boolean>(true)
-  $: isCollapsed.set($deviceScreen$.isMobile)
+  $: isCollapsed.set($screen$.isMobile)
 
   setContext<TableContext>(table, {
     headers,

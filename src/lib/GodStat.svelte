@@ -30,7 +30,7 @@
   import { GodStats } from './types/enga'
   import type { Nil } from './types'
   import { BigNumber } from 'ethers'
-  import { deviceScreen$ } from './helpers/media-queries'
+  import { screen$ } from './helpers/media-queries'
   import _ from 'lodash'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
   import { __$ } from './locales'
@@ -51,9 +51,9 @@
   let _dimensions: string
   $: _dimensions =
     dimensions ??
-    ($deviceScreen$.isMobile && !alwaysDesktop
+    ($screen$.isMobile && !alwaysDesktop
       ? '1rem'
-      : $deviceScreen$.isMobile && alwaysDesktop
+      : $screen$.isMobile && alwaysDesktop
       ? '1.7rem'
       : '2rem')
   export let withSign = false
@@ -61,11 +61,11 @@
 
 <div class={cn('flex space-x-1 relative items-center', className.container)}>
   <SvgIcon
-    Icon={$deviceScreen$.isMobile && !alwaysDesktop ? ICON_MAP[type].tiny : ICON_MAP[type].normal}
-    dontFill={!($deviceScreen$.isMobile && !alwaysDesktop)}
+    Icon={$screen$.isMobile && !alwaysDesktop ? ICON_MAP[type].tiny : ICON_MAP[type].normal}
+    dontFill={!($screen$.isMobile && !alwaysDesktop)}
     width={_dimensions}
     height={_dimensions}
-    className={cn($deviceScreen$.isMobile && 'py-0.5', 'text-text-secondary')} />
+    className={cn($screen$.isMobile && 'py-0.5', 'text-text-secondary')} />
   {#if !justIcon}
     <WithLoading data={_value}>
       <span slot="before">{type.toUpperCase()}:</span>

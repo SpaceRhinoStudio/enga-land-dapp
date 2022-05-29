@@ -37,7 +37,7 @@ export function matchFrom$(screen: Screens): Observable<boolean> {
   return matchMedia$(`screen and (min-width: ${config.Screens[screen]})`)
 }
 
-export const deviceScreen$: Observable<{
+export const screen$: Observable<{
   exact: 'xs' | 'sm' | 'md' | 'lg'
   isMobile: boolean
   isTablet: boolean

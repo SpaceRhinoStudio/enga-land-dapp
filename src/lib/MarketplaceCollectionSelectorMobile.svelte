@@ -8,7 +8,7 @@
   import Modal from './Modal.svelte'
   import SvgIcon from './SVGIcon.svelte'
   import { config } from './configs'
-  import { deviceScreen$ } from './helpers/media-queries'
+  import { screen$ } from './helpers/media-queries'
 
   const routes = [
     Routes.mpEndro,
@@ -27,7 +27,7 @@
   let isOpen = false
 </script>
 
-{#if $deviceScreen$.isMobile}
+{#if $screen$.isMobile}
   <div class="contents" on:click={() => (isOpen = true)}>
     <Card className={{ wrapper: 'flex flex-col space-y-4' }}>
       <div class="flex justify-between">

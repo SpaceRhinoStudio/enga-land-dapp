@@ -10,7 +10,7 @@
   import { EndroMeta, GodStats } from './types/enga'
   import cn from 'classnames'
   import { goto } from '$app/navigation'
-  import { deviceScreen$ } from './helpers/media-queries'
+  import { screen$ } from './helpers/media-queries'
   import GodStat from './GodStat.svelte'
   import { listToMatrix } from './utils/list-to-matrix'
 
@@ -21,7 +21,7 @@
   let statsMatrix: GodStats[][]
   $: statsMatrix = listToMatrix(
     [GodStats.agg, GodStats.com, GodStats.con, GodStats.dex, GodStats.men, GodStats.str],
-    $deviceScreen$.isMobile ? 2 : 3,
+    $screen$.isMobile ? 2 : 3,
   )
 </script>
 
@@ -108,8 +108,8 @@
   <div
     class="grid grid-flow-row grow text-text-secondary text-xs md:text-lg cursor-pointer"
     on:click={() => {
-      $deviceScreen$.isMobile && (backfaceVisible = true)
-      !$deviceScreen$.isMobile && goto(`/endro/${endro.id}#marketplace`)
+      $screen$.isMobile && (backfaceVisible = true)
+      !$screen$.isMobile && goto(`/endro/${endro.id}#marketplace`)
     }}>
     <table class="md:table hidden">
       <tbody>

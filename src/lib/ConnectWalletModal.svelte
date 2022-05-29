@@ -4,7 +4,7 @@
   import { config } from './configs'
   import { Network } from './configs/web3'
   import ConnectWalletModalSingleItem from './ConnectWalletModalSingleItem.svelte'
-  import { deviceScreen$ } from './helpers/media-queries'
+  import { screen$ } from './helpers/media-queries'
   import { __$ } from './locales'
   import Modal from './Modal.svelte'
   import { selectedNetwork$, selectedNetworkController$ } from './observables/web3-network'
@@ -19,7 +19,7 @@
 <Modal acceptExit bind:toggle let:isOpen>
   <Card
     className={{
-      container: `${$deviceScreen$.exact === 'xs' ? '!rounded-b-none' : ''}`,
+      container: `${$screen$.exact === 'xs' ? '!rounded-b-none' : ''}`,
       wrapper: 'flex flex-col justify-center items-center gap-4',
     }}>
     <span slot="header">{$__$?.web3Provider.connect.title}</span>

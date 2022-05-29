@@ -7,7 +7,7 @@
   export let freeHeaderHeight = false
   export let tabs: Record<string, string> | undefined = undefined
   export let disabledTabs: Record<string, string> | undefined = undefined
-  export let tab = _.values(tabs)[0]
+  export let tab = _.values(tabs)[0]!
 </script>
 
 <div class="bg-primary-800 rounded-xl px-5 pb-5 shadow-xl overflow-hidden {className.container}">

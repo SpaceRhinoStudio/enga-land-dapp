@@ -1,6 +1,6 @@
 <script lang="ts">
   import CardCut from './CardCut.svelte'
-  import { canHover$, deviceScreen$ } from './helpers/media-queries'
+  import { canHover$, screen$ } from './helpers/media-queries'
   import cn from 'classnames'
 
   export let cutHeight: string | undefined = undefined
@@ -13,8 +13,8 @@
   <slot name="left" />
   <CardCut
     mode="inCutLeft"
-    cutHeight={cutHeight ?? ($deviceScreen$.isMobile ? '1.2rem' : '1.9rem')}
-    hScale={hScale ?? ($deviceScreen$.isMobile ? 1 : 1.3)}
+    cutHeight={cutHeight ?? ($screen$.isMobile ? '1.2rem' : '1.9rem')}
+    hScale={hScale ?? ($screen$.isMobile ? 1 : 1.3)}
     cornerRadius={cornerRadius ?? '0.75rem'}
     className={{
       container: 'flex w-full drop-shadow-sm',
