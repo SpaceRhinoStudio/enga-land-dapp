@@ -1,5 +1,6 @@
 {
   "name": "engaland_dapp",
+  "license": "MIT",
   "version": "0.0.1",
   "scripts": {
     "dev": "svelte-kit dev",
@@ -7,7 +8,7 @@
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
     "prepare": "svelte-kit sync && husky install",
-    "preinstall": "(git submodule update --init --recursive || ./vercel-submodule.sh) && yarn --cwd ./contracts/Fundraising install && yarn --cwd ./contracts/Fundraising c",
+    "preinstall": "(git submodule update --init --recursive || ./vercel-submodule.sh) && yarn --cwd ./contracts/Fundraising install && yarn --cwd ./contracts/Fundraising cleanCompile",
     "test": "playwright test",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
