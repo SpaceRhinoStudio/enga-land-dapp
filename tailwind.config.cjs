@@ -10,8 +10,9 @@ const config = {
   theme: {
     extend: {
       boxShadow: {
-        strong: '0 25px 50px -12px rgb(0 0 0 / 1)',
-        float: '0 0 50px -12px rgb(0 0 0 / 0.25)',
+        strong: '0 1.5rem 3rem -0.75rem rgb(0 0 0 / 1)',
+        float: '0 0 3rem 0 rgb(0 0 0 / 0.25)',
+        floatStrong: '0 0 0.5rem 0.25rem #0005',
         glow: '0 0 1.2rem 0.15rem',
       },
       colors: {
