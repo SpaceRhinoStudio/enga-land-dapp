@@ -14,7 +14,10 @@ export const CurrencyFormatterOperatorFactory: FormatterOperator<[number?]> = ()
         map(input => {
           const res = onlyNumbers(input).split('.')
           return (
-            (res[0]?.replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? '') +
+            (res[0]
+              ?.replace(/^0+$/, '0')
+              .replace(/^0*(?=[^0])/, '')
+              .replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? '') +
             (!_.isUndefined(res[1]) ? `.${res[1]}` : '')
           )
         }),
