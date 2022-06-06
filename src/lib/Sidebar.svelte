@@ -52,7 +52,7 @@
       </ul>
     </WithScrollHint>
     <div class="flex items-end sticky bottom-0 -mx-6 px-6 py-4">
-      <ConnectWalletButton alwaysExpand upward />
+      <ConnectWalletButton alwaysExpand upward dir="ltr" />
     </div>
   </nav>
 </Modal>
