@@ -3,6 +3,7 @@
   import CardTable from './CardTable.svelte'
   import { __$ } from './locales'
   import { preSaleSignersVestings$ } from './observables/pre-sale/signers-vestings'
+  import { signerAddress$ } from './observables/selected-web3-provider'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
   import PresaleVestingTableActionButton from './PresaleVestingTableActionButton.svelte'
   import ShortenedHash from './ShortenedHash.svelte'
@@ -14,7 +15,7 @@
 <CardTable
   headers={_.values($__$?.presale.vestings.headers)}
   mainHeaders={[0, 1, 2]}
-  isLoading={$preSaleSignersVestings$ === undefined}
+  isLoading={$preSaleSignersVestings$ === undefined && $signerAddress$ !== undefined}
   isEmpty={!$preSaleSignersVestings$?.length}>
   {#each $preSaleSignersVestings$ ?? [] as data}
     <TableRow>
