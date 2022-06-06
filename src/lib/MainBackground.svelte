@@ -28,20 +28,19 @@
       ? 'opacity-0 duration-100'
       : 'duration-[3s]'}" />
 </FolllowMouse>
-<div class="fixed z-[-1] left-0 right-0 flex justify-center items-center h-3/4">
+<div class="fixed z-[-1] left-0 right-0 flex justify-center items-center h-4/6">
   <div
-    class={`w-[95vw] md:w-[80vw] h-auto min-h-[428px] transition-opacity select-none pointer-events-none relative ${
+    class={`flex justify-between w-[95vw] md:w-[73vw] h-full transition-opacity select-none pointer-events-none relative ${
       shouldHide ? 'opacity-0 duration-100' : 'opacity-80 duration-[2s]'
     }`}>
-    <div class="absolute h-[428px] flex flex-col justify-between">
+    <div class="h-full flex flex-col justify-between md:justify-evenly">
       <RandomTranslate className="flex justify-center">
-        <div class="h-[90px] w-[90px] border-[5px] border-primary-800 rounded-full" />
+        <div class="h-20 w-20 border-4 border-primary-800 rounded-full" />
       </RandomTranslate>
       <RandomTranslate className="flex justify-start">
-        <div
-          class="h-[30px] w-[30px] border-[5px] border-primary-800 bg-primary-800 rounded-full" />
+        <div class="h-8 w-8 bg-primary-800 rounded-full" />
       </RandomTranslate>
-      <RandomTranslate className="flex justify-end" let:x let:y>
+      <RandomTranslate className="flex justify-end h-12 w-12" let:x let:y>
         <div
           style="will-change: box-shadow; box-shadow: {`0px 0px ${Math.min(
             (Math.abs(x) + Math.abs(y)) * 2 + 60,
@@ -49,11 +48,11 @@
           )}px ${
             Math.min((Math.abs(x) + Math.abs(y)) * 2 + 60, 150) / 1.8
           }px rgba(255,206,0,0.15)`};"
-          class="md:right-[-80px] right-24 top-[15px] h-[50px] w-[50px] border-[5px] border-[#da0037] rounded-full bg-[rgba(255,206,0,0.15)]" />
+          class="absolute -left-3 md:left-36 w-full h-full border-4 border-blood rounded-full bg-yellow-400 bg-opacity-10" />
       </RandomTranslate>
     </div>
-    <div class="absolute right-0 h-[428px] flex flex-col justify-between ">
-      <RandomTranslate className="flex justify-center" let:x let:y>
+    <div class="h-full flex flex-col justify-between md:justify-evenly">
+      <RandomTranslate className="flex justify-center h-14 w-14" let:x let:y>
         <div
           style="will-change: box-shadow; box-shadow: {`0px 0px ${Math.min(
             (Math.abs(x) + Math.abs(y)) * 2 + 45,
@@ -61,14 +60,13 @@
           )}px ${
             Math.min((Math.abs(x) + Math.abs(y)) * 2 + 45, 150) / 1.3
           }px rgba(255,206,0,0.15)`};"
-          class="md:right-9 -right-6 top-[20px] h-[50px] w-[50px] border-[5px] border-[#FFCE00] bg-[#FFCE00] rounded-full" />
+          class="absolute md:right-28 md:-top-7 -right-6 w-full h-full bg-yellow-400 rounded-full" />
       </RandomTranslate>
       <RandomTranslate className="flex justify-end">
-        <div class="h-[30px] w-[30px] border-[5px] border-primary-800 rounded-full" />
+        <div class="h-8 w-8 border-4 border-primary-800 rounded-full" />
       </RandomTranslate>
-      <RandomTranslate className="justify-end hidden md:flex">
-        <div
-          class="top-[90px] right-[70px] h-[90px] w-[90px] border-[5px] border-primary-800 bg-primary-800 rounded-full" />
+      <RandomTranslate className="justify-end hidden md:flex h-20 w-20">
+        <div class="absolute right-16 w-full h-full bg-primary-800 rounded-full" />
       </RandomTranslate>
     </div>
   </div>
