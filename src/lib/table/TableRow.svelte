@@ -31,9 +31,9 @@
   <slot />
   {#if $isCollapsed && mainHeaders?.length}
     <div
-      transition:slide={!$shouldSlide ? { duration: 0 } : {}}
+      transition:slide={!$shouldSlide ? { easing: () => 1 } : {}}
       class="table-cell align-middle pr-2 py-2.5">
-      <div transition:slide={!$shouldSlide ? { duration: 0 } : {}}>
+      <div transition:slide={!$shouldSlide ? { easing: () => 1 } : {}}>
         <SvgIcon
           Icon={ArrowDown}
           width="1rem"

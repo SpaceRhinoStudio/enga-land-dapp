@@ -18,6 +18,8 @@
   onDestroy(() => {
     unRegister?.(rowId, id)
   })
+
+  export let colSpan = 1
 </script>
 
 {#if mainHeaders !== undefined && !mainHeaders.includes(index) && $isCollapsed && isRenderingCollapsedMode}
@@ -28,12 +30,13 @@
     </div>
   </div>
 {:else if (mainHeaders !== undefined && $isCollapsed && mainHeaders.includes(index) && !isRenderingCollapsedMode) || !$isCollapsed || mainHeaders === undefined}
-  <div
-    transition:slide={!$shouldSlide ? { duration: 0 } : {}}
-    class="table-cell align-middle py-2.5 px-3.5"
+  <td
+    transition:slide={!$shouldSlide ? { easing: () => 1 } : {}}
+    colspan={colSpan}
+    class="align-middle py-2.5 px-3.5"
     data-index={index}>
-    <div transition:slide={!$shouldSlide ? { duration: 0 } : {}}>
+    <div transition:slide={!$shouldSlide ? { easing: () => 1 } : {}}>
       <slot />
     </div>
-  </div>
+  </td>
 {/if}

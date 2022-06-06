@@ -6,13 +6,14 @@
   import TableCell from './table/TableCell.svelte'
   import TableRow from './table/TableRow.svelte'
   import WithCurrencyIcon from './WithCurrencyIcon.svelte'
+  import cn from 'classnames'
 
   const allocations: [number, number | null][] = [
-    [100_000, 15_000],
-    [2_000_000, 300_000],
-    [1_000_000, null],
-    [1_900_000, null],
-    [5_000_000, null],
+    [300_000, 36_000], //earlyInvestors
+    [2_000_000, 300_000], //preSale
+    [1_000_000, null], //dao
+    [1_700_000, null], //stakeHolders
+    [5_000_000, null], //initialSupply
   ]
 </script>
 
@@ -22,12 +23,23 @@
   {#each allocations as x, i}
     <TableRow>
       <TableCell>{_.values($__$?.presale.allocations)[i + 1]}</TableCell>
-      <TableCell>
-        <WithCurrencyIcon>
-          {formatCurrencyWithUnit(x[0])}
-        </WithCurrencyIcon>
+      <TableCell colSpan={x[1] === null ? 2 : 1}>
+        <div class="w-full relative z-0">
+          {#if x[1] === null}
+            <div class="absolute z-0 border-b border-primary-600 left-0 right-0 top-1/2" />
+          {/if}
+          <WithCurrencyIcon
+            className={{
+              container: cn(
+                x[1] === null && 'relative z-10 w-min mx-auto #ml-[30%] px-3 bg-primary-800',
+              ),
+            }}
+            data={x[0]} />
+        </div>
       </TableCell>
-      <TableCell>{x[1] !== null ? '$' + formatCurrencyWithUnit(x[1] / x[0]) : ''}</TableCell>
+      {#if x[1] !== null}
+        <TableCell>{'$' + formatCurrencyWithUnit(x[1] / x[0])}</TableCell>
+      {/if}
     </TableRow>
   {/each}
 </CardTable>
