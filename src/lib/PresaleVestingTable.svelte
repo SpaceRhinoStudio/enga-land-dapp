@@ -8,7 +8,7 @@
   import PresaleVestingTableActionButton from './PresaleVestingTableActionButton.svelte'
   import ShortenedHash from './ShortenedHash.svelte'
   import TableCell from './table/TableCell.svelte'
-  import TableRow from './TableRow.svelte'
+  import TableRow from './table/TableRow.svelte'
   import WithCurrencyIcon from './WithCurrencyIcon.svelte'
 </script>
 

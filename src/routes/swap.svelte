@@ -1,6 +1,5 @@
 <script lang="ts">
   import Card from '$lib/Card.svelte'
-  import Fade from '$lib/Fade.svelte'
   import LoadingSpinner from '$lib/LoadingSpinner.svelte'
   import { __$ } from '$lib/locales'
   import { preSaleGoal$ } from '$lib/observables/pre-sale/goal'

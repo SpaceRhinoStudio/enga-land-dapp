@@ -10,7 +10,7 @@
   import { getContext, setContext } from 'svelte'
   import { table, type TableContext } from './CardTable.svelte'
   import TableRowCollapsed from './TableRowCollapsed.svelte'
-  import ArrowDown from '../assets/icons/arrow-down.svg'
+  import ArrowDown from '../../assets/icons/arrow-down.svg'
   import SvgIcon from '../SVGIcon.svelte'
   import { slide } from 'svelte/transition'
 

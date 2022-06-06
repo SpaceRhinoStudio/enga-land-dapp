@@ -4,8 +4,7 @@
   import { __$ } from './locales'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
   import TableCell from './table/TableCell.svelte'
-  import TableRow from './TableRow.svelte'
-  import TableSeparator from './TableSeparator.svelte'
+  import TableRow from './table/TableRow.svelte'
   import WithCurrencyIcon from './WithCurrencyIcon.svelte'
 
   const allocations: [number, number | null][] = [
