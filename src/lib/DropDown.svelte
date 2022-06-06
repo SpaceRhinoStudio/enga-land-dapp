@@ -1,4 +1,7 @@
 <script lang="ts">
+  import cn from 'classnames'
+  import { slide } from 'svelte/transition'
+
   import ClickState from './ClickState.svelte'
   import Fade from './Fade.svelte'
   import HoverState from './HoverState.svelte'
@@ -6,24 +9,26 @@
   export let upward: boolean = false
   export let className: { [key in 'container' | 'dropContainer' | 'dropWrapper']?: string } = {}
   export let canExpand = true
+  export let dir: 'ltr' | 'rtl' = 'ltr'
 </script>
 
 <div class="relative flex items-center {className.container ?? ''}">
   <HoverState let:hoverState>
     <ClickState let:clickState let:dismiss>
       <slot {dismiss} isDropped={(hoverState || clickState) && canExpand} />
-      <Fade
-        mode="height"
-        visible={(hoverState || clickState) && canExpand}
-        className={{
-          container: `absolute ${upward ? 'bottom-full' : 'top-full'} left-0 ${
-            upward ? 'mb-3' : 'mt-3'
-          } ${className.dropContainer ?? ''} shadow-xl shadow-[#0008] bg-primary-900 rounded-xl`,
-          wrapper: className.dropWrapper ?? '',
-        }}
-        slot="exclude">
-        <slot name="drop" {dismiss} />
-      </Fade>
+      {#if (hoverState || clickState) && canExpand}
+        <div
+          transition:slide
+          class={cn(
+            'absolute',
+            upward ? 'bottom-full -translate-y-3' : 'top-full translate-y-3',
+            dir === 'ltr' ? 'left-0' : 'right-0',
+            className.dropContainer,
+            'shadow-xl shadow-[#0008] bg-primary-900 rounded-xl',
+          )}>
+          <slot name="drop" {dismiss} />
+        </div>
+      {/if}
     </ClickState>
   </HoverState>
 </div>

@@ -14,17 +14,15 @@
   import LogoutIcon from '../assets/icons/logout.svg'
   import DropDown from './DropDown.svelte'
   import ArrowDown from '../assets/icons/arrow-down.svg'
+  import cn from 'classnames'
 
   export let alwaysExpand = false
   export let upward = false
+  export let dir: 'ltr' | 'rtl' = 'rtl'
   let toggle: () => void
 </script>
 
-<DropDown
-  {upward}
-  canExpand={!!$signerAddress$?.length}
-  let:isDropped
-  className={{ dropContainer: '!left-auto right-0' }}>
+<DropDown {upward} canExpand={!!$signerAddress$?.length} let:isDropped {dir}>
   <div
     class="flex justify-between dropdown group relative transition-all cursor-pointer"
     on:click={e => {
