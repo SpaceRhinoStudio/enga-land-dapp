@@ -81,16 +81,24 @@
   }
 
   .spinner {
-    --containerDimensions: calc(1.25rem + (3.75rem * var(--big, 0)));
-    --subjectDimensions: calc(0.5rem + (1.25rem * var(--big, 0)));
+    /* --containerDimensions: calc(1.25rem + (3.75rem * var(--big, 0))); */
+    --containerDimensions: 5em;
+    /* --subjectDimensions: calc(0.5rem + (1.25rem * var(--big, 0))); */
+    --subjectDimensions: 2em;
     --duration: 2s;
-    width: var(--containerDimensions);
-    height: var(--containerDimensions);
+    /* width: var(--containerDimensions); */
+    width: calc(1em + (4em * var(--big, 0)));
+    /* height: var(--containerDimensions); */
+    height: calc(1em + (4em * var(--big, 0)));
+
+    transform: scale(calc(20% + (var(--big, 0) * 80%)))
+      translate(calc(-180% + (var(--big, 0) * 180%)), calc(-180% + (var(--big, 0) * 180%)));
 
     div {
       width: var(--subjectDimensions);
       height: var(--subjectDimensions);
-      border-width: calc(1px + (var(--big, 0) * 3px));
+      /* border-width: calc(1px + (var(--big, 0) * 3px)); */
+      border-width: 4px;
 
       animation-duration: var(--duration);
       animation-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1);
