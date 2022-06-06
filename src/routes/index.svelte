@@ -16,18 +16,13 @@
 
 <svelte:head>
   <title>Home</title>
-  <meta name="description" content="Svelte demo app" />
+  <meta name="description" content="EngaLand Dapp" />
 </svelte:head>
 
 <MainBackground />
 
-<!-- <div class="flex justify-center">
-  <Button job={toggle}>connect wallet</Button>
-  <ConnectWalletModal bind:toggle />
-</div> -->
-
-<div class="flex items-center justify-center w-full grow py-4 h-full">
-  <div class="navbar-nav flex flex-wrap items-center justify-center mx-auto w-full max-w-screen-xl">
+<div class="grow w-screen !max-w-screen-2xl self-center flex items-center py-4">
+  <div class="grow flex flex-wrap justify-center">
     {#each items as x}
       <IndexNavigationItem
         title={$__$?.nav[x.id]}

@@ -25,11 +25,11 @@
         text-text-primary
         bg-primary-700
         w-full
-        h-[18vh]
+        h-[15vh]
+        md:h-[18vh]
         flex
         flex-col
         justify-between
-        min-h-[168px]
         rounded-xl
         bg-opacity-50
         disabled:bg-opacity-20
