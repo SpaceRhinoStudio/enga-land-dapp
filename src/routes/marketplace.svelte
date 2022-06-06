@@ -48,7 +48,8 @@
         <MarketplaceCollectionSelectorDesktop />
         <MarketplaceCollectionSelectorMobile />
       </div>
-      <div class="md:w-screen md:max-w-screen-md flex flex-col gap-4 relative z-0">
+      <div
+        class="sm:children:w-[24rem] md:children:w-full children:w-full w-full md:w-[42rem] flex flex-col items-center gap-4 relative z-0 min-h-[theme('spacing.96')]">
         <Card
           className={{
             wrapper: 'flex flex-col space-y-1 md:space-y-0 md:flex-row justify-between',
@@ -88,7 +89,7 @@
         {#if $endroMarketplaceItems$ === undefined}
           <div
             transition:fade={{ delay: 1300 }}
-            class="h-96 w-full flex justify-center items-center absolute z-0">
+            class="top-20 h-96 w-full flex justify-center items-center absolute z-0">
             <LoadingSpinner />
           </div>
         {/if}

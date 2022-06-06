@@ -17,7 +17,7 @@
   class={cn('relative transition-all duration-1000', className?.container)}
   style={cn(
     'perspective: 800px;',
-    noHeightSet &&
+    !noHeightSet &&
       `height: ${
         setHeightFrom
           ? setHeightFrom === 'front'
@@ -27,7 +27,7 @@
           ? backHeight
           : frontHeight
       }px;`,
-    noWidthSet &&
+    !noWidthSet &&
       `width: ${
         setWidthFrom
           ? setWidthFrom === 'front'

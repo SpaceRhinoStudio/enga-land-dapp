@@ -34,6 +34,7 @@
       </WithCurrencyIcon>
     {/if}
   </span>
+  <!-- BACKFACE -->
   <div
     slot="backface"
     class={cn(
@@ -95,6 +96,7 @@
       </Button>
     </div>
   </div>
+  <!-- LEFT -->
   <ShowcaseCardImage
     slot="left"
     image={endro.image}

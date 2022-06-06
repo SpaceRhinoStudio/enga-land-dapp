@@ -34,7 +34,7 @@
   let isAnimatingLoading = false
   let isAnimatingData = false
 
-  let children = [...before, 'loading', ...after]
+  let children = [...before, predicate(data) ? 'data' : 'loading', ...after]
 
   const updateChildren = _.throttle(
     (isDataValid: boolean, isAnimatingLoading: boolean, isAnimatingData: boolean) => {

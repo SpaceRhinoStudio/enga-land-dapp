@@ -25,8 +25,7 @@
         text-text-primary
         bg-primary-700
         w-full
-        h-[15vh]
-        md:h-[18vh]
+        h-48
         flex
         flex-col
         justify-between
