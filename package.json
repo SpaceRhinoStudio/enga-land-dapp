@@ -1,6 +1,6 @@
 {
   "name": "engaland_dapp",
-  "license": "MIT",
+  "license": "GPL-3.0",
   "version": "0.0.1",
   "scripts": {
     "dev": "svelte-kit dev",
@@ -71,6 +71,7 @@
     "ipfs-core": "^0.14.3",
     "lodash": "^4.17.21",
     "mocha": "^10.0.0",
+    "nanoid": "^3.3.4",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.5.5",
     "tailwindcss-children": "^2.1.0",
