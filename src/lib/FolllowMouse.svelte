@@ -12,8 +12,9 @@
   let viewportHeight: number = 0
   let viewportWidth: number = 0
   let mousePosition: { x: number; y: number } = { x: 0, y: 0 }
-  let [x, setX] = useWobble({ damping: 2.5, stiffness: 3 })
-  let [y, setY] = useWobble({ damping: 2.5, stiffness: 3 })
+  $: mousePosition = { x: viewportWidth / 2, y: viewportHeight / 2 }
+  let [x, setX] = useWobble({ damping: 2.5, stiffness: 3, fromValue: mousePosition.x })
+  let [y, setY] = useWobble({ damping: 2.5, stiffness: 3, fromValue: mousePosition.y })
   $: {
     setX(mousePosition.x)
     setY(mousePosition.y)
