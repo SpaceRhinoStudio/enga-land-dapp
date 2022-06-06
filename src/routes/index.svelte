@@ -21,7 +21,7 @@
 
 <MainBackground />
 
-<div class="grow w-screen !max-w-screen-2xl self-center flex items-center py-4">
+<div class="grow w-screen !max-w-screen-xl self-center flex items-center py-4">
   <div class="grow flex flex-wrap justify-center">
     {#each items as x}
       <IndexNavigationItem
