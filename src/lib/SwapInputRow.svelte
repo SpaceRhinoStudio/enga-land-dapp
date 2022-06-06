@@ -30,7 +30,7 @@
   import { sanitizeNumbers } from './utils/sanitize-numbers'
   import WithLoading from './WithLoading.svelte'
 
-  export let control: Subject<InputControl>
+  export let control$: Subject<InputControl>
   export let icon: any
   export let contract$: Observable<ERC20 | EngaToken | undefined | null>
   export let isBase: boolean
@@ -89,23 +89,18 @@
 <div class="text-text-secondary text-sm space-y-2">
   <div class="flex justify-between text-xs md:text-2xs items-center">
     <slot name="title" />
-    <WithLoading
-      className={{
-        container: 'flex items-center',
-        wrapper: 'overflow-hidden items-center',
-        spinner: 'scale-75',
-      }}
-      data={$balance$}>
-      <span slot="before" class="mr-2">
-        {$__$?.presale.contribution.balance}:
-      </span>
-      <span slot="data">{$balance$}</span>
-    </WithLoading>
-    <span>{$ticker$}</span>
+    <span class="flex">
+      <WithLoading data={[$balance$, $ticker$]}>
+        <span slot="before">
+          {$__$?.presale.contribution.balance}:
+        </span>
+        <span slot="data">{$balance$}</span>
+      </WithLoading>
+    </span>
   </div>
   <Input
     {icon}
-    {control}
+    {control$}
     sanitizer={map(sanitizeNumbers)}
     {validators}
     formatter={CurrencyFormatterOperatorFactory()}
@@ -121,7 +116,7 @@
               signerBalanceOf,
               map(x => (x ? formatEther(x) : '')),
             )
-            .subscribe(x => control.next({ Value: x }))
+            .subscribe(x => control$.next({ Value: x }))
         }}>
         {$__$?.presale.contribution.max}
       </Button>

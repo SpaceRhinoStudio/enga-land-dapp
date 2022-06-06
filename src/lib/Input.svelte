@@ -18,6 +18,7 @@
     distinctUntilChanged,
     map,
     subscribeOn,
+    throttleTime,
     type OperatorFunction,
     type Subject,
   } from 'rxjs'
@@ -27,8 +28,11 @@
   import SvgIcon from './SVGIcon.svelte'
   import Fade from './Fade.svelte'
   import LoadingOverlay from './LoadingOverlay.svelte'
+  import { fade, fly, slide } from 'svelte/transition'
+  import ToolTip from './ToolTip.svelte'
+  import { flip } from 'svelte/animate'
 
-  export let control: Subject<InputControl>
+  export let control$: Subject<InputControl>
   export let validators: OperatorFunction<string, InputComponentError>[] = []
   export let formatter: OperatorFunction<string, string> = x => x
   export let parser: OperatorFunction<string, string> = x => x //TODO: why this is not being used?
@@ -49,19 +53,26 @@
   }
   onDestroy(() => clearTimeout(timeout))
 
-  $: !_.isNil(value) && control.next({ Value: value })
-  $: control.next({ Disable: disabled })
+  $: !_.isNil(value) && control$.next({ Value: value })
+  $: control$.next({ Disable: disabled })
 
   combineLatest(
-    validators.map(validator => control.pipe(controlStreamPayload('Value'), validator)) ?? [],
+    validators.map(validator =>
+      control$.pipe(
+        controlStreamPayload('Value'),
+        distinctUntilChanged(),
+        throttleTime(500, undefined, { leading: true, trailing: true }),
+        validator,
+      ),
+    ) ?? [],
   )
     .pipe(
       map(x => x.filter(x => !_.isEmpty(x))),
       map(x => ({ Errors: x })),
     )
-    .subscribe(control)
+    .subscribe(x => control$.next(x))
 
-  control
+  control$
     .pipe(
       subscribeOn(asapScheduler),
       controlStreamPayload('Value'),
@@ -70,29 +81,33 @@
       formatter,
       map(x => ({ Value: x })),
     )
-    .subscribe(control)
+    .subscribe(x => control$.next(x))
+
+  let focused = false
 </script>
 
 <div
-  onClick={() => $control?.Disable && (shouldPulse = true)}
+  onClick={() => $control$?.Disable && (shouldPulse = true)}
   class={cn(
     'relative children:transition-opacity',
     $$slots.label && 'table-row',
-    $control?.Disable && 'brightness-75 cursor-not-allowed',
+    $control$?.Disable && 'brightness-75 cursor-not-allowed',
     shouldPulse && 'animate-pulse',
     className?.outer,
   )}>
-  <span class={cn('table-cell align-middle pr-2', $control?.Loading && 'opacity-20')}>
-    <slot name="label" />
-    <span>:</span>
-  </span>
+  {#if $$slots.label}
+    <span class={cn('table-cell align-middle pr-2', $control$?.Loading && 'opacity-20')}>
+      <slot name="label" />
+      <span>:</span>
+    </span>
+  {/if}
   <div
     class={cn(
       $$slots.label && 'table-cell align-middle',
       className?.wrapper,
       'relative transition-all',
-      !_.isEmpty($control?.Errors) && 'mb-1',
-      $control?.Loading && 'opacity-20',
+      // !_.isEmpty($control$?.Errors) && 'mb-1',
+      $control$?.Loading && 'opacity-20',
     )}>
     <SvgIcon
       Icon={icon}
@@ -106,19 +121,21 @@
         'h-12 md:h-10',
         'border bg-primary-800 rounded-lg py-1 outline-none',
         'transition-all',
-        _.isEmpty($control?.Errors)
+        _.isEmpty($control$?.Errors)
           ? 'border-primary-600 focus:border-neutral-300'
-          : 'border-red-600 focus:border-red-500',
+          : 'border-blood focus:border-rose-500',
         icon ? 'pl-11 pr-2' : 'px-2',
         className?.target,
       )}
-      disabled={$control?.Disable}
-      value={$control?.Value ?? ''}
+      disabled={$control$?.Disable}
+      value={$control$?.Value ?? ''}
       on:keydown={e => {
-        control.next({ LastKeyStroke: e.code })
+        control$.next({ LastKeyStroke: e.code })
       }}
+      on:focus={() => (focused = true)}
+      on:blur={() => (focused = false)}
       on:input={e => {
-        control.next({ Value: e.currentTarget.value })
+        control$.next({ Value: e.currentTarget.value })
         const state = {
           cursorStart: e.currentTarget.selectionStart,
           cursorEnd: e.currentTarget.selectionEnd,
@@ -126,6 +143,7 @@
           e: e,
           val: e.currentTarget.value,
         }
+        // e.currentTarget.value = $control$?.Value ?? ''
         asapScheduler.schedule(
           _state => {
             let offset = 0
@@ -145,10 +163,17 @@
       <slot name="right" />
     </div>
   </div>
-  {#each $control?.Errors ?? [] as x}
-    <Fade visible={true} mode="height" className={{ container: 'text-red-600' }}>
-      {x}
-    </Fade>
-  {/each}
-  <LoadingOverlay visible={!!$control?.Loading} />
+  {#if $control$?.Errors?.length && focused}
+    <div class="absolute -top-2 left-0 right-0 -translate-y-full flex flex-col items-center gap-1">
+      {#each $control$?.Errors ?? [] as x (x)}
+        <div
+          animate:flip
+          transition:fly={{ y: 50 }}
+          class="text-rose-500 bg-[#300] px-5 py-2 leading-none rounded-lg shadow-floatStrong">
+          {x}
+        </div>
+      {/each}
+    </div>
+  {/if}
+  <LoadingOverlay visible={!!$control$?.Loading} />
 </div>

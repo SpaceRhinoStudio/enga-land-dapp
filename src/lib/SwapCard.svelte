@@ -43,7 +43,7 @@
   import { signerApprove } from './operators/web3/approve'
   import { requestContribute } from './operators/pre-sale/request-contribute'
   import { controlStreamPayload } from './operators/control-stream-payload'
-  import { formatEther } from 'ethers/lib/utils'
+  import { arrayify, formatEther } from 'ethers/lib/utils'
   import { engaPrice$, engaPricePPM$ } from './observables/enga-price'
   import { BigNumber } from 'ethers'
   import { config } from './configs'
@@ -60,12 +60,13 @@
   import SwapInputRow from './SwapInputRow.svelte'
   import { type InputControl } from './Input.svelte'
   import { handleDerivedInputs } from './helpers/handle-drived-inputs'
+  import { useCreateControl } from './helpers/create-control'
 
   let canContribute = false
   $: canContribute = !!$signerAddress$?.length && $preSaleStatus$ === PreSaleStatus.Funding
 
-  const baseControl$ = new ReplaySubject<InputControl>()
-  const quoteControl$ = new ReplaySubject<InputControl>()
+  const baseControl$ = useCreateControl<InputControl>()
+  const quoteControl$ = useCreateControl<InputControl>()
   const shouldApprove$ = new ReplaySubject<Partial<{ Should: boolean; Loading: boolean }>>()
   let waitingForTx = false
   const hasAgreed$ = termsAndConditionsAgreements$
@@ -127,13 +128,14 @@
       map(x => (_.isUndefined(x) ? { Loading: true } : { Loading: false, Should: x ?? false })),
       shareReplay(1),
     )
-    .subscribe(shouldApprove$)
+    .subscribe(x => shouldApprove$.next(x))
 
   const isLoadingAgreement$ = termsAndConditionsAgreementsController$.pipe(
     controlStreamPayload('Loading'),
   )
 
   const handleAgree = () => {
+    console.log('handleAgree')
     if (_.isUndefined($hasAgreed$) || $isLoadingAgreement$) {
       return
     }
@@ -197,6 +199,8 @@
     map(x => () => firstValueFrom(x.pipe(map(() => undefined)))),
     startWith(_.noop),
   )
+
+  $: console.log({ $baseControl$, $quoteControl$ })
 </script>
 
 <Card
@@ -211,12 +215,12 @@
       : 'opacity-0'}">
     <SwapInputRow
       icon={BusdIcon}
-      control={quoteControl$}
+      control$={quoteControl$}
       contract$={PreSaleTargetERC20Collateral$}
       isBase={false}>
       <span slot="title">{$__$?.presale.contribution.quote}</span>
     </SwapInputRow>
-    <SwapInputRow icon={EngaIcon} control={baseControl$} contract$={EngaTokenContract$} isBase>
+    <SwapInputRow icon={EngaIcon} control$={baseControl$} contract$={EngaTokenContract$} isBase>
       <span slot="title">{$__$?.presale.contribution.base}</span>
     </SwapInputRow>
     <div class="flex justify-between flex-col space-y-4 md:flex-row md:space-y-0">
@@ -224,51 +228,37 @@
         <SvgIcon Icon={InfoIcon} width="1.125rem" height="1.125rem" />
         <span>{$__$?.presale.contribution.rate}</span>
       </div>
-      <div>
-        <span class="flex items-center">
-          <span>1 ENGA:</span>
-          <span class="flex text-yellow-400 text-right ml-2 relative min-w-[theme(spacing.5)]">
-            <WithLoading data={$engaPrice$} predicate={_.negate(_.isUndefined)}>
-              <span class="mr-1">
-                {isSentinel($engaPrice$) ? $__$?.main.notAvailable : $engaPrice$}
-              </span>
-              <span>{$collateralTicker$}</span>
-            </WithLoading>
+      <span>
+        <WithLoading data={[$engaPrice$, $collateralTicker$]} passSentinel>
+          <span slot="before">1 ENGA:</span>
+          <span slot="data" class="text-yellow-400">
+            <span>
+              {isSentinel($engaPrice$) ? $__$?.main.notAvailable : $engaPrice$}
+            </span>
+            <span>{$collateralTicker$}</span>
           </span>
-        </span>
-      </div>
+        </WithLoading>
+      </span>
     </div>
     <div class="md:flex md:grow items-end w-full">
       <div
         class="flex flex-col space-y-7 md:flex-row md:space-y-0 md:justify-between md:items-center text-xs md:grow children:grow md:pb-2">
-        <div class="flex space-x-2 items-center">
+        <div class="flex space-x-2 items-center cursor-pointer" on:click={handleAgree}>
           <WithLoading
             data={_.isUndefined($hasAgreed$) || $isLoadingAgreement$}
-            className={{
-              container: 'items-center',
-              wrapper: 'flex',
-            }}
             predicate={e => !e}>
-            <Fade
-              slot="data"
-              visible={!!$hasAgreed$}
-              mode="width"
-              on:click={handleAgree}
-              className={{ container: 'cursor-pointer' }}>
-              <SvgIcon Icon={TickSquareIcon} width="1.25rem" height="1.25rem" />
-            </Fade>
-            <Fade
-              slot="data"
-              visible={!$hasAgreed$}
-              mode="width"
-              on:click={handleAgree}
-              className={{ container: 'cursor-pointer' }}>
-              <SvgIcon Icon={TickSquareEmptyIcon} width="1.25rem" height="1.25rem" />
-            </Fade>
+            <svelte:fragment slot="data">
+              {#if !!$hasAgreed$}
+                <SvgIcon Icon={TickSquareIcon} width="1.25rem" height="1.25rem" />
+              {/if}
+              {#if !$hasAgreed$}
+                <SvgIcon Icon={TickSquareEmptyIcon} width="1.25rem" height="1.25rem" />
+              {/if}
+            </svelte:fragment>
+            <span slot="after" class="text-text-secondary text-2xs cursor-pointer">
+              {$__$?.presale.contribution.termsNotice}
+            </span>
           </WithLoading>
-          <label on:click={handleAgree} class="text-text-secondary text-2xs cursor-pointer">
-            {$__$?.presale.contribution.termsNotice}
-          </label>
         </div>
         <Button
           job={$handleApproveOrSwap$}
@@ -280,9 +270,9 @@
             waitingForTx ||
             _.isUndefined($hasAgreed$) ||
             !!$isLoadingAgreement$}
-          className="flex justify-center m-0 !border-0 transition-colors {$shouldApprove$?.Should
+          className="h-8 flex items-center justify-center m-0 !border-0 transition-colors {$shouldApprove$?.Should
             ? 'bg-blood'
-            : 'bg-secondary-600'}">
+            : 'bg-secondary-700'}">
           <Fade
             mode="width"
             visible={!$shouldApprove$?.Loading && !!$shouldApprove$?.Should && !!$hasAgreed$}
@@ -313,8 +303,8 @@
             }}>
             <SvgIcon
               Icon={RestrictedIcon}
-              width="1.5rem"
-              height="1.5rem"
+              width="1.125rem"
+              height="1.125rem"
               className={'hidden md:flex'} />
             <span class="md:hidden">
               {$__$?.presale.errors.shouldAgree}
