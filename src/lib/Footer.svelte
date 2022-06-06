@@ -11,10 +11,8 @@
   import { engaPrice$ } from './observables/enga-price'
   import { delay, filter, of, timeout } from 'rxjs'
   import { noSentinelOrUndefined } from './utils/no-sentinel-or-undefined'
-  import { canHover$ } from './helpers/media-queries'
 
   const engaPrice = engaPrice$.pipe(
-    delay(5000),
     filter(noSentinelOrUndefined),
     timeout({ first: 6000, with: () => of(null) }),
   )
@@ -42,7 +40,7 @@
   <div class="max-w-[min(calc(100%-theme(spacing.10)),theme(screens.2xl))] w-screen relative">
     <div class="container flex flex-wrap items-center justify-between mx-auto">
       <nav
-        class="sm:gap-6 w-full text-text-primary flex flex-wrap items-center justify-between md:justify-center px-3 mx-auto  md:px-0  pt-8 ">
+        class="sm:gap-6 w-full text-text-primary flex flex-wrap items-center justify-between md:justify-center px-3 mx-auto md:px-0 pt-8">
         <Link href="/" className={{ element: 'md:ml-5' }}>
           <SvgIcon Icon={Logo} width={'6.8rem'} height={'3.1rem'} dontFill />
         </Link>
@@ -51,17 +49,16 @@
             data={$engaPrice}
             predicate={_.negate(_.isUndefined)}
             className={{
-              container: 'text-right ml-2 min-w-[theme(spacing.5)] flex gap-2',
+              container: 'text-right',
             }}>
-            <span slot="before" class="enga_price flex">1 ENGA:</span>
+            <span slot="before">1 ENGA:</span>
             <span slot="data" class="text-yellow-400">
-              $
-              {_.isNull($engaPrice) ? $__$?.main.notAvailable : $engaPrice}
+              ${_.isNull($engaPrice) ? $__$?.main.notAvailable : $engaPrice}
             </span>
           </WithLoading>
         </span>
         <div
-          class="navbar-nav flex flex-wrap basis-auto grow-1 items-center flex-1 md:ml-12  mt-14 md:mt-0 md:px-0 px-5 ">
+          class="flex flex-wrap basis-auto grow-1 items-center flex-1 md:ml-12 mt-14 md:mt-0 md:px-0 px-5">
           {#each routes as x}
             <div class="mb-9 md:mb-0 mr-4">
               <Link
@@ -86,7 +83,7 @@
           </p>
           <Button job={importEnga} className="m-0 text-sm md:text-xs">Import ENGA</Button>
         </div>
-        <div class="footer__bottom-social">
+        <div>
           <div class="flex items-center justify-between flex-wrap md:mb-0 mb-8 gap-5">
             {#each socials as x}
               <div>
