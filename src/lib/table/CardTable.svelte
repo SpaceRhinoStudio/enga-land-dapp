@@ -15,10 +15,10 @@
   import _ from 'lodash'
   import { onMount, setContext, tick } from 'svelte'
   import { writable, type Readable } from 'svelte/store'
-  import Fade from './Fade.svelte'
-  import { screen$ } from './helpers/media-queries'
-  import LoadingSpinner from './LoadingSpinner.svelte'
-  import { __$ } from './locales'
+  import Fade from '../Fade.svelte'
+  import { screen$ } from '../helpers/media-queries'
+  import LoadingSpinner from '../LoadingSpinner.svelte'
+  import { __$ } from '../locales'
   import TableSeparator from './TableSeparator.svelte'
 
   export let className: {

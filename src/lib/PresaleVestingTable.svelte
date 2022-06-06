@@ -1,13 +1,13 @@
 <script lang="ts">
   import _ from 'lodash'
-  import CardTable from './CardTable.svelte'
+  import CardTable from './table/CardTable.svelte'
   import { __$ } from './locales'
   import { preSaleSignersVestings$ } from './observables/pre-sale/signers-vestings'
   import { signerAddress$ } from './observables/selected-web3-provider'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
   import PresaleVestingTableActionButton from './PresaleVestingTableActionButton.svelte'
   import ShortenedHash from './ShortenedHash.svelte'
-  import TableCell from './TableCell.svelte'
+  import TableCell from './table/TableCell.svelte'
   import TableRow from './TableRow.svelte'
   import WithCurrencyIcon from './WithCurrencyIcon.svelte'
 </script>

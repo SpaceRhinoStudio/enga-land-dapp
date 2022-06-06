@@ -1,9 +1,8 @@
 <script lang="ts">
   import cn from 'classnames'
 
-  import { getContext, setContext } from 'svelte'
+  import { setContext } from 'svelte'
   import { slide } from 'svelte/transition'
-  import Fade from './Fade.svelte'
   import { row, type RowContext } from './TableRow.svelte'
 
   const rowId = Symbol()
