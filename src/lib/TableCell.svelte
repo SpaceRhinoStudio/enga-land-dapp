@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { getContext, onDestroy } from 'svelte'
+  import { getContext, onDestroy, onMount } from 'svelte'
+  import { slide } from 'svelte/transition'
   import { table, type TableContext } from './CardTable.svelte'
   import { row, type RowContext } from './TableRow.svelte'
 
@@ -10,6 +11,7 @@
   const unRegister = getContext<TableContext>(table)?.unRegisterCell
   const headers = getContext<TableContext>(table)?.headers
   const mainHeaders = getContext<TableContext>(table)?.mainHeaders
+  const shouldSlide = getContext<TableContext>(table)?.shouldSlide
 
   const id = Symbol()
   const index = register?.(rowId, id)
@@ -26,7 +28,12 @@
     </div>
   </div>
 {:else if (mainHeaders !== undefined && $isCollapsed && mainHeaders.includes(index) && !isRenderingCollapsedMode) || !$isCollapsed || mainHeaders === undefined}
-  <div class="table-cell align-middle py-2.5 px-3.5" data-index={index}>
-    <slot />
+  <div
+    transition:slide={!$shouldSlide ? { duration: 0 } : {}}
+    class="table-cell align-middle py-2.5 px-3.5"
+    data-index={index}>
+    <div transition:slide={!$shouldSlide ? { duration: 0 } : {}}>
+      <slot />
+    </div>
   </div>
 {/if}

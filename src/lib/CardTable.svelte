@@ -6,13 +6,14 @@
     registerCell: (rowId: symbol, id: symbol) => number
     unRegisterCell: (rowId: symbol, id: symbol) => void
     isCollapsed: Readable<boolean>
+    shouldSlide: Readable<boolean>
   }
 </script>
 
 <script lang="ts">
   import Card from '$lib/Card.svelte'
   import _ from 'lodash'
-  import { setContext } from 'svelte'
+  import { onMount, setContext, tick } from 'svelte'
   import { writable, type Readable } from 'svelte/store'
   import Fade from './Fade.svelte'
   import { screen$ } from './helpers/media-queries'
@@ -32,6 +33,8 @@
   const isCollapsed = writable<boolean>(true)
   $: isCollapsed.set($screen$.isMobile)
 
+  const shouldSlide = writable(false)
+  onMount(() => tick().then(() => shouldSlide.set(true)))
   setContext<TableContext>(table, {
     headers,
     mainHeaders,
@@ -51,12 +54,13 @@
       })
     },
     isCollapsed,
+    shouldSlide,
   })
 </script>
 
 <Card
   className={{
-    container: `overflow-hidden ${className.container ?? ''}`,
+    container: `!pb- ${className.container ?? ''}`,
     wrapper: className.wrapper ?? '',
   }}>
   <div

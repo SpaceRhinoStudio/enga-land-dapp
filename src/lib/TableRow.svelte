@@ -12,9 +12,11 @@
   import TableRowCollapsed from './TableRowCollapsed.svelte'
   import ArrowDown from '../assets/icons/arrow-down.svg'
   import SvgIcon from './SVGIcon.svelte'
+  import { slide } from 'svelte/transition'
 
   const isCollapsed = getContext<TableContext>(table)?.isCollapsed
   const mainHeaders = getContext<TableContext>(table)?.mainHeaders
+  const shouldSlide = getContext<TableContext>(table)?.shouldSlide
 
   const rowId = Symbol()
   setContext<RowContext>(row, {
@@ -28,12 +30,16 @@
 <div class="table-row" on:click={() => $isCollapsed && mainHeaders?.length && (isOpen = !isOpen)}>
   <slot />
   {#if $isCollapsed && mainHeaders?.length}
-    <div class="table-cell align-middle pr-2 py-2.5">
-      <SvgIcon
-        Icon={ArrowDown}
-        width="1rem"
-        height="1rem"
-        className="transition-all duration-500 {isOpen && 'rotate-180'}" />
+    <div
+      transition:slide={!$shouldSlide ? { duration: 0 } : {}}
+      class="table-cell align-middle pr-2 py-2.5">
+      <div transition:slide={!$shouldSlide ? { duration: 0 } : {}}>
+        <SvgIcon
+          Icon={ArrowDown}
+          width="1rem"
+          height="1rem"
+          className="transition-all duration-500 {isOpen && 'rotate-180'}" />
+      </div>
     </div>
   {/if}
 </div>
