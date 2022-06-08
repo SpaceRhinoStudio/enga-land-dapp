@@ -28,7 +28,6 @@ export const Web3ProvidersMeta$: Observable<{
       })),
     ),
   ),
-
   map(x => ({
     ...x,
     chainId$: of(x).pipe(

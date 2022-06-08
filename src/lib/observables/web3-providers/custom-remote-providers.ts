@@ -9,10 +9,12 @@ import {
   from,
   map,
   mergeMap,
+  of,
   scan,
   shareReplay,
   tap,
 } from 'rxjs'
+import { filterBy } from '$lib/operators/filter-by'
 
 export const CustomRemoteWeb3Providers$ = from(selectedNetwork$).pipe(
   mergeMap(x => config.CustomEndpoints[x]),
@@ -28,10 +30,14 @@ export const CustomRemoteWeb3Providers$ = from(selectedNetwork$).pipe(
       catchError(() => EMPTY),
     ),
   ),
+  filterBy(x =>
+    x.blockNumber > 0 ? of(true) : from(x.getBlockNumber()).pipe(map(n => (n > 0 ? true : false))),
+  ),
   scan(
     (acc, curr) => (curr.network.chainId === acc[0]?.network.chainId ? [...acc, curr] : [curr]),
     [] as providers.JsonRpcProvider[],
   ),
   auditTime(5000),
+
   shareReplay(1),
 )

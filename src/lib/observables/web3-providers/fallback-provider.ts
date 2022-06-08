@@ -10,16 +10,20 @@ import {
   asyncScheduler,
   combineLatest,
   distinctUntilChanged,
+  from,
   map,
   mergeMap,
   observeOn,
+  of,
   reduce,
   shareReplay,
   startWith,
+  switchMap,
 } from 'rxjs'
 import { BscScanWeb3Provider$ } from './bsc-scan-provider'
 import { CustomRemoteWeb3Providers$ } from './custom-remote-providers'
 import { DefaultWeb3Provider$ } from './default-provider'
+import { logOp } from '$lib/operators/log'
 
 export const fallbackWeb3Provider$ = combineLatest({
   external: Web3ProvidersMeta$.pipe(
@@ -52,21 +56,21 @@ export const fallbackWeb3Provider$ = combineLatest({
                   weight: 3,
                 }))
               : []),
-            ...(bscScan
-              ? [
-                  {
-                    provider: bscScan,
-                    priority: 2,
-                    weight: 2,
-                  },
-                ]
-              : []),
             ...(remotes
               ? remotes.map(remote => ({
                   provider: remote,
                   priority: 2,
-                  weight: 2,
+                  weight: 3,
                 }))
+              : []),
+            ...(bscScan
+              ? [
+                  {
+                    provider: bscScan,
+                    priority: 3,
+                    weight: 2,
+                  },
+                ]
               : []),
             ...(_default
               ? [
@@ -82,6 +86,13 @@ export const fallbackWeb3Provider$ = combineLatest({
         ),
     ),
     undefined,
+  ),
+  switchMap(x =>
+    _.isUndefined(x)
+      ? of(x)
+      : x.blockNumber >= 0
+      ? of(x)
+      : from(x.getBlockNumber()).pipe(map(n => (n >= 0 ? x : null))),
   ),
   shareReplay(1),
 )
