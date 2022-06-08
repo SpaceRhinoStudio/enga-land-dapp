@@ -5,6 +5,7 @@
   import Fade from './Fade.svelte'
   import _ from 'lodash'
   import { createEventDispatcher } from 'svelte'
+  import { __$ } from './locales'
 
   export let isLoading = false
   export let disabled = false
@@ -13,26 +14,31 @@
 
   let ref: HTMLSelectElement
   export let value: string | undefined = undefined
-  let itemTitles: string[]
-  $: itemTitles =
-    ref?.innerHTML
-      ?.split('">')
-      .map(x => x.split('<')[0])
-      .filter(_.isString)
-      .filter(x => x?.length) ?? []
 
-  let selectedItemTitle: string
-  $: selectedItemTitle = ref?.innerHTML?.split(`${value}">`)[1]?.split('<')[0] ?? ''
+  $: itemTitles = !isLoading
+    ? ref?.innerHTML
+        ?.split('>')
+        .map(x => x.split('<')[0])
+        .filter(_.isString)
+        .filter(x => x?.length)
+    : undefined
+
+  $: selectedItemTitle = ref?.innerHTML?.split(`${value}">`)[1]?.split('<')[0]
+
   export let className: { [key in 'container']?: string } = {}
 </script>
 
-<div class="relative flex mx-2 bg-primary-600 rounded-lg py-1 pl-3 {className.container ?? ''}">
+<div
+  class="relative flex mx-2 bg-primary-600 rounded-lg py-1 pl-3 {className.container ??
+    ''} {disabled && 'text-opacity-50 text-text-secondary brightness-75'}">
   <select
     on:change={e => dispatch('change', e.currentTarget.value)}
     bind:this={ref}
     bind:value
     disabled={disabled || isLoading}
-    class="opacity-0 absolute inset-0 outline-none cursor-pointer bg-primary-800 z-[1]">
+    class="opacity-0 absolute inset-0 outline-none {disabled
+      ? 'cursor-not-allowed'
+      : 'cursor-pointer'} bg-primary-800 z-[1]">
     <slot />
   </select>
   {#each itemTitles ?? [] as itemTitle}
@@ -42,6 +48,11 @@
       </div>
     </Fade>
   {/each}
+  <Fade mode="width" visible={!itemTitles?.length}>
+    <div class="pr-7 {isLoading ? 'text-transparent' : ''}">
+      {$__$?.main.notAvailable}
+    </div>
+  </Fade>
   <SvgIcon
     Icon={ArrowDown}
     className={`
