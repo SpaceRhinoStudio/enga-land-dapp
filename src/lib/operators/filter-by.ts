@@ -9,6 +9,8 @@ import {
   type OperatorFunction,
   take,
   type TruthyTypesOf,
+  switchMap,
+  pipe,
 } from 'rxjs'
 
 export interface BooleanObservableInputConstructor {
@@ -33,14 +35,11 @@ export function filterBy<T>(
 export function filterBy<T>(
   predicate: (source: T) => ObservableInput<boolean>,
 ): MonoTypeOperatorFunction<T> {
-  return source =>
-    source.pipe(
-      mergeMap(x =>
-        from(predicate(x)).pipe(
-          take(1),
-          filter(identity),
-          map(() => x),
-        ),
-      ),
-    )
+  return switchMap(x =>
+    from(predicate(x)).pipe(
+      take(1),
+      filter(identity),
+      map(() => x),
+    ),
+  )
 }

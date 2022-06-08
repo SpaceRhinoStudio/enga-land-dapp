@@ -35,6 +35,8 @@ export function safeThrowMergeMap<T, O extends ObservableInput<any>>(
         try {
           return project(...args) ?? of(undefined)
         } catch (e) {
+          console.log('safeThrowMergeMap:')
+          console.warn(e)
           return throwError(() => e)
         }
       }),
@@ -50,6 +52,8 @@ export function safeThrowMap<T, R>(
         try {
           return of(project(...args))
         } catch (e) {
+          console.log('safeThrowMap:')
+          console.warn(e)
           return throwError(() => e)
         }
       }),
@@ -65,6 +69,8 @@ export function safeThrowCatchError<T, O extends ObservableInput<any>>(
         try {
           return selector(...args)
         } catch (e) {
+          console.log('safeThrowCatchError:')
+          console.warn(e)
           return throwError(() => e)
         }
       }),
@@ -88,6 +94,8 @@ export function safeThrowFilter<T>(predicate: (value: T) => boolean): MonoTypeOp
         try {
           return of(predicate(value))
         } catch (e) {
+          console.log('safeThrowFilter:')
+          console.warn(e)
           return throwError(() => e)
         }
       }),
@@ -119,6 +127,8 @@ export function safeThrowFilterBy<T>(
         try {
           return predicate(x)
         } catch (e) {
+          console.log('safeThrowFilterBy:')
+          console.warn(e)
           if (falseIfThrown) {
             return of(false)
           }
@@ -134,7 +144,11 @@ export function filterErrors<T, R>(operator: OperatorFunction<T, R>): OperatorFu
       mergeMap(x =>
         of(x).pipe(
           operator,
-          catchError(() => EMPTY),
+          catchError(e => {
+            console.log('filterErrors:')
+            console.warn(e)
+            return EMPTY
+          }),
         ),
       ),
     )
@@ -149,7 +163,11 @@ export function mapErrors<T, R, E>(
       mergeMap(x =>
         of(x).pipe(
           operator,
-          catchError(() => of(unLazy(placeholder, x))),
+          catchError(e => {
+            console.log('mapErrors:')
+            console.warn(e)
+            return of(unLazy(placeholder, x))
+          }),
         ),
       ),
     )
