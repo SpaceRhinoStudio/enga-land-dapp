@@ -6,23 +6,18 @@ import {
 import { Contract } from 'ethers'
 import { signerOrProvider$ } from '$lib/observables/signer-or-provider'
 import {
-  combineLatest,
-  defaultIfEmpty,
   distinctUntilChanged,
-  filter,
-  from,
   map,
   merge,
-  mergeMap,
   Observable,
   of,
   scan,
   shareReplay,
-  startWith,
   switchMap,
 } from 'rxjs'
 import type {
   PreSale,
+  SeedSale,
   ERC20,
   MarketMaker,
   TokenManager,
@@ -33,16 +28,14 @@ import { withUpdatesFrom, withUpdatesUntilChanged } from '$lib/operators/with-up
 import { passNil, passUndefined } from '$lib/operators/pass-undefined'
 import { externalContractAbi$Factory } from '$lib/providers/external-contract-abi'
 import { selectedNetwork$ } from '$lib/observables/web3-network'
-import { PreSaleStatus, preSaleStatus } from '$lib/operators/pre-sale/status'
 import _ from 'lodash'
-import { noNil } from '$lib/utils/no-sentinel-or-undefined'
 
 function fundraisingContract$Factory<T extends Contract>(
   key: FundraisingContractNames,
   explicitAddress?: string,
 ): Observable<(T & { deployedOn: number }) | undefined | null> {
   return signerOrProvider$.pipe(
-    passUndefined(
+    passNil(
       withUpdatesFrom(selectedNetwork$),
       map(([x, network]) =>
         fundraisingContractAddresses[network]?.[key] ?? explicitAddress
@@ -82,30 +75,18 @@ function fundraisingContract$Factory<T extends Contract>(
   )
 }
 
-export const PrivateSaleContract$ = fundraisingContract$Factory<PreSale>('PrivateSale')
+export const PreSaleContract$ = fundraisingContract$Factory<PreSale>('PreSale')
+export const SeedSaleContract$ = fundraisingContract$Factory<SeedSale>('SeedSale')
 
-export const SeedSaleContract$ = fundraisingContract$Factory<PreSale>('SeedSale')
-
-export const PreSaleContract$ = combineLatest([PrivateSaleContract$, SeedSaleContract$]).pipe(
-  switchMap(x =>
-    from(x).pipe(
-      filter(noNil),
-      mergeMap(x =>
-        of(x).pipe(
-          preSaleStatus,
-
-          filter(x => x === PreSaleStatus.Funding),
-          map(() => x),
-        ),
-      ),
-      defaultIfEmpty(null),
-    ),
+export const PreSaleTargetERC20Collateral$ = PreSaleContract$.pipe(
+  passNil(
+    switchMap(x => x.contributionToken()),
+    switchMap(x => fundraisingContract$Factory<ERC20>('ERC20', x)),
   ),
-  startWith(undefined),
   shareReplay(1),
 )
 
-export const PreSaleTargetERC20Collateral$ = PreSaleContract$.pipe(
+export const SeedSaleTargetERC20Collateral$ = SeedSaleContract$.pipe(
   passNil(
     switchMap(x => x.contributionToken()),
     switchMap(x => fundraisingContract$Factory<ERC20>('ERC20', x)),

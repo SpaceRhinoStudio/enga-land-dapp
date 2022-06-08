@@ -15,7 +15,7 @@ export type FundraisingContractNames =
   | 'ReserveVault'
   | 'StakeHolderVault'
   | 'SeedSale'
-  | 'PrivateSale'
+  | 'PreSale'
   | 'BancorFormula'
   | 'MarketMaker'
   | 'Tap'

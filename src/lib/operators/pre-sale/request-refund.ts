@@ -4,14 +4,9 @@ import { map, type OperatorFunction, pipe } from 'rxjs'
 import type { Nil } from '$lib/types'
 import { withValidSignerAddress } from '../web3/with-valid-signer'
 
-export function requestRefund(
-  saleAddress: string,
-  vestId: string,
-): OperatorFunction<Controller | Nil, boolean> {
+export function preSaleRequestRefund(vestId: string): OperatorFunction<Controller | Nil, boolean> {
   return pipe(
-    withValidSignerAddress(
-      waitForTransaction(([x, address]) => x.refund(saleAddress, address, vestId)),
-    ),
+    withValidSignerAddress(waitForTransaction(([x, address]) => x.refund(address, vestId))),
     map(x => !!x),
   )
 }
