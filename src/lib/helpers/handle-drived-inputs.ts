@@ -1,5 +1,6 @@
 import type { InputControl } from '$lib/Input.svelte'
 import { controlStreamPayload } from '$lib/operators/control-stream-payload'
+import { logOp } from '$lib/operators/log'
 import { keysOf } from '$lib/utils/type-safe'
 import {
   distinctUntilChanged,
@@ -39,15 +40,13 @@ export function handleDerivedInputs<K extends string>(
     ...keysOf(controls).map(key =>
       controls[key].pipe(
         controlStreamPayload('LastKeyStroke'),
-        distinctUntilChanged(),
+        // distinctUntilChanged(),
         map(() => key),
       ),
     ),
   )
     .pipe(map(x => ({ Modified: x })))
     .subscribe(x => lastModified$.next(x))
-
-  lastModified$.subscribe(x => console.log('lastModified', x))
 
   lastModified$.next({ Modified: undefined })
 
@@ -56,6 +55,7 @@ export function handleDerivedInputs<K extends string>(
       controls[quote]
         .pipe(
           controlStreamPayload('Value'),
+          distinctUntilChanged(),
           withLatestFrom(lastModified$),
           filter(([, last]) => last.Modified !== base && last.Modified !== null),
           map(([x]) => x),
