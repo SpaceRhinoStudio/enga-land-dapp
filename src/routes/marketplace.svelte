@@ -49,7 +49,7 @@
         <MarketplaceCollectionSelectorMobile />
       </div>
       <div
-        class="sm:children:w-[24rem] md:children:w-full children:w-full w-full md:w-[42rem] flex flex-col items-center gap-4 relative z-0 min-h-[theme('spacing.96')]">
+        class="sm:children:w-[24rem] md:children:w-full children:w-full w-full md:w-[42rem] flex flex-col items-center gap-4 relative z-0 min-h-[theme(spacing.96)]">
         <Card
           className={{
             wrapper: 'flex flex-col space-y-1 md:space-y-0 md:flex-row justify-between',
