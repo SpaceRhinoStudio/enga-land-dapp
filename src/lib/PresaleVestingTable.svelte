@@ -10,14 +10,19 @@
   import TableCell from './table/TableCell.svelte'
   import TableRow from './table/TableRow.svelte'
   import WithCurrencyIcon from './WithCurrencyIcon.svelte'
+  import { seedSaleSignersVestings$ } from './observables/seed-sale/signers-vestings'
+
+  export let sale: 'preSale' | 'seedSale'
+  $: vestings$ = sale === 'preSale' ? preSaleSignersVestings$ : seedSaleSignersVestings$
 </script>
 
 <CardTable
+  className={{ container: 'w-full max-w-full' }}
   headers={_.values($__$?.presale.vestings.headers)}
   mainHeaders={[0, 1, 2]}
-  isLoading={$preSaleSignersVestings$ === undefined && $signerAddress$ !== undefined}
-  isEmpty={!$preSaleSignersVestings$?.length}>
-  {#each $preSaleSignersVestings$ ?? [] as data}
+  isLoading={$vestings$ === undefined && $signerAddress$ !== undefined}
+  isEmpty={!$vestings$?.length}>
+  {#each $vestings$ ?? [] as data}
     <TableRow>
       <TableCell>
         <ShortenedHash hash={data.txId} />
@@ -55,7 +60,7 @@
         })}
       </TableCell>
       <TableCell>
-        <PresaleVestingTableActionButton {data} />
+        <PresaleVestingTableActionButton {sale} {data} />
       </TableCell>
     </TableRow>
   {/each}

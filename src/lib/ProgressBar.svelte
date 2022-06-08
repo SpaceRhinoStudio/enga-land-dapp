@@ -31,7 +31,7 @@
       )}>
       <div class="w-full absolute top-1/2 -translate-y-1/2 h-0.5 bg-neutral-600 opacity-25 " />
       <div class="relative w-full h-full">
-        <ToolTip className={{ class: 'font-bold' }} style="left: {percent}%;">
+        <ToolTip className={{ class: 'font-bold transition-all' }} style="left: {percent}%;">
           {#if $$slots.tooltip}
             <slot name="tooltip" />
           {:else}
@@ -40,8 +40,9 @@
         </ToolTip>
         <div class="w-full h-full rounded-full overflow-hidden">
           <div
-            style="width: {percent}%;"
+            style="width: {percent}%"
             class={cn(
+              'transition-all',
               'from-red-600',
               'bg-gradient-to-r',
               'to-yellow-400',

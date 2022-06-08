@@ -1,6 +1,6 @@
 <script lang="ts">
   import _ from 'lodash'
-  import { fade } from 'svelte/transition'
+  import { fade, fly } from 'svelte/transition'
   import Button from './Button.svelte'
   import Card from './Card.svelte'
   import Fade from './Fade.svelte'
@@ -21,11 +21,14 @@
     EngaTokenContract$,
     PreSaleContract$,
     PreSaleTargetERC20Collateral$,
+    SeedSaleContract$,
+    SeedSaleTargetERC20Collateral$,
   } from '../contracts/fundraising-contracts'
   import { isSentinel } from './contexts/empty-sentinel'
   import { preSaleStatus$ } from './observables/pre-sale/status'
   import { signerAddress$ } from './observables/selected-web3-provider'
   import {
+    BehaviorSubject,
     combineLatest,
     distinctUntilChanged,
     filter,
@@ -41,10 +44,15 @@
   } from 'rxjs'
   import { parseEther } from './utils/parse-ether'
   import { signerApprove } from './operators/web3/approve'
-  import { requestContribute } from './operators/pre-sale/request-contribute'
+  import { preSaleRequestContribute } from './operators/pre-sale/request-contribute'
   import { controlStreamPayload } from './operators/control-stream-payload'
   import { arrayify, formatEther } from 'ethers/lib/utils'
-  import { engaPrice$, engaPricePPM$ } from './observables/enga-price'
+  import {
+    engaPriceFromPreSalePPM$,
+    engaPriceFromSeedSalePPM$,
+    engaPricePPM$,
+    parsePPM,
+  } from './observables/enga-price'
   import { BigNumber } from 'ethers'
   import { config } from './configs'
   import { noNil, noSentinelOrUndefined } from './utils/no-sentinel-or-undefined'
@@ -61,12 +69,23 @@
   import { type InputControl } from './Input.svelte'
   import { handleDerivedInputs } from './helpers/handle-drived-inputs'
   import { useCreateControl } from './helpers/create-control'
+  import { seedSaleStatus$ } from './observables/seed-sale/status'
+  import { SeedSaleStatus } from './operators/seed-sale/status'
+  import { seedSaleSignersVestings$ } from './observables/seed-sale/signers-vestings'
+  import { seedSaleTargetCollateralAllowance$ } from './observables/seed-sale/target-collateral-allowance'
+  import { seedSaleRequestContribute } from './operators/seed-sale/request-contribute'
 
-  let canContribute = false
-  $: canContribute = !!$signerAddress$?.length && $preSaleStatus$ === PreSaleStatus.Funding
+  export let sale: 'preSale' | 'seedSale'
 
-  const baseControl$ = useCreateControl<InputControl>()
-  const quoteControl$ = useCreateControl<InputControl>()
+  $: isFunding =
+    sale === 'preSale'
+      ? $preSaleStatus$ === PreSaleStatus.Funding
+      : $seedSaleStatus$ === SeedSaleStatus.Funding
+  $: isWhitelisted = true //TODO: implement
+  $: canContribute = !!$signerAddress$?.length && isFunding && isWhitelisted
+
+  const baseControl$ = useCreateControl<InputControl>({ omit: ['LastKeyStroke'] })
+  const quoteControl$ = useCreateControl<InputControl>({ omit: ['LastKeyStroke'] })
   const shouldApprove$ = new ReplaySubject<Partial<{ Should: boolean; Loading: boolean }>>()
   let waitingForTx = false
   const hasAgreed$ = termsAndConditionsAgreements$
@@ -77,7 +96,10 @@
     {
       base: {
         quote: switchMap(x =>
-          engaPricePPM$.pipe(
+          sale$.pipe(
+            switchMap(sale =>
+              sale === 'preSale' ? engaPriceFromPreSalePPM$ : engaPriceFromSeedSalePPM$,
+            ),
             filter(noSentinelOrUndefined),
             filter(noNil),
             map(price => parseEther(x).mul(BigNumber.from(config.PPM).pow(2)).div(price)),
@@ -91,7 +113,10 @@
       },
       quote: {
         base: switchMap(x =>
-          engaPricePPM$.pipe(
+          sale$.pipe(
+            switchMap(sale =>
+              sale === 'preSale' ? engaPriceFromPreSalePPM$ : engaPriceFromSeedSalePPM$,
+            ),
             filter(noSentinelOrUndefined),
             filter(noNil),
             map(price => parseEther(x).mul(price)),
@@ -106,6 +131,8 @@
     },
   )
 
+  $: signersVestings$ = sale === 'preSale' ? preSaleSignersVestings$ : seedSaleSignersVestings$
+
   successfulContribution$
     .pipe(
       controlStreamPayload('Success'),
@@ -114,11 +141,17 @@
     .subscribe(() => {
       reset()
       waitingForTx = true
-      preSaleSignersVestings$.pipe(take(1)).subscribe(() => (waitingForTx = false))
+      signersVestings$.pipe(take(1)).subscribe(() => (waitingForTx = false))
     })
 
-  preSaleTargetCollateralAllowance$
+  const sale$ = new BehaviorSubject(sale)
+  $: sale$.next(sale)
+
+  sale$
     .pipe(
+      switchMap(sale =>
+        sale === 'preSale' ? preSaleTargetCollateralAllowance$ : seedSaleTargetCollateralAllowance$,
+      ),
       passNil(
         withUpdatesFrom(
           quoteControl$.pipe(controlStreamPayload('Value'), distinctUntilChanged(), startWith('0')),
@@ -135,7 +168,7 @@
   )
 
   const handleAgree = () => {
-    console.log('handleAgree')
+    //TODO: test if this is reactive after implementing toast stuff
     if (_.isUndefined($hasAgreed$) || $isLoadingAgreement$) {
       return
     }
@@ -153,7 +186,10 @@
     })
   }
 
-  const collateralTicker$ = PreSaleTargetERC20Collateral$.pipe(
+  const collateralTicker$ = sale$.pipe(
+    switchMap(sale =>
+      sale === 'preSale' ? PreSaleTargetERC20Collateral$ : SeedSaleTargetERC20Collateral$,
+    ),
     passNil(
       switchMap(x => x.name()),
       map(x => x.toUpperCase()),
@@ -166,7 +202,12 @@
   }).pipe(
     map(({ shouldApprove, value }) => {
       if (shouldApprove && value) {
-        return combineLatest([PreSaleTargetERC20Collateral$, PreSaleContract$]).pipe(
+        return sale$.pipe(
+          switchMap(sale =>
+            sale === 'preSale'
+              ? combineLatest([PreSaleTargetERC20Collateral$, PreSaleContract$])
+              : combineLatest([SeedSaleTargetERC20Collateral$, SeedSaleContract$]),
+          ),
           take(1),
           tap(() => (waitingForTx = true)),
           signerApprove(value),
@@ -180,17 +221,35 @@
           tap(() => (waitingForTx = false)),
         )
       } else if (value) {
-        return ControllerContract$.pipe(
-          tap(() => (waitingForTx = true)),
-          requestContribute(value),
-          take(1),
-          tap(() => (waitingForTx = false)),
-          tap(
-            x =>
-              x &&
-              successfulContribution$.next({
-                Success: true,
-              }),
+        return sale$.pipe(
+          switchMap(sale =>
+            sale === 'preSale'
+              ? ControllerContract$.pipe(
+                  tap(() => (waitingForTx = true)),
+                  preSaleRequestContribute(value),
+                  take(1),
+                  tap(() => (waitingForTx = false)),
+                  tap(
+                    x =>
+                      x &&
+                      successfulContribution$.next({
+                        Success: true,
+                      }),
+                  ),
+                )
+              : SeedSaleContract$.pipe(
+                  tap(() => (waitingForTx = true)),
+                  seedSaleRequestContribute(value),
+                  take(1),
+                  tap(() => (waitingForTx = false)),
+                  tap(
+                    x =>
+                      x &&
+                      successfulContribution$.next({
+                        Success: true,
+                      }),
+                  ),
+                ),
           ),
         )
       }
@@ -200,13 +259,16 @@
     startWith(_.noop),
   )
 
-  $: console.log({ $baseControl$, $quoteControl$ })
+  const exchangeRate$ = sale$.pipe(
+    switchMap(sale => (sale === 'preSale' ? engaPriceFromPreSalePPM$ : engaPriceFromSeedSalePPM$)),
+    parsePPM,
+  )
 </script>
 
 <Card
   className={{
     wrapper: 'relative grow',
-    container: 'text-sm max-w-sm w-full sm:w-screen flex flex-col',
+    container: 'text-sm sm:w-screen flex flex-col',
   }}>
   <span slot="header">{$__$?.presale.contribution.title}</span>
   <div
@@ -216,7 +278,9 @@
     <SwapInputRow
       icon={BusdIcon}
       control$={quoteControl$}
-      contract$={PreSaleTargetERC20Collateral$}
+      contract$={sale === 'preSale'
+        ? PreSaleTargetERC20Collateral$
+        : SeedSaleTargetERC20Collateral$}
       isBase={false}>
       <span slot="title">{$__$?.presale.contribution.quote}</span>
     </SwapInputRow>
@@ -229,11 +293,11 @@
         <span>{$__$?.presale.contribution.rate}</span>
       </div>
       <span>
-        <WithLoading data={[$engaPrice$, $collateralTicker$]} passSentinel>
+        <WithLoading data={[$exchangeRate$, $collateralTicker$]} passSentinel>
           <span slot="before">1 ENGA:</span>
           <span slot="data" class="text-yellow-400">
             <span>
-              {isSentinel($engaPrice$) ? $__$?.main.notAvailable : $engaPrice$}
+              {isSentinel($exchangeRate$) ? $__$?.main.notAvailable : $exchangeRate$}
             </span>
             <span>{$collateralTicker$}</span>
           </span>
@@ -270,58 +334,60 @@
             waitingForTx ||
             _.isUndefined($hasAgreed$) ||
             !!$isLoadingAgreement$}
-          className="h-8 flex items-center justify-center m-0 !border-0 transition-colors {$shouldApprove$?.Should
-            ? 'bg-blood'
+          className="h-8 flex w-full md:w-20 relative items-center justify-center m-0 !border-0 transition-colors {$shouldApprove$?.Should
+            ? 'bg-orange-700'
             : 'bg-secondary-700'}">
-          <Fade
-            mode="width"
-            visible={!$shouldApprove$?.Loading && !!$shouldApprove$?.Should && !!$hasAgreed$}
-            className={{
-              wrapper: 'flex space-x-2 items-center',
-            }}>
-            <SvgIcon Icon={TickIcon} width="1.125rem" height="1.125rem" />
-            <span>
-              {$__$?.presale.contribution.approve.toUpperCase()}
-            </span>
-          </Fade>
-          <Fade
-            mode="width"
-            visible={!$shouldApprove$?.Loading && !$shouldApprove$?.Should && !!$hasAgreed$}
-            className={{
-              wrapper: 'flex space-x-2 items-center',
-            }}>
-            <SvgIcon Icon={FlashIcon} width="1.125rem" height="1.125rem" />
-            <span>
-              {$__$?.presale.contribution.swap.toUpperCase()}
-            </span>
-          </Fade>
-          <Fade
-            mode="width"
-            visible={!$hasAgreed$}
-            className={{
-              wrapper: 'flex items-center',
-            }}>
-            <SvgIcon
-              Icon={RestrictedIcon}
-              width="1.125rem"
-              height="1.125rem"
-              className={'hidden md:flex'} />
-            <span class="md:hidden">
-              {$__$?.presale.errors.shouldAgree}
-            </span>
-          </Fade>
+          {#if !$shouldApprove$?.Loading && !!$shouldApprove$?.Should && !!$hasAgreed$}
+            <div
+              in:fly={{ x: -50 }}
+              out:fly={{ x: 50 }}
+              class="absolute inset-0 flex justify-center gap-2 items-center">
+              <SvgIcon Icon={TickIcon} width="1.125rem" height="1.125rem" />
+              <span>
+                {$__$?.presale.contribution.approve.toUpperCase()}
+              </span>
+            </div>
+          {/if}
+
+          {#if !$shouldApprove$?.Loading && !$shouldApprove$?.Should && !!$hasAgreed$}
+            <div
+              in:fly={{ x: -50 }}
+              out:fly={{ x: 50 }}
+              class="absolute inset-0 flex justify-center gap-2 items-center">
+              <SvgIcon Icon={FlashIcon} width="1.125rem" height="1.125rem" />
+              <span>
+                {$__$?.presale.contribution.swap.toUpperCase()}
+              </span>
+            </div>
+          {/if}
+
+          {#if !$hasAgreed$}
+            <div
+              in:fly={{ x: -50 }}
+              out:fly={{ x: 50 }}
+              class="absolute inset-0 flex justify-center items-center">
+              <SvgIcon
+                Icon={RestrictedIcon}
+                width="1.125rem"
+                height="1.125rem"
+                className={'hidden md:flex'} />
+              <span class="md:hidden">
+                {$__$?.presale.errors.shouldAgree}
+              </span>
+            </div>
+          {/if}
         </Button>
       </div>
     </div>
   </div>
   {#if !canContribute}
     <div transition:fade class="absolute inset-0 flex justify-center items-center h-full">
-      {#if !$signerAddress$?.length && $preSaleStatus$ == PreSaleStatus.Funding}
+      {#if !$signerAddress$?.length && isFunding}
         <span>
           {$__$?.web3Provider.connect.connectButton.notConnected}
         </span>
       {/if}
-      {#if $preSaleStatus$ !== PreSaleStatus.Funding}
+      {#if !isFunding}
         <span>{$__$?.presale.contribution.unavailable}</span>{/if}
     </div>
   {/if}

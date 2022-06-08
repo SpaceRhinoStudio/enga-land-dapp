@@ -19,7 +19,9 @@
 
 <CardTable
   headers={_.values($__$?.presale.allocations.headers)}
-  className={{ container: 'text-xs md:text-sm' }}>
+  className={{
+    container: 'text-xs md:text-sm',
+  }}>
   {#each allocations as x, i}
     <TableRow>
       <TableCell>{_.values($__$?.presale.allocations)[i + 1]}</TableCell>

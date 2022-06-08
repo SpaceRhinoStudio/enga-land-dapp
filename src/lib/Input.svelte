@@ -14,6 +14,7 @@
   import cn from 'classnames'
   import {
     asapScheduler,
+    asyncScheduler,
     combineLatest,
     distinctUntilChanged,
     map,
@@ -23,14 +24,13 @@
     type Subject,
   } from 'rxjs'
 
-  import { onDestroy } from 'svelte'
+  import { onDestroy, tick } from 'svelte'
   import { controlStreamPayload } from './operators/control-stream-payload'
   import SvgIcon from './SVGIcon.svelte'
-  import Fade from './Fade.svelte'
   import LoadingOverlay from './LoadingOverlay.svelte'
-  import { fade, fly, slide } from 'svelte/transition'
-  import ToolTip from './ToolTip.svelte'
+  import { fly } from 'svelte/transition'
   import { flip } from 'svelte/animate'
+  import { waitFor } from './helpers/wait-for'
 
   export let control$: Subject<InputControl>
   export let validators: OperatorFunction<string, InputComponentError>[] = []
@@ -55,6 +55,7 @@
 
   $: !_.isNil(value) && control$.next({ Value: value })
   $: control$.next({ Disable: disabled })
+  control$.pipe(controlStreamPayload('Value')).subscribe(x => (value = x))
 
   combineLatest(
     validators.map(validator =>
@@ -74,7 +75,7 @@
 
   control$
     .pipe(
-      subscribeOn(asapScheduler),
+      subscribeOn(asyncScheduler),
       controlStreamPayload('Value'),
       distinctUntilChanged(),
       sanitizer,
@@ -84,6 +85,22 @@
     .subscribe(x => control$.next(x))
 
   let focused = false
+  let state: {
+    cursorStart: number | null
+    cursorEnd: number | null
+    set: (
+      start: number | null,
+      end: number | null,
+      direction?: 'forward' | 'backward' | 'none' | undefined,
+    ) => void
+    val: string
+  } = {
+    cursorStart: 0,
+    cursorEnd: 0,
+    set: () => {},
+    val: value ?? '',
+  }
+  let offset = 0
 </script>
 
 <div
@@ -106,7 +123,6 @@
       $$slots.label && 'table-cell align-middle',
       className?.wrapper,
       'relative transition-all',
-      // !_.isEmpty($control$?.Errors) && 'mb-1',
       $control$?.Loading && 'opacity-20',
     )}>
     <SvgIcon
@@ -128,36 +144,32 @@
         className?.target,
       )}
       disabled={$control$?.Disable}
-      value={$control$?.Value ?? ''}
+      bind:value
       on:keydown={e => {
         control$.next({ LastKeyStroke: e.code })
       }}
       on:focus={() => (focused = true)}
       on:blur={() => (focused = false)}
-      on:input={e => {
-        control$.next({ Value: e.currentTarget.value })
-        const state = {
+      on:beforeinput={e => {
+        state = {
           cursorStart: e.currentTarget.selectionStart,
           cursorEnd: e.currentTarget.selectionEnd,
           set: e.currentTarget.setSelectionRange.bind(e.currentTarget),
-          e: e,
           val: e.currentTarget.value,
         }
-        // e.currentTarget.value = $control$?.Value ?? ''
-        asapScheduler.schedule(
-          _state => {
-            let offset = 0
-            if ((_state?.e.currentTarget.value.length ?? 0) > (_state?.val.length ?? 0)) {
-              offset = 1
-            }
-            _state?.set(
-              Number(_state.cursorStart ?? 0) + offset,
-              Number(_state.cursorEnd ?? 0) + offset,
-            )
-          },
-          undefined,
-          state,
-        )
+        offset = 0
+        tick()
+          .then(() => waitFor(0))
+          .then(() => {
+            offset = (value?.length ?? 0) - (state.val.length ?? 0)
+          })
+      }}
+      on:input={e => {
+        tick()
+          .then(() => waitFor(0))
+          .then(() => {
+            state.set((state.cursorStart ?? 0) + offset, (state.cursorEnd ?? 0) + offset)
+          })
       }} />
     <div class="absolute -right-1 top-1/2 -translate-y-1/2 ">
       <slot name="right" />

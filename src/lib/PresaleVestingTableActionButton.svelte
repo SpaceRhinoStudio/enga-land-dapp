@@ -1,25 +1,23 @@
 <script lang="ts">
-  import { firstValueFrom, map, tap } from 'rxjs'
-  import { ControllerContract$ } from '../contracts/fundraising-contracts'
+  import { firstValueFrom, map, pipe, tap } from 'rxjs'
+  import { ControllerContract$, SeedSaleContract$ } from '../contracts/fundraising-contracts'
   import Button from './Button.svelte'
   import { __$ } from './locales'
   import { preSaleStatus$ } from './observables/pre-sale/status'
-  import { requestRefund } from './operators/pre-sale/request-refund'
-  import { requestRelease } from './operators/pre-sale/request-release'
+  import { preSaleRequestRefund } from './operators/pre-sale/request-refund'
+  import { preSaleRequestRelease } from './operators/pre-sale/request-release'
   import { PreSaleStatus } from './operators/pre-sale/status'
   import SvgIcon from './SVGIcon.svelte'
   import RestrictedIcon from '../assets/icons/vuesax-linear-group.svg'
   import type { VestingType } from './observables/pre-sale/signers-vestings'
+  import { seedSaleRequestRelease } from './operators/seed-sale/request-release'
 
   export let data: VestingType
+  export let sale: 'preSale' | 'seedSale'
 
-  //REVIEW vvv
-  //TODO: not all vestings are created under current presale contract as they could be created by either PrivateSale or SeedSale
-  //REVIEW ^^^
-  let canRelease = false
-  $: $preSaleStatus$ === PreSaleStatus.Closed && data.release.gt(0)
-  let canRevoke = false
-  $: $preSaleStatus$ === PreSaleStatus.Refunding
+  $: canRelease =
+    (sale === 'preSale' ? $preSaleStatus$ === PreSaleStatus.Closed : true) && data.release.gt(0)
+  $: canRevoke = sale === 'preSale' && $preSaleStatus$ === PreSaleStatus.Refunding
   let isLoading = false
 </script>
 
@@ -28,8 +26,10 @@
     if (canRelease) {
       isLoading = true
       return firstValueFrom(
-        ControllerContract$.pipe(
-          requestRelease(data.vestId),
+        (sale === 'preSale'
+          ? ControllerContract$.pipe(preSaleRequestRelease(data.vestId))
+          : SeedSaleContract$.pipe(seedSaleRequestRelease(data.vestId))
+        ).pipe(
           map(() => undefined),
           tap(() => (isLoading = false)),
         ),
@@ -39,7 +39,7 @@
       isLoading = true
       return firstValueFrom(
         ControllerContract$.pipe(
-          requestRefund(data.saleContractAddress, data.vestId),
+          preSaleRequestRefund(data.vestId),
           map(() => undefined),
           tap(() => (isLoading = false)),
         ),
