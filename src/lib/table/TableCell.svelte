@@ -18,7 +18,6 @@
   onDestroy(() => {
     unRegister?.(rowId, id)
   })
-
   export let colSpan = 1
 </script>
 

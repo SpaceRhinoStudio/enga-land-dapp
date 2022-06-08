@@ -12,12 +12,13 @@
 
 <script lang="ts">
   import Card from '$lib/Card.svelte'
+  import LoadingOverlay from '$lib/LoadingOverlay.svelte'
+  import cn from 'classnames'
   import _ from 'lodash'
   import { onMount, setContext, tick } from 'svelte'
   import { writable, type Readable } from 'svelte/store'
   import { fade } from 'svelte/transition'
   import { screen$ } from '../helpers/media-queries'
-  import LoadingSpinner from '../LoadingSpinner.svelte'
   import { __$ } from '../locales'
   import TableSeparator from './TableSeparator.svelte'
 
@@ -61,33 +62,26 @@
 <Card
   className={{
     container: className.container ?? '',
-    wrapper: className.wrapper ?? '',
+    wrapper: cn(className.wrapper, 'relative'),
   }}>
   <div
-    class="table min-h-[theme('spacing.32')] {className.containerDimesions ??
-      'w-[calc(100%+(theme(spacing.2)*2))] -mx-2 -my-2.5'} {className.tableWrapper ?? ''}">
+    class="table #min-h-[theme(spacing.24)] {className.containerDimesions ??
+      'w-[calc(100%+(theme(spacing.2)*2))] -mx-2 -my-2.5'} {className.tableWrapper ??
+      ''} transition-opacity {isLoading || isEmpty ? 'opacity-0' : 'opacity-100'}">
     <div class="table-row h-0">
       {#each $isCollapsed ? headers.filter((_, index) => mainHeaders?.includes(index) ?? true) : headers as header}
         <div class="table-cell align-middle text-text-secondary py-2 px-3.5">{header}</div>
       {/each}
     </div>
     <TableSeparator />
-    <div class="table-row">
-      <td colSpan={9999} class="relative overflow-hidden">
-        {#if !isLoading && (!$$slots.default || isEmpty)}
-          <div transition:fade class="absolute inset-0 flex items-center justify-center">
-            {$__$?.main.noItem}
-          </div>
-        {/if}
-        {#if isLoading}
-          <div transition:fade class="absolute inset-0 flex items-center justify-center">
-            <LoadingSpinner />
-          </div>
-        {/if}
-      </td>
-    </div>
     {#if !isLoading}
       <slot />
     {/if}
   </div>
+  {#if !isLoading && (!$$slots.default || isEmpty)}
+    <div transition:fade class="absolute inset-0 flex items-center justify-center">
+      {$__$?.main.noItem}
+    </div>
+  {/if}
+  <LoadingOverlay visible={isLoading} />
 </Card>
