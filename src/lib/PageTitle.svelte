@@ -8,15 +8,21 @@
     return route.replace(/^\//, '').replace(/\/$/, '')
   }
 
-  export const title = undefined as string | undefined
+  export let title = undefined as string | undefined
+  export let hide = false
 
-  let _title = ''
-  $: {
-    const route = _.values(config.routeConfig).find(
-      route => sanitizeRoute(route.href) === sanitizeRoute($page.url.pathname),
-    )
-    _title = route ? $__$.nav[route.id] : $__$.nav.notFound
-  }
+  $: route = _.values(config.routeConfig).find(route =>
+    _.isString(route.href)
+      ? sanitizeRoute(route.href) === sanitizeRoute($page.url.pathname)
+      : route.href.test($page.url.pathname),
+  )
+  $: _title = route ? $__$?.nav[route.id] : $__$?.nav.notFound
 </script>
 
-<div class="w-full">{title ?? _title}</div>
+<svelte:head>
+  <title>{title ?? _title}</title>
+</svelte:head>
+
+{#if !hide}
+  <div class="w-full">{title ?? _title}</div>
+{/if}
