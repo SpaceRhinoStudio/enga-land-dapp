@@ -1,6 +1,5 @@
 import { isSentinel, type Sentinel } from '$lib/contexts/empty-sentinel'
-import { BigNumber } from 'ethers'
-import { formatEther } from 'ethers/lib/utils'
+import { BigNumber, utils } from 'ethers'
 import _ from 'lodash'
 import { map, type OperatorFunction } from 'rxjs'
 import type { FormatterOperator } from '$lib/types'
@@ -48,7 +47,7 @@ export function formatCurrencyWithUnit(
 ): string & { raw: string; unit: string } {
   let res = isSentinel(x) || _.isNil(x) ? 0 : x
   if (BigNumber.isBigNumber(res)) {
-    res = formatEther(res)
+    res = utils.formatEther(res)
   }
   res = String(res)
   if (res.length === 0) {
