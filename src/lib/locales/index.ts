@@ -15,18 +15,20 @@ import {
 import { ObservableError } from '$lib/classes/observable-error'
 import { flashToast$ } from '$lib/contexts/flash-toast'
 import _ from 'lodash'
+import { unLazy } from '$lib/utils/un-lazy'
 
 export const __$ = new ReplaySubject<WebsiteLocaleData>(1)
 export const locale$ = new BehaviorSubject<string>('en')
 
+import en from './en'
 const localeImportMaps = {
-  en: () => import('./en'),
+  en,
 }
 
 locale$
   .pipe(
-    mergeMap(_locale => _.get(localeImportMaps, _locale)?.()),
-    map(x => _.get(x, 'default')),
+    mergeMap(_locale => Promise.resolve(unLazy(_.get(localeImportMaps, _locale)))),
+    map(x => _.get(x, 'default') ?? x),
     mergeMap(x =>
       x instanceof WebsiteLocale
         ? of(x)
