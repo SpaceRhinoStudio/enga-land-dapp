@@ -10,6 +10,9 @@ export enum Network {
   BSCMainnet = 'bsc',
   BSCTestnet = 'bscTestnet',
   Local = 'localhost',
+  Rinkeby = 'rinkeby',
+  Polygon = 'polygon',
+  Mumbai = 'polygonMumbai',
 }
 
 function providerNotFoundErrorFactory() {
@@ -75,6 +78,7 @@ const Chains: {
   [key in Network]: {
     id: number
     network: EthersNetwork
+    isLive: boolean
     config: {
       chainName: string
       chainId: string
@@ -88,8 +92,84 @@ const Chains: {
     }
   }
 } = {
+  [Network.Local]: {
+    id: 1337,
+    isLive: false,
+    network: {
+      chainId: 1337,
+      name: Network.Local,
+    },
+    config: {
+      chainId: `0x${(1337).toString(16)}`,
+      chainName: 'Localhost',
+      nativeCurrency: {
+        name: 'ETH',
+        symbol: 'ETH',
+        decimals: 18,
+      },
+      rpcUrls: ['http://127.0.0.1:8545'],
+    },
+  },
+  [Network.Rinkeby]: {
+    id: 4,
+    isLive: false,
+    network: {
+      chainId: 4,
+      name: Network.Rinkeby,
+    },
+    config: {
+      chainId: `0x${(4).toString(16)}`,
+      chainName: 'Rinkeby',
+      nativeCurrency: {
+        name: 'Rinkeby Ether',
+        symbol: 'ETH',
+        decimals: 18,
+      },
+      rpcUrls: ['https://rinkeby.infura.io/v3'],
+      blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
+    },
+  },
+  [Network.Polygon]: {
+    id: 137,
+    isLive: true,
+    network: {
+      chainId: 137,
+      name: Network.Polygon,
+    },
+    config: {
+      chainId: `0x${(137).toString(16)}`,
+      chainName: 'Polygon Mainnet',
+      nativeCurrency: {
+        name: 'MATIC',
+        symbol: 'MATIC',
+        decimals: 18,
+      },
+      rpcUrls: ['https://polygon-rpc.com'],
+      blockExplorerUrls: ['https://polygonscan.com/'],
+    },
+  },
+  [Network.Mumbai]: {
+    id: 80001,
+    isLive: false,
+    network: {
+      chainId: 80001,
+      name: Network.Mumbai,
+    },
+    config: {
+      chainId: `0x${(80001).toString(16)}`,
+      chainName: 'Polygon Mumbai Testnet',
+      nativeCurrency: {
+        name: 'MATIC',
+        symbol: 'MATIC',
+        decimals: 18,
+      },
+      rpcUrls: ['https://matic-mumbai.chainstacklabs.com'],
+      blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+    },
+  },
   [Network.BSCMainnet]: {
     id: 56,
+    isLive: true,
     network: {
       chainId: 56,
       name: Network.BSCMainnet,
@@ -112,6 +192,7 @@ const Chains: {
   },
   [Network.BSCTestnet]: {
     id: 97,
+    isLive: false,
     network: {
       chainId: 97,
       name: Network.BSCTestnet,
@@ -126,23 +207,6 @@ const Chains: {
       },
       rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545'],
       blockExplorerUrls: ['https://testnet.bscscan.com/'],
-    },
-  },
-  [Network.Local]: {
-    id: 1337,
-    network: {
-      chainId: 1337,
-      name: Network.Local,
-    },
-    config: {
-      chainId: `0x${(1337).toString(16)}`,
-      chainName: 'Localhost',
-      nativeCurrency: {
-        name: 'BNB',
-        symbol: 'bnb',
-        decimals: 18,
-      },
-      rpcUrls: ['http://127.0.0.1:8545'],
     },
   },
 }
@@ -172,6 +236,9 @@ const CustomEndpoints: { [network in Network]: string[] } = {
     'https://data-seed-prebsc-2-s3.binance.org:8545/',
   ],
   [Network.Local]: ['http://127.0.0.1:8545'],
+  [Network.Rinkeby]: [],
+  [Network.Polygon]: [],
+  [Network.Mumbai]: [],
 }
 
 export const web3Config = {
