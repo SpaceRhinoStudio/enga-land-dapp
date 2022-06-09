@@ -17,6 +17,7 @@
   import WithScrollHint from '$lib/WithScrollHint.svelte'
   import { zeroIfNegative } from '$lib/utils/zero'
   import { useWobble } from '$lib/helpers/wobble-svelte'
+  import EngaLogo from '../../src/assets/favicon.png'
 
   const [shouldBlur, setShouldBlur] = useWobble({})
   $: setShouldBlur($portalMap.every(x => x.index === null) || $portalMap.length === 0 ? 0 : 1)
@@ -35,6 +36,10 @@
   let footerHeight: number
   let mainHeight: number
 </script>
+
+<svelte:head>
+  <link rel="shortcut icon" href={EngaLogo} />
+</svelte:head>
 
 <MobileHoverFix />
 <MobileVhFix />
