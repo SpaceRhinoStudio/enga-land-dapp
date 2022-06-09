@@ -101,7 +101,7 @@ export const routeConfig: {
     id: Routes.marketplace,
     href: '/marketplace',
     icon: MarketPlaceIcon,
-    disabled: false,
+    disabled: true,
     preview: true,
   },
   [Routes.help]: {
@@ -120,14 +120,14 @@ export const routeConfig: {
     id: Routes.dashboard,
     href: '/dashboard',
     icon: DashboardIcon,
-    disabled: false,
+    disabled: true,
     preview: true,
   },
   [Routes.staking]: {
     id: Routes.staking,
     href: '/staking',
     icon: StakingIcon,
-    disabled: false,
+    disabled: true,
     preview: true,
   },
   [Routes.exchange]: {
