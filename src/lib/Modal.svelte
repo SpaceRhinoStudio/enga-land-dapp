@@ -2,7 +2,6 @@
   import { createEventDispatcher } from 'svelte'
   import { fade, fly } from 'svelte/transition'
   import { changePortalVisibility, portal, portalMap } from './actions/portal'
-  import Fade from './Fade.svelte'
   import cn from 'classnames'
   import { useWobble } from './helpers/wobble-svelte'
 

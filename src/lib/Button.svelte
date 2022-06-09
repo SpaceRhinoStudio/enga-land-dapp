@@ -1,6 +1,9 @@
 <script lang="ts">
+  import { canHover$, screen$ } from './helpers/media-queries'
+
   import LoadingOverlay from './LoadingOverlay.svelte'
   export let active = false
+  export let danger = false
   export let isLoading = false
   let isJobLoading = false
   export let secondary = false
@@ -11,9 +14,13 @@
 
 <button
   class={`
+    ${
+      $canHover$ && !(isLoading || isJobLoading || disabled)
+        ? 'hover:scale-105 transition-all'
+        : 'transition-colors'
+    }
     relative
     border
-    transition-colors
     duration-500
     disabled:border-gray-500
     disabled:bg-gray-800
@@ -24,7 +31,9 @@
     disabled:cursor-not-allowed
     ${
       active
-        ? 'border-none bg-secondary-800 active:bg-secondary-800 text-secondary-400 bg-opacity-50'
+        ? 'border-none bg-secondary-800 hover:bg-secondary-600 hover:bg-opacity-50 active:bg-secondary-800 text-secondary-400 bg-opacity-50'
+        : danger
+        ? 'border-none bg-blood hover:bg-blood bg-opacity-70 active:bg-blood text-rose-200'
         : 'border-primary-600 active:bg-primary-600'
     }
     ${

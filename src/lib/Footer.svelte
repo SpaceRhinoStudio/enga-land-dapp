@@ -14,8 +14,9 @@
     engaPriceFromSeedSalePPM$,
     parsePPM,
   } from './observables/enga-price'
-  import { delay, filter, of, timeout } from 'rxjs'
+  import { filter, of, timeout } from 'rxjs'
   import { noSentinelOrUndefined } from './utils/no-sentinel-or-undefined'
+  import MetamaskIcon from '../assets/wallet-providers/metamask-logo.svg'
 
   const _engaPrice$ = engaPrice$.pipe(
     filter(noSentinelOrUndefined),
@@ -92,7 +93,10 @@
             2022
             <span class="text-white ml-2">Engaland</span>
           </p>
-          <Button job={importEnga} className="m-0 text-sm md:text-xs">Import ENGA</Button>
+          <Button job={importEnga} className="m-0 text-sm md:text-xs flex gap-2 items-center">
+            <SvgIcon height="1.1rem" width="1.1rem" Icon={MetamaskIcon} dontFill />
+            <span>{$__$?.web3Provider.importEnga}</span>
+          </Button>
         </div>
         <div>
           <div class="flex items-center justify-between flex-wrap md:mb-0 mb-8 gap-5">
