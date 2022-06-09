@@ -16,7 +16,7 @@
     <div class="bg-primary-700 absolute top-0 bottom-0 transition-[bottom] -left-96 -right-96" />
     {#if isOpen}
       <div transition:slide>
-        <div class="relative table py-3">
+        <div class="relative table py-3 w-full">
           <slot />
         </div>
       </div>
