@@ -1,4 +1,6 @@
 <script lang="ts">
+  import _ from 'lodash'
+
   import Button from './Button.svelte'
   import Card from './Card.svelte'
   import { config } from './configs'
@@ -14,6 +16,9 @@
 
   export let toggle: () => void
   export let loading = null as Web3ProviderId | null
+
+  const liveNetworks = _.filter(config.Chains, val => val.isLive)
+  const testNetworks = _.filter(config.Chains, val => !val.isLive)
 </script>
 
 <Modal acceptExit bind:toggle let:isOpen>
@@ -32,18 +37,19 @@
       <Select
         value={$selectedNetwork$}
         on:change={x => selectedNetworkController$.next({ Set: x.detail })}>
-        <optgroup label="Live">
-          <option value={Network.BSCMainnet}>
-            {config.Chains.bsc.config.chainName}
-          </option>
+        <optgroup label={$__$?.web3Provider.networks.live}>
+          {#each liveNetworks as x}
+            <option value={x.network.name}>
+              {x.config.chainName}
+            </option>
+          {/each}
         </optgroup>
-        <optgroup label="Test">
-          <option value={Network.BSCTestnet}>
-            {config.Chains.bscTestnet.config.chainName}
-          </option>
-          <option value={Network.Local}>
-            {config.Chains.localhost.config.chainName}
-          </option>
+        <optgroup label={$__$?.web3Provider.networks.test}>
+          {#each testNetworks as x}
+            <option value={x.network.name}>
+              {x.config.chainName}
+            </option>
+          {/each}
         </optgroup>
       </Select>
       <Button

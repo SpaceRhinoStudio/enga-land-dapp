@@ -53,6 +53,10 @@ export interface WebsiteLocaleData {
         notConnected: string
       }
     }
+    networks: {
+      live: string
+      test: string
+    }
     signFailed: string
     submittingSignatureFailed: string
   }

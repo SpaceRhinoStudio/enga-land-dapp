@@ -73,6 +73,10 @@ const locale: WebsiteLocale = new WebsiteLocale({
   web3Provider: {
     changedWillReload: 'Web3 (wallet) provider has changed. page will reload to apply changes.',
     importEnga: 'Import ENGA',
+    networks: {
+      live: 'Live',
+      test: 'Test',
+    },
     connect: {
       title: 'Connect Wallet',
       connected: 'connected',
