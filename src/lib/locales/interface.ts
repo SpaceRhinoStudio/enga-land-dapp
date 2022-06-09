@@ -43,6 +43,7 @@ export interface WebsiteLocaleData {
   }
   web3Provider: {
     changedWillReload: string
+    importEnga: string
     connect: {
       title: string
       connected: string
@@ -92,6 +93,7 @@ export interface WebsiteLocaleData {
       } & { action: string }
       actions: {
         release: string
+        ableToRelease: string
         revoke: string
       }
     }

@@ -59,7 +59,7 @@ const locale: WebsiteLocale = new WebsiteLocale({
     notFound: "You're Lost!",
   },
   userInteraction: {
-    confirmation: { cancel: 'cancel', confirm: 'confirm' },
+    confirmation: { cancel: 'Cancel', confirm: 'Confirm' },
     validations: { numberNotValid: 'Input is not a valid number' },
     web3: { pendingTx: 'Pending' },
     toastTitles: {
@@ -72,6 +72,7 @@ const locale: WebsiteLocale = new WebsiteLocale({
   },
   web3Provider: {
     changedWillReload: 'Web3 (wallet) provider has changed. page will reload to apply changes.',
+    importEnga: 'Import ENGA',
     connect: {
       title: 'Connect Wallet',
       connected: 'connected',
@@ -118,12 +119,12 @@ const locale: WebsiteLocale = new WebsiteLocale({
       initialSupply: 'Initial Supply',
     },
     vestings: {
-      title: 'Vesting List',
+      title: 'Open Vestings List',
       headers: {
         txId: 'TX ID',
         amount: 'Amount',
         price: 'Price',
-        release: 'Release',
+        released: 'Released',
         started: 'Started',
         cliff: 'Cliff',
         end: 'End',
@@ -131,6 +132,7 @@ const locale: WebsiteLocale = new WebsiteLocale({
       },
       actions: {
         release: 'Release',
+        ableToRelease: 'Currently able to release',
         revoke: 'Revoke',
       },
     },
