@@ -46,6 +46,7 @@
   )
 </script>
 
+<PageTitle hide />
 <div class="flex flex-col items-center relative z-0 min-h-[theme(spacing.96)] grow">
   {#if $preSaleStatus$ === undefined || $seedSaleStatus$ === undefined}
     <div transition:fade class="absolute z-0 inset-0 flex items-center justify-center">

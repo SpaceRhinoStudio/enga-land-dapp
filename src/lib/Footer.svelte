@@ -91,7 +91,7 @@
           class="flex flex-col md:flex-row items-center justify-center md:gap-6 md:space-y-0 space-y-6">
           <p class="m-0 text-center text-text-secondary">
             2022
-            <span class="text-white ml-2">Engaland</span>
+            <span class="text-white ml-2">Space Rhino Studio</span>
           </p>
           <Button job={importEnga} className="m-0 text-sm md:text-xs flex gap-2 items-center">
             <SvgIcon height="1.1rem" width="1.1rem" Icon={MetamaskIcon} dontFill />

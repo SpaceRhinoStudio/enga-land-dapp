@@ -15,7 +15,7 @@
 </script>
 
 <svelte:head>
-  <title>Home</title>
+  <title>ENGA LAND</title>
   <meta name="description" content="EngaLand Dapp" />
 </svelte:head>
 

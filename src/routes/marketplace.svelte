@@ -42,7 +42,7 @@
 
 <div class="flex flex-col items-center w-full">
   <div class="flex flex-col gap-6 w-full md:w-auto">
-    <PageTitle title={$__$?.nav.marketplace} />
+    <PageTitle />
     <div class="flex flex-col gap-6 lg:flex-row">
       <div class="flex flex-col">
         <MarketplaceCollectionSelectorDesktop />
