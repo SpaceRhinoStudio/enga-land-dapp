@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { BigNumber } from 'ethers/lib/ethers'
+  import { BigNumber } from 'ethers'
   import type { Sentinel } from './contexts/empty-sentinel'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
   import SvgIcon from './SVGIcon.svelte'

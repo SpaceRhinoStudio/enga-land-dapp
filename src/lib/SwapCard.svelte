@@ -45,7 +45,7 @@
   import { signerApprove } from './operators/web3/approve'
   import { preSaleRequestContribute } from './operators/pre-sale/request-contribute'
   import { controlStreamPayload } from './operators/control-stream-payload'
-  import { arrayify, formatEther } from 'ethers/lib/utils'
+  import { utils } from 'ethers'
   import {
     engaPriceFromPreSalePPM$,
     engaPriceFromSeedSalePPM$,
@@ -103,7 +103,7 @@
             filter(noNil),
             map(price => parseEther(x).mul(BigNumber.from(config.PPM).pow(2)).div(price)),
             map(x =>
-              (Number(formatEther(x)) / config.PPM).toLocaleString(undefined, {
+              (Number(utils.formatEther(x)) / config.PPM).toLocaleString(undefined, {
                 maximumFractionDigits: 2,
               }),
             ),
@@ -120,7 +120,7 @@
             filter(noNil),
             map(price => parseEther(x).mul(price)),
             map(x =>
-              (Number(formatEther(x)) / config.PPM).toLocaleString(undefined, {
+              (Number(utils.formatEther(x)) / config.PPM).toLocaleString(undefined, {
                 maximumFractionDigits: 2,
               }),
             ),

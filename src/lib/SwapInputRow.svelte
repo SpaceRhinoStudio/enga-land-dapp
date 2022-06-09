@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { EngaToken, ERC20 } from 'engaland_fundraising_app/typechain'
-  import { formatEther } from 'ethers/lib/utils'
+  import { utils } from 'ethers'
   import _ from 'lodash'
 
   import {
@@ -43,7 +43,7 @@
   )
   const balance$ = contract$.pipe(
     signerBalanceOf,
-    passNil(map(x => Number(formatEther(x)).toLocaleString())),
+    passNil(map(x => Number(utils.formatEther(x)).toLocaleString())),
   )
 
   const validators: OperatorFunction<string, InputComponentError>[] = !isBase
@@ -75,7 +75,9 @@
                 ? of(undefined)
                 : __$.pipe(
                     map(__ =>
-                      __.presale.errors.lowerThanMinimum(Number(formatEther(min)).toLocaleString()),
+                      __.presale.errors.lowerThanMinimum(
+                        Number(utils.formatEther(min)).toLocaleString(),
+                      ),
                     ),
                   ),
             ),
@@ -114,7 +116,7 @@
           contract$
             .pipe(
               signerBalanceOf,
-              map(x => (x ? formatEther(x) : '')),
+              map(x => (x ? utils.formatEther(x) : '')),
             )
             .subscribe(x => control$.next({ Value: x }))
         }}>
