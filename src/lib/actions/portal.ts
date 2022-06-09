@@ -40,14 +40,16 @@ function mount(node: HTMLElement) {
   }
 }
 
-export function portal(node: HTMLElement): { destroy: () => void } {
+export function portal(node: HTMLElement, params?: { noop?: boolean }): { destroy: () => void } {
   let destroy: () => void
-  if (!portalRoot) {
-    void tick().then(() => {
+  if (!params?.noop) {
+    if (!portalRoot) {
+      void tick().then(() => {
+        destroy = mount(node)
+      })
+    } else {
       destroy = mount(node)
-    })
-  } else {
-    destroy = mount(node)
+    }
   }
   return { destroy: () => destroy?.() }
 }
