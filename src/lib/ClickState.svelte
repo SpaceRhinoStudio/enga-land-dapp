@@ -3,7 +3,8 @@
 
   let dispatch = createEventDispatcher<{ outclick: PointerEvent; click: PointerEvent }>()
   let wrapper: HTMLElement
-  let exclude: HTMLElement
+  export let exclude: HTMLElement | undefined = undefined
+  let _exclude: HTMLElement | undefined = undefined
 
   export let clickState = false
   export const dismiss = () => {
@@ -18,7 +19,7 @@
       //@ts-ignore
       !wrapper.contains(e.target) &&
       //@ts-ignore
-      (exclude ? !exclude.contains(e.target) : true)
+      (exclude ?? _exclude ? !(exclude ?? _exclude).contains(e.target) : true)
     ) {
       dispatch('outclick', e)
       clickState = false
@@ -27,7 +28,7 @@
       //@ts-ignore
       wrapper.contains(e.target) &&
       //@ts-ignore
-      (exclude ? !exclude.contains(e.target) : true)
+      (exclude ?? _exclude ? !(exclude ?? _exclude).contains(e.target) : true)
     ) {
       dispatch('click', e)
       if (toggle) {
@@ -40,7 +41,7 @@
 
 <div class="contents" bind:this={wrapper}>
   <slot {clickState} {dismiss} />
-  <div class="contents" bind:this={exclude}>
+  <div class="contents" bind:this={_exclude}>
     <slot name="exclude" {clickState} {dismiss} />
   </div>
 </div>
