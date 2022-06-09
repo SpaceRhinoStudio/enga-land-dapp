@@ -10,7 +10,7 @@ const ipfsNode$ = Window$.pipe(
 )
 ipfsNode$.pipe(throwIfEmpty()).subscribe({
   complete: () => console.log('ipfs node created'),
-  error: () => console.error('ipfs node failed'),
+  error: e => console.error('ipfs node failed', e),
 })
 
 export const ipfs$ = ipfsNode$.pipe(
@@ -21,5 +21,5 @@ export const ipfs$ = ipfsNode$.pipe(
 
 ipfs$.pipe(throwIfEmpty()).subscribe({
   complete: () => console.log('ipfs node online'),
-  error: () => console.error('ipfs node failed'),
+  error: e => console.error('ipfs node failed', e),
 })

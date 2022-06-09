@@ -18,6 +18,10 @@
         "jsx": "react",
         "incremental": true,
         "baseUrl": "./",
+        "paths": {
+          "$lib": ["src/lib"],
+          "$lib/*": ["src/lib/*"]
+        },
         "alwaysStrict": true,
         "noImplicitAny": false,
         "disableSizeLimit": true,
