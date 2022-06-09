@@ -20,10 +20,10 @@
         ?.split('>')
         .map(x => x.split('<')[0])
         .filter(_.isString)
-        .filter(x => x?.length)
+        .map(_.trim)
+        .filter(_.negate(_.isEmpty))
     : undefined
-
-  $: selectedItemTitle = ref?.innerHTML?.split(`${value}">`)[1]?.split('<')[0]
+  $: selectedItemTitle = ref?.innerHTML?.split(`${value}">`)[1]?.split('<')[0]?.trim()
 
   export let className: { [key in 'container']?: string } = {}
 </script>
@@ -38,7 +38,7 @@
     disabled={disabled || isLoading}
     class="opacity-0 absolute inset-0 outline-none {disabled
       ? 'cursor-not-allowed'
-      : 'cursor-pointer'} bg-primary-800 z-[1]">
+      : 'cursor-pointer'} z-[1]">
     <slot />
   </select>
   {#each itemTitles ?? [] as itemTitle}
