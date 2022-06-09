@@ -26,7 +26,7 @@ export type VestingType = {
   txId: string
   price: number
   amount: BigNumber
-  release: BigNumber
+  released: BigNumber
   started: Date
   cliff: Date
   end: Date
@@ -82,7 +82,7 @@ export const seedSaleSignersVestings$: Observable<VestingType[] | undefined | nu
               ? {
                   ...vest,
                   amount: _vest.amountTotal,
-                  release: _vest.released,
+                  released: _vest.released,
                   started: new Date(_vest.start.toNumber() * 1000),
                   cliff: new Date(_vest.cliff.toNumber() * 1000),
                   end: new Date(_vest.end.toNumber() * 1000),

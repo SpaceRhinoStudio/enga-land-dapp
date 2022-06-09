@@ -83,7 +83,7 @@
         </Select>
       </div>
       <div
-        class="flex flex-col items-center md:items-stretch md:flex-row-reverse justify-evenly md:gap-7 gap-6 children:w-full children:max-w-sm">
+        class="flex flex-col items-center md:items-stretch md:flex-row-reverse justify-between md:gap-7 gap-6 children:w-full md:children:max-w-[50%] sm:children:max-w-full">
         {#if sale}
           <SwapCard {sale} />
         {/if}

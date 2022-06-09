@@ -1,15 +1,14 @@
 <script lang="ts">
   import _ from 'lodash'
-  import { fade, fly } from 'svelte/transition'
+  import { fade, fly, slide } from 'svelte/transition'
   import Button from './Button.svelte'
   import Card from './Card.svelte'
-  import Fade from './Fade.svelte'
   import { __$ } from './locales'
   import { PreSaleStatus } from './operators/pre-sale/status'
   import SvgIcon from './SVGIcon.svelte'
   import WithLoading from './WithLoading.svelte'
   import EngaIcon from '../assets/icons/enga-icon.svg'
-  import BusdIcon from '../assets/icons/busd-icon.svg'
+  import BusdIcon from '../assets/icons/dai-icon.svg'
   import InfoIcon from '../assets/icons/vuesax-linear-info-circle.svg'
   import TickIcon from '../assets/icons/vuesax-linear-tick-circle.svg'
   import FlashIcon from '../assets/icons/vuesax-linear-flash.svg'
@@ -267,119 +266,122 @@
 
 <Card
   className={{
-    wrapper: 'relative grow',
     container: 'text-sm sm:w-screen flex flex-col',
+    wrapper: 'relative grow min-h-[theme(spacing.20)]',
   }}>
   <span slot="header">{$__$?.presale.contribution.title}</span>
-  <div
-    class="flex flex-col space-y-7 md:h-full transition-all duration-1000 h-full {canContribute
-      ? 'opacity-100'
-      : 'opacity-0'}">
-    <SwapInputRow
-      icon={BusdIcon}
-      control$={quoteControl$}
-      contract$={sale === 'preSale'
-        ? PreSaleTargetERC20Collateral$
-        : SeedSaleTargetERC20Collateral$}
-      isBase={false}>
-      <span slot="title">{$__$?.presale.contribution.quote}</span>
-    </SwapInputRow>
-    <SwapInputRow icon={EngaIcon} control$={baseControl$} contract$={EngaTokenContract$} isBase>
-      <span slot="title">{$__$?.presale.contribution.base}</span>
-    </SwapInputRow>
-    <div class="flex justify-between flex-col space-y-4 md:flex-row md:space-y-0">
-      <div class="flex space-x-1 items-start">
-        <SvgIcon Icon={InfoIcon} width="1.125rem" height="1.125rem" />
-        <span>{$__$?.presale.contribution.rate}</span>
-      </div>
-      <span>
-        <WithLoading data={[$exchangeRate$, $collateralTicker$]} passSentinel>
-          <span slot="before">1 ENGA:</span>
-          <span slot="data" class="text-yellow-400">
-            <span>
-              {isSentinel($exchangeRate$) ? $__$?.main.notAvailable : $exchangeRate$}
-            </span>
-            <span>{$collateralTicker$}</span>
-          </span>
-        </WithLoading>
-      </span>
-    </div>
-    <div class="md:flex md:grow items-end w-full">
-      <div
-        class="flex flex-col space-y-7 md:flex-row md:space-y-0 md:justify-between md:items-center text-xs md:grow children:grow md:pb-2">
-        <div class="flex space-x-2 items-center cursor-pointer" on:click={handleAgree}>
-          <WithLoading
-            data={_.isUndefined($hasAgreed$) || $isLoadingAgreement$}
-            predicate={e => !e}>
-            <svelte:fragment slot="data">
-              {#if !!$hasAgreed$}
-                <SvgIcon Icon={TickSquareIcon} width="1.25rem" height="1.25rem" />
-              {/if}
-              {#if !$hasAgreed$}
-                <SvgIcon Icon={TickSquareEmptyIcon} width="1.25rem" height="1.25rem" />
-              {/if}
-            </svelte:fragment>
-            <span slot="after" class="text-text-secondary text-2xs cursor-pointer">
-              {$__$?.presale.contribution.termsNotice}
+  {#if canContribute}
+    <div
+      transition:slide
+      class="flex flex-col space-y-7 md:h-full transition-all duration-1000 h-full {canContribute
+        ? 'opacity-100'
+        : 'opacity-0'}">
+      <SwapInputRow
+        icon={BusdIcon}
+        control$={quoteControl$}
+        contract$={sale === 'preSale'
+          ? PreSaleTargetERC20Collateral$
+          : SeedSaleTargetERC20Collateral$}
+        isBase={false}>
+        <span slot="title">{$__$?.presale.contribution.quote}</span>
+      </SwapInputRow>
+      <SwapInputRow icon={EngaIcon} control$={baseControl$} contract$={EngaTokenContract$} isBase>
+        <span slot="title">{$__$?.presale.contribution.base}</span>
+      </SwapInputRow>
+      <div class="flex justify-between flex-col space-y-4 md:flex-row md:space-y-0">
+        <div class="flex space-x-1 items-start">
+          <SvgIcon Icon={InfoIcon} width="1.125rem" height="1.125rem" />
+          <span>{$__$?.presale.contribution.rate}</span>
+        </div>
+        <span>
+          <WithLoading data={[$exchangeRate$, $collateralTicker$]} passSentinel>
+            <span slot="before">1 ENGA:</span>
+            <span slot="data" class="text-yellow-400">
+              <span>
+                {isSentinel($exchangeRate$) ? $__$?.main.notAvailable : $exchangeRate$}
+              </span>
+              <span>{$collateralTicker$}</span>
             </span>
           </WithLoading>
+        </span>
+      </div>
+      <div class="md:flex md:grow items-end w-full">
+        <div
+          class="flex flex-col space-y-7 md:flex-row md:space-y-0 md:justify-between md:items-center text-xs md:grow children:grow md:pb-2">
+          <div class="flex space-x-2 items-center cursor-pointer" on:click={handleAgree}>
+            <WithLoading
+              data={_.isUndefined($hasAgreed$) || $isLoadingAgreement$}
+              predicate={e => !e}>
+              <svelte:fragment slot="data">
+                {#if !!$hasAgreed$}
+                  <SvgIcon Icon={TickSquareIcon} width="1.25rem" height="1.25rem" />
+                {/if}
+                {#if !$hasAgreed$}
+                  <SvgIcon Icon={TickSquareEmptyIcon} width="1.25rem" height="1.25rem" />
+                {/if}
+              </svelte:fragment>
+              <span slot="after" class="text-text-secondary text-2xs cursor-pointer">
+                {$__$?.presale.contribution.termsNotice}
+              </span>
+            </WithLoading>
+          </div>
+          <Button
+            job={$handleApproveOrSwap$}
+            disabled={!$hasAgreed$ ||
+              !!$quoteControl$?.Errors?.length ||
+              !$quoteControl$?.Value?.length}
+            isLoading={_.isUndefined($shouldApprove$?.Should) ||
+              $shouldApprove$?.Loading ||
+              waitingForTx ||
+              _.isUndefined($hasAgreed$) ||
+              !!$isLoadingAgreement$}
+            className="h-8 flex w-full md:w-20 relative items-center justify-center m-0 !border-0 {$shouldApprove$?.Should
+              ? 'bg-yellow-700'
+              : 'bg-secondary-700'}">
+            {#if !$shouldApprove$?.Loading && !!$shouldApprove$?.Should && !!$hasAgreed$}
+              <div
+                in:fly={{ x: -50 }}
+                out:fly={{ x: 50 }}
+                class="absolute inset-0 flex justify-center gap-2 items-center">
+                <SvgIcon Icon={TickIcon} width="1.125rem" height="1.125rem" />
+                <span>
+                  {$__$?.presale.contribution.approve.toUpperCase()}
+                </span>
+              </div>
+            {/if}
+
+            {#if !$shouldApprove$?.Loading && !$shouldApprove$?.Should && !!$hasAgreed$}
+              <div
+                in:fly={{ x: -50 }}
+                out:fly={{ x: 50 }}
+                class="absolute inset-0 flex justify-center gap-2 items-center">
+                <SvgIcon Icon={FlashIcon} width="1.125rem" height="1.125rem" />
+                <span>
+                  {$__$?.presale.contribution.swap.toUpperCase()}
+                </span>
+              </div>
+            {/if}
+
+            {#if !$hasAgreed$}
+              <div
+                in:fly={{ x: -50 }}
+                out:fly={{ x: 50 }}
+                class="absolute inset-0 flex justify-center items-center">
+                <SvgIcon
+                  Icon={RestrictedIcon}
+                  width="1.125rem"
+                  height="1.125rem"
+                  className={'hidden md:flex'} />
+                <span class="md:hidden">
+                  {$__$?.presale.errors.shouldAgree}
+                </span>
+              </div>
+            {/if}
+          </Button>
         </div>
-        <Button
-          job={$handleApproveOrSwap$}
-          disabled={!$hasAgreed$ ||
-            !!$quoteControl$?.Errors?.length ||
-            !$quoteControl$?.Value?.length}
-          isLoading={_.isUndefined($shouldApprove$?.Should) ||
-            $shouldApprove$?.Loading ||
-            waitingForTx ||
-            _.isUndefined($hasAgreed$) ||
-            !!$isLoadingAgreement$}
-          className="h-8 flex w-full md:w-20 relative items-center justify-center m-0 !border-0 transition-colors {$shouldApprove$?.Should
-            ? 'bg-orange-700'
-            : 'bg-secondary-700'}">
-          {#if !$shouldApprove$?.Loading && !!$shouldApprove$?.Should && !!$hasAgreed$}
-            <div
-              in:fly={{ x: -50 }}
-              out:fly={{ x: 50 }}
-              class="absolute inset-0 flex justify-center gap-2 items-center">
-              <SvgIcon Icon={TickIcon} width="1.125rem" height="1.125rem" />
-              <span>
-                {$__$?.presale.contribution.approve.toUpperCase()}
-              </span>
-            </div>
-          {/if}
-
-          {#if !$shouldApprove$?.Loading && !$shouldApprove$?.Should && !!$hasAgreed$}
-            <div
-              in:fly={{ x: -50 }}
-              out:fly={{ x: 50 }}
-              class="absolute inset-0 flex justify-center gap-2 items-center">
-              <SvgIcon Icon={FlashIcon} width="1.125rem" height="1.125rem" />
-              <span>
-                {$__$?.presale.contribution.swap.toUpperCase()}
-              </span>
-            </div>
-          {/if}
-
-          {#if !$hasAgreed$}
-            <div
-              in:fly={{ x: -50 }}
-              out:fly={{ x: 50 }}
-              class="absolute inset-0 flex justify-center items-center">
-              <SvgIcon
-                Icon={RestrictedIcon}
-                width="1.125rem"
-                height="1.125rem"
-                className={'hidden md:flex'} />
-              <span class="md:hidden">
-                {$__$?.presale.errors.shouldAgree}
-              </span>
-            </div>
-          {/if}
-        </Button>
       </div>
     </div>
-  </div>
+  {/if}
   {#if !canContribute}
     <div transition:fade class="absolute inset-0 flex justify-center items-center h-full">
       {#if !$signerAddress$?.length && isFunding}
@@ -388,7 +390,8 @@
         </span>
       {/if}
       {#if !isFunding}
-        <span>{$__$?.presale.contribution.unavailable}</span>{/if}
+        <span>{$__$?.presale.contribution.unavailable}</span>
+      {/if}
     </div>
   {/if}
 </Card>

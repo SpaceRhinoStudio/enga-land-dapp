@@ -11,6 +11,7 @@
   import TableRow from './table/TableRow.svelte'
   import WithCurrencyIcon from './WithCurrencyIcon.svelte'
   import { seedSaleSignersVestings$ } from './observables/seed-sale/signers-vestings'
+  import { releaseAmount } from './operators/pre-sale/release-amount'
 
   export let sale: 'preSale' | 'seedSale'
   $: vestings$ = sale === 'preSale' ? preSaleSignersVestings$ : seedSaleSignersVestings$
@@ -28,15 +29,13 @@
         <ShortenedHash hash={data.txId} />
       </TableCell>
       <TableCell>
-        <WithCurrencyIcon>
-          {formatCurrencyWithUnit(data.amount, 3)}
-        </WithCurrencyIcon>
+        <WithCurrencyIcon data={data.amount} />
       </TableCell>
       <TableCell>
         {'$' + formatCurrencyWithUnit(data.price, 2)}
       </TableCell>
       <TableCell>
-        {formatCurrencyWithUnit(data.release, 3)}
+        <WithCurrencyIcon data={data.released} />
       </TableCell>
       <TableCell>
         {data.started.toLocaleDateString(undefined, {
