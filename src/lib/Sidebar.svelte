@@ -1,7 +1,7 @@
 <script lang="ts">
   import { config } from './configs'
   import { Routes } from './shared/configs/routes'
-  import Modal from './Modal.svelte'
+  import Modal from './shared/Modal.svelte'
   import CloseIcon from './shared/assets/icons/close-sidebar.svg'
   import SvgIcon from './shared/SVGIcon.svelte'
   import { goto } from '$app/navigation'

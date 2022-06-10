@@ -8,7 +8,7 @@
   import ConnectWalletModalSingleItem from './ConnectWalletModalSingleItem.svelte'
   import { screen$ } from './shared/helpers/media-queries'
   import { __$ } from './shared/locales'
-  import Modal from './Modal.svelte'
+  import Modal from './shared/Modal.svelte'
   import { selectedNetwork$, selectedNetworkController$ } from './observables/web3-network'
   import Select from './Select.svelte'
   import type { Web3ProviderId } from './types'

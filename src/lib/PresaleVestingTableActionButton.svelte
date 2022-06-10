@@ -12,7 +12,7 @@
   import type { VestingType } from './observables/pre-sale/signers-vestings'
   import { seedSaleRequestRelease } from './operators/seed-sale/request-release'
   import { releaseAmount } from './operators/pre-sale/release-amount'
-  import Modal from './Modal.svelte'
+  import Modal from './shared/Modal.svelte'
   import Card from './Card.svelte'
   import { screen$ } from './shared/helpers/media-queries'
   import cn from 'classnames'

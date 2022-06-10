@@ -5,7 +5,7 @@
   import Fade from './Fade.svelte'
   import Link from './shared/Link.svelte'
   import { __$ } from './shared/locales'
-  import Modal from './Modal.svelte'
+  import Modal from './shared/Modal.svelte'
   import SvgIcon from './shared/SVGIcon.svelte'
   import { config } from './configs'
   import { screen$ } from './shared/helpers/media-queries'
