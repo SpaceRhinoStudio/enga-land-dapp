@@ -6,7 +6,7 @@
   import SidebarToggleIcon from './shared/assets/icons/vuesax-linear-category-2.svg'
   import Logo from '../assets/EngalandLogo.svg'
   import ArrowDown from './shared/assets/icons/arrow-down.svg'
-  import DropDown from './DropDown.svelte'
+  import DropDown from './shared/DropDown.svelte'
   import HeaderSubNav from './HeaderSubNav.svelte'
   import ConnectWalletButton from './ConnectWalletButton.svelte'
   import Sidebar from './Sidebar.svelte'

@@ -12,7 +12,7 @@
   import UserIcon from './shared/assets/icons/vuesax-linear-user-octagon.svg'
   import WalletIcon from './shared/assets/icons/empty-wallet-add.svg'
   import LogoutIcon from './shared/assets/icons/logout.svg'
-  import DropDown from './DropDown.svelte'
+  import DropDown from './shared/DropDown.svelte'
   import ArrowDown from './shared/assets/icons/arrow-down.svg'
   import cn from 'classnames'
 
