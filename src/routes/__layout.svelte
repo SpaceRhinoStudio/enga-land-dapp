@@ -12,7 +12,6 @@
 </script>
 
 <MainLayout
-  small
   footerRoutes={[
     Routes.home,
     Routes.dapp,
