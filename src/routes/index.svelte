@@ -7,6 +7,7 @@
   import MainBackground from '$lib/MainBackground.svelte'
   import { routeConfig, Routes } from '$lib/shared/configs/routes'
   import { __$ } from '$lib/shared/locales'
+  import _ from 'lodash'
   import MarketplaceIcon from '../lib/shared/assets/icons/dapp-market.svg'
 
   const items = [Routes.marketplace, ...(routeConfig[Routes.dapp].subRoutes ?? [])].map(
@@ -27,7 +28,7 @@
       <IndexNavigationItem
         title={$__$?.nav[x.id]}
         Icon={x.id !== Routes.marketplace ? x.icon : MarketplaceIcon}
-        href={x.href}
+        href={_.isString(x.href) ? x.href : '/'}
         disabled={x.disabled} />
     {/each}
   </div>
