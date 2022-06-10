@@ -5,13 +5,12 @@ import type { Web3ProviderId } from '$lib/types'
 import type {
   CosmeticSlots,
   EndroItemType,
-  EndroSortOptions,
   GodStats,
   ItemRarity,
   MainNFTTypes,
-  MarketplaceSortOptions,
   Realms,
 } from '$lib/types/enga'
+import { EndroSortOptions, MarketplaceSortOptions } from '$lib/types/marketplace'
 export interface WebsiteLocaleData {
   main: {
     helloWorld: string

@@ -92,13 +92,3 @@ export type OpifexMeta = {
 export type RaffleTicketMeta = {
   rarity: ItemRarity
 }
-export enum EndroSortOptions {
-  'lowerGeneration' = 'lowerGeneration',
-  'higherGeneration' = 'higherGeneration',
-}
-
-export enum MarketplaceSortOptions {
-  'latest' = 'latest',
-  'cheap' = 'cheap',
-  'expensive' = 'expensive',
-}

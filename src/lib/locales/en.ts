@@ -3,14 +3,13 @@ import { ToastType } from '../contexts/flash-toast'
 import {
   CosmeticSlots,
   EndroItemType,
-  EndroSortOptions,
   GodStats,
   ItemRarity,
   MainNFTTypes,
-  MarketplaceSortOptions,
   Realms,
 } from '$lib/types/enga'
 import { WebsiteLocale } from './interface'
+import { EndroSortOptions, MarketplaceSortOptions } from '$lib/types/marketplace'
 
 const locale: WebsiteLocale = new WebsiteLocale({
   main: {

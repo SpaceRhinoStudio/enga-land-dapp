@@ -1,16 +1,12 @@
 <script lang="ts">
   import Button from '$lib/Button.svelte'
-  import { fade } from 'svelte/transition'
+  import { fade, fly } from 'svelte/transition'
   import Card from '$lib/Card.svelte'
-  import Fade from '$lib/Fade.svelte'
   import LoadingSpinner from '$lib/LoadingSpinner.svelte'
   import { __$ } from '$lib/locales'
   import MarketplaceCollectionSelectorDesktop from '$lib/MarketplaceCollectionSelectorDesktop.svelte'
   import MarketplaceCollectionSelectorMobile from '$lib/MarketplaceCollectionSelectorMobile.svelte'
-  import {
-    endroMarketplaceItems$,
-    endroMarketplaceItemsController$,
-  } from '$lib/observables/enga/marketplace-items'
+  import { endroMarketplaceItems$Factory } from '$lib/observables/enga/marketplace-items'
   import { controlStreamPayload } from '$lib/operators/control-stream-payload'
   import { formatCurrencyWithUnit } from '$lib/operators/currency-formatter'
   import { passNil } from '$lib/operators/pass-undefined'
@@ -20,24 +16,27 @@
   import { genArr } from '$lib/utils/random'
   import { map } from 'rxjs'
   import { EngaTokenContract$ } from '../contracts/fundraising-contracts'
-  import { MarketplaceSortOptionsArray, EndroSortOptionsArray } from '$lib/types/marketplace'
+  import { EndroSortOptions, MarketplaceSortOptions } from '$lib/types/marketplace'
   import ShowcaseCard from '$lib/ShowcaseCard.svelte'
-  import { onMount } from 'svelte'
-  import FadeSpring from '$lib/FadeSpring.svelte'
+  import _ from 'lodash'
 
   const engaBalance$ = EngaTokenContract$.pipe(
     signerBalanceOf,
     passNil(map(x => formatCurrencyWithUnit(x))),
   )
-  const sortOptions = [...MarketplaceSortOptionsArray, ...EndroSortOptionsArray]
-  const genOptions = [...genArr(16, e => String(e))]
-  let sort = sortOptions[0]
-  let gen = genOptions[0]
+  const sortOptions = [..._.values(MarketplaceSortOptions), ..._.values(EndroSortOptions)]
+  const genOptions = [undefined, ...genArr(15, e => `${e + 1}`)]
+  let sort: typeof sortOptions[number]
+  let gen: typeof genOptions[number]
 
-  onMount(() => {
-    endroMarketplaceItemsController$.next({ Load: true })
-  })
-  const isLoading$ = endroMarketplaceItemsController$.pipe(controlStreamPayload('isLoading'))
+  $: [itemsController$, items$] = endroMarketplaceItems$Factory(
+    { gen: _.isUndefined(gen) ? gen : Number(gen) },
+    sort,
+  )
+  const pageSize = 10
+
+  $: itemsController$.next({ Load: { limit: pageSize } })
+  $: isLoading$ = itemsController$.pipe(controlStreamPayload('isLoading'))
 </script>
 
 <div class="flex flex-col items-center w-full">
@@ -86,31 +85,24 @@
             </div>
           </div>
         </Card>
-        {#if $endroMarketplaceItems$ === undefined}
+        {#if $items$ === undefined}
           <div
-            transition:fade={{ delay: 1300 }}
+            transition:fade
             class="top-20 h-96 w-full flex justify-center items-center absolute z-0">
             <LoadingSpinner />
           </div>
         {/if}
-        <FadeSpring
-          springOptions={{ damping: 1000, stiffness: 5 }}
-          delay={300}
-          visible={!!$endroMarketplaceItems$?.length}
-          mode="height"
-          className={{ container: '!mb-28 relative z-10', wrapper: 'flex flex-col md:px-5' }}>
-          {#each $endroMarketplaceItems$ ?? [] as x (x.id)}
-            <div class="pt-4 pb-2">
+        <div class="!mb-28 relative z-10 flex flex-col md:px-5">
+          {#each $items$ ?? [] as x, i (x.id)}
+            <div transition:fly={{ y: -200, delay: (i % pageSize) * 200 }} class="pt-4 pb-2">
               <ShowcaseCard endroOptions={{ endro: x, forSale: true }} />
             </div>
           {/each}
-        </FadeSpring>
-        {#if $endroMarketplaceItems$ !== undefined}
-          <div
-            transition:fade={{ delay: 1300 }}
-            class="absolute bottom-0 w-full flex justify-center">
+        </div>
+        {#if $items$ !== undefined}
+          <div transition:fade class="absolute bottom-0 w-full flex justify-center">
             <Button
-              job={() => endroMarketplaceItemsController$.next({ Load: true })}
+              job={() => itemsController$.next({ Load: { limit: pageSize } })}
               isLoading={$isLoading$ ?? true}
               className="h-10 !px-20 mb-5">
               {$__$?.main.loadMore}

@@ -221,7 +221,7 @@
           {#if endroMeta?.owner}
             <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-[3]">
               <div
-                class="hidden md:flex space-x-1 text-sm border border-white rounded-lg px-2 py-1 backdrop-blur-sm bg-black bg-opacity-30 text-text-hover shadow-lg shadow-[#0005] select-none mr-3 cursor-pointer"
+                class="hidden md:flex space-x-1 text-sm border border-white rounded-lg px-2 py-1 backdrop-blur-sm bg-black bg-opacity-30 text-text-hover shadow-lg shadow-[#0005] select-none mr-3 cursor-pointer hover:scale-110 transition-transform"
                 on:click={() => goto(`/dashboard#${endroMeta?.owner}`)}>
                 <span>
                   {$__$?.marketplace.ownerTitle}:
