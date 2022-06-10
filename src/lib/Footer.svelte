@@ -25,14 +25,16 @@
   const seedSalePrice$ = engaPriceFromSeedSalePPM$.pipe(parsePPM)
   const preSalePrice$ = engaPriceFromPreSalePPM$.pipe(parsePPM)
 
-  const routes = [
+  export let routes = [
     Routes.home,
     Routes.dapp,
     Routes.marketplace,
     Routes.docs,
     Routes.help,
     Routes.aboutUs,
-  ].map(x => routeConfig[x])
+  ]
+
+  $: routeConfigs = routes.map(x => routeConfig[x])
   const socials = [Routes.telegram, Routes.twitter, Routes.discord, Routes.reddit].map(
     x => routeConfig[x],
   )
@@ -71,7 +73,7 @@
         </span>
         <div
           class="flex flex-wrap basis-auto grow-1 items-center flex-1 md:ml-12 mt-14 md:mt-0 md:px-0 px-5">
-          {#each routes as x}
+          {#each routeConfigs as x}
             <div class="mb-9 md:mb-0 mr-4">
               <Link
                 href={x.href}
