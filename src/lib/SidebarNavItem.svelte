@@ -2,7 +2,7 @@
   import type { RouteConfig } from './shared/configs/routes'
   import SvgIcon from './shared/SVGIcon.svelte'
   import ArrowDown from './shared/assets/icons/arrow-down.svg'
-  import Link from './Link.svelte'
+  import Link from './shared/Link.svelte'
   import Fade from './Fade.svelte'
   import { __$ } from './shared/locales'
   import { config } from './configs'

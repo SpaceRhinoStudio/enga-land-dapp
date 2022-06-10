@@ -1,6 +1,6 @@
 <script lang="ts">
   import { routeConfig, Routes } from './shared/configs/routes'
-  import Link from './Link.svelte'
+  import Link from './shared/Link.svelte'
   import { __$ } from './shared/locales'
   import SvgIcon from './shared/SVGIcon.svelte'
   import SidebarToggleIcon from './shared/assets/icons/vuesax-linear-category-2.svg'
@@ -11,7 +11,7 @@
   import ConnectWalletButton from './ConnectWalletButton.svelte'
   import Sidebar from './Sidebar.svelte'
   import { config } from './configs'
-  import { routeMatch } from './helpers/route-match'
+  import { routeMatch } from './shared/helpers/route-match'
   import { page } from '$app/stores'
   import _ from 'lodash'
 

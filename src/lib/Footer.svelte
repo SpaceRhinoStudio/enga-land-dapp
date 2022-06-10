@@ -1,7 +1,7 @@
 <script lang="ts">
   import SvgIcon from './shared/SVGIcon.svelte'
   import Logo from '../assets/EngalandLogo.svg'
-  import Link from './Link.svelte'
+  import Link from './shared/Link.svelte'
   import { __$ } from './shared/locales'
   import { routeConfig, Routes } from './shared/configs/routes'
 

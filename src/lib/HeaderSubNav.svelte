@@ -1,6 +1,6 @@
 <script lang="ts">
   import { routeConfig, type Routes } from './shared/configs/routes'
-  import Link from './Link.svelte'
+  import Link from './shared/Link.svelte'
   import { __$ } from './shared/locales'
   import SvgIcon from './shared/SVGIcon.svelte'
 

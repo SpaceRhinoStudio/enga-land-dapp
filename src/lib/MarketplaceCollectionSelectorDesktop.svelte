@@ -3,7 +3,7 @@
   import { config } from './configs'
   import { Routes } from './shared/configs/routes'
   import { screen$ } from './shared/helpers/media-queries'
-  import Link from './Link.svelte'
+  import Link from './shared/Link.svelte'
   import { __$ } from './shared/locales'
   import SvgIcon from './shared/SVGIcon.svelte'
 
