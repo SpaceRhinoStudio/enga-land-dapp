@@ -3,83 +3,51 @@
 </script>
 
 <script lang="ts">
-  import '../lib/shared/globals.css'
-  import Header from '$lib/Header.svelte'
-  import MobileVhFix from '$lib/shared/helpers/mobile-vh-fix.svelte'
-  import MobileHoverFix from '$lib/shared/helpers/mobile-hover-fix.svelte'
-  import MainLoadingOverlay from '$lib/shared/MainLoadingOverlay.svelte'
-  import IsNavigating from '$lib/shared/IsNavigating.svelte'
-  import { type TransitionConfig } from 'svelte/transition'
-  import { portalMap, create_portal_root } from '$lib/shared/actions/portal'
-  import _ from 'lodash'
-  import { onMount } from 'svelte'
-  import Footer from '$lib/shared/Footer.svelte'
-  import WithScrollHint from '$lib/shared/WithScrollHint.svelte'
-  import { useWobble } from '$lib/shared/helpers/wobble-svelte'
-  import EngaLogo from '../lib/shared/assets/favicon.png'
-  import ImportEnga from '$lib/ImportEnga.svelte'
+  import ConnectWalletButton from '$lib/ConnectWalletButton.svelte'
+
   import EngaPrice from '$lib/EngaPrice.svelte'
-
-  const [shouldBlur, setShouldBlur] = useWobble({})
-  $: setShouldBlur($portalMap.every(x => x.index === null) || $portalMap.length === 0 ? 0 : 1)
-
-  function fadeAndBlur(node: HTMLElement, { delay = 0, duration = 500 }): TransitionConfig {
-    return {
-      delay,
-      duration,
-      css: t => `filter: blur(${(1 - t) * 20}px); opacity: ${t};`,
-    }
-  }
-
-  let isReady = false
-  onMount(() => (isReady = true))
-
-  let footerHeight: number
-  let mainHeight: number
+  import ImportEnga from '$lib/ImportEnga.svelte'
+  import { Routes } from '$lib/shared/configs/routes'
+  import MainLayout from '$lib/shared/MainLayout.svelte'
 </script>
 
-<svelte:head>
-  <link rel="shortcut icon" href={EngaLogo} />
-</svelte:head>
-
-<MobileHoverFix />
-<MobileVhFix />
-<MainLoadingOverlay />
-
-<div id="portal_root" use:create_portal_root />
-
-{#if isReady}
-  <div in:fadeAndBlur={{ duration: 1200 }}>
-    <IsNavigating>
-      <div
-        slot="hide"
-        id="app"
-        transition:fadeAndBlur
-        style={$shouldBlur === 0 ? '' : `filter: blur(${$shouldBlur * 20}px);`}
-        class="w-screen relative">
-        <Header />
-        <WithScrollHint
-          goToTopButton
-          hintDownscaleFactor={{ start: 25 }}
-          mode="vertical"
-          className={{
-            container:
-              'w-full h-[calc(100vh-theme(spacing.24))] md:h-[calc(100vh-theme(spacing.28))] mt-24 md:mt-28',
-            innerWrapper:
-              'min-h-[calc(100vh-theme(spacing.24))] md:min-h-[calc(100vh-theme(spacing.28))] flex flex-col',
-          }}>
-          <main
-            bind:clientHeight={mainHeight}
-            style="padding-bottom: calc({footerHeight}px + 1.25rem);"
-            class="relative w-screen max-w-[min(calc(100%-theme(spacing.10)),theme(screens.xl))] children:max-w-full mx-auto py-5 grow flex flex-col">
-            <slot />
-            <Footer bind:clientHeight={footerHeight}>
-              <ImportEnga slot="foot" />
-              <EngaPrice slot="metadata" />
-            </Footer>
-          </main>
-        </WithScrollHint>
-      </div>
-    </IsNavigating>
-  </div>
-{/if}
+<MainLayout
+  small
+  footerRoutes={[
+    Routes.home,
+    Routes.dapp,
+    Routes.marketplace,
+    Routes.docs,
+    Routes.help,
+    Routes.aboutUs,
+  ]}
+  headerRoutes={[Routes.home, Routes.dapp, Routes.marketplace]}
+  headerCollapsedRoutes={[
+    Routes.docs,
+    Routes.help,
+    Routes.tokenomics,
+    Routes.github,
+    Routes.community,
+    Routes.aboutUs,
+  ]}
+  sidebarRoutes={[
+    Routes.home,
+    Routes.dapp,
+    Routes.marketplace,
+    Routes.docs,
+    Routes.help,
+    Routes.tokenomics,
+    Routes.github,
+    Routes.community,
+    Routes.aboutUs,
+  ]}>
+  <slot />
+  <svelte:fragment slot="header-right">
+    <!-- TODO: IMPORTANT -->
+    <!-- <PendingTransactions /> -->
+    <ConnectWalletButton />
+  </svelte:fragment>
+  <ConnectWalletButton slot="sidebar-foot" alwaysExpand upward dir="ltr" />
+  <ImportEnga slot="footer-foot" />
+  <EngaPrice slot="footer-metadata" />
+</MainLayout>
