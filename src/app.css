@@ -18,7 +18,7 @@ html {
     font-size: 85%;
   }
   body {
-    @apply overscroll-none h-full overflow-hidden;
+    @apply h-full overflow-hidden;
     min-height: var(--h-screen);
     max-height: var(--h-screen);
     height: var(--h-screen);
