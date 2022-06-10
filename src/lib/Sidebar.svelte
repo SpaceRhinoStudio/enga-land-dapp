@@ -3,7 +3,6 @@
   import { Routes } from './shared/configs/routes'
   import Modal from './Modal.svelte'
   import CloseIcon from './shared/assets/icons/close-sidebar.svg'
-  import { signerAddress$ } from './observables/selected-web3-provider'
   import SvgIcon from './shared/SVGIcon.svelte'
   import { goto } from '$app/navigation'
   import Logo from './shared/assets/EngalandLogo.svg'
