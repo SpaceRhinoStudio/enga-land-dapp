@@ -16,7 +16,7 @@
   import Footer from '$lib/Footer.svelte'
   import WithScrollHint from '$lib/shared/WithScrollHint.svelte'
   import { zeroIfNegative } from '$lib/utils/zero'
-  import { useWobble } from '$lib/helpers/wobble-svelte'
+  import { useWobble } from '$lib/shared/helpers/wobble-svelte'
   import EngaLogo from '../../src/assets/favicon.png'
 
   const [shouldBlur, setShouldBlur] = useWobble({})

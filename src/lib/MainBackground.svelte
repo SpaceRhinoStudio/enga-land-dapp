@@ -1,9 +1,9 @@
 <script lang="ts">
   import _ from 'lodash'
   import { portalMap } from './shared/actions/portal'
-  import RandomTranslate from './RandomTranslate.svelte'
+  import RandomTranslate from './shared/RandomTranslate.svelte'
   import IsNavigating from './IsNavigating.svelte'
-  import FolllowMouse from './FolllowMouse.svelte'
+  import FollowMouse from './shared/FollowMouse.svelte'
   import { onDestroy } from 'svelte'
 
   let isPortalOpen = false
@@ -22,12 +22,12 @@
 
 <IsNavigating bind:isLoading />
 
-<FolllowMouse>
+<FollowMouse>
   <div
     class="blur-md h-6 w-6 bg-[#ff0088] shadow-[0px_0px_80px_65px_#ff008840] rounded-full {shouldHide
       ? 'opacity-0 duration-100'
       : 'duration-[3s]'}" />
-</FolllowMouse>
+</FollowMouse>
 <div class="fixed z-[-1] left-0 right-0 flex justify-center items-center h-4/6">
   <div
     class={`flex justify-between w-[95vw] md:w-[73vw] h-full transition-opacity select-none pointer-events-none relative ${
