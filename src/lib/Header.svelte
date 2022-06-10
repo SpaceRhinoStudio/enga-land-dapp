@@ -9,7 +9,7 @@
   import DropDown from './shared/DropDown.svelte'
   import HeaderSubNav from './HeaderSubNav.svelte'
   import ConnectWalletButton from './ConnectWalletButton.svelte'
-  import Sidebar from './Sidebar.svelte'
+  import Sidebar from './shared/Sidebar.svelte'
   import { config } from './configs'
   import { routeMatch } from './shared/helpers/route-match'
   import { page } from '$app/stores'
@@ -123,4 +123,6 @@
     </div>
   </nav>
 </header>
-<Sidebar bind:isOpen />
+<Sidebar bind:isOpen>
+  <ConnectWalletButton slot="foot" alwaysExpand upward dir="ltr" />
+</Sidebar>
