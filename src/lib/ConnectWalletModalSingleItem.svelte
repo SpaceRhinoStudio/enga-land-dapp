@@ -8,7 +8,7 @@
     SelectedWeb3ProviderIdController$,
     signerAddress$,
   } from './observables/selected-web3-provider'
-  import SvgIcon from './SVGIcon.svelte'
+  import SvgIcon from './shared/SVGIcon.svelte'
   import type { Web3ProviderId } from './types'
   import binanceChain from '../assets/wallet-providers/binance-logo.svg'
   import metamask from '../assets/wallet-providers/metamask-logo.svg'

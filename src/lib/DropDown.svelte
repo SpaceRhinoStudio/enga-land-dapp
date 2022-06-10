@@ -1,8 +1,8 @@
 <script lang="ts">
   import cn from 'classnames'
   import { slide } from 'svelte/transition'
-  import { portal } from './actions/portal'
-  import { resize_observer } from './actions/resize-observer'
+  import { portal } from './shared/actions/portal'
+  import { resize_observer } from './shared/actions/resize-observer'
 
   import ClickState from './ClickState.svelte'
   import HoverState from './HoverState.svelte'

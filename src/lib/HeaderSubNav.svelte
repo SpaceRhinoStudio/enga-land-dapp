@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { routeConfig, type Routes } from './configs/routes'
+  import { routeConfig, type Routes } from './shared/configs/routes'
   import Link from './Link.svelte'
   import { __$ } from './locales'
-  import SvgIcon from './SVGIcon.svelte'
+  import SvgIcon from './shared/SVGIcon.svelte'
 
   export let routes: Routes[]
   const cols = [

@@ -8,12 +8,12 @@
     signerAddress$,
   } from './observables/selected-web3-provider'
   import ShortenedHash from './ShortenedHash.svelte'
-  import SvgIcon from './SVGIcon.svelte'
-  import UserIcon from '../assets/icons/vuesax-linear-user-octagon.svg'
-  import WalletIcon from '../assets/icons/empty-wallet-add.svg'
-  import LogoutIcon from '../assets/icons/logout.svg'
+  import SvgIcon from './shared/SVGIcon.svelte'
+  import UserIcon from './shared/assets/icons/vuesax-linear-user-octagon.svg'
+  import WalletIcon from './shared/assets/icons/empty-wallet-add.svg'
+  import LogoutIcon from './shared/assets/icons/logout.svg'
   import DropDown from './DropDown.svelte'
-  import ArrowDown from '../assets/icons/arrow-down.svg'
+  import ArrowDown from './shared/assets/icons/arrow-down.svg'
   import cn from 'classnames'
 
   export let alwaysExpand = false

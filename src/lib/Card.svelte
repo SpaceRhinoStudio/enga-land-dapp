@@ -1,7 +1,7 @@
 <script lang="ts">
   import _ from 'lodash'
   import { keysOf } from './utils/type-safe'
-  import WithScrollHint from './WithScrollHint.svelte'
+  import WithScrollHint from './shared/WithScrollHint.svelte'
 
   export let className: { [key in 'container' | 'wrapper']?: string } = {}
   export let freeHeaderHeight = false

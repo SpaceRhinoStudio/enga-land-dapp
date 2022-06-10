@@ -1,6 +1,6 @@
 <script lang="ts">
   import { map } from 'rxjs'
-  import { pxPerRem$, toPx$ } from './helpers/px-rem-conversion'
+  import { pxPerRem$, toPx$ } from './shared/helpers/px-rem-conversion'
 
   export let className: { [key in 'container' | 'wrapper']?: string } = {}
   export let mode: 'inCutLeft' | 'outCutRight'

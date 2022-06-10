@@ -1,7 +1,7 @@
 <script lang="ts">
   import LoadingOverlay from './LoadingOverlay.svelte'
-  import ArrowDown from '../assets/icons/arrow-down.svg'
-  import SvgIcon from './SVGIcon.svelte'
+  import ArrowDown from './shared/assets/icons/arrow-down.svg'
+  import SvgIcon from './shared/SVGIcon.svelte'
   import Fade from './Fade.svelte'
   import _ from 'lodash'
   import { createEventDispatcher } from 'svelte'

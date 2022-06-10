@@ -1,4 +1,4 @@
-import type { Routes } from '$lib/configs/routes'
+import type { Routes } from '$lib/shared/configs/routes'
 import type { ToastType } from '$lib/contexts/flash-toast'
 import type { VestingType } from '$lib/observables/pre-sale/signers-vestings'
 import type { Web3ProviderId } from '$lib/types'

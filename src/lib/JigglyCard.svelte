@@ -1,6 +1,6 @@
 <script lang="ts">
   import { spring } from 'svelte/motion'
-  import { canHover$ } from './helpers/media-queries'
+  import { canHover$ } from './shared/helpers/media-queries'
 
   let measure: HTMLElement
   let whereTo = { x: 0, y: 0 }

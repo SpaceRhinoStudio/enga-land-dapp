@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { config } from './configs'
-  import { canHover$ } from './helpers/media-queries'
+  import { canHover$ } from './shared/helpers/media-queries'
 
   let dispatch = createEventDispatcher<{ hover: boolean }>()
 

@@ -1,6 +1,6 @@
 <script lang="ts">
   import _ from 'lodash'
-  import { portalMap } from './actions/portal'
+  import { portalMap } from './shared/actions/portal'
   import RandomTranslate from './RandomTranslate.svelte'
   import IsNavigating from './IsNavigating.svelte'
   import FolllowMouse from './FolllowMouse.svelte'

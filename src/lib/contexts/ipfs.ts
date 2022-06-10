@@ -1,5 +1,5 @@
 import { config } from '$lib/configs'
-import { Window$ } from '$lib/observables/window'
+import { Window$ } from '$lib/shared/observables/window'
 import { map, mergeMap, of, retryWhen, shareReplay, throwError, throwIfEmpty, timer } from 'rxjs'
 
 const ipfsNode$ = Window$.pipe(

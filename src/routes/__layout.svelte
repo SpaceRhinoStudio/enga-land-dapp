@@ -3,18 +3,18 @@
 </script>
 
 <script lang="ts">
-  import '../app.css'
+  import '../lib/shared/globals.css'
   import Header from '$lib/Header.svelte'
   import MobileVhFix from '$lib/helpers/mobile-vh-fix.svelte'
   import MobileHoverFix from '$lib/helpers/mobile-hover-fix.svelte'
   import MainLoadingOverlay from '$lib/MainLoadingOverlay.svelte'
   import IsNavigating from '$lib/IsNavigating.svelte'
   import { type TransitionConfig } from 'svelte/transition'
-  import { portalMap, create_portal_root } from '$lib/actions/portal'
+  import { portalMap, create_portal_root } from '$lib/shared/actions/portal'
   import _ from 'lodash'
   import { onMount } from 'svelte'
   import Footer from '$lib/Footer.svelte'
-  import WithScrollHint from '$lib/WithScrollHint.svelte'
+  import WithScrollHint from '$lib/shared/WithScrollHint.svelte'
   import { zeroIfNegative } from '$lib/utils/zero'
   import { useWobble } from '$lib/helpers/wobble-svelte'
   import EngaLogo from '../../src/assets/favicon.png'

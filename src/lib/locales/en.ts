@@ -1,4 +1,4 @@
-import { Routes } from '../configs/routes'
+import { Routes } from '../shared/configs/routes'
 import { ToastType } from '../contexts/flash-toast'
 import {
   CosmeticSlots,

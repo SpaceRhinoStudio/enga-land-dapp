@@ -2,8 +2,8 @@
   import { BigNumber } from 'ethers'
   import type { Sentinel } from './contexts/empty-sentinel'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
-  import SvgIcon from './SVGIcon.svelte'
-  import EngaIcon from '../assets/icons/enga-icon.svg'
+  import SvgIcon from './shared/SVGIcon.svelte'
+  import EngaIcon from './shared/assets/icons/enga-icon.svg'
   import _ from 'lodash'
 
   export let className: { [key in 'container' | 'iconWrapper' | 'wrapper' | 'unit']?: string } = {}

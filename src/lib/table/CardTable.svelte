@@ -18,7 +18,7 @@
   import { onMount, setContext, tick } from 'svelte'
   import { writable, type Readable } from 'svelte/store'
   import { fade } from 'svelte/transition'
-  import { screen$ } from '../helpers/media-queries'
+  import { screen$ } from '../shared/helpers/media-queries'
   import { __$ } from '../locales'
   import TableSeparator from './TableSeparator.svelte'
 

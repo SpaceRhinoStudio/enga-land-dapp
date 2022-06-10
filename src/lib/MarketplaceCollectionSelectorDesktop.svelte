@@ -1,11 +1,11 @@
 <script lang="ts">
   import Card from './Card.svelte'
   import { config } from './configs'
-  import { Routes } from './configs/routes'
-  import { screen$ } from './helpers/media-queries'
+  import { Routes } from './shared/configs/routes'
+  import { screen$ } from './shared/helpers/media-queries'
   import Link from './Link.svelte'
   import { __$ } from './locales'
-  import SvgIcon from './SVGIcon.svelte'
+  import SvgIcon from './shared/SVGIcon.svelte'
 
   const routes = [
     Routes.mpEndro,

@@ -1,10 +1,10 @@
 <script lang="ts" context="module">
   import { EndroItemMeta, EndroItemType, GodStats, ItemRarity, Realms } from './types/enga'
-  import KomorebiIcon from '../assets/icons/realms/komorebi.svg'
-  import MagestaIcon from '../assets/icons/realms/magesta.svg'
-  import NubiaIcon from '../assets/icons/realms/nubia.svg'
-  import SigrIcon from '../assets/icons/realms/sigr.svg'
-  import UfmIcon from '../assets/icons/realms/ufm.svg'
+  import KomorebiIcon from './shared/assets/icons/realms/komorebi.svg'
+  import MagestaIcon from './shared/assets/icons/realms/magesta.svg'
+  import NubiaIcon from './shared/assets/icons/realms/nubia.svg'
+  import SigrIcon from './shared/assets/icons/realms/sigr.svg'
+  import UfmIcon from './shared/assets/icons/realms/ufm.svg'
 
   const realmsIconMap = {
     [Realms.komorebi]: KomorebiIcon,
@@ -19,10 +19,10 @@
   import CardCut from './CardCut.svelte'
   import ChipsetItemImage from './ChipsetItemImage.svelte'
   import GodStat from './GodStat.svelte'
-  import { screen$ } from './helpers/media-queries'
+  import { screen$ } from './shared/helpers/media-queries'
   import { __$ } from './locales'
   import ShortenedHash from './ShortenedHash.svelte'
-  import SvgIcon from './SVGIcon.svelte'
+  import SvgIcon from './shared/SVGIcon.svelte'
   import cn from 'classnames'
   import { config } from './configs'
   import { ItemRarityBackgroundClassNames } from './RarityMaps.svelte'

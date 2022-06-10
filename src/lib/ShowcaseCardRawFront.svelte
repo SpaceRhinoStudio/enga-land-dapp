@@ -1,6 +1,6 @@
 <script lang="ts">
   import CardCut from './CardCut.svelte'
-  import { canHover$, screen$ } from './helpers/media-queries'
+  import { canHover$, screen$ } from './shared/helpers/media-queries'
   import cn from 'classnames'
 
   export let cutHeight: string | undefined = undefined

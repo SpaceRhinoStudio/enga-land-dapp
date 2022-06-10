@@ -1,13 +1,13 @@
 <script lang="ts">
   import { config } from './configs'
-  import { Routes } from './configs/routes'
+  import { Routes } from './shared/configs/routes'
   import Modal from './Modal.svelte'
-  import CloseIcon from '../assets/icons/close-sidebar.svg'
+  import CloseIcon from './shared/assets/icons/close-sidebar.svg'
   import { signerAddress$ } from './observables/selected-web3-provider'
-  import SvgIcon from './SVGIcon.svelte'
+  import SvgIcon from './shared/SVGIcon.svelte'
   import { goto } from '$app/navigation'
   import Logo from '../assets/EngalandLogo.svg'
-  import WithScrollHint from './WithScrollHint.svelte'
+  import WithScrollHint from './shared/WithScrollHint.svelte'
   import ConnectWalletButton from './ConnectWalletButton.svelte'
   import SidebarNavItem from './SidebarNavItem.svelte'
 

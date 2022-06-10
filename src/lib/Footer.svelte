@@ -1,9 +1,9 @@
 <script lang="ts">
-  import SvgIcon from './SVGIcon.svelte'
+  import SvgIcon from './shared/SVGIcon.svelte'
   import Logo from '../assets/EngalandLogo.svg'
   import Link from './Link.svelte'
   import { __$ } from './locales'
-  import { routeConfig, Routes } from './configs/routes'
+  import { routeConfig, Routes } from './shared/configs/routes'
   import Button from './Button.svelte'
   import { importEnga } from './helpers/import-enga'
   import WithLoading from './WithLoading.svelte'

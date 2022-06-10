@@ -1,6 +1,6 @@
 import { Web3Error } from '$lib/classes/web3-error'
 import _ from 'lodash'
-import { Window$ } from '$lib/observables/window'
+import { Window$ } from '$lib/shared/observables/window'
 import { map, Observable, tap } from 'rxjs'
 import type { Web3ProviderId } from '$lib/types'
 import type { Network as EthersNetwork } from '@ethersproject/networks'

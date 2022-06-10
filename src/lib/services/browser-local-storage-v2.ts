@@ -4,7 +4,7 @@ import { filter, mergeMap } from 'rxjs/operators'
 import type { StorageAPI, WindowLocalStorageEvent } from '$lib/types'
 import type { MemoryCache } from './memory-cache'
 import { config } from '$lib/configs'
-import { Window$ } from '$lib/observables/window'
+import { Window$ } from '$lib/shared/observables/window'
 
 type ObservablesCache = { [key: string]: ReplaySubject<string | null> }
 

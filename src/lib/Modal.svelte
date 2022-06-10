@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte'
   import { fade, fly } from 'svelte/transition'
-  import { changePortalVisibility, portal, portalMap } from './actions/portal'
+  import { changePortalVisibility, portal, portalMap } from './shared/actions/portal'
   import cn from 'classnames'
   import { useWobble } from './helpers/wobble-svelte'
 

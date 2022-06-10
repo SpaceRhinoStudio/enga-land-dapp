@@ -1,6 +1,6 @@
 <script lang="ts">
   import { SpringConfig } from 'wobble'
-  import { resize_observer } from './actions/resize-observer'
+  import { resize_observer } from './shared/actions/resize-observer'
   import { useWobble } from './helpers/wobble-svelte'
 
   export let visible: boolean

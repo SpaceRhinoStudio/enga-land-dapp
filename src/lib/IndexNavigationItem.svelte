@@ -2,7 +2,7 @@
   import { goto } from '$app/navigation'
   import JigglyCard from '$lib/JigglyCard.svelte'
   import Button from './Button.svelte'
-  import SvgIcon from './SVGIcon.svelte'
+  import SvgIcon from './shared/SVGIcon.svelte'
 
   export let title: string | undefined
   export let href: string

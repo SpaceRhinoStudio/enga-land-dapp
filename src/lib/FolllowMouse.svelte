@@ -1,6 +1,6 @@
 <script lang="ts">
   import _ from 'lodash'
-  import { canHover$ } from './helpers/media-queries'
+  import { canHover$ } from './shared/helpers/media-queries'
   import { useWobble } from './helpers/wobble-svelte'
 
   function computeOpacity(full: number | undefined, current: number | undefined): number {

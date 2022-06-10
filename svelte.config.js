@@ -4,7 +4,7 @@ import preprocess from 'svelte-preprocess'
 import svg from '@poppanator/sveltekit-svg'
 
 const svgPlugin = svg({
-  includePaths: ['./src/assets/'],
+  includePaths: ['./src/assets/', './src/lib/shared/assets'],
   svgoOptions: {
     multipass: true,
     plugins: [

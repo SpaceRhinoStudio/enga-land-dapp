@@ -1,5 +1,4 @@
+export * from '../shared/types'
 export * from './web3'
-export * from './utils'
 export * from './cache'
-export * from './dom'
 export * from './data'

@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { RouteConfig } from './configs/routes'
-  import SvgIcon from './SVGIcon.svelte'
-  import ArrowDown from '../assets/icons/arrow-down.svg'
+  import type { RouteConfig } from './shared/configs/routes'
+  import SvgIcon from './shared/SVGIcon.svelte'
+  import ArrowDown from './shared/assets/icons/arrow-down.svg'
   import Link from './Link.svelte'
   import Fade from './Fade.svelte'
   import { __$ } from './locales'
