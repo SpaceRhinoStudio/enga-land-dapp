@@ -1,7 +1,7 @@
 <script lang="ts">
   import _ from 'lodash'
   import CardTable from './table/CardTable.svelte'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
   import { preSaleSignersVestings$ } from './observables/pre-sale/signers-vestings'
   import { signerAddress$ } from './observables/selected-web3-provider'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'

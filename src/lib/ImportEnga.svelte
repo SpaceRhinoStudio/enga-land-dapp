@@ -3,7 +3,7 @@
   import { importEnga } from './helpers/import-enga'
   import SvgIcon from './shared/SVGIcon.svelte'
   import MetamaskIcon from '../assets/wallet-providers/metamask-logo.svg'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
 </script>
 
 <Button job={importEnga} className="m-0 text-sm md:text-xs flex gap-2 items-center">

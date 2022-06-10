@@ -4,7 +4,7 @@
   import { Routes } from './shared/configs/routes'
   import Fade from './Fade.svelte'
   import Link from './Link.svelte'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
   import Modal from './Modal.svelte'
   import SvgIcon from './shared/SVGIcon.svelte'
   import { config } from './configs'

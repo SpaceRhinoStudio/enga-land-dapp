@@ -2,7 +2,7 @@
   import { firstValueFrom, map, pipe, tap } from 'rxjs'
   import { ControllerContract$, SeedSaleContract$ } from '../contracts/fundraising-contracts'
   import Button from './Button.svelte'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
   import { preSaleStatus$ } from './observables/pre-sale/status'
   import { preSaleRequestRefund } from './operators/pre-sale/request-refund'
   import { preSaleRequestRelease } from './operators/pre-sale/request-release'

@@ -20,7 +20,7 @@
   import ChipsetItemImage from './ChipsetItemImage.svelte'
   import GodStat from './GodStat.svelte'
   import { screen$ } from './shared/helpers/media-queries'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
   import ShortenedHash from './ShortenedHash.svelte'
   import SvgIcon from './shared/SVGIcon.svelte'
   import cn from 'classnames'

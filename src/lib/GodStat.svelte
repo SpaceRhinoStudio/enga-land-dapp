@@ -33,7 +33,7 @@
   import { screen$ } from './shared/helpers/media-queries'
   import _ from 'lodash'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
   import WithLoading from './WithLoading.svelte'
 
   export let className: { [key in 'container']?: string } = {}

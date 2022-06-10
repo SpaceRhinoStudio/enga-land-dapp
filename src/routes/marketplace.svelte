@@ -3,7 +3,7 @@
   import { fade, fly } from 'svelte/transition'
   import Card from '$lib/Card.svelte'
   import LoadingSpinner from '$lib/LoadingSpinner.svelte'
-  import { __$ } from '$lib/locales'
+  import { __$ } from '$lib/shared/locales'
   import MarketplaceCollectionSelectorDesktop from '$lib/MarketplaceCollectionSelectorDesktop.svelte'
   import MarketplaceCollectionSelectorMobile from '$lib/MarketplaceCollectionSelectorMobile.svelte'
   import { endroMarketplaceItems$Factory } from '$lib/observables/enga/marketplace-items'

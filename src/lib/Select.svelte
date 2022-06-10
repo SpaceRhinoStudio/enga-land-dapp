@@ -5,7 +5,7 @@
   import Fade from './Fade.svelte'
   import _ from 'lodash'
   import { createEventDispatcher } from 'svelte'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
 
   export let isLoading = false
   export let disabled = false

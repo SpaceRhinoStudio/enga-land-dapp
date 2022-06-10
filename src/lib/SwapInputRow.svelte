@@ -16,7 +16,7 @@
   import Button from './Button.svelte'
 
   import Input, { type InputComponentError, type InputControl } from './Input.svelte'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
   import { preSaleMinimumRequiredTargetCollateral$ } from './observables/pre-sale/minimum-required'
   import {
     CurrencyFormatterOperatorFactory,

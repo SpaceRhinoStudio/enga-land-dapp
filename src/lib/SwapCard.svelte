@@ -3,7 +3,7 @@
   import { fade, fly, slide } from 'svelte/transition'
   import Button from './Button.svelte'
   import Card from './Card.svelte'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
   import { PreSaleStatus } from './operators/pre-sale/status'
   import SvgIcon from './shared/SVGIcon.svelte'
   import WithLoading from './WithLoading.svelte'

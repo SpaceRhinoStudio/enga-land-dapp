@@ -4,7 +4,7 @@
   import ArrowDown from './shared/assets/icons/arrow-down.svg'
   import Link from './Link.svelte'
   import Fade from './Fade.svelte'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
   import { config } from './configs'
   import { onDestroy, onMount } from 'svelte'
 

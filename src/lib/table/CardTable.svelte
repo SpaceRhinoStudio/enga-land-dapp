@@ -19,7 +19,7 @@
   import { writable, type Readable } from 'svelte/store'
   import { fade } from 'svelte/transition'
   import { screen$ } from '../shared/helpers/media-queries'
-  import { __$ } from '../locales'
+  import { __$ } from '../shared/locales'
   import TableSeparator from './TableSeparator.svelte'
 
   export let className: {

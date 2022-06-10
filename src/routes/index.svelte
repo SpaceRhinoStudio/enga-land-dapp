@@ -6,7 +6,7 @@
   import IndexNavigationItem from '$lib/IndexNavigationItem.svelte'
   import MainBackground from '$lib/MainBackground.svelte'
   import { routeConfig, Routes } from '$lib/shared/configs/routes'
-  import { __$ } from '$lib/locales'
+  import { __$ } from '$lib/shared/locales'
   import MarketplaceIcon from '../lib/shared/assets/icons/dapp-market.svg'
 
   const items = [Routes.marketplace, ...(routeConfig[Routes.dapp].subRoutes ?? [])].map(

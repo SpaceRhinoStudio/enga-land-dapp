@@ -1,7 +1,7 @@
 <script lang="ts">
   import _ from 'lodash'
   import CardTable from './table/CardTable.svelte'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
   import TableCell from './table/TableCell.svelte'
   import TableRow from './table/TableRow.svelte'

@@ -2,7 +2,7 @@
   import _ from 'lodash'
 
   import { filter, of, timeout } from 'rxjs'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
   import {
     engaPrice$,
     engaPriceFromPreSalePPM$,

@@ -14,7 +14,7 @@
   import metamask from '../assets/wallet-providers/metamask-logo.svg'
   import safePal from '../assets/wallet-providers/safe-pal-logo.svg'
   import trust from '../assets/wallet-providers/trust-wallet-logo.svg'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
 
   const connectWalletModalAssetsMap: { [key in Web3ProviderId]: any } = {
     binanceChain,

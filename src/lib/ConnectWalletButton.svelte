@@ -2,7 +2,7 @@
   import { createEventDispatcher } from 'svelte'
   import ConnectWalletModal from './ConnectWalletModal.svelte'
   import Fade from './Fade.svelte'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
   import {
     SelectedWeb3ProviderIdController$,
     signerAddress$,

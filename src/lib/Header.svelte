@@ -1,7 +1,7 @@
 <script lang="ts">
   import { routeConfig, Routes } from './shared/configs/routes'
   import Link from './Link.svelte'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
   import SvgIcon from './shared/SVGIcon.svelte'
   import SidebarToggleIcon from './shared/assets/icons/vuesax-linear-category-2.svg'
   import Logo from '../assets/EngalandLogo.svg'
