@@ -13,7 +13,7 @@
   import { portalMap, create_portal_root } from '$lib/shared/actions/portal'
   import _ from 'lodash'
   import { onMount } from 'svelte'
-  import Footer from '$lib/Footer.svelte'
+  import Footer from '$lib/shared/Footer.svelte'
   import WithScrollHint from '$lib/shared/WithScrollHint.svelte'
   import { zeroIfNegative } from '$lib/utils/zero'
   import { useWobble } from '$lib/shared/helpers/wobble-svelte'
