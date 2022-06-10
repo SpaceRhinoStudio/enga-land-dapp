@@ -12,7 +12,7 @@ export const selectedNetworkController$ = new Subject<Partial<{ Set: string }>>(
 selectedNetworkController$
   .pipe(
     controlStreamPayload('Set'),
-    filter(x => isEnumMember(x, Network)),
+    filter(x => !isEnumMember(x, Network)),
     map(x => x as Network),
     distinctUntilChanged(),
   )
