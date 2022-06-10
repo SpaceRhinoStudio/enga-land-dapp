@@ -12,7 +12,7 @@ import {
   throwError,
   type TruthyTypesOf,
 } from 'rxjs'
-import { unLazy } from '$lib/utils/un-lazy'
+import { unLazy } from '$lib/shared/utils/un-lazy'
 import { type BooleanObservableInputConstructor, filterBy } from './filter-by'
 
 export function safeThrowMergeMap<T, O extends ObservableInput<any>>(

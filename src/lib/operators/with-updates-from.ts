@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { map, mergeMap, Observable, type OperatorFunction, switchMap } from 'rxjs'
-import { unLazy } from '$lib/utils/un-lazy'
+import { unLazy } from '$lib/shared/utils/un-lazy'
 
 export function withUpdatesFrom<T, R>(
   sourceOrMapper: ((input: T) => Observable<R>) | Observable<R>,

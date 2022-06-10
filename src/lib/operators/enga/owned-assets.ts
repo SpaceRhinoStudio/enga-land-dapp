@@ -11,16 +11,10 @@ import {
   toArray,
   withLatestFrom,
 } from 'rxjs'
-import {
-  type EndroItemMeta,
-  EndroItemType,
-  type EndroMeta,
-  ItemRarity,
-  MainNFTTypes,
-  type OpifexMeta,
-} from '$lib/types/enga'
+import { EndroItemType, ItemRarity, MainNFTTypes } from '$lib/shared/types/enga'
 import { genArr, rnd } from '$lib/utils/random'
 import { keysOf } from '$lib/utils/type-safe'
+import type { EndroItemMeta, EndroMeta, OpifexMeta } from '$lib/types/enga'
 
 export type OwnedAssetsList = {
   [MainNFTTypes.endro]: EndroMeta[]

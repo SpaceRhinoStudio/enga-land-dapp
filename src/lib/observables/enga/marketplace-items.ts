@@ -3,7 +3,7 @@ import { controlStreamPayload } from '$lib/operators/control-stream-payload'
 import { concatAll, concatMap, delay, map, Observable, scan, startWith, Subject, tap } from 'rxjs'
 import type { EndroMeta } from '$lib/types/enga'
 import { genArr } from '$lib/utils/random'
-import { EndroSortOptions, MarketplaceSortOptions } from '$lib/types/marketplace'
+import { EndroSortOptions, MarketplaceSortOptions } from '$lib/shared/types/marketplace'
 import _ from 'lodash'
 import { BigNumber } from 'ethers'
 

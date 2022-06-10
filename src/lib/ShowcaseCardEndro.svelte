@@ -7,12 +7,13 @@
   import SvgIcon from './shared/SVGIcon.svelte'
   import WithCurrencyIcon from './WithCurrencyIcon.svelte'
   import ArrowDown from './shared/assets/icons/arrow-down.svg'
-  import { EndroMeta, GodStats } from './types/enga'
+  import { GodStats } from './shared/types/enga'
   import cn from 'classnames'
   import { goto } from '$app/navigation'
   import { screen$ } from './shared/helpers/media-queries'
   import GodStat from './GodStat.svelte'
   import { listToMatrix } from './utils/list-to-matrix'
+  import type { EndroMeta } from './types/enga'
 
   export let endro: EndroMeta
   export let forSale: boolean

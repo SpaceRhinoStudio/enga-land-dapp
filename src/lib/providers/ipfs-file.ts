@@ -1,4 +1,4 @@
-import { ObservableError } from '$lib/classes/observable-error'
+import { ObservableError } from '$lib/shared/classes/observable-error'
 import { ipfs$ } from '$lib/contexts/ipfs'
 import _ from 'lodash'
 import { concat, iif, map, mergeAll, Observable, of, tap, throwError } from 'rxjs'

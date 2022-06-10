@@ -1,7 +1,7 @@
 import _ from 'lodash'
 import { ReplaySubject } from 'rxjs'
 import type { LazyEval } from '$lib/types'
-import { unLazy } from '$lib/utils/un-lazy'
+import { unLazy } from '$lib/shared/utils/un-lazy'
 
 export class MemoryCache {
   private storage: { [key: string]: unknown } = {}

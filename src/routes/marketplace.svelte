@@ -16,7 +16,7 @@
   import { genArr } from '$lib/utils/random'
   import { map } from 'rxjs'
   import { EngaTokenContract$ } from '../contracts/fundraising-contracts'
-  import { EndroSortOptions, MarketplaceSortOptions } from '$lib/types/marketplace'
+  import { EndroSortOptions, MarketplaceSortOptions } from '$lib/shared/types/marketplace'
   import ShowcaseCard from '$lib/ShowcaseCard.svelte'
   import _ from 'lodash'
 

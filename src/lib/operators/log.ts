@@ -1,6 +1,6 @@
 import _ from 'lodash'
 import { type MonoTypeOperatorFunction, pipe, tap } from 'rxjs'
-import { unLazy } from '$lib/utils/un-lazy'
+import { unLazy } from '$lib/shared/utils/un-lazy'
 
 export function logOp<T>(
   ...messages: (string | ((source: T) => unknown))[]

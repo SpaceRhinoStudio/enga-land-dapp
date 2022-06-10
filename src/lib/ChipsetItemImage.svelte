@@ -1,6 +1,6 @@
 <script lang="ts">
   import { config } from './configs'
-  import { ItemRarity } from './types/enga'
+  import { ItemRarity } from './shared/types/enga'
   export let className: string = ''
   export let rarity: ItemRarity
 </script>

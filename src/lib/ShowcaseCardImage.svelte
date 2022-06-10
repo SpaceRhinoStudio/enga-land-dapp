@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-  import { EndroItemMeta, EndroItemType, GodStats, ItemRarity, Realms } from './types/enga'
+  import { EndroItemType, GodStats, ItemRarity, Realms } from './shared/types/enga'
   import KomorebiIcon from './shared/assets/icons/realms/komorebi.svg'
   import MagestaIcon from './shared/assets/icons/realms/magesta.svg'
   import NubiaIcon from './shared/assets/icons/realms/nubia.svg'
@@ -34,6 +34,7 @@
   import { listToMatrix } from './utils/list-to-matrix'
   import { keysOf } from './utils/type-safe'
   import { goto } from '$app/navigation'
+  import type { EndroItemMeta } from './types/enga'
 
   export let image: string | undefined = undefined
   export let name: string

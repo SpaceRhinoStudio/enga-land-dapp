@@ -63,7 +63,7 @@
     termsAndConditionsAgreements$,
     termsAndConditionsAgreementsController$,
   } from './observables/terms-and-condition-agreement'
-  import { flashToast$, ToastType } from './contexts/flash-toast'
+  import { flashToast$, ToastType } from './shared/contexts/flash-toast'
   import SwapInputRow from './SwapInputRow.svelte'
   import { type InputControl } from './Input.svelte'
   import { handleDerivedInputs } from './helpers/handle-drived-inputs'

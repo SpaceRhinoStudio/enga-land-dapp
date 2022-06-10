@@ -1,6 +1,6 @@
 import type { BigNumber } from 'ethers'
 import { Observable, of } from 'rxjs'
-import { ItemRarity } from '$lib/types/enga'
+import { ItemRarity } from '$lib/shared/types/enga'
 import { parseEther } from '$lib/utils/parse-ether'
 
 export const raffleTicketPrices$: Observable<{

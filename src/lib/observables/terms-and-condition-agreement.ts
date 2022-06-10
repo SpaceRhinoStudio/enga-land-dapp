@@ -1,6 +1,6 @@
 import { config } from '$lib/configs'
 import { isSentinel, SENTINEL } from '$lib/shared/contexts/empty-sentinel'
-import { flashToast$ } from '$lib/contexts/flash-toast'
+import { flashToast$ } from '$lib/shared/contexts/flash-toast'
 import { __$ } from '$lib/shared/locales'
 import _ from 'lodash'
 import { controlStreamPayload } from '$lib/operators/control-stream-payload'

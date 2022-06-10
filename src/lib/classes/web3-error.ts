@@ -1,3 +1,3 @@
-import { ObservableError } from './observable-error'
+import { ObservableError } from '../shared/classes/observable-error'
 
 export class Web3Error extends ObservableError {}

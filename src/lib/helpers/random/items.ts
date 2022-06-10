@@ -1,10 +1,5 @@
-import {
-  CosmeticSlots,
-  type EndroItemMeta,
-  EndroItemType,
-  GodStats,
-  ItemRarity,
-} from '$lib/types/enga'
+import { CosmeticSlots, EndroItemType, GodStats, ItemRarity } from '$lib/shared/types/enga'
+import type { EndroItemMeta } from '$lib/types/enga'
 import { genArr, rnd, rndElm, rndEnum, rndPick } from '$lib/utils/random'
 import { keysOf } from '$lib/utils/type-safe'
 import FemaleEngoCommonTanktop from '../../../assets/samples/items/FemaleEngoCommonTanktop.png'

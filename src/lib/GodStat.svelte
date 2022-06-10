@@ -25,7 +25,7 @@
 <script lang="ts">
   import SvgIcon from './shared/SVGIcon.svelte'
   import cn from 'classnames'
-  import { GodStats } from './types/enga'
+  import { GodStats } from './shared/types/enga'
   import type { Nil } from './types'
   import { BigNumber } from 'ethers'
   import { screen$ } from './shared/helpers/media-queries'

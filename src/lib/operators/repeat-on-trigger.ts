@@ -8,7 +8,7 @@ import {
   repeat,
   startWith,
 } from 'rxjs'
-import { unLazy } from '$lib/utils/un-lazy'
+import { unLazy } from '$lib/shared/utils/un-lazy'
 import { withUpdatesFrom, withUpdatesUntilChanged } from './with-updates-from'
 
 export function repeatOnTrigger<T>(observable: Observable<unknown>): MonoTypeOperatorFunction<T> {

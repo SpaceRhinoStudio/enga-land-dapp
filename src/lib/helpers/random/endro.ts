@@ -1,4 +1,4 @@
-import { type EndroMeta, Realms } from '$lib/types/enga'
+import { Realms } from '$lib/shared/types/enga'
 import { parseEther } from '$lib/utils/parse-ether'
 import { rnd, rndAddress, rndElm, rndEnum } from '$lib/utils/random'
 import FemaleAfrican from '../../../assets/samples/Female African.png'
@@ -11,6 +11,7 @@ import { filter, map, Observable, take } from 'rxjs'
 import { __$ } from '$lib/shared/locales'
 import { noSentinelOrUndefined } from '$lib/utils/no-sentinel-or-undefined'
 import { nanoid } from 'nanoid'
+import type { EndroMeta } from '$lib/types/enga'
 const dummyImages = [FemaleAfrican, FemaleAsian, FemaleWML, MaleAfrican, MaleAsian, MaleWML]
 
 export function rndEndro(): Observable<EndroMeta> {
