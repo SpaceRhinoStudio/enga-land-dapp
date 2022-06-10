@@ -4,7 +4,7 @@
   import { __$ } from './shared/locales'
   import SvgIcon from './shared/SVGIcon.svelte'
   import SidebarToggleIcon from './shared/assets/icons/vuesax-linear-category-2.svg'
-  import Logo from '../assets/EngalandLogo.svg'
+  import Logo from './shared/assets/EngalandLogo.svg'
   import ArrowDown from './shared/assets/icons/arrow-down.svg'
   import DropDown from './shared/DropDown.svelte'
   import HeaderSubNav from './HeaderSubNav.svelte'

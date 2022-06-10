@@ -6,7 +6,7 @@
   import { signerAddress$ } from './observables/selected-web3-provider'
   import SvgIcon from './shared/SVGIcon.svelte'
   import { goto } from '$app/navigation'
-  import Logo from '../assets/EngalandLogo.svg'
+  import Logo from './shared/assets/EngalandLogo.svg'
   import WithScrollHint from './shared/WithScrollHint.svelte'
   import ConnectWalletButton from './ConnectWalletButton.svelte'
   import SidebarNavItem from './SidebarNavItem.svelte'
