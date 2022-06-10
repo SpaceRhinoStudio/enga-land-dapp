@@ -1,4 +1,4 @@
-import { SENTINEL, type Sentinel } from '$lib/contexts/empty-sentinel'
+import { SENTINEL, type Sentinel } from '$lib/shared/contexts/empty-sentinel'
 import _ from 'lodash'
 import { Observable, ReplaySubject, Subject, zip } from 'rxjs'
 

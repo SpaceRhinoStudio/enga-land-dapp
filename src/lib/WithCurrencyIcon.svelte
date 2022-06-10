@@ -1,6 +1,6 @@
 <script lang="ts">
   import { BigNumber } from 'ethers'
-  import type { Sentinel } from './contexts/empty-sentinel'
+  import type { Sentinel } from './shared/contexts/empty-sentinel'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
   import SvgIcon from './shared/SVGIcon.svelte'
   import EngaIcon from './shared/assets/icons/enga-icon.svg'

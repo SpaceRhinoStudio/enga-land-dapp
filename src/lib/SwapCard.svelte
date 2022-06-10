@@ -6,7 +6,7 @@
   import { __$ } from './shared/locales'
   import { PreSaleStatus } from './operators/pre-sale/status'
   import SvgIcon from './shared/SVGIcon.svelte'
-  import WithLoading from './WithLoading.svelte'
+  import WithLoading from './shared/WithLoading.svelte'
   import EngaIcon from './shared/assets/icons/enga-icon.svg'
   import BusdIcon from './shared/assets/icons/dai-icon.svg'
   import InfoIcon from './shared/assets/icons/vuesax-linear-info-circle.svg'
@@ -23,7 +23,7 @@
     SeedSaleContract$,
     SeedSaleTargetERC20Collateral$,
   } from '../contracts/fundraising-contracts'
-  import { isSentinel } from './contexts/empty-sentinel'
+  import { isSentinel } from './shared/contexts/empty-sentinel'
   import { preSaleStatus$ } from './observables/pre-sale/status'
   import { signerAddress$ } from './observables/selected-web3-provider'
   import {

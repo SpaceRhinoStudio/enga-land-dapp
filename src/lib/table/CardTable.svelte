@@ -12,7 +12,7 @@
 
 <script lang="ts">
   import Card from '$lib/Card.svelte'
-  import LoadingOverlay from '$lib/LoadingOverlay.svelte'
+  import LoadingOverlay from '$lib/shared/LoadingOverlay.svelte'
   import cn from 'classnames'
   import _ from 'lodash'
   import { onMount, setContext, tick } from 'svelte'

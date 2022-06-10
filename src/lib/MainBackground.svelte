@@ -2,7 +2,7 @@
   import _ from 'lodash'
   import { portalMap } from './shared/actions/portal'
   import RandomTranslate from './shared/RandomTranslate.svelte'
-  import IsNavigating from './IsNavigating.svelte'
+  import IsNavigating from './shared/IsNavigating.svelte'
   import FollowMouse from './shared/FollowMouse.svelte'
   import { onDestroy } from 'svelte'
 

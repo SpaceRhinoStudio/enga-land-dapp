@@ -1,5 +1,5 @@
 <script lang="ts">
-  import LoadingOverlay from './LoadingOverlay.svelte'
+  import LoadingOverlay from './shared/LoadingOverlay.svelte'
   import ArrowDown from './shared/assets/icons/arrow-down.svg'
   import SvgIcon from './shared/SVGIcon.svelte'
   import Fade from './Fade.svelte'

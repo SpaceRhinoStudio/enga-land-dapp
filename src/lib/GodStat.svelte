@@ -24,7 +24,7 @@
 
 <script lang="ts">
   import Fade from './Fade.svelte'
-  import LoadingSpinner from './LoadingSpinner.svelte'
+  import LoadingSpinner from './shared/LoadingSpinner.svelte'
   import SvgIcon from './shared/SVGIcon.svelte'
   import cn from 'classnames'
   import { GodStats } from './types/enga'
@@ -34,7 +34,7 @@
   import _ from 'lodash'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
   import { __$ } from './shared/locales'
-  import WithLoading from './WithLoading.svelte'
+  import WithLoading from './shared/WithLoading.svelte'
 
   export let className: { [key in 'container']?: string } = {}
   export let type: GodStats

@@ -1,4 +1,4 @@
-import { isSentinel, type Sentinel } from '$lib/contexts/empty-sentinel'
+import { isSentinel, type Sentinel } from '$lib/shared/contexts/empty-sentinel'
 import { BigNumber, ethers } from 'ethers'
 import _ from 'lodash'
 import { onlyNumbers } from './sanitize-numbers'

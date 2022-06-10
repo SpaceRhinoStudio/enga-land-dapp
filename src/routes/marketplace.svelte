@@ -2,7 +2,7 @@
   import Button from '$lib/Button.svelte'
   import { fade, fly } from 'svelte/transition'
   import Card from '$lib/Card.svelte'
-  import LoadingSpinner from '$lib/LoadingSpinner.svelte'
+  import LoadingSpinner from '$lib/shared/LoadingSpinner.svelte'
   import { __$ } from '$lib/shared/locales'
   import MarketplaceCollectionSelectorDesktop from '$lib/MarketplaceCollectionSelectorDesktop.svelte'
   import MarketplaceCollectionSelectorMobile from '$lib/MarketplaceCollectionSelectorMobile.svelte'

@@ -27,7 +27,7 @@
   import { onDestroy, tick } from 'svelte'
   import { controlStreamPayload } from './operators/control-stream-payload'
   import SvgIcon from './shared/SVGIcon.svelte'
-  import LoadingOverlay from './LoadingOverlay.svelte'
+  import LoadingOverlay from './shared/LoadingOverlay.svelte'
   import { fly } from 'svelte/transition'
   import { flip } from 'svelte/animate'
   import { waitFor } from './helpers/wait-for'

@@ -1,4 +1,4 @@
-import { isNotSentinel, isSentinel, SENTINEL } from '$lib/contexts/empty-sentinel'
+import { isNotSentinel, isSentinel, SENTINEL } from '$lib/shared/contexts/empty-sentinel'
 import _ from 'lodash'
 import { catchError, exhaustMap, filter, from, map, of, type OperatorFunction, pipe } from 'rxjs'
 import type { Web3ProviderMetadata } from '$lib/types/rxjs'

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { canHover$, screen$ } from './shared/helpers/media-queries'
 
-  import LoadingOverlay from './LoadingOverlay.svelte'
+  import LoadingOverlay from './shared/LoadingOverlay.svelte'
   export let active = false
   export let danger = false
   export let isLoading = false

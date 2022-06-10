@@ -1,6 +1,6 @@
 <script lang="ts">
   import Fade from './Fade.svelte'
-  import LoadingOverlay from './LoadingOverlay.svelte'
+  import LoadingOverlay from './shared/LoadingOverlay.svelte'
   import ToolTip from './ToolTip.svelte'
   import cn from 'classnames'
   import { fade } from 'svelte/transition'

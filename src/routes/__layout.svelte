@@ -5,19 +5,18 @@
 <script lang="ts">
   import '../lib/shared/globals.css'
   import Header from '$lib/Header.svelte'
-  import MobileVhFix from '$lib/helpers/mobile-vh-fix.svelte'
-  import MobileHoverFix from '$lib/helpers/mobile-hover-fix.svelte'
-  import MainLoadingOverlay from '$lib/MainLoadingOverlay.svelte'
-  import IsNavigating from '$lib/IsNavigating.svelte'
+  import MobileVhFix from '$lib/shared/helpers/mobile-vh-fix.svelte'
+  import MobileHoverFix from '$lib/shared/helpers/mobile-hover-fix.svelte'
+  import MainLoadingOverlay from '$lib/shared/MainLoadingOverlay.svelte'
+  import IsNavigating from '$lib/shared/IsNavigating.svelte'
   import { type TransitionConfig } from 'svelte/transition'
   import { portalMap, create_portal_root } from '$lib/shared/actions/portal'
   import _ from 'lodash'
   import { onMount } from 'svelte'
   import Footer from '$lib/shared/Footer.svelte'
   import WithScrollHint from '$lib/shared/WithScrollHint.svelte'
-  import { zeroIfNegative } from '$lib/utils/zero'
   import { useWobble } from '$lib/shared/helpers/wobble-svelte'
-  import EngaLogo from '../../src/assets/favicon.png'
+  import EngaLogo from '../lib/shared/assets/favicon.png'
   import ImportEnga from '$lib/ImportEnga.svelte'
   import EngaPrice from '$lib/EngaPrice.svelte'
 
@@ -56,9 +55,7 @@
         slot="hide"
         id="app"
         transition:fadeAndBlur
-        style={zeroIfNegative($shouldBlur) === 0
-          ? ''
-          : `filter: blur(${zeroIfNegative($shouldBlur) * 20}px);`}
+        style={$shouldBlur === 0 ? '' : `filter: blur(${$shouldBlur * 20}px);`}
         class="w-screen relative">
         <Header />
         <WithScrollHint

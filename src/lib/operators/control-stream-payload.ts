@@ -1,4 +1,4 @@
-import { SENTINEL } from '$lib/contexts/empty-sentinel'
+import { SENTINEL } from '$lib/shared/contexts/empty-sentinel'
 import { filter, map, type OperatorFunction } from 'rxjs'
 import type { NonUndefinable } from '$lib/types'
 import { noSentinelOrUndefined } from '$lib/utils/no-sentinel-or-undefined'

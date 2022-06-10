@@ -28,7 +28,7 @@
   import { noNil, noSentinelOrUndefined } from './utils/no-sentinel-or-undefined'
   import { parseEther } from './utils/parse-ether'
   import { sanitizeNumbers } from './utils/sanitize-numbers'
-  import WithLoading from './WithLoading.svelte'
+  import WithLoading from './shared/WithLoading.svelte'
 
   export let control$: Subject<InputControl>
   export let icon: any

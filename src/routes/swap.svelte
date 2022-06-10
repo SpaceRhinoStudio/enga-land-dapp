@@ -1,6 +1,6 @@
 <script lang="ts">
   import Card from '$lib/Card.svelte'
-  import LoadingSpinner from '$lib/LoadingSpinner.svelte'
+  import LoadingSpinner from '$lib/shared/LoadingSpinner.svelte'
   import { __$ } from '$lib/shared/locales'
   import { preSaleGoal$ } from '$lib/observables/pre-sale/goal'
   import { preSaleTotalCollateralRaised$ } from '$lib/observables/pre-sale/raised'

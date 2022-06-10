@@ -1,6 +1,6 @@
 import { config } from '$lib/configs'
 import { Network } from '$lib/configs/web3'
-import { isNotSentinel, SENTINEL } from '$lib/contexts/empty-sentinel'
+import { isNotSentinel, SENTINEL } from '$lib/shared/contexts/empty-sentinel'
 import _ from 'lodash'
 import {
   catchError,

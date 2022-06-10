@@ -1,5 +1,5 @@
 import { config } from '$lib/configs'
-import { isSentinel, SENTINEL } from '$lib/contexts/empty-sentinel'
+import { isSentinel, SENTINEL } from '$lib/shared/contexts/empty-sentinel'
 import { flashToast$ } from '$lib/contexts/flash-toast'
 import { __$ } from '$lib/shared/locales'
 import _ from 'lodash'
