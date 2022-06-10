@@ -4,26 +4,6 @@
   import Link from './Link.svelte'
   import { __$ } from './locales'
   import { routeConfig, Routes } from './shared/configs/routes'
-  import Button from './Button.svelte'
-  import { importEnga } from './helpers/import-enga'
-  import WithLoading from './WithLoading.svelte'
-  import _ from 'lodash'
-  import {
-    engaPrice$,
-    engaPriceFromPreSalePPM$,
-    engaPriceFromSeedSalePPM$,
-    parsePPM,
-  } from './observables/enga-price'
-  import { filter, of, timeout } from 'rxjs'
-  import { noSentinelOrUndefined } from './utils/no-sentinel-or-undefined'
-  import MetamaskIcon from '../assets/wallet-providers/metamask-logo.svg'
-
-  const _engaPrice$ = engaPrice$.pipe(
-    filter(noSentinelOrUndefined),
-    timeout({ first: 6000, with: () => of(null) }),
-  )
-  const seedSalePrice$ = engaPriceFromSeedSalePPM$.pipe(parsePPM)
-  const preSalePrice$ = engaPriceFromPreSalePPM$.pipe(parsePPM)
 
   export let routes = [
     Routes.home,
@@ -55,21 +35,7 @@
           <SvgIcon Icon={Logo} width={'6.8rem'} height={'3.1rem'} dontFill />
         </Link>
         <span class="md:order-last">
-          <WithLoading
-            data={$_engaPrice$}
-            predicate={_.negate(_.isUndefined)}
-            className={{
-              container: 'text-right',
-            }}>
-            <span slot="before">1 ENGA:</span>
-            <span slot="data" class="text-yellow-400">
-              ${_.isNull($_engaPrice$)
-                ? $__$?.main.notAvailable
-                : $engaPriceFromSeedSalePPM$ && $engaPriceFromPreSalePPM$
-                ? `${$seedSalePrice$} ~ $${$preSalePrice$}`
-                : $_engaPrice$}
-            </span>
-          </WithLoading>
+          <slot name="metadata" />
         </span>
         <div
           class="flex flex-wrap basis-auto grow-1 items-center flex-1 md:ml-12 mt-14 md:mt-0 md:px-0 px-5">
@@ -95,10 +61,7 @@
             2022
             <span class="text-white ml-2">Space Rhino Studio</span>
           </p>
-          <Button job={importEnga} className="m-0 text-sm md:text-xs flex gap-2 items-center">
-            <SvgIcon height="1.1rem" width="1.1rem" Icon={MetamaskIcon} dontFill />
-            <span>{$__$?.web3Provider.importEnga}</span>
-          </Button>
+          <slot name="foot" />
         </div>
         <div>
           <div class="flex items-center justify-between flex-wrap md:mb-0 mb-8 gap-5">
