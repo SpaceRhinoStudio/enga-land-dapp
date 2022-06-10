@@ -23,8 +23,6 @@
 </script>
 
 <script lang="ts">
-  import Fade from './Fade.svelte'
-  import LoadingSpinner from './shared/LoadingSpinner.svelte'
   import SvgIcon from './shared/SVGIcon.svelte'
   import cn from 'classnames'
   import { GodStats } from './types/enga'
