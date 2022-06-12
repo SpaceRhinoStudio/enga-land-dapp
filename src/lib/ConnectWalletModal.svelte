@@ -12,7 +12,7 @@
   import { selectedNetwork$, selectedNetworkController$ } from './observables/web3-network'
   import Select from './Select.svelte'
   import type { Web3ProviderId } from './types'
-  import { keysOf } from './utils/type-safe'
+  import { keysOf } from './shared/utils/type-safe'
 
   export let toggle: () => void
   export let loading = null as Web3ProviderId | null

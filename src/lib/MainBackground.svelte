@@ -18,6 +18,9 @@
       }, 500))
   let timeout: NodeJS.Timeout
   onDestroy(() => clearTimeout(timeout))
+
+  let x = 10
+  let y = 10
 </script>
 
 <IsNavigating bind:isLoading />
@@ -40,7 +43,7 @@
       <RandomTranslate className="flex justify-start">
         <div class="h-8 w-8 bg-primary-800 rounded-full" />
       </RandomTranslate>
-      <RandomTranslate className="flex justify-end h-12 w-12" let:x let:y>
+      <RandomTranslate className="flex justify-end h-12 w-12">
         <div
           style="will-change: box-shadow; box-shadow: {`0px 0px ${Math.min(
             (Math.abs(x) + Math.abs(y)) * 2 + 60,
@@ -52,7 +55,7 @@
       </RandomTranslate>
     </div>
     <div class="h-full flex flex-col justify-between md:justify-evenly">
-      <RandomTranslate className="flex justify-center h-14 w-14" let:x let:y>
+      <RandomTranslate className="flex justify-center h-14 w-14">
         <div
           style="will-change: box-shadow; box-shadow: {`0px 0px ${Math.min(
             (Math.abs(x) + Math.abs(y)) * 2 + 45,

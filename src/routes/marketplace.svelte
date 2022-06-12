@@ -13,7 +13,7 @@
   import { signerBalanceOf } from '$lib/operators/web3/balance-of'
   import PageTitle from '$lib/PageTitle.svelte'
   import Select from '$lib/Select.svelte'
-  import { genArr } from '$lib/utils/random'
+  import { genArr } from '$lib/shared/utils/random'
   import { map } from 'rxjs'
   import { EngaTokenContract$ } from '../contracts/fundraising-contracts'
   import { EndroSortOptions, MarketplaceSortOptions } from '$lib/shared/types/marketplace'

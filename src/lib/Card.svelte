@@ -1,6 +1,6 @@
 <script lang="ts">
   import _ from 'lodash'
-  import { keysOf } from './utils/type-safe'
+  import { keysOf } from './shared/utils/type-safe'
   import WithScrollHint from './shared/WithScrollHint.svelte'
 
   export let className: { [key in 'container' | 'wrapper']?: string } = {}

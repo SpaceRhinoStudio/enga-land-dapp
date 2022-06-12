@@ -32,7 +32,7 @@
   import OpifexOn from '../assets/cards/opifex-on.svg'
   import _ from 'lodash'
   import { listToMatrix } from './utils/list-to-matrix'
-  import { keysOf } from './utils/type-safe'
+  import { keysOf } from './shared/utils/type-safe'
   import { goto } from '$app/navigation'
   import type { EndroItemMeta } from './types/enga'
 

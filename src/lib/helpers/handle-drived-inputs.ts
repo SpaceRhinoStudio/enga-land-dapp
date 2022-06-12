@@ -1,7 +1,7 @@
 import type { InputControl } from '$lib/Input.svelte'
 import { controlStreamPayload } from '$lib/operators/control-stream-payload'
 import { logOp } from '$lib/operators/log'
-import { keysOf } from '$lib/utils/type-safe'
+import { keysOf } from '$lib/shared/utils/type-safe'
 import {
   distinctUntilChanged,
   filter,

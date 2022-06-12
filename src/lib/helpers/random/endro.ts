@@ -1,6 +1,6 @@
 import { Realms } from '$lib/shared/types/enga'
 import { parseEther } from '$lib/utils/parse-ether'
-import { rnd, rndAddress, rndElm, rndEnum } from '$lib/utils/random'
+import { rnd, rndAddress, rndElm, rndEnum } from '$lib/shared/utils/random'
 import FemaleAfrican from '../../../assets/samples/Female African.png'
 import FemaleAsian from '../../../assets/samples/Female Asian.png'
 import FemaleWML from '../../../assets/samples/Female WML.png'

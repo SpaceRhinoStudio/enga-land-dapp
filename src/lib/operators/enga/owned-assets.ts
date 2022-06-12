@@ -12,8 +12,8 @@ import {
   withLatestFrom,
 } from 'rxjs'
 import { EndroItemType, ItemRarity, MainNFTTypes } from '$lib/shared/types/enga'
-import { genArr, rnd } from '$lib/utils/random'
-import { keysOf } from '$lib/utils/type-safe'
+import { genArr, rnd } from '$lib/shared/utils/random'
+import { keysOf } from '$lib/shared/utils/type-safe'
 import type { EndroItemMeta, EndroMeta, OpifexMeta } from '$lib/types/enga'
 
 export type OwnedAssetsList = {
