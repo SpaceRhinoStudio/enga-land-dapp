@@ -1,7 +1,7 @@
 <script lang="ts">
   import _ from 'lodash'
   import { fade, fly, slide } from 'svelte/transition'
-  import Button from './Button.svelte'
+  import Button from './shared/Button.svelte'
   import Card from './Card.svelte'
   import { __$ } from './shared/locales'
   import { PreSaleStatus } from './operators/pre-sale/status'

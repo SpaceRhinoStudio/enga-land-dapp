@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Button from '$lib/Button.svelte'
+  import Button from '$lib/shared/Button.svelte'
   import { fade, fly } from 'svelte/transition'
   import Card from '$lib/Card.svelte'
   import LoadingSpinner from '$lib/shared/LoadingSpinner.svelte'

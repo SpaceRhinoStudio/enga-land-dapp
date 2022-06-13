@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Button from './Button.svelte'
+  import Button from './shared/Button.svelte'
   import { __$ } from './shared/locales'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
   import ShowcaseCardImage from './ShowcaseCardImage.svelte'

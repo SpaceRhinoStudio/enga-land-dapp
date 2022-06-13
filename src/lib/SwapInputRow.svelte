@@ -13,7 +13,7 @@
     switchMap,
     type OperatorFunction,
   } from 'rxjs'
-  import Button from './Button.svelte'
+  import Button from './shared/Button.svelte'
 
   import Input, { type InputComponentError, type InputControl } from './Input.svelte'
   import { __$ } from './shared/locales'

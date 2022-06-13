@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Button from './Button.svelte'
+  import Button from './shared/Button.svelte'
   import { importEnga } from './helpers/import-enga'
   import SvgIcon from './shared/SVGIcon.svelte'
   import MetamaskIcon from '../assets/wallet-providers/metamask-logo.svg'

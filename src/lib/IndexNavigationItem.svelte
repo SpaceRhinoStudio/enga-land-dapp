@@ -1,7 +1,7 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
   import JigglyCard from '$lib/JigglyCard.svelte'
-  import Button from './Button.svelte'
+  import Button from './shared/Button.svelte'
   import SvgIcon from './shared/SVGIcon.svelte'
 
   export let title: string | undefined

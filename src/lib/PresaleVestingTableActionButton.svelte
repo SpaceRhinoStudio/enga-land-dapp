@@ -1,7 +1,7 @@
 <script lang="ts">
   import { firstValueFrom, map, pipe, tap } from 'rxjs'
   import { ControllerContract$, SeedSaleContract$ } from '../contracts/fundraising-contracts'
-  import Button from './Button.svelte'
+  import Button from './shared/Button.svelte'
   import { __$ } from './shared/locales'
   import { preSaleStatus$ } from './observables/pre-sale/status'
   import { preSaleRequestRefund } from './operators/pre-sale/request-refund'

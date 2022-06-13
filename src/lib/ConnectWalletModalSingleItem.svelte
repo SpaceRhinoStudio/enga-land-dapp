@@ -1,6 +1,6 @@
 <script lang="ts">
   import { auditTime, filter, firstValueFrom, withLatestFrom } from 'rxjs'
-  import Button from './Button.svelte'
+  import Button from './shared/Button.svelte'
   import { config } from './configs'
   import { waitFor } from './helpers/wait-for'
   import {

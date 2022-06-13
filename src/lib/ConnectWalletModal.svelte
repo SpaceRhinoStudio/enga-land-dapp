@@ -1,7 +1,7 @@
 <script lang="ts">
   import _ from 'lodash'
 
-  import Button from './Button.svelte'
+  import Button from './shared/Button.svelte'
   import Card from './Card.svelte'
   import { config } from './configs'
   import { Network } from './configs/web3'
