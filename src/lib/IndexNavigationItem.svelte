@@ -1,6 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation'
-  import JigglyCard from '$lib/JigglyCard.svelte'
+  import JigglyCard from '$lib/shared/JigglyCard.svelte'
   import Button from './shared/Button.svelte'
   import SvgIcon from './shared/SVGIcon.svelte'
 
