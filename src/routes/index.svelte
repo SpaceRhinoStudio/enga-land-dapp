@@ -23,7 +23,7 @@
 <MainBackground />
 
 <div class="grow w-screen !max-w-screen-xl self-center flex items-center py-4">
-  <div class="grow flex flex-wrap justify-center">
+  <div class="relative z-10 grow flex flex-wrap justify-center">
     {#each items as x}
       <IndexNavigationItem
         title={$__$?.nav[x.id]}
