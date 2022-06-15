@@ -30,7 +30,7 @@
 </script>
 
 <Button
-  className="flex flex-col items-center border-none disabled:bg-transparent bg-transparent text-text-secondary px-2 py-2 m-0 text-sm w-1/2 md:w-auto"
+  className="flex flex-col items-center border-none disabled:!bg-transparent bg-transparent text-text-secondary px-2 py-2 m-0 text-sm w-1/2 md:w-auto"
   disabled={(loading && loading !== id) || !$provider$}
   isLoading={loading === id}
   job={async () => {
