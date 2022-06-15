@@ -1,6 +1,6 @@
 <script lang="ts">
   import ShowcaseCardEndro from './ShowcaseCardEndro.svelte'
-  import { EndroItemMeta, EndroMeta, OpifexMeta, RaffleTicketMeta } from './types/enga'
+  import type { EndroItemMeta, EndroMeta, OpifexMeta, RaffleTicketMeta } from './types/enga'
 
   export let endroOptions:
     | {
