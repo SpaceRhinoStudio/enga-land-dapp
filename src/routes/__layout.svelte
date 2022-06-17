@@ -12,6 +12,7 @@
 </script>
 
 <MainLayout
+  headerBlurContainer
   footerRoutes={[
     Routes.home,
     Routes.dapp,
