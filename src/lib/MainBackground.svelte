@@ -2,26 +2,24 @@
   import _ from 'lodash'
   import { portalMap } from './shared/actions/portal'
   import RandomTranslate from './shared/RandomTranslate.svelte'
-  import IsNavigating from './shared/IsNavigating.svelte'
   import FollowMouse from './shared/FollowMouse.svelte'
-  import { getContext, onDestroy } from 'svelte'
+  import { getContext } from 'svelte'
   import { backdropStyle, BackdropStyleContext } from './shared/MainLayout.svelte'
-  import { should } from 'chai'
   import { fade } from 'svelte/transition'
+  import { isPageLoading$ } from './shared/observables/is-page-loading'
+  import { readable } from 'svelte/store'
+  import { isChrome$ } from './shared/contexts/is-firefox'
 
   let isPortalOpen = false
   $: isPortalOpen = !($portalMap.every(x => x.index === null) || $portalMap.length === 0)
 
-  const blur = getContext<BackdropStyleContext>(backdropStyle)?.blur
+  const isBlurred = getContext<BackdropStyleContext>(backdropStyle)?.isBlurred ?? readable(true)
 
-  let isLoading: boolean
-  $: shouldHide = (isLoading ?? true) || isPortalOpen || $blur
+  $: shouldHide = ($isPageLoading$ ?? true) || ($isChrome$ && ($isBlurred || isPortalOpen))
 
   let x = 10
   let y = 10
 </script>
-
-<IsNavigating bind:isLoading />
 
 {#if !shouldHide}
   <FollowMouse>
