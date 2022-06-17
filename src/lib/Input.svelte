@@ -31,6 +31,7 @@
   import { fly } from 'svelte/transition'
   import { flip } from 'svelte/animate'
   import { waitFor } from './helpers/wait-for'
+  import { pulse } from './shared/actions/pulse'
 
   export let control$: Subject<InputControl>
   export let validators: OperatorFunction<string, InputComponentError>[] = []
@@ -41,17 +42,6 @@
   export let value = undefined as string | undefined
   export let className: { [key in 'outer' | 'wrapper' | 'target']?: string } = {}
   export let icon: any
-
-  let shouldPulse = false
-  let timeout: NodeJS.Timeout | undefined
-  $: {
-    if (shouldPulse) {
-      timeout = setTimeout(() => {
-        shouldPulse = false
-      }, 2000)
-    }
-  }
-  onDestroy(() => clearTimeout(timeout))
 
   $: !_.isNil(value) && control$.next({ Value: value })
   $: control$.next({ Disable: disabled })
@@ -104,12 +94,11 @@
 </script>
 
 <div
-  onClick={() => $control$?.Disable && (shouldPulse = true)}
+  use:pulse={{ should: $control$?.Disable ?? false }}
   class={cn(
     'relative children:transition-opacity',
     $$slots.label && 'table-row',
     $control$?.Disable && 'brightness-75 cursor-not-allowed',
-    shouldPulse && 'animate-pulse',
     className?.outer,
   )}>
   {#if $$slots.label}
