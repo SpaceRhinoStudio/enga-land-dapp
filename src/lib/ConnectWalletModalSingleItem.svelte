@@ -2,7 +2,7 @@
   import { auditTime, filter, firstValueFrom, withLatestFrom } from 'rxjs'
   import Button from './shared/Button.svelte'
   import { config } from './configs'
-  import { waitFor } from './helpers/wait-for'
+  import { waitFor } from './shared/helpers/wait-for'
   import {
     IsConnectingToSelectedProvider$,
     SelectedWeb3ProviderIdController$,

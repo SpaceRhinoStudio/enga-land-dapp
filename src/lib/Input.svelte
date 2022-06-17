@@ -30,7 +30,7 @@
   import LoadingOverlay from './shared/LoadingOverlay.svelte'
   import { fly } from 'svelte/transition'
   import { flip } from 'svelte/animate'
-  import { waitFor } from './helpers/wait-for'
+  import { waitFor } from './shared/helpers/wait-for'
   import { pulse } from './shared/actions/pulse'
 
   export let control$: Subject<InputControl>
