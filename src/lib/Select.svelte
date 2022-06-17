@@ -29,8 +29,8 @@
 </script>
 
 <div
-  class="relative flex mx-2 bg-primary-600 rounded-lg py-1 pl-3 {className.container ??
-    ''} {disabled && 'text-opacity-50 text-text-secondary brightness-75'}">
+  class="relative flex bg-primary-600 rounded-lg py-1 pl-3 {className.container ?? ''} {disabled &&
+    'text-opacity-50 text-text-secondary brightness-75'}">
   <select
     on:change={e => dispatch('change', e.currentTarget.value)}
     bind:this={ref}
