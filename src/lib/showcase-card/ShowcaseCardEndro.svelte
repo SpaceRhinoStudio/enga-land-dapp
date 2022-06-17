@@ -1,21 +1,21 @@
 <script lang="ts">
-  import Button from './shared/Button.svelte'
-  import { __$ } from './shared/locales'
-  import { formatCurrencyWithUnit } from './operators/currency-formatter'
+  import Button from '../shared/Button.svelte'
+  import { __$ } from '../shared/locales'
+  import { formatCurrencyWithUnit } from '../operators/currency-formatter'
   import ShowcaseCardImage from './ShowcaseCardImage.svelte'
   import ShowcaseCardRaw from './ShowcaseCardRaw.svelte'
-  import SvgIcon from './shared/SVGIcon.svelte'
-  import WithCurrencyIcon from './WithCurrencyIcon.svelte'
-  import ArrowDown from './shared/assets/icons/arrow-down.svg'
-  import { GodStats } from './shared/types/enga'
+  import SvgIcon from '../shared/SVGIcon.svelte'
+  import WithCurrencyIcon from '../WithCurrencyIcon.svelte'
+  import ArrowDown from '../shared/assets/icons/arrow-down.svg'
+  import { GodStats } from '../shared/types/enga'
   import cn from 'classnames'
   import { goto } from '$app/navigation'
-  import { screen$ } from './shared/helpers/media-queries'
-  import GodStat from './GodStat.svelte'
-  import { listToMatrix } from './utils/list-to-matrix'
-  import type { EndroMeta } from './types/enga'
+  import { screen$ } from '../shared/helpers/media-queries'
+  import GodStat from '../GodStat.svelte'
+  import { listToMatrix } from '../utils/list-to-matrix'
+  import type { EndroMeta } from '../types/enga'
 
-  export let endro: EndroMeta
+  export let meta: EndroMeta
   export let forSale: boolean
 
   let backfaceVisible = false
@@ -27,11 +27,11 @@
 </script>
 
 <ShowcaseCardRaw bind:backfaceVisible>
-  <span slot="title">{endro.title}</span>
+  <span slot="title">{meta.title}</span>
   <span slot="subtitle" class="text-yellow-400 font-bold">
     {#if forSale}
       <WithCurrencyIcon iconDimensions="1rem">
-        {formatCurrencyWithUnit(endro.marketPrice)}
+        {formatCurrencyWithUnit(meta.marketPrice)}
       </WithCurrencyIcon>
     {/if}
   </span>
@@ -46,37 +46,37 @@
     <div class="flex justify-between">
       <div class="flex space-x-1">
         <span>{$__$?.EngaVerse.endroSpecs.rarity}:</span>
-        <span>{endro.rarity}</span>
+        <span>{meta.rarity}</span>
       </div>
       <div class="flex space-x-1">
         <span>{$__$?.EngaVerse.endroSpecs.generation}:</span>
-        <span>{endro.gen}</span>
+        <span>{meta.gen}</span>
       </div>
     </div>
     <div class="flex justify-between">
       <div class="flex space-x-1">
         <span>{$__$?.EngaVerse.endroSpecs.level}:</span>
-        <span>{endro.level}</span>
+        <span>{meta.level}</span>
         <span>/</span>
         <span>
-          {$__$?.marketplace.endro.xpLeft(endro.xpLeft)}
+          {$__$?.marketplace.endro.xpLeft(meta.xpLeft)}
         </span>
       </div>
       <div class="flex space-x-1">
         <span>{$__$?.EngaVerse.endroSpecs.zeal}:</span>
-        <span>{endro.zeal}</span>
+        <span>{meta.zeal}</span>
       </div>
     </div>
     <div class="h-0 border-b border-primary-600 my-4" />
     <div class="flex">
       <div class="flex flex-col grow justify-around space-y-1">
-        {#if forSale && endro.lastSold}
+        {#if forSale && meta.lastSold}
           <div class="flex space-x-2">
             <span>
               {$__$?.marketplace.endro.lastSold}:
             </span>
             <WithCurrencyIcon iconDimensions="1rem">
-              {formatCurrencyWithUnit(endro.lastSold)}
+              {formatCurrencyWithUnit(meta.lastSold)}
             </WithCurrencyIcon>
           </div>
         {/if}
@@ -85,12 +85,12 @@
             {$__$?.EngaVerse.endroSpecs.powerSource}:
           </span>
           <WithCurrencyIcon iconDimensions="1rem">
-            {formatCurrencyWithUnit(endro.powerSource)}
+            {formatCurrencyWithUnit(meta.powerSource)}
           </WithCurrencyIcon>
         </div>
       </div>
       <Button
-        job={() => goto(`/endro/${endro.id}${forSale ? '#marketplace' : ''}`)}
+        job={() => goto(`/endro/${meta.id}${forSale ? '#marketplace' : ''}`)}
         active
         className="!py-2.5">
         {forSale ? $__$?.marketplace.purchase : $__$?.dashboard.manage}
@@ -100,19 +100,19 @@
   <!-- LEFT -->
   <ShowcaseCardImage
     slot="left"
-    image={endro.image}
-    name={endro.title}
+    image={meta.image}
+    name={meta.title}
     endroMeta={{
-      generation: endro.gen,
-      level: endro.level,
-      owner: forSale ? endro.owner : undefined,
-      realm: endro.realm,
+      generation: meta.gen,
+      level: meta.level,
+      owner: forSale ? meta.owner : undefined,
+      realm: meta.realm,
     }} />
   <div
     class="grid grid-flow-row grow text-text-secondary text-xs md:text-lg cursor-pointer"
     on:click={() => {
       $screen$.isMobile && (backfaceVisible = true)
-      !$screen$.isMobile && goto(`/endro/${endro.id}#marketplace`)
+      !$screen$.isMobile && goto(`/endro/${meta.id}#marketplace`)
     }}>
     <table class="md:table hidden">
       <tbody>
@@ -122,7 +122,7 @@
               <span>
                 {$__$?.EngaVerse.endroSpecs.rarity}:
               </span>
-              <span>{endro.rarity}</span>
+              <span>{meta.rarity}</span>
             </div>
           </td>
           <td>
@@ -130,7 +130,7 @@
               <span>
                 {$__$?.EngaVerse.endroSpecs.zeal}:
               </span>
-              <span>{endro.zeal}</span>
+              <span>{meta.zeal}</span>
             </div>
           </td>
         </tr>
@@ -140,10 +140,10 @@
               <span>
                 {$__$?.EngaVerse.endroSpecs.level}:
               </span>
-              <span>{endro.level}</span>
+              <span>{meta.level}</span>
               <span>/</span>
               <span>
-                {$__$?.marketplace.endro.xpLeft(endro.xpLeft)}
+                {$__$?.marketplace.endro.xpLeft(meta.xpLeft)}
               </span>
             </div>
           </td>
@@ -152,7 +152,7 @@
               <span>
                 {$__$?.EngaVerse.endroSpecs.generation}:
               </span>
-              <span>{endro.gen}</span>
+              <span>{meta.gen}</span>
             </div>
           </td>
         </tr>
@@ -164,8 +164,8 @@
         {#each statsMatrix as row}
           <tr>
             {#each row as statId}
-              <td>
-                <GodStat type={statId} value={endro.specs[statId]} />
+              <td class="md:py-1">
+                <GodStat type={statId} value={meta.specs[statId]} />
               </td>
             {/each}
           </tr>
@@ -176,14 +176,14 @@
       <div class="flex space-x-2">
         <span>{$__$?.EngaVerse.endroSpecs.powerSource}:</span>
         <WithCurrencyIcon iconDimensions="1rem">
-          {formatCurrencyWithUnit(endro.powerSource)}
+          {formatCurrencyWithUnit(meta.powerSource)}
         </WithCurrencyIcon>
       </div>
-      {#if forSale && endro.lastSold}
+      {#if forSale && meta.lastSold}
         <div class="flex space-x-2">
           <span>{$__$?.marketplace.endro.lastSold}:</span>
           <WithCurrencyIcon iconDimensions="1rem">
-            {formatCurrencyWithUnit(endro.lastSold)}
+            {formatCurrencyWithUnit(meta.lastSold)}
           </WithCurrencyIcon>
         </div>
       {/if}

@@ -1,10 +1,10 @@
 <script lang="ts" context="module">
-  import { EndroItemType, GodStats, ItemRarity, Realms } from './shared/types/enga'
-  import KomorebiIcon from './shared/assets/icons/realms/komorebi.svg'
-  import MagestaIcon from './shared/assets/icons/realms/magesta.svg'
-  import NubiaIcon from './shared/assets/icons/realms/nubia.svg'
-  import SigrIcon from './shared/assets/icons/realms/sigr.svg'
-  import UfmIcon from './shared/assets/icons/realms/ufm.svg'
+  import { EndroItemType, GodStats, ItemRarity, Realms } from '../shared/types/enga'
+  import KomorebiIcon from '../shared/assets/icons/realms/komorebi.svg'
+  import MagestaIcon from '../shared/assets/icons/realms/magesta.svg'
+  import NubiaIcon from '../shared/assets/icons/realms/nubia.svg'
+  import SigrIcon from '../shared/assets/icons/realms/sigr.svg'
+  import UfmIcon from '../shared/assets/icons/realms/ufm.svg'
 
   const realmsIconMap = {
     [Realms.komorebi]: KomorebiIcon,
@@ -18,23 +18,24 @@
 <script lang="ts">
   import CardCut from './CardCut.svelte'
   import ChipsetItemImage from './ChipsetItemImage.svelte'
-  import GodStat from './GodStat.svelte'
-  import { screen$ } from './shared/helpers/media-queries'
-  import { __$ } from './shared/locales'
-  import ShortenedHash from './ShortenedHash.svelte'
-  import SvgIcon from './shared/SVGIcon.svelte'
+  import GodStat from '../GodStat.svelte'
+  import { screen$ } from '../shared/helpers/media-queries'
+  import { __$ } from '../shared/locales'
+  import ShortenedHash from '../ShortenedHash.svelte'
+  import SvgIcon from '../shared/SVGIcon.svelte'
   import cn from 'classnames'
-  import { config } from './configs'
-  import { ItemRarityBackgroundClassNames } from './RarityMaps.svelte'
-  import LightReflection from '../assets/cards/light-reflection.png'
-  import Pattern from '../assets/cards/pattern.png'
-  import OpifexOff from '../assets/cards/opifex-off.svg'
-  import OpifexOn from '../assets/cards/opifex-on.svg'
+  import { config } from '../configs'
+  import { ItemRarityBackgroundClassNames } from '../RarityMaps.svelte'
+  import LightReflection from '../../assets/cards/light-reflection.png'
+  import Pattern from '../../assets/cards/pattern.png'
+  import OpifexOff from '../../assets/cards/opifex-off.svg'
+  import OpifexOn from '../../assets/cards/opifex-on.svg'
   import _ from 'lodash'
-  import { listToMatrix } from './utils/list-to-matrix'
-  import { keysOf } from './shared/utils/type-safe'
+  import { listToMatrix } from '../utils/list-to-matrix'
+  import { keysOf } from '../shared/utils/type-safe'
   import { goto } from '$app/navigation'
-  import type { EndroItemMeta } from './types/enga'
+  import type { EndroItemMeta } from '../types/enga'
+  import { isFirefox$ } from '$lib/shared/contexts/is-firefox'
 
   export let image: string | undefined = undefined
   export let name: string
@@ -62,13 +63,16 @@
     itemMeta?.rarity && ItemRarityBackgroundClassNames[itemMeta.rarity],
   )
 
-  const chipsetModifiers = itemMeta?.modifiers
+  $: chipsetModifiersList = itemMeta?.modifiers
+    ? keysOf(GodStats).reduce(
+        (acc, curr) => (itemMeta?.modifiers![curr] ? [...acc, GodStats[curr]] : acc),
+        [] as GodStats[],
+      )
+    : undefined
+  $: chipsetModifiers = chipsetModifiersList
     ? listToMatrix(
-        keysOf(GodStats).reduce(
-          (acc, curr) => (itemMeta?.modifiers![curr] ? [...acc, GodStats[curr]] : acc),
-          [] as GodStats[],
-        ),
-        2,
+        chipsetModifiersList,
+        chipsetModifiersList.length === 3 || chipsetModifiersList.length === 4 ? 2 : 3,
       )
     : undefined
 </script>
@@ -77,17 +81,17 @@
   bind:clientHeight={height}
   class={cn(
     'flex relative z-[1] w-48 md:w-auto -mr-1 md:-mr-1.5',
-    itemMeta?.type === EndroItemType.chipset ? 'h-36 md:h-72' : 'h-40 md:h-72',
+    itemMeta?.type === EndroItemType.chipset ? 'h-40 md:h-72' : 'h-40 md:h-72',
   )}>
   <div
     style={cn(
       ((itemMeta?.rarity && itemMeta?.rarity !== ItemRarity.common) || endroMeta) &&
         `box-shadow: 0px 0px ${height / 3}px ${height / 30}px ${
           config.colors.rarity[itemMeta?.rarity ?? ItemRarity.common]
-        }`,
+        }; `,
       'mix-blend-mode: unset',
     )}
-    class="absolute z-[-1] right-1 top-1/2 -translate-y-1/2 bottom-1/4 left-3/4 rounded-full" />
+    class="absolute z-[-1] right-1 md:right-2 top-1/2 -translate-y-1/2 bottom-1/4 left-3/4 rounded-full" />
   {#if !$screen$.isMobile}
     <div class={cn(bgClassName, 'w-40 rounded-2xl md:rounded-[1.8rem] -mr-40')} />
   {/if}
@@ -158,7 +162,7 @@
               {#if itemMeta?.type === EndroItemType.chipset}
                 <div
                   class="relative z-[1] max-w-full max-h-full mr-3 flex flex-col h-full py-1 md:py-2.5">
-                  <div class="flex w-full justify-center items-center">
+                  <div class="flex gap-1 w-full justify-center items-center">
                     {#each chipsetModifiers?.[0] ?? [] as x}
                       <GodStat
                         dimensions={$screen$.isMobile ? undefined : '2.5rem'}
@@ -170,7 +174,7 @@
                   <ChipsetItemImage
                     rarity={itemMeta.rarity}
                     className="px-6 md:px-10 mb-0.5 md:mb-2 md:mt-0.5" />
-                  <div class="flex w-full justify-center items-center">
+                  <div class="flex gap-1 w-full justify-center items-center">
                     {#each chipsetModifiers?.[1] ?? [] as x}
                       <GodStat
                         dimensions={$screen$.isMobile ? undefined : '2.5rem'}
@@ -190,7 +194,7 @@
           {/if}
           {#if endroMeta}
             <div
-              class="absolute top-2 md:top-4 left-2.5 md:left-4 flex flex-col text-base md:text-lg md:-space-y-1.5 -space-y-1.5"
+              class="absolute top-1 md:top-4 left-2 md:left-4 flex flex-col text-base md:text-lg md:-space-y-1.5 -space-y-1.5"
               style="font-family: Bahnschrift;">
               <div class="flex flex-col items-center md:-space-y-3 -space-y-2.5">
                 <span class="font-bold">
@@ -211,7 +215,7 @@
             </div>
           {/if}
           {#if endroMeta}
-            <div class="absolute top-3 md:top-4 right-6 md:right-8">
+            <div class="absolute top-2 md:top-4 right-4 md:right-8">
               <SvgIcon
                 Icon={realmsIconMap[endroMeta.realm]}
                 height={$screen$.isMobile ? '1.5rem' : '2rem'}
@@ -222,7 +226,9 @@
           {#if endroMeta?.owner}
             <div class="absolute bottom-4 left-1/2 -translate-x-1/2 z-[3]">
               <div
-                class="hidden md:flex space-x-1 text-sm border border-white rounded-lg px-2 py-1 backdrop-blur-sm bg-black bg-opacity-30 text-text-hover shadow-lg shadow-[#0005] select-none mr-3 cursor-pointer hover:scale-110 transition-transform"
+                class="hidden md:flex space-x-1 text-sm border border-white rounded-lg px-2 py-1 {$isFirefox$
+                  ? 'bg-opacity-50'
+                  : 'backdrop-blur-sm bg-opacity-30'} bg-black text-text-hover shadow-lg shadow-[#0005] select-none mr-3 cursor-pointer hover:scale-110 transition-transform"
                 on:click={() => goto(`/dashboard#${endroMeta?.owner}`)}>
                 <span>
                   {$__$?.marketplace.ownerTitle}:

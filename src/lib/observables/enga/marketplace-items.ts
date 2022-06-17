@@ -1,63 +1,170 @@
-import { rndEndro } from '$lib/helpers/random/endro'
 import { controlStreamPayload } from '$lib/operators/control-stream-payload'
-import { concatAll, concatMap, delay, map, Observable, scan, startWith, Subject, tap } from 'rxjs'
-import type { EndroMeta } from '$lib/types/enga'
-import { genArr } from '$lib/shared/utils/random'
-import { EndroSortOptions, MarketplaceSortOptions } from '$lib/shared/types/marketplace'
+import { map, Observable, OperatorFunction, startWith, Subject, tap } from 'rxjs'
+import { MarketplaceSortOptions } from '$lib/shared/types/marketplace'
 import _ from 'lodash'
-import { BigNumber } from 'ethers'
+import type { FilteredDataFetchControl } from './marketplace-types'
+import {
+  endroFetchFactory,
+  endroFetchSortOptions,
+  endroFetchFilterOptions,
+  EndroFetchFilterKeys,
+} from './endro-marketplace'
+import { Routes } from '$lib/shared/configs/routes'
+import type { ValueTypeUnion } from '$lib/types'
+import {
+  opifexIndexedFetchFactory,
+  OpifexIndexedFetchFilterKeys,
+  opifexIndexedFetchFilterOptions,
+  opifexIndexedFetchSortOptions,
+  opifexOffFetchFactory,
+  OpifexOffFetchFilterKeys,
+  opifexOffFetchFilterOptions,
+  opifexOffFetchSortOptions,
+} from './opifex-marketplace'
+import {
+  cosmeticsFetchFactory,
+  CosmeticsFetchFilterKeys,
+  cosmeticsFetchFilterOptions,
+  cosmeticsFetchSortOptions,
+} from './cosmetics-marketplace'
+import {
+  chipsetFetchFactory,
+  ChipsetFetchFilterKeys,
+  chipsetFetchFilterOptions,
+  chipsetFetchSortOptions,
+} from './chipset-marketplace'
 
-export type FilteredDataFetchControl = Partial<{
-  Load: { limit?: number }
-  isLoading: boolean
-}>
+export type MarketplaceItemsType =
+  | Routes.mpEndro
+  | Routes.mpOpifexOff
+  | Routes.mpOpifexIndexed
+  | Routes.mpCosmetics
+  | Routes.mpChipset
+  | Routes.mpConsumable
+  | Routes.mpAccoutrements
+  | Routes.mpSkins
+  | Routes.mpTickets
+  | Routes.mpListings
+  | Routes.mpSales
+  | Routes.mpPurchases
 
-export function endroMarketplaceItems$Factory(
-  filter: { gen: number | undefined },
-  sort: EndroSortOptions | MarketplaceSortOptions = MarketplaceSortOptions.latest,
-): [controller$: Subject<FilteredDataFetchControl>, items$: Observable<EndroMeta[] | undefined>] {
+export const marketplaceSortOptions = {
+  [Routes.mpEndro]: endroFetchSortOptions,
+  [Routes.mpOpifexOff]: opifexOffFetchSortOptions,
+  [Routes.mpOpifexIndexed]: opifexIndexedFetchSortOptions,
+  [Routes.mpCosmetics]: cosmeticsFetchSortOptions,
+  [Routes.mpChipset]: chipsetFetchSortOptions,
+  // [Routes.mpConsumable]: consumableFetchSortOptions,
+  // [Routes.mpAccoutrements]: accoutrementsFetchSortOptions,
+  // [Routes.mpSkins]: skinsFetchSortOptions,
+  // [Routes.mpTickets]: ticketsFetchSortOptions,
+  // [Routes.mpListings]: listingsFetchSortOptions,
+  // [Routes.mpSales]: salesFetchSortOptions,
+  // [Routes.mpPurchases]: purchasesFetchSortOptions,
+
+  [Routes.mpConsumable]: _.values(MarketplaceSortOptions),
+  [Routes.mpAccoutrements]: _.values(MarketplaceSortOptions),
+  [Routes.mpSkins]: _.values(MarketplaceSortOptions),
+  [Routes.mpTickets]: _.values(MarketplaceSortOptions),
+  [Routes.mpListings]: _.values(MarketplaceSortOptions),
+  [Routes.mpSales]: _.values(MarketplaceSortOptions),
+  [Routes.mpPurchases]: _.values(MarketplaceSortOptions),
+}
+
+export type MarketplaceFilterKeys =
+  | EndroFetchFilterKeys
+  | OpifexOffFetchFilterKeys
+  | OpifexIndexedFetchFilterKeys
+  | CosmeticsFetchFilterKeys
+  | ChipsetFetchFilterKeys
+// | ConsumableFetchFilterKeys
+// | AccoutrementsFetchFilterKeys
+// | SkinsFetchFilterKeys
+// | TicketsFetchFilterKeys
+// | ListingsFetchFilterKeys
+// | SalesFetchFilterKeys
+// | PurchasesFetchFilterKeys
+
+export type MarketplaceFilterType =
+  | { [key in EndroFetchFilterKeys]?: string | undefined }
+  | { [key in OpifexOffFetchFilterKeys]?: string | undefined }
+  | { [key in OpifexIndexedFetchFilterKeys]?: string | undefined }
+  | { [key in CosmeticsFetchFilterKeys]?: string | undefined }
+  | { [key in ChipsetFetchFilterKeys]?: string | undefined }
+// | { [key in ConsumableFetchFilterKeys]?: string | undefined }
+// | { [key in AccoutrementsFetchFilterKeys]?: string | undefined }
+// | { [key in SkinsFetchFilterKeys]?: string | undefined }
+// | { [key in TicketsFetchFilterKeys]?: string | undefined }
+// | { [key in ListingsFetchFilterKeys]?: string | undefined }
+// | { [key in SalesFetchFilterKeys]?: string | undefined }
+// | { [key in PurchasesFetchFilterKeys]?: string | undefined }
+
+export const marketplaceFilterOptions = {
+  [Routes.mpEndro]: endroFetchFilterOptions,
+  [Routes.mpOpifexOff]: opifexOffFetchFilterOptions,
+  [Routes.mpOpifexIndexed]: opifexIndexedFetchFilterOptions,
+  [Routes.mpCosmetics]: cosmeticsFetchFilterOptions,
+  [Routes.mpChipset]: chipsetFetchFilterOptions,
+  // [Routes.mpConsumable]: consumableFetchFilterOptions,
+  // [Routes.mpAccoutrements]: accoutrementsFetchFilterOptions,
+  // [Routes.mpSkins]: skinsFetchFilterOptions,
+  // [Routes.mpTickets]: ticketsFetchFilterOptions,
+  // [Routes.mpListings]: listingsFetchFilterOptions,
+  // [Routes.mpSales]: salesFetchFilterOptions,
+  // [Routes.mpPurchases]: purchasesFetchFilterOptions,
+
+  [Routes.mpConsumable]: {},
+  [Routes.mpAccoutrements]: {},
+  [Routes.mpSkins]: {},
+  [Routes.mpTickets]: {},
+  [Routes.mpListings]: {},
+  [Routes.mpSales]: {},
+  [Routes.mpPurchases]: {},
+}
+
+type InferOperatorOutput<O> = O extends OperatorFunction<any, infer T> ? T : never
+
+const marketplaceFetchFactories = {
+  [Routes.mpEndro]: endroFetchFactory,
+  [Routes.mpOpifexOff]: opifexOffFetchFactory,
+  [Routes.mpOpifexIndexed]: opifexIndexedFetchFactory,
+  [Routes.mpCosmetics]: cosmeticsFetchFactory,
+  [Routes.mpChipset]: chipsetFetchFactory,
+  // [Routes.mpConsumable]: consumableFetchFactory,
+  // [Routes.mpAccoutrements]: accoutrementsFetchFactory,
+  // [Routes.mpSkins]: skinsFetchFactory,
+  // [Routes.mpTickets]: ticketsFetchFactory,
+  // [Routes.mpListings]: listingsFetchFactory,
+  // [Routes.mpSales]: salesFetchFactory,
+  // [Routes.mpPurchases]: purchasesFetchFactory,
+
+  [Routes.mpConsumable]: () => map(() => []),
+  [Routes.mpAccoutrements]: () => map(() => []),
+  [Routes.mpSkins]: () => map(() => []),
+  [Routes.mpTickets]: () => map(() => []),
+  [Routes.mpListings]: () => map(() => []),
+  [Routes.mpSales]: () => map(() => []),
+  [Routes.mpPurchases]: () => map(() => []),
+}
+
+export function marketplaceItems$Factory<T extends MarketplaceItemsType>(
+  type: T,
+  filter: MarketplaceFilterType | undefined,
+  sort: ValueTypeUnion<typeof marketplaceSortOptions>[number] = MarketplaceSortOptions.latest,
+): [
+  controller$: Subject<FilteredDataFetchControl>,
+  items$: Observable<
+    InferOperatorOutput<ReturnType<typeof marketplaceFetchFactories[T]>> | undefined
+  >,
+] {
+  const fetchFactory = marketplaceFetchFactories[type]
   const controller$ = new Subject<FilteredDataFetchControl>()
 
   const items$ = controller$.pipe(
     controlStreamPayload('Load'),
     tap(() => controller$.next({ isLoading: true })),
-    delay(3000),
-    concatMap(x =>
-      genArr(x.limit ?? 10, () => rndEndro()).map(x =>
-        !_.isUndefined(filter.gen) ? x.pipe(map(x => ({ ...x, gen: filter.gen as number }))) : x,
-      ),
-    ),
+    fetchFactory(filter, sort),
     tap(() => controller$.next({ isLoading: false })),
-    concatAll(),
-    scan(
-      (acc, x) =>
-        [...acc, x].sort((a, b) => {
-          if (sort === MarketplaceSortOptions.cheap) {
-            return (
-              a.marketPrice
-                ?.sub(b.marketPrice ?? 0)
-                .div(BigNumber.from(10).pow(18))
-                .toNumber() ?? 0
-            )
-          }
-          if (sort === MarketplaceSortOptions.expensive) {
-            return (
-              b.marketPrice
-                ?.sub(a.marketPrice ?? 0)
-                .div(BigNumber.from(10).pow(18))
-                .toNumber() ?? 0
-            )
-          }
-          if (sort === EndroSortOptions.higherGeneration) {
-            return b.gen - a.gen
-          }
-          if (sort === EndroSortOptions.lowerGeneration) {
-            return a.gen - b.gen
-          }
-          return 0
-        }),
-      [] as EndroMeta[],
-    ),
     startWith(undefined),
   )
 

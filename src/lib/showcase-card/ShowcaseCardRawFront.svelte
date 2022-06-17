@@ -1,6 +1,6 @@
 <script lang="ts">
   import CardCut from './CardCut.svelte'
-  import { canHover$, screen$ } from './shared/helpers/media-queries'
+  import { canHover$, screen$ } from '../shared/helpers/media-queries'
   import cn from 'classnames'
 
   export let cutHeight: string | undefined = undefined
@@ -9,7 +9,7 @@
   export let cardHeightClassName: string | undefined = undefined
 </script>
 
-<div class="flex w-full md:drop-shadow-2xl">
+<div class="flex w-full #md:drop-shadow-2xl">
   <slot name="left" />
   <CardCut
     mode="inCutLeft"
@@ -17,7 +17,7 @@
     hScale={hScale ?? ($screen$.isMobile ? 1 : 1.3)}
     cornerRadius={cornerRadius ?? '0.75rem'}
     className={{
-      container: 'flex w-full drop-shadow-sm',
+      container: 'flex w-full #drop-shadow-sm',
       wrapper: cn(
         'bg-primary-800 w-full h-full',
         $canHover$ && 'transition-all duration-300 hover:brightness-125',

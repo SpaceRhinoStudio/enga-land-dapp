@@ -1,5 +1,5 @@
 <script lang="ts">
-  import FlipCard from './FlipCard.svelte'
+  import FlipCard from '../FlipCard.svelte'
   import ShowcaseCardRawFront from './ShowcaseCardRawFront.svelte'
   import cn from 'classnames'
 
