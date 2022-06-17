@@ -12,6 +12,7 @@ const svgPlugin = svg({
       'minifyStyles',
       'removeDimensions',
       'prefixIds',
+      'convertStyleToAttrs',
       {
         name: 'preset-default',
         params: {
