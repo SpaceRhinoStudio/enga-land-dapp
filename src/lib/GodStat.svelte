@@ -65,9 +65,14 @@
     height={_dimensions}
     className={cn($screen$.isMobile && 'py-0.5', 'text-text-secondary')} />
   {#if !justIcon}
-    <WithLoading data={_value}>
-      <span slot="before">{type.toUpperCase()}:</span>
-      <span slot="data">
+    <WithLoading data={_value} className={{ container: '!gap-0' }}>
+      <span
+        slot="before"
+        class="font-mono scale-y-110 md:scale-y-100 scale-x-95 md:scale-x-90 flex items-center origin-left md:-mr-0.5">
+        {type.toUpperCase()}
+        <span class="-ml-0.5"> : </span>
+      </span>
+      <span slot="data" class="font-mono flex -tracking-widest">
         {_value === null ? $__$?.main.notAvailable : _value}
       </span>
     </WithLoading>
