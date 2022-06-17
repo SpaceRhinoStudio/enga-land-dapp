@@ -1,10 +1,4 @@
-import {
-  CosmeticSlots,
-  EndroItemType,
-  GodStats,
-  ItemRarity,
-  Realms,
-} from '$lib/shared/shared/types/enga'
+import { CosmeticSlots, EndroItemType, GodStats, ItemRarity, Realms } from '$lib/shared/types/enga'
 import type { BigNumber } from 'ethers'
 
 export type EndroMeta = {
@@ -38,6 +32,8 @@ export type EndroItemMeta = {
   modifiers?: {
     [key in 'brs' | GodStats]?: number
   }
+  owner?: string
+  marketPrice?: BigNumber
   // consumableModifiers?: unknown
 }
 
@@ -46,6 +42,8 @@ export type OpifexMeta = {
   generation: number
   isIndexed: boolean
   indexResults?: EndroMeta[]
+  marketPrice?: BigNumber
+  owner?: string
 }
 
 export type RaffleTicketMeta = {
