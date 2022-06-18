@@ -54,7 +54,7 @@
   } from './observables/enga-price'
   import { BigNumber } from 'ethers'
   import { config } from './configs'
-  import { noNil, noSentinelOrUndefined } from './utils/no-sentinel-or-undefined'
+  import { noNil, noSentinelOrUndefined } from './shared/utils/no-sentinel-or-undefined'
   import { preSaleSignersVestings$ } from './observables/pre-sale/signers-vestings'
   import { preSaleTargetCollateralAllowance$ } from './observables/pre-sale/target-collateral-allowance'
   import { passNil } from './operators/pass-undefined'

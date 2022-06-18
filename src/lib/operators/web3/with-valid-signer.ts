@@ -5,7 +5,7 @@ import _ from 'lodash'
 import type { Contract } from 'ethers'
 import { withUpdatesUntilChanged } from '$lib/operators/with-updates-from'
 import { SelectedWeb3Signer$, signerAddress$ } from '$lib/observables/selected-web3-provider'
-import { noSentinelOrUndefined } from '$lib/utils/no-sentinel-or-undefined'
+import { noSentinelOrUndefined } from '$lib/shared/utils/no-sentinel-or-undefined'
 import type { Nil } from '$lib/types'
 
 export function withValidSigner<T extends Contract, R>(

@@ -8,7 +8,7 @@ import {
   type OperatorFunction,
   throwError,
 } from 'rxjs'
-import { noSentinel } from '$lib/utils/no-sentinel-or-undefined'
+import { noSentinel } from '$lib/shared/utils/no-sentinel-or-undefined'
 
 export function catchAndIgnoreAlreadyInProgressError<T, O extends ObservableInput<unknown>>(
   selector: (err: unknown, caught: Observable<T>) => O,

@@ -9,7 +9,7 @@
     engaPriceFromSeedSalePPM$,
     parsePPM,
   } from './observables/enga-price'
-  import { noSentinelOrUndefined } from './utils/no-sentinel-or-undefined'
+  import { noSentinelOrUndefined } from './shared/utils/no-sentinel-or-undefined'
   import WithLoading from './shared/WithLoading.svelte'
 
   const _engaPrice$ = engaPrice$.pipe(

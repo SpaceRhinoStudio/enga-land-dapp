@@ -1,4 +1,4 @@
-import { noNil } from '$lib/utils/no-sentinel-or-undefined'
+import { noNil } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { filter, from, of, switchMap } from 'rxjs'
 import { fallbackWeb3Provider$ } from '../web3-providers/fallback-provider'
 

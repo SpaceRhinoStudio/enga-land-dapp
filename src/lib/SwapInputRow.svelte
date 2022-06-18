@@ -25,7 +25,7 @@
   import { passNil } from './operators/pass-undefined'
   import { signerBalanceOf } from './operators/web3/balance-of'
   import { withUpdatesUntilChanged } from './operators/with-updates-from'
-  import { noNil, noSentinelOrUndefined } from './utils/no-sentinel-or-undefined'
+  import { noNil, noSentinelOrUndefined } from './shared/utils/no-sentinel-or-undefined'
   import { parseEther } from './utils/parse-ether'
   import { sanitizeNumbers } from './utils/sanitize-numbers'
   import WithLoading from './shared/WithLoading.svelte'

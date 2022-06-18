@@ -21,7 +21,7 @@ import {
   asyncScheduler,
 } from 'rxjs'
 import { ajax } from 'rxjs/ajax'
-import { noSentinel } from '$lib/utils/no-sentinel-or-undefined'
+import { noSentinel } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { SelectedWeb3Signer$, signerAddress$ } from './selected-web3-provider'
 import { selectedNetwork$ } from './web3-network'
 export const termsAndConditionsAgreementsController$: Subject<

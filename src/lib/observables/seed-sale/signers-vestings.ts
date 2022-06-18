@@ -20,7 +20,7 @@ import {
   reduce,
   switchMap,
 } from 'rxjs'
-import { noNil, noSentinelOrUndefined } from '$lib/utils/no-sentinel-or-undefined'
+import { noSentinelOrUndefined } from '$lib/shared/utils/no-sentinel-or-undefined'
 
 export type VestingType = {
   txId: string

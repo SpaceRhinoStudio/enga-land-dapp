@@ -8,8 +8,6 @@
   import { seedSaleGoal$ } from '$lib/observables/seed-sale/goal'
   import { seedSaleTotalCollateralRaised$ } from '$lib/observables/seed-sale/raised'
   import { seedSaleStatus$ } from '$lib/observables/seed-sale/status'
-  import { fallbackWeb3Provider$ } from '$lib/observables/web3-providers/fallback-provider'
-  import { blockNumber$ } from '$lib/observables/web3/block-number'
   import { PreSaleStatus } from '$lib/operators/pre-sale/status'
   import { SeedSaleStatus } from '$lib/operators/seed-sale/status'
   import PageTitle from '$lib/PageTitle.svelte'
@@ -18,19 +16,8 @@
   import ProgressBar from '$lib/ProgressBar.svelte'
   import Select from '$lib/Select.svelte'
   import SwapCard from '$lib/SwapCard.svelte'
-  import { noNil } from '$lib/utils/no-sentinel-or-undefined'
-  import _, { isUndefined } from 'lodash'
-  import {
-    from,
-    map,
-    of,
-    switchMap,
-    filter,
-    combineLatest,
-    throttleTime,
-    asyncScheduler,
-    startWith,
-  } from 'rxjs'
+  import _ from 'lodash'
+  import { map, combineLatest, throttleTime, asyncScheduler, startWith } from 'rxjs'
   import { fade } from 'svelte/transition'
 
   let sale: 'preSale' | 'seedSale' | undefined

@@ -6,7 +6,7 @@ import { PreSaleStatus } from '$lib/operators/pre-sale/status'
 import { passNil } from '$lib/operators/pass-undefined'
 import { waitForTransaction } from '$lib/operators/web3/wait-for-transaction'
 import { filter, map, type OperatorFunction, pipe, withLatestFrom } from 'rxjs'
-import { noNil, noSentinelOrUndefined } from '$lib/utils/no-sentinel-or-undefined'
+import { noNil, noSentinelOrUndefined } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { parseEther } from '$lib/utils/parse-ether'
 import { withValidSignerAddress } from '../web3/with-valid-signer'
 
