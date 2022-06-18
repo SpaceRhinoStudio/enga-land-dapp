@@ -1,4 +1,4 @@
-import { controlStreamPayload } from '$lib/operators/control-stream-payload'
+import { controlStreamPayload } from '$lib/shared/operators/control-stream-payload'
 import { map, Observable, OperatorFunction, startWith, Subject, tap } from 'rxjs'
 import { MarketplaceSortOptions } from '$lib/shared/types/marketplace'
 import _ from 'lodash'

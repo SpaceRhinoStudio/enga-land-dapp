@@ -13,7 +13,7 @@
     MarketplaceItemsType,
     marketplaceSortOptions,
   } from '$lib/observables/enga/marketplace-items'
-  import { controlStreamPayload } from '$lib/operators/control-stream-payload'
+  import { controlStreamPayload } from '$lib/shared/operators/control-stream-payload'
   import { formatCurrencyWithUnit } from '$lib/operators/currency-formatter'
   import { passNil } from '$lib/operators/pass-undefined'
   import { signerBalanceOf } from '$lib/operators/web3/balance-of'

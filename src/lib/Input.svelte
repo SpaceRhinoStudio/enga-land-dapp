@@ -25,7 +25,7 @@
   } from 'rxjs'
 
   import { onDestroy, tick } from 'svelte'
-  import { controlStreamPayload } from './operators/control-stream-payload'
+  import { controlStreamPayload } from './shared/operators/control-stream-payload'
   import SvgIcon from './shared/SVGIcon.svelte'
   import LoadingOverlay from './shared/LoadingOverlay.svelte'
   import { fly } from 'svelte/transition'

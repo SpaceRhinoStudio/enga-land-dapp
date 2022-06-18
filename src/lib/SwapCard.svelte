@@ -44,7 +44,7 @@
   import { parseEther } from './utils/parse-ether'
   import { signerApprove } from './operators/web3/approve'
   import { preSaleRequestContribute } from './operators/pre-sale/request-contribute'
-  import { controlStreamPayload } from './operators/control-stream-payload'
+  import { controlStreamPayload } from './shared/operators/control-stream-payload'
   import { utils } from 'ethers'
   import {
     engaPriceFromPreSalePPM$,
