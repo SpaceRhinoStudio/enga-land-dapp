@@ -1,13 +1,18 @@
 <script lang="ts">
   import _ from 'lodash'
+  import { crossfade, fade } from 'svelte/transition'
   import { keysOf } from './shared/utils/type-safe'
   import WithScrollHint from './shared/WithScrollHint.svelte'
+
+  const [send, receive] = crossfade({ fallback: node => fade(node), duration: 300 })
 
   export let className: { [key in 'container' | 'wrapper']?: string } = {}
   export let freeHeaderHeight = false
   export let tabs: Record<string, string> | undefined = undefined
   export let disabledTabs: Record<string, string> | undefined = undefined
-  export let tab = _.values(tabs)[0]!
+  export let tab: string
+
+  $: tab === undefined && tabs !== undefined && (tab = _.values(tabs)[0]!)
 </script>
 
 <div class="bg-primary-800 rounded-xl px-5 pb-5 shadow-xl overflow-hidden {className.container}">
@@ -38,10 +43,12 @@
             {tabs[key]}
           </span>
           <div class="top-full left-0 right-0 absolute -translate-y-px">
-            <div
-              class="border-t-2 border-primary-500 transition-all duration-300 mx-auto {tab === key
-                ? 'w-full opacity-100'
-                : 'w-0 opacity-0'}" />
+            {#if tab === key}
+              <div
+                in:receive={{ key: 0 }}
+                out:send={{ key: 0 }}
+                class="border-t-2 border-primary-500 duration-300 w-full" />
+            {/if}
           </div>
         </div>
       {/each}
