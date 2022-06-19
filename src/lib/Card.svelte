@@ -10,7 +10,7 @@
   export let freeHeaderHeight = false
   export let tabs: Record<string, string> | undefined = undefined
   export let disabledTabs: Record<string, string> | undefined = undefined
-  export let tab: string
+  export let tab: string = _.values(tabs)[0]!
 
   $: tab === undefined && tabs !== undefined && (tab = _.values(tabs)[0]!)
 </script>
