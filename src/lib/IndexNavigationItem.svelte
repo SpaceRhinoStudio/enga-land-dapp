@@ -13,8 +13,14 @@
   export let disabled: boolean
 </script>
 
-<JigglyCard className="w-[42%] md:w-[30%] lg:w-[22%] lg:m-4 sm:m-3 m-2" {disabled}>
+<JigglyCard
+  className="w-[42%] md:w-[30%] lg:w-[22%] lg:m-4 sm:m-3 m-2"
+  {disabled}
+  multiplier={15}
+  passFilterDown
+  let:filter>
   <Button
+    style={filter}
     {disabled}
     job={() => goto(href)}
     className={cn(
@@ -35,7 +41,6 @@
       'flex-col',
       'justify-between',
       'rounded-xl',
-      '!transition-all',
       'text-2xl',
       'md:text-2xll',
       'space-y-3',
@@ -46,7 +51,7 @@
         cn(
           $canHover$ &&
             cn(
-              'hover:brightness-125',
+              // 'hover:brightness-125',
               'hover:shadow-strong',
               'hover:scale-105',
               'hover:-translate-y-2',
