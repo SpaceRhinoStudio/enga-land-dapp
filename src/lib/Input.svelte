@@ -1,23 +1,18 @@
-<script context="module" lang="ts">
-  export type InputComponentError = string | undefined
-  export type InputControl = Partial<{
-    Disable: boolean
-    Value: string
-    Errors: InputComponentError[]
-    Loading: boolean
-    LastKeyStroke: string
-  }>
+<script lang="ts" context="module">
+  export const inputControlFactory = () =>
+    useCreateControl<InputControl>({ omit: ['LastKeyStroke', 'Reset'] })
 </script>
 
 <script lang="ts">
   import _ from 'lodash'
   import cn from 'classnames'
   import {
-    asapScheduler,
     asyncScheduler,
     combineLatest,
     distinctUntilChanged,
     map,
+    pipe,
+    startWith,
     subscribeOn,
     throttleTime,
     type OperatorFunction,
@@ -32,8 +27,14 @@
   import { flip } from 'svelte/animate'
   import { waitFor } from './shared/helpers/wait-for'
   import { pulse } from './shared/actions/pulse'
+  import type { InputComponentError, InputControl } from './input'
+  import { useCreateControl } from './helpers/create-control'
+  import { isArray, isEqual } from './shared/utils/type-safe'
+  import { pipeIfNot } from './operators/pipe-if-not'
+  import { isSentinel } from './shared/contexts/empty-sentinel'
+  import { logOp } from './operators/log'
 
-  export let control$: Subject<InputControl>
+  export let control$: Subject<InputControl> = inputControlFactory()
   export let validators: OperatorFunction<string, InputComponentError>[] = []
   export let formatter: OperatorFunction<string, string> = x => x
   export let parser: OperatorFunction<string, string> = x => x //TODO: why this is not being used?
@@ -41,8 +42,9 @@
   export let disabled = false
   export let value = undefined as string | undefined
   export let className: { [key in 'outer' | 'wrapper' | 'target']?: string } = {}
-  export let icon: any
+  export let icon: any | undefined = undefined
 
+  control$.pipe(controlStreamPayload('Reset')).subscribe(() => (value = undefined))
   $: !_.isNil(value) && control$.next({ Value: value })
   $: control$.next({ Disable: disabled })
   control$.pipe(controlStreamPayload('Value')).subscribe(x => (value = x))
@@ -54,10 +56,12 @@
         distinctUntilChanged(),
         throttleTime(500, undefined, { leading: true, trailing: true }),
         validator,
+        startWith(undefined),
       ),
-    ) ?? [],
+    ),
   )
     .pipe(
+      logOp('value in validator'),
       map(x => x.filter(x => !_.isEmpty(x))),
       map(x => ({ Errors: x })),
     )
@@ -66,10 +70,17 @@
   control$
     .pipe(
       subscribeOn(asyncScheduler),
-      controlStreamPayload('Value'),
-      distinctUntilChanged(),
-      sanitizer,
-      formatter,
+      controlStreamPayload(['Value', 'Reset']),
+      distinctUntilChanged(isEqual),
+      pipeIfNot(
+        map(([val, reset]) => !isSentinel(reset) || _.isEmpty(val) || isSentinel(val)),
+        pipe(
+          map(([x]) => x as string),
+          sanitizer,
+          formatter,
+        ),
+      ),
+      map(x => (isArray(x) ? '' : x)),
       map(x => ({ Value: x })),
     )
     .subscribe(x => control$.next(x))
@@ -114,11 +125,13 @@
       'relative transition-all',
       $control$?.Loading && 'opacity-20',
     )}>
-    <SvgIcon
-      Icon={icon}
-      width={'1.2rem'}
-      height={'1.2rem'}
-      className={cn('absolute top-1/2 -translate-y-1/2 left-4 md:left-3')} />
+    {#if icon}
+      <SvgIcon
+        Icon={icon}
+        width={'1.2rem'}
+        height={'1.2rem'}
+        className={cn('absolute top-1/2 -translate-y-1/2 left-4 md:left-3')} />
+    {/if}
     <input
       class={cn(
         'disabled:bg-primary-900 disabled:bg-opacity-80 disabled:border-transparent disabled:cursor-not-allowed',
@@ -157,7 +170,7 @@
         tick()
           .then(() => waitFor(0))
           .then(() => {
-            state.set((state.cursorStart ?? 0) + offset, (state.cursorEnd ?? 0) + offset)
+            state.set((state.cursorEnd ?? 0) + offset, (state.cursorEnd ?? 0) + offset)
           })
       }} />
     <div class="absolute -right-1 top-1/2 -translate-y-1/2 ">

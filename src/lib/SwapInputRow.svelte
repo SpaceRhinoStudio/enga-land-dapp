@@ -15,7 +15,8 @@
   } from 'rxjs'
   import Button from './shared/Button.svelte'
 
-  import Input, { type InputComponentError, type InputControl } from './Input.svelte'
+  import Input from './Input.svelte'
+  import type { InputComponentError, InputControl } from './input'
   import { __$ } from './shared/locales'
   import { preSaleMinimumRequiredTargetCollateral$ } from './observables/pre-sale/minimum-required'
   import {
@@ -102,7 +103,7 @@
   </div>
   <Input
     {icon}
-    {control$}
+    bind:control$
     sanitizer={map(sanitizeNumbers)}
     {validators}
     formatter={CurrencyFormatterOperatorFactory()}

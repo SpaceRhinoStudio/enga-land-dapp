@@ -1,4 +1,4 @@
-import type { InputControl } from '$lib/Input.svelte'
+import type { InputControl } from '$lib/input'
 import { controlStreamPayload } from '$lib/shared/operators/control-stream-payload'
 import { keysOf } from '$lib/shared/utils/type-safe'
 import {
@@ -68,7 +68,7 @@ export function handleDerivedInputs<K extends string>(
   const reset = () => {
     lastModified$.next({ Modified: null })
     for (const key of keysOf(derivations)) {
-      controls[key].next({ Value: '' })
+      controls[key].next({ Reset: true })
     }
     lastModified$.next({ Modified: undefined })
   }

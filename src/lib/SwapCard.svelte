@@ -37,6 +37,7 @@
     ReplaySubject,
     shareReplay,
     startWith,
+    Subject,
     switchMap,
     take,
     tap,
@@ -65,7 +66,7 @@
   } from './observables/terms-and-condition-agreement'
   import { flashToast$, ToastType } from './shared/contexts/flash-toast'
   import SwapInputRow from './SwapInputRow.svelte'
-  import { type InputControl } from './Input.svelte'
+  import type { InputControl } from './input'
   import { handleDerivedInputs } from './helpers/handle-drived-inputs'
   import { useCreateControl } from './helpers/create-control'
   import { seedSaleStatus$ } from './observables/seed-sale/status'
@@ -73,6 +74,7 @@
   import { seedSaleSignersVestings$ } from './observables/seed-sale/signers-vestings'
   import { seedSaleTargetCollateralAllowance$ } from './observables/seed-sale/target-collateral-allowance'
   import { seedSaleRequestContribute } from './operators/seed-sale/request-contribute'
+  import { inputControlFactory } from './Input.svelte'
 
   export let sale: 'preSale' | 'seedSale'
 
@@ -83,14 +85,14 @@
   $: isWhitelisted = true //TODO: implement
   $: canContribute = !!$signerAddress$?.length && isFunding && isWhitelisted
 
-  const baseControl$ = useCreateControl<InputControl>({ omit: ['LastKeyStroke'] })
-  const quoteControl$ = useCreateControl<InputControl>({ omit: ['LastKeyStroke'] })
+  const baseControl$ = inputControlFactory()
+  const quoteControl$ = inputControlFactory()
   const shouldApprove$ = new ReplaySubject<Partial<{ Should: boolean; Loading: boolean }>>()
   let waitingForTx = false
   const hasAgreed$ = termsAndConditionsAgreements$
   const successfulContribution$ = new ReplaySubject<{ Success: true }>()
 
-  const { reset } = handleDerivedInputs(
+  $: reset = handleDerivedInputs(
     { base: baseControl$, quote: quoteControl$ },
     {
       base: {
@@ -128,7 +130,7 @@
         ),
       },
     },
-  )
+  ).reset
 
   $: signersVestings$ = sale === 'preSale' ? preSaleSignersVestings$ : seedSaleSignersVestings$
 
@@ -146,7 +148,7 @@
   const sale$ = new BehaviorSubject(sale)
   $: sale$.next(sale)
 
-  sale$
+  $: sale$
     .pipe(
       switchMap(sale =>
         sale === 'preSale' ? preSaleTargetCollateralAllowance$ : seedSaleTargetCollateralAllowance$,
@@ -195,7 +197,7 @@
     ),
   )
 
-  const handleApproveOrSwap$ = combineLatest({
+  $: handleApproveOrSwap$ = combineLatest({
     shouldApprove: shouldApprove$.pipe(controlStreamPayload('Should'), distinctUntilChanged()),
     value: quoteControl$.pipe(controlStreamPayload('Value'), distinctUntilChanged()),
   }).pipe(
