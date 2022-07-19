@@ -4,5 +4,6 @@ declare namespace svelte.JSX {
     onintersection?: (e: CustomEvent<boolean>) => void
     onswipe_dismiss?: (e: CustomEvent<'left' | 'right'>) => void
     onslider_change?: (e: CustomEvent<[percent: number, px: number]>) => void
+    onslider_status?: (e: CustomEvent<'start' | 'end'>) => void
   }
 }
