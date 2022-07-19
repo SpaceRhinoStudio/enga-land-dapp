@@ -17,24 +17,31 @@
 
   $: shouldHide = ($isPageLoading$ ?? true) || ($isChrome$ && ($isBlurred || isPortalOpen))
 
+  export let hideCursorFollower = false
+  export let relativeToParent = false
+
   let x = 10
   let y = 10
 </script>
 
 {#if !shouldHide}
-  <FollowMouse>
-    <div
-      out:fade={{ duration: 150 }}
-      in:fade
-      class="blur-md h-6 w-6 bg-[#ff0088] shadow-[0px_0px_80px_65px_#ff008840] rounded-full" />
-  </FollowMouse>
+  {#if !hideCursorFollower}
+    <FollowMouse>
+      <div
+        out:fade={{ duration: 150 }}
+        in:fade
+        class="blur-md h-6 w-6 bg-[#ff0088] shadow-[0px_0px_80px_65px_#ff008840] rounded-full" />
+    </FollowMouse>
+  {/if}
 
   <div
     out:fade={{ duration: 150 }}
     in:fade
     class="absolute z-[-1] left-0 right-0 flex justify-center items-center h-4/6 pointer-events-none">
     <div
-      class="flex justify-between w-[95vw] md:w-[73vw] h-full transition-opacity select-none pointer-events-none relative">
+      class="flex justify-between {relativeToParent
+        ? 'w-[95%] md:w-[73%]'
+        : 'w-[95vw] md:w-[73vw]'} h-full transition-opacity select-none pointer-events-none relative">
       <div class="h-full flex flex-col justify-between md:justify-evenly">
         <RandomTranslate className="flex justify-center">
           <div class="h-20 w-20 border-4 border-primary-800 rounded-full" />
