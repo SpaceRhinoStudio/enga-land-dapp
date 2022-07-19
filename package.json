@@ -8,7 +8,7 @@
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
     "prepare": "svelte-kit sync && husky install",
-    "preinstall": "(git submodule update --init --recursive || ./vercel-submodule.sh) && yarn --cwd ./contracts/Fundraising install && yarn --cwd ./contracts/Fundraising cleanCompile",
+    "preinstall": "(git submodule update --init --recursive || ./vercel-submodule.sh) && yarn --cwd ./contracts/Fundraising install && yarn --cwd ./contracts/Fundraising typechain",
     "test": "playwright test || yarn test:single './!(node_modules|.next|dist|build|out|contracts)/**/*.spec.{js,jsx,ts,tsx}'",
     "test:single": "npx ts-mocha -r tsconfig-paths/register,./src/lib/helpers/mocha-init.ts -p ./tsconfig.test.json --timeout 20000",
     "test:server": "yarn test:server:single './!(node_modules|.next|dist|build|out|contracts)/**/*.spec.{js,jsx,ts,tsx}'",
