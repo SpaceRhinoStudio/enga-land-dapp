@@ -14,24 +14,16 @@
     marketplaceSortOptions,
   } from '$lib/observables/enga/marketplace-items'
   import { controlStreamPayload } from '$lib/shared/operators/control-stream-payload'
-  import { formatCurrencyWithUnit } from '$lib/operators/currency-formatter'
-  import { passNil } from '$lib/operators/pass-undefined'
-  import { signerBalanceOf } from '$lib/operators/web3/balance-of'
   import PageTitle from '$lib/PageTitle.svelte'
   import Select from '$lib/Select.svelte'
-  import { map } from 'rxjs'
-  import { EngaTokenContract$ } from '../contracts/fundraising-contracts'
   import ShowcaseCard from '$lib/showcase-card/ShowcaseCard.svelte'
-  import _, { isNil } from 'lodash'
+  import _ from 'lodash'
   import { Routes } from '$lib/shared/configs/routes'
   import { keysOf } from '$lib/shared/utils/type-safe'
   import { tick } from 'svelte'
   import WithLoading from '$lib/shared/WithLoading.svelte'
-
-  const engaBalance$ = EngaTokenContract$.pipe(
-    signerBalanceOf,
-    passNil(map(x => formatCurrencyWithUnit(x))),
-  )
+  import cn from 'classnames'
+  import { engaBalance$ } from '$lib/observables/enga/enga-balance'
 
   let collection: MarketplaceItemsType = Routes.mpOpifexOff
 
@@ -130,6 +122,7 @@
             {/each}
           </div>
         </Card>
+
         {#if $items$ === undefined}
           <div
             transition:fade
@@ -143,7 +136,7 @@
               y: -200,
               duration: 300,
             }}
-            class="!mb-28 relative z-10 flex flex-col md:px-5">
+            class="!mb-28 relative z-10 flex flex-col md:px-5 z-index-bug-fix">
             {#each $items$ ?? [] as meta, i (meta.id)}
               <div
                 in:fly={{
@@ -151,7 +144,7 @@
                   delay: i % pageSize < 4 ? (i % pageSize) * 200 : 0,
                   duration: i % pageSize < 4 ? 500 : 0,
                 }}
-                class="pt-4 pb-2">
+                class="pt-4 pb-2 relative z-10">
                 <ShowcaseCard type={collection} {meta} forSale />
               </div>
             {/each}
