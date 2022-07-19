@@ -35,7 +35,7 @@
   import { keysOf } from '../shared/utils/type-safe'
   import { goto } from '$app/navigation'
   import type { EndroItemMeta } from '../types/enga'
-  import { isFirefox$ } from '$lib/shared/contexts/is-firefox'
+  import { isChrome$, isFirefox$ } from '$lib/shared/contexts/is-firefox'
 
   export let image: string | undefined = undefined
   export let name: string
@@ -75,13 +75,16 @@
         chipsetModifiersList.length === 3 || chipsetModifiersList.length === 4 ? 2 : 3,
       )
     : undefined
+
+  export let className: { [key in 'container']?: string } = {}
 </script>
 
 <div
   bind:clientHeight={height}
   class={cn(
-    'flex relative z-[1] w-48 md:w-auto -mr-1 md:-mr-1.5',
-    itemMeta?.type === EndroItemType.chipset ? 'h-40 md:h-72' : 'h-40 md:h-72',
+    'flex relative z-[1] aspect-[32/40] -mr-1 md:-mr-1.5 h-40 md:h-72',
+    className.container,
+    // itemMeta?.type === EndroItemType.chipset ? 'h-40 md:h-72' : 'h-40 md:h-72',
   )}>
   <div
     style={cn(
@@ -228,7 +231,9 @@
               <div
                 class="hidden md:flex space-x-1 text-sm border border-white rounded-lg px-2 py-1 {$isFirefox$
                   ? 'bg-opacity-50'
-                  : 'backdrop-blur-sm bg-opacity-30'} bg-black text-text-hover shadow-lg shadow-[#0005] select-none mr-3 cursor-pointer hover:scale-110 transition-transform"
+                  : 'backdrop-blur-sm bg-opacity-30'} {$isChrome$
+                  ? 'hover:-translate-y-1'
+                  : 'hover:scale-110 will-change-transform'} bg-black text-text-hover shadow-lg shadow-[#0005] select-none mr-3 cursor-pointer transition-transform"
                 on:click={() => goto(`/dashboard#${endroMeta?.owner}`)}>
                 <span>
                   {$__$?.marketplace.ownerTitle}:
