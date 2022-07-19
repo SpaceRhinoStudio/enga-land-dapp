@@ -5,6 +5,10 @@ import { map, type OperatorFunction } from 'rxjs'
 import type { FormatterOperator } from '$lib/types'
 import { onlyNumbers } from '$lib/utils/sanitize-numbers'
 
+function zeroIfEmpty(value: string | undefined): string {
+  return !_.isEmpty(value) && value ? value : '0.0'
+}
+
 export const CurrencyFormatterOperatorFactory: FormatterOperator<[number?, boolean?]> = (
   precision?: number,
   fixedPrecision = false,
@@ -12,7 +16,7 @@ export const CurrencyFormatterOperatorFactory: FormatterOperator<[number?, boole
   return input =>
     input.pipe(
       map(input => {
-        const res = onlyNumbers(input).split('.')
+        const res = zeroIfEmpty(onlyNumbers(input)).split('.')
         const n =
           res[0]
             ?.replace(/^0+$/, '0')
