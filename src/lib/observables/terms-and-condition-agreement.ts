@@ -24,7 +24,8 @@ import { ajax } from 'rxjs/ajax'
 import { noSentinel } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { SelectedWeb3Signer$, signerAddress$ } from './selected-web3-provider'
 import { selectedNetwork$ } from './web3-network'
-import { Nil } from '$lib/types'
+import type { Nil } from '$lib/types'
+
 export const termsAndConditionsAgreementsController$: Subject<
   Partial<{ Signature: string; Loading: boolean; Request: true }>
 > = new Subject()
