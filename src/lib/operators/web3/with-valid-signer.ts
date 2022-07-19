@@ -1,19 +1,21 @@
-import { passNil, passUndefined } from '$lib/operators/pass-undefined'
+import { passNil } from '$lib/operators/pass-undefined'
 import { distinctUntilChanged, filter, of, type OperatorFunction, pipe, switchMap } from 'rxjs'
 import type { JsonRpcSigner } from '@ethersproject/providers'
 import _ from 'lodash'
 import type { Contract } from 'ethers'
 import { withUpdatesUntilChanged } from '$lib/operators/with-updates-from'
 import { SelectedWeb3Signer$, signerAddress$ } from '$lib/observables/selected-web3-provider'
-import { noSentinelOrUndefined } from '$lib/shared/utils/no-sentinel-or-undefined'
+import { noNil, noSentinelOrUndefined } from '$lib/shared/utils/no-sentinel-or-undefined'
 import type { Nil } from '$lib/types'
 
 export function withValidSigner<T extends Contract, R>(
   operator: OperatorFunction<[contract: T, signer: JsonRpcSigner], R>,
-): OperatorFunction<T | undefined, R | undefined> {
+): OperatorFunction<T | Nil, R | Nil> {
   return pipe(
-    passUndefined(
-      withUpdatesUntilChanged(SelectedWeb3Signer$.pipe(filter(noSentinelOrUndefined))),
+    passNil(
+      withUpdatesUntilChanged(
+        SelectedWeb3Signer$.pipe(filter(noSentinelOrUndefined), filter(noNil)),
+      ),
       operator,
     ),
     distinctUntilChanged(),
@@ -111,7 +113,7 @@ export function withValidSignerAddress<T extends Contract>(
       withUpdatesUntilChanged(signerAddress$),
       switchMap(([contract, address]) =>
         _.isUndefined(address)
-          ? of(undefined)
+          ? of(null)
           : of([contract, address] as const).pipe(
               //@ts-ignore it accepts any number of operations
               ...fns,
