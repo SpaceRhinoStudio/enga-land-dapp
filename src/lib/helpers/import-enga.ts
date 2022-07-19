@@ -2,13 +2,13 @@ import { firstValueFrom, switchMap, take } from 'rxjs'
 
 import { config } from '$lib/configs'
 import { SelectedWeb3ProviderMeta$ } from '$lib/observables/selected-web3-provider'
-import { passUndefined } from '$lib/operators/pass-undefined'
+import { passNil } from '$lib/operators/pass-undefined'
 import { EngaTokenContract$ } from '../../contracts/fundraising-contracts'
 
 export async function importEnga(): Promise<void> {
   await firstValueFrom(
     SelectedWeb3ProviderMeta$.pipe(
-      passUndefined(
+      passNil(
         switchMap(x => x?.web3Provider$),
         switchMap(provider =>
           EngaTokenContract$.pipe(
