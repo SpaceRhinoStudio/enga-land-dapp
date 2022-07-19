@@ -15,6 +15,7 @@
   import safePal from '../assets/wallet-providers/safe-pal-logo.svg'
   import trust from '../assets/wallet-providers/trust-wallet-logo.svg'
   import { __$ } from './shared/locales'
+  import cn from 'classnames'
 
   const connectWalletModalAssetsMap: { [key in Web3ProviderId]: any } = {
     binanceChain,
@@ -30,9 +31,8 @@
 </script>
 
 <Button
-  className="flex flex-col items-center border-none disabled:!bg-transparent bg-transparent text-text-secondary px-2 py-2 m-0 text-sm w-1/2 md:w-auto"
-  disabled={(loading && loading !== id) || !$provider$}
-  isLoading={loading === id}
+  className="flex flex-col items-center border-none disabled:!bg-transparent bg-transparent text-text-secondary px-2 py-2 m-0 text-sm w-full h-full"
+  disabled={!!loading || !$provider$}
   job={async () => {
     loading = id
     SelectedWeb3ProviderIdController$.next({ Unset: true })
@@ -54,19 +54,20 @@
     height={'2.5rem'}
     Icon={connectWalletModalAssetsMap[id]}
     dontFill
-    className={`
-        h-20
-        md:w-20
-        object-contain
-        mb-3
-        transition-all
-        select-none
-        bg-[#2e2847]
-        rounded-lg
-        p-5
-        w-full
-        ${(loading && loading !== id) || !$provider$ ? 'opacity-20' : ''}
-        ${loading === id ? 'opacity-0' : ''}
-    `} />
+    className={cn(
+      'h-20',
+      'sm:w-20',
+      'object-contain',
+      'mb-3',
+      'transition-all',
+      'select-none',
+      loading === id ? 'bg-primary-600' : 'bg-primary-600 bg-opacity-80',
+      'backdrop-blur-md',
+      'rounded-lg',
+      'p-5',
+      'w-full',
+      ((loading && loading !== id) || !$provider$) && 'opacity-20',
+      // loading === id && 'opacity-0',
+    )} />
   <div>{$__$?.walletProviders[id]}</div>
 </Button>

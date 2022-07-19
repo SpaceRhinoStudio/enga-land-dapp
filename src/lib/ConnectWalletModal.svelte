@@ -13,24 +13,44 @@
   import Select from './Select.svelte'
   import type { Web3ProviderId } from './types'
   import { keysOf } from './shared/utils/type-safe'
+  import { crossfade, fade } from 'svelte/transition'
+  import { flip, tsFix } from './shared/helpers/svelte-animation-fix'
 
   export let toggle: () => void
   export let loading = null as Web3ProviderId | null
+
+  const [send, receive] = crossfade({ fallback: node => fade(node), duration: 300 })
 
   const liveNetworks = _.filter(config.Chains, val => val.isLive)
   const testNetworks = _.filter(config.Chains, val => !val.isLive)
 </script>
 
-<Modal acceptExit bind:toggle let:isOpen>
+<Modal bind:toggle on:requestExit={() => !loading && toggle()}>
   <Card
     className={{
-      container: `${$screen$.exact === 'xs' ? '!rounded-b-none' : ''}`,
-      wrapper: 'flex flex-col justify-center items-center gap-4',
+      container: `${$screen$.exact === 'xs' ? '!rounded-b-none' : ''} w-full sm:max-w-xl max-w-md`,
+      wrapper: 'flex flex-col justify-center items-center gap-4 relative w-full',
     }}>
     <span slot="header">{$__$?.web3Provider.connect.title}</span>
-    <div class="flex flex-wrap justify-center items-center">
-      {#each keysOf(config.Web3Providers) as key}
-        <ConnectWalletModalSingleItem id={key} requestExit={toggle} {loading} />
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 scale-125 pointer-events-none z-10">
+      {#each keysOf(config.Web3Providers).filter(key => key === loading) as key (key)}
+        <div
+          class="pointer-events-auto"
+          in:tsFix={[receive, { key: key }]}
+          out:tsFix={[send, { key: key }]}>
+          <ConnectWalletModalSingleItem id={key} requestExit={toggle} {loading} />
+        </div>
+      {/each}
+    </div>
+    <div class="flex flex-wrap justify-center items-center relative z-0">
+      {#each keysOf(config.Web3Providers).filter(key => key !== loading) as key (key)}
+        <div
+          in:tsFix={[receive, { key }]}
+          out:tsFix={[send, { key }]}
+          animate:flip
+          class="w-1/2 sm:w-auto">
+          <ConnectWalletModalSingleItem id={key} requestExit={toggle} bind:loading />
+        </div>
       {/each}
     </div>
     <div class="flex items-center justify-between w-full py-3 sm:py-0">
