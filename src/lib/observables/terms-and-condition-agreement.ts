@@ -4,7 +4,7 @@ import { flashToast$ } from '$lib/shared/contexts/flash-toast'
 import { __$ } from '$lib/shared/locales'
 import _ from 'lodash'
 import { controlStreamPayload } from '$lib/shared/operators/control-stream-payload'
-import { passUndefined } from '$lib/operators/pass-undefined'
+import { passNil } from '$lib/operators/pass-undefined'
 import { reEmitUntilChanged } from '$lib/operators/repeat-on-trigger'
 import { withUpdatesFrom } from '$lib/operators/with-updates-from'
 import {
@@ -24,6 +24,7 @@ import { ajax } from 'rxjs/ajax'
 import { noSentinel } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { SelectedWeb3Signer$, signerAddress$ } from './selected-web3-provider'
 import { selectedNetwork$ } from './web3-network'
+import { Nil } from '$lib/types'
 export const termsAndConditionsAgreementsController$: Subject<
   Partial<{ Signature: string; Loading: boolean; Request: true }>
 > = new Subject()
@@ -42,7 +43,7 @@ termsAndConditionsAgreementsController$
     tap(() => termsAndConditionsAgreementsController$.next({ Loading: true })),
     withLatestFrom(SelectedWeb3Signer$),
     map(([, x]) => x),
-    passUndefined(
+    passNil(
       switchMap(x =>
         ajax<TermsAndConditionsMessageApiResponse>({
           method: 'GET',
@@ -52,7 +53,7 @@ termsAndConditionsAgreementsController$
 
       switchMap(([x, { tos }]) => x.signMessage(tos).catch(() => undefined)),
     ),
-    passUndefined(map(x => ({ Signature: x }))),
+    passNil(map(x => ({ Signature: x }))),
     tap(() => termsAndConditionsAgreementsController$.next({ Loading: false })),
   )
   .subscribe(x => {
@@ -63,8 +64,8 @@ type TermsAndConditionsApiResponse = {
   success: boolean
 }
 
-export const termsAndConditionsAgreements$: Observable<boolean | undefined> = signerAddress$.pipe(
-  passUndefined(
+export const termsAndConditionsAgreements$: Observable<boolean | Nil> = signerAddress$.pipe(
+  passNil(
     reEmitUntilChanged(
       termsAndConditionsAgreementsController$.pipe(
         controlStreamPayload('Signature'),
