@@ -101,7 +101,7 @@ export function rndEndroItem(
     if (type === EndroItemType.chipset) {
       if (!statsToModify) {
         //@ts-ignore it's identical
-        statsToModify = rndPick(keysOf(GodStats), rnd(6) + 1)
+        statsToModify = rndPick(keysOf(GodStats), rnd(4) + 1)
       }
       modifiers = statsToModify!.reduce(
         (acc, key) => ({
