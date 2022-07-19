@@ -21,13 +21,15 @@
           (height - 50 * remFactor - $cutHeight$) / 2
         } q 0 ${8 * remFactor} ${5 * hScale * remFactor} ${13 * remFactor} l ${
           3 * hScale * remFactor
-        } ${3 * remFactor} q ${4 * hScale * remFactor} ${4 * remFactor} ${4 * hScale * remFactor} ${
-          9 * remFactor
-        } v ${$cutHeight$} q 0 ${5 * remFactor} ${-4 * hScale * remFactor} ${9 * remFactor} l ${
-          -3 * hScale * remFactor
-        } ${3 * remFactor} q ${-5 * hScale * remFactor} ${5 * remFactor} ${
-          -5 * hScale * remFactor
-        } ${13 * remFactor} v ${
+        } ${3 * hScale * remFactor} q ${4 * hScale * remFactor} ${4 * hScale * remFactor} ${
+          4 * hScale * remFactor
+        } ${9 * remFactor} v ${$cutHeight$ + 3 * remFactor * (1 - hScale)} q 0 ${
+          5 * hScale * remFactor
+        } ${-4 * hScale * remFactor} ${9 * remFactor} l ${-3 * hScale * remFactor} ${
+          3 * hScale * remFactor
+        } q ${-5 * hScale * remFactor} ${5 * remFactor} ${-5 * hScale * remFactor} ${
+          13 * remFactor
+        } v ${
           (height - 50 * remFactor - $cutHeight$) / 2 - $cornerRadius$
         } q 0 ${$cornerRadius$} ${$cornerRadius$} ${$cornerRadius$} H ${
           width - $cornerRadius$
@@ -38,13 +40,15 @@
           (height - 50 * remFactor - $cutHeight$) / 2
         } q 0 ${8 * remFactor} ${5 * hScale * remFactor} ${13 * remFactor} l ${
           3 * hScale * remFactor
-        } ${3 * remFactor} q ${4 * hScale * remFactor} ${4 * remFactor} ${4 * hScale * remFactor} ${
-          9 * remFactor
-        } v ${$cutHeight$} q 0 ${5 * remFactor} ${-4 * hScale * remFactor} ${9 * remFactor} l ${
-          -3 * hScale * remFactor
-        } ${3 * remFactor} q ${-5 * hScale * remFactor} ${5 * remFactor} ${
-          -5 * hScale * remFactor
-        } ${13 * remFactor} v ${
+        } ${3 * hScale * remFactor} q ${4 * hScale * remFactor} ${4 * hScale * remFactor} ${
+          4 * hScale * remFactor
+        } ${9 * remFactor} v ${$cutHeight$ + 3 * remFactor * (1 - hScale)} q 0 ${
+          5 * hScale * remFactor
+        } ${-4 * hScale * remFactor} ${9 * remFactor} l ${-3 * hScale * remFactor} ${
+          3 * hScale * remFactor
+        } q ${-5 * hScale * remFactor} ${5 * remFactor} ${-5 * hScale * remFactor} ${
+          13 * remFactor
+        } v ${
           (height - 50 * remFactor - $cutHeight$) / 2 - $cornerRadius$
         } q 0 ${$cornerRadius$} -${$cornerRadius$} ${$cornerRadius$} H ${$cornerRadius$} q -${$cornerRadius$} 0 -${$cornerRadius$} -${$cornerRadius$}')`
 </script>
