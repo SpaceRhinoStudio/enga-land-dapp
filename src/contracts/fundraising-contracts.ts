@@ -25,7 +25,7 @@ import type {
   Controller,
 } from 'engaland_fundraising_app/typechain'
 import { withUpdatesFrom, withUpdatesUntilChanged } from '$lib/operators/with-updates-from'
-import { passNil, passUndefined } from '$lib/operators/pass-undefined'
+import { passNil } from '$lib/operators/pass-undefined'
 import { externalContractAbi$Factory } from '$lib/providers/external-contract-abi'
 import { selectedNetwork$ } from '$lib/observables/web3-network'
 import _ from 'lodash'
@@ -58,7 +58,7 @@ function fundraisingContract$Factory<T extends Contract>(
       ),
       map(([[x, network], abi]) => {
         if (!(abi && (fundraisingContractAddresses[network]![key]?.address ?? explicitAddress))) {
-          return undefined
+          return null
         }
         const res = new Contract(
           (fundraisingContractAddresses[network]![key]?.address ?? explicitAddress)!,

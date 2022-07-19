@@ -74,6 +74,36 @@ const Web3Providers: {
   },
 }
 
+const endpoints: { [network in Network]: string[] } = {
+  [Network.BSCMainnet]: [
+    'https://bsc-dataseed.binance.org',
+    'https://bsc-dataseed1.defibit.io',
+    'https://bsc-dataseed1.ninicoin.io',
+    'https://bsc-dataseed2.defibit.io',
+    'https://bsc-dataseed3.defibit.io',
+    'https://bsc-dataseed4.defibit.io',
+    'https://bsc-dataseed2.ninicoin.io',
+    'https://bsc-dataseed3.ninicoin.io',
+    'https://bsc-dataseed4.ninicoin.io',
+    'https://bsc-dataseed1.binance.org',
+    'https://bsc-dataseed2.binance.org',
+    'https://bsc-dataseed3.binance.org',
+    'https://bsc-dataseed4.binance.org',
+  ],
+  [Network.BSCTestnet]: [
+    'https://data-seed-prebsc-1-s1.binance.org:8545/',
+    // 'https://data-seed-prebsc-2-s1.binance.org:8545/',
+    // 'https://data-seed-prebsc-1-s2.binance.org:8545/',
+    // 'https://data-seed-prebsc-2-s2.binance.org:8545/',
+    'https://data-seed-prebsc-1-s3.binance.org:8545/',
+    'https://data-seed-prebsc-2-s3.binance.org:8545/',
+  ],
+  [Network.Local]: ['http://127.0.0.1:8545'],
+  [Network.Rinkeby]: ['https://rinkeby.infura.io/v3'],
+  [Network.Polygon]: ['https://polygon-rpc.com'],
+  [Network.Mumbai]: ['https://matic-mumbai.chainstacklabs.com'],
+}
+
 const Chains: {
   [key in Network]: {
     id: number
@@ -107,7 +137,7 @@ const Chains: {
         symbol: 'ETH',
         decimals: 18,
       },
-      rpcUrls: ['http://127.0.0.1:8545'],
+      rpcUrls: endpoints[Network.Local],
     },
   },
   [Network.Rinkeby]: {
@@ -125,7 +155,7 @@ const Chains: {
         symbol: 'ETH',
         decimals: 18,
       },
-      rpcUrls: ['https://rinkeby.infura.io/v3'],
+      rpcUrls: endpoints[Network.Rinkeby],
       blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
     },
   },
@@ -144,7 +174,7 @@ const Chains: {
         symbol: 'MATIC',
         decimals: 18,
       },
-      rpcUrls: ['https://polygon-rpc.com'],
+      rpcUrls: endpoints[Network.Polygon],
       blockExplorerUrls: ['https://polygonscan.com/'],
     },
   },
@@ -163,7 +193,7 @@ const Chains: {
         symbol: 'MATIC',
         decimals: 18,
       },
-      rpcUrls: ['https://matic-mumbai.chainstacklabs.com'],
+      rpcUrls: endpoints[Network.Mumbai],
       blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
     },
   },
@@ -182,11 +212,7 @@ const Chains: {
         symbol: 'bnb',
         decimals: 18,
       },
-      rpcUrls: [
-        // "https://bsc-dataseed1.ninicoin.io",
-        // "https://bsc-dataseed1.defibit.io",
-        'https://bsc-dataseed.binance.org',
-      ],
+      rpcUrls: endpoints[Network.BSCMainnet],
       blockExplorerUrls: ['https://bscscan.com/'],
     },
   },
@@ -205,47 +231,17 @@ const Chains: {
         symbol: 'bnb',
         decimals: 18,
       },
-      rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545'],
+      rpcUrls: endpoints[Network.BSCTestnet],
       blockExplorerUrls: ['https://testnet.bscscan.com/'],
     },
   },
-}
-
-const CustomEndpoints: { [network in Network]: string[] } = {
-  [Network.BSCMainnet]: [
-    'https://bsc-dataseed.binance.org',
-    'https://bsc-dataseed1.defibit.io',
-    'https://bsc-dataseed1.ninicoin.io',
-    'https://bsc-dataseed2.defibit.io',
-    'https://bsc-dataseed3.defibit.io',
-    'https://bsc-dataseed4.defibit.io',
-    'https://bsc-dataseed2.ninicoin.io',
-    'https://bsc-dataseed3.ninicoin.io',
-    'https://bsc-dataseed4.ninicoin.io',
-    'https://bsc-dataseed1.binance.org',
-    'https://bsc-dataseed2.binance.org',
-    'https://bsc-dataseed3.binance.org',
-    'https://bsc-dataseed4.binance.org',
-  ],
-  [Network.BSCTestnet]: [
-    'https://data-seed-prebsc-1-s1.binance.org:8545/',
-    // 'https://data-seed-prebsc-2-s1.binance.org:8545/',
-    // 'https://data-seed-prebsc-1-s2.binance.org:8545/',
-    // 'https://data-seed-prebsc-2-s2.binance.org:8545/',
-    'https://data-seed-prebsc-1-s3.binance.org:8545/',
-    'https://data-seed-prebsc-2-s3.binance.org:8545/',
-  ],
-  [Network.Local]: ['http://127.0.0.1:8545'],
-  [Network.Rinkeby]: [],
-  [Network.Polygon]: [],
-  [Network.Mumbai]: [],
 }
 
 export const web3Config = {
   Web3Providers,
   Chains,
   SelectedNetworkStorageKey: 'selected-web3-network',
-  CustomEndpoints,
+  CustomEndpoints: endpoints,
   BscScanApiKey: undefined,
   txFinalityBlocks: 15,
   PPM: 1_000_000,
