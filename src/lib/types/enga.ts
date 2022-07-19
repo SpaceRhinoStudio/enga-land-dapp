@@ -48,4 +48,5 @@ export type OpifexMeta = {
 
 export type RaffleTicketMeta = {
   rarity: ItemRarity
+  ownedCount?: number
 }
