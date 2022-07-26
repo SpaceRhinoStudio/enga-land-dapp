@@ -19,5 +19,15 @@
     "scope": "",
     "prefix": "exclass",
     "body": ["export let className: { [key in '$0']?: string } = {}"]
+  },
+  "set default value in jsdoc": {
+    "scope": "",
+    "prefix": "@default",
+    "body": ["/** @default $0 */"]
+  },
+  "make value readonly jsdoc": {
+    "scope": "",
+    "prefix": "@readonly",
+    "body": ["/** @readonly */"]
   }
 }
