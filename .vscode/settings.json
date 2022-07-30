@@ -1,4 +1,5 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "cSpell.words": ["Endro", "outclick"]
+  "cSpell.words": ["Endro", "outclick"],
+  "svg.preview.background": "dark-transparent"
 }
