@@ -78,6 +78,30 @@ root
 - `static/`: files to be served statically and referred to by _links_ instead of `import` statements
 - `contracts/`: root for contracts submodules
 
+### RxJS structure
+
+All observables are marked with a `$` suffix. and observable factories also contain the `$` sign before the `Factory` suffix.
+
+#### Usage in svelte
+
+the value of an observable can simply be accessed through the svelte `$` syntax used for accessing svelte stores. this syntax works on any object with a `subscribe` method. the catch here is that all subscriptions are handled by svelte so that when a component unmounts all its subscriptions are automatically unsubscribed, preventing memory leaks in the application.  
+the `$observable` statement is evaluated as `undefined` on the first run if the respected observable has no sync emission or in case of being a `ReplaySubject` has not yet emitted a value.
+
+#### Error handling
+
+When needed, error handling is done at the source observable level. in this structure there are no intentionally uncaught errors passed down the streams, instead in worst case scenario the error is logged and a `null` value is passed down.  
+this approach is used to let all the subscriptions and derived streams running and cut the concern of handling resubscriptions at every level. also since a globally accessible toast notification emission control is available the source observable can show whatever that is needed to user directly.  
+`undefined` is also used a lot and it almost always indicates a loading status, so far since `undefined` is reserved for loading, a `Symbol` is used to determine empty content, the `Sentinel` symbol which always represents unset or empty value throughout the application.
+
+#### Controlled values
+
+Controlled value read/write situations are implemented as a read `Observable` and a so called "Control" `Subject`.  
+a control subject is a subject that accepts operations on the controlled entity such as set/unset a value, adding to a list, etc. but the catch is that the read observable might do any arbitrary operation on the control stream such as validations or transformations or timeout controls. obviously the read observable is derived directly from the control stream.
+
+#### Operators
+
+Since most of the data sources are observables, the transformations, validations, etc are implemented as `OperatorFunction`s for having more functional and reusable components. They have strict type definitions and they are mostly designed in a way to handle nil data (`null` for error, `undefined` for loading).
+
 ## Project configuration
 
 ### Git
