@@ -20,6 +20,7 @@ export function repeatOnTrigger<T>(observable: Observable<unknown>): MonoTypeOpe
     )
 }
 
+/**@deprecated use reEmitUntilChanged*/
 export function reEmitOnTrigger<T>(
   sourceOrProject: ((input: T) => Observable<unknown>) | Observable<unknown>,
 ): MonoTypeOperatorFunction<T> {
