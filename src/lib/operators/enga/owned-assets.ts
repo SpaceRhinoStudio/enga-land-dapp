@@ -28,6 +28,7 @@ export type OwnedAssetsList = {
   [EndroItemType.skins]: EndroItemMeta[]
 }
 
+/**@description lists owned assets of a certain address (string) */
 export function ownedAssetsList(): OperatorFunction<string, OwnedAssetsList> {
   return pipe(
     mergeMap(() =>
