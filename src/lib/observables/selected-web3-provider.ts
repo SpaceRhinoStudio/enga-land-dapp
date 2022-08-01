@@ -1,3 +1,5 @@
+/**@description these are a set of helpers designed to ease the connecting process for web3 injected providers */
+
 import { config } from '$lib/configs'
 import { localCache } from '$lib/contexts/local-cache'
 import { isWeb3ProviderId } from '$lib/helpers/validate-web3-provider'

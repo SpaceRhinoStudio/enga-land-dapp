@@ -8,6 +8,7 @@ import { catchError, EMPTY, from, map, mergeMap, Observable, of, reduce, shareRe
 import type { Web3ProviderId } from '$lib/types'
 import type { Web3ProviderMetadata } from '$lib/types/rxjs'
 
+/**@description this is the injected web3 provider, the most useful provider available because it is the only one that can sign transactions/messages but yet not always available so we have a bunch of other providers so the app partially works even without the presence of this provider */
 export const Web3ProvidersMeta$: Observable<{
   [id in Web3ProviderId]?: Web3ProviderMetadata
 }> = from(_.values(config.Web3Providers)).pipe(

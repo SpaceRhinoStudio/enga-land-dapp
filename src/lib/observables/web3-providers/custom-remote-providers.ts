@@ -16,6 +16,10 @@ import {
 } from 'rxjs'
 import { filterBy } from '$lib/operators/filter-by'
 
+/**
+ * @description this observable contains a set of custom JSONRPC providers for the selected network based on the endpoints defined in the web3 config
+ * this is useful for when there is no web3 injected provider available.
+ */
 export const CustomRemoteWeb3Providers$ = from(selectedNetwork$).pipe(
   mergeMap(x => config.CustomEndpoints[x]),
   //TODO: make `new` statement inside `RxJS.using`, unsubscribe it by emitting error and/or deleting the resource

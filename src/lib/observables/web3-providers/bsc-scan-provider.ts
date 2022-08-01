@@ -5,6 +5,7 @@ import { catchError, EMPTY, filter, from, map, of, shareReplay } from 'rxjs'
 import { selectedNetwork$ } from '$lib/observables/web3-network'
 import { filterBy } from '$lib/operators/filter-by'
 
+/**@description this is a dedicated provider for BSC chain which uses bscScan APIs */
 export const BscScanWeb3Provider$ = from(selectedNetwork$).pipe(
   filter(x => x !== Network.Local),
   map(x => new BscscanProvider(config.Chains[x].network)),

@@ -25,6 +25,9 @@ import { CustomRemoteWeb3Providers$ } from './custom-remote-providers'
 import { DefaultWeb3Provider$ } from './default-provider'
 import { logOp } from '$lib/operators/log'
 
+/**
+ * @description this is the ethers fallback provider, this provider uses a quorum of different providers with defined priority and weights so that we are available to always have a valid provider even if the favorite one is not available.
+ */
 export const fallbackWeb3Provider$ = combineLatest({
   external: Web3ProvidersMeta$.pipe(
     mergeMap(x => _.values(x)),
