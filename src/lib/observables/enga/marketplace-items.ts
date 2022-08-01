@@ -1,3 +1,9 @@
+//TODO: rewrite this as service objects because this is unnecessarily complex.
+
+/**
+ * @description this is used to centralize all the fetching, filtering and sorting for all marketplace items in a single interface.
+ */
+
 import { controlStreamPayload } from '$lib/shared/operators/control-stream-payload'
 import { map, Observable, OperatorFunction, startWith, Subject, tap } from 'rxjs'
 import { MarketplaceSortOptions } from '$lib/shared/types/marketplace'
