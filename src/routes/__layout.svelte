@@ -7,6 +7,7 @@
 
   import EngaPrice from '$lib/EngaPrice.svelte'
   import ImportEnga from '$lib/ImportEnga.svelte'
+  import PendingTransactions from '$lib/PendingTransactions.svelte'
   import { Routes } from '$lib/shared/configs/routes'
   import MainLayout from '$lib/shared/MainLayout.svelte'
 </script>
@@ -43,8 +44,7 @@
   ]}>
   <slot />
   <svelte:fragment slot="header-right">
-    <!-- TODO: IMPORTANT -->
-    <!-- <PendingTransactions /> -->
+    <PendingTransactions />
     <ConnectWalletButton />
   </svelte:fragment>
   <ConnectWalletButton slot="sidebar-foot" alwaysExpand upward dir="ltr" />
