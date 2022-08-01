@@ -12,6 +12,7 @@ export const Web3ProviderIdArray: Web3ProviderId[] = Object.keys(
   Web3ProviderIdTypeSafeKeys,
 ) as (keyof typeof Web3ProviderIdTypeSafeKeys)[]
 
+/**@description this simply validates if a given web3 provider id is defined in the system */
 export function isWeb3ProviderId(id: string): id is Web3ProviderId {
   //@ts-expect-error this is a test to validate type!
   return Web3ProviderIdArray.includes(id)

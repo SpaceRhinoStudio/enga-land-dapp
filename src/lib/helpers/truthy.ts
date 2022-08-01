@@ -1,6 +1,9 @@
 import { SENTINEL, type Sentinel } from '$lib/shared/contexts/empty-sentinel'
 import _ from 'lodash'
 
+/**
+ * @description this function is used to replace a default value with the input value if the input value is falsy.
+ */
 export function truthy<T, R>(
   input: T | undefined | null | Error | Sentinel,
   defaultValue: R,

@@ -5,6 +5,9 @@ import { SelectedWeb3ProviderMeta$ } from '$lib/observables/selected-web3-provid
 import { passNil } from '$lib/operators/pass-undefined'
 import { EngaTokenContract$ } from '../../contracts/fundraising-contracts'
 
+/**
+ * @description this helper function is used to import ENGA token to user's metamask token list.
+ */
 export async function importEnga(): Promise<void> {
   await firstValueFrom(
     SelectedWeb3ProviderMeta$.pipe(
