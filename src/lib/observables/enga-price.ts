@@ -10,7 +10,6 @@ import { passNil } from '$lib/operators/pass-undefined'
 import { withUpdatesFrom, withUpdatesUntilChanged } from '$lib/operators/with-updates-from'
 import {
   map,
-  mergeMap,
   Observable,
   of,
   OperatorFunction,
@@ -62,12 +61,14 @@ export const engaPriceFromSeedSalePPM$ = SeedSaleContract$.pipe(
   map(([x, status]) => (status === SeedSaleStatus.Funding ? x : null)),
 )
 
+/**@description utility to parse PPM to human readable number */
 export const parsePPM: OperatorFunction<BigNumber | Nil, number | Nil> = passNil(
   map(x => x.toNumber() / config.PPM),
   map(x => Number(x.toLocaleString())),
 )
 
-export const engaPrice$: Observable<number | undefined | null> = marketMakerStatus$.pipe(
+/**@description ENGA current price, the priority measure here is the exchange (public sale) price because other sales might not be available for all users */
+export const engaPrice$: Observable<number | Nil> = marketMakerStatus$.pipe(
   switchMap(isOpen =>
     isOpen
       ? engaPriceFromMarketMakerPPM$
@@ -79,7 +80,7 @@ export const engaPrice$: Observable<number | undefined | null> = marketMakerStat
   shareReplay(1),
 )
 
-export const engaPricePPM$: Observable<BigNumber | undefined | null> = marketMakerStatus$.pipe(
+export const engaPricePPM$: Observable<BigNumber | Nil> = marketMakerStatus$.pipe(
   switchMap(isOpen => (isOpen ? engaPriceFromMarketMakerPPM$ : engaPriceFromPreSalePPM$)),
   shareReplay(1),
 )
