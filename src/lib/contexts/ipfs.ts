@@ -15,6 +15,7 @@ ipfsNode$.pipe(throwIfEmpty()).subscribe({
 
 export const ipfs$ = ipfsNode$.pipe(
   mergeMap(ipfs => (ipfs.isOnline() ? of(ipfs) : throwError(() => 'ipfs is not ready'))),
+  //TODO: replace this with `retry`
   retryWhen(() => timer(config.Retry.Timeout)),
   shareReplay(1),
 )
