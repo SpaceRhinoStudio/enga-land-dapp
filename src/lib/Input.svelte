@@ -19,7 +19,7 @@
     type Subject,
   } from 'rxjs'
 
-  import { onDestroy, tick } from 'svelte'
+  import { tick } from 'svelte'
   import { controlStreamPayload } from './shared/operators/control-stream-payload'
   import SvgIcon from './shared/SVGIcon.svelte'
   import LoadingOverlay from './shared/LoadingOverlay.svelte'
@@ -32,7 +32,6 @@
   import { isArray, isEqual } from './shared/utils/type-safe'
   import { pipeIfNot } from './operators/pipe-if-not'
   import { isSentinel } from './shared/contexts/empty-sentinel'
-  import { logOp } from './operators/log'
 
   export let control$: Subject<InputControl> = inputControlFactory()
   export let validators: OperatorFunction<string, InputComponentError>[] = []
@@ -61,7 +60,6 @@
     ),
   )
     .pipe(
-      logOp('value in validator'),
       map(x => x.filter(x => !_.isEmpty(x))),
       map(x => ({ Errors: x })),
     )
