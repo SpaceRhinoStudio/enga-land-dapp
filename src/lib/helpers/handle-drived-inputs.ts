@@ -13,6 +13,7 @@ import {
 } from 'rxjs'
 
 /**
+ * @description used for handling multiple inputs that their values are driven by each other. notice that when you use this function you must format the final values yourself in the `derivations`. (you cannot rely on the input component `formatters` to do this for you, because this directly writes to `Value` in the control object)
  * ## Example
  * ```ts
  * const derivations = {
