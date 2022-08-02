@@ -1,7 +1,7 @@
 import { Web3Error } from '$lib/classes/web3-error'
 import _ from 'lodash'
 import { Window$ } from '$lib/shared/observables/window'
-import { map, Observable, tap } from 'rxjs'
+import { map, Observable } from 'rxjs'
 import type { Web3ProviderId } from '$lib/types'
 import type { Network as EthersNetwork } from '@ethersproject/networks'
 import type { providers } from 'ethers'
@@ -13,6 +13,7 @@ export enum Network {
   Rinkeby = 'rinkeby',
   Polygon = 'polygon',
   Mumbai = 'polygonMumbai',
+  Goerli = 'goerli',
 }
 
 function providerNotFoundErrorFactory() {
@@ -41,7 +42,7 @@ const Web3Providers: {
     id: 'binanceChain',
     provider$: Window$.pipe(
       map(win => _.get(win, 'BinanceChain') as providers.ExternalProvider),
-      tap(x => (!_.isFunction(_.get(x, 'off')) ? _.assign(x, { off: _.identity }) : undefined)),
+      map(x => (!_.isFunction(_.get(x, 'off')) ? { ...x, off: _.noop } : x)),
     ),
   },
   trust: {
@@ -99,9 +100,34 @@ const endpoints: { [network in Network]: string[] } = {
     'https://data-seed-prebsc-2-s3.binance.org:8545/',
   ],
   [Network.Local]: ['http://127.0.0.1:8545'],
-  [Network.Rinkeby]: ['https://rinkeby.infura.io/v3'],
-  [Network.Polygon]: ['https://polygon-rpc.com'],
-  [Network.Mumbai]: ['https://matic-mumbai.chainstacklabs.com'],
+  [Network.Rinkeby]: [
+    'https://rpc.ankr.com/eth_rinkeby',
+    'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    'https://rinkeby.infura.io/v3',
+  ],
+  [Network.Polygon]: [
+    'https://polygon-rpc.com',
+    'https://rpc-mainnet.matic.quiknode.pro',
+    'https://matic-mainnet-full-rpc.bwarelabs.com',
+    'https://rpc.ankr.com/polygon',
+    'https://polygonapi.terminet.io/rpc',
+    'https://rpc-mainnet.maticvigil.com',
+    'https://poly-rpc.gateway.pokt.network',
+    'https://polygon-mainnet.public.blastapi.io',
+  ],
+  [Network.Mumbai]: [
+    'https://matic-mumbai.chainstacklabs.com',
+    'https://matic-testnet-archive-rpc.bwarelabs.com',
+    'https://rpc.ankr.com/polygon_mumbai',
+    'https://rpc-mumbai.maticvigil.com',
+    'https://polygontestapi.terminet.io/rpc',
+  ],
+  [Network.Goerli]: [
+    'https://rpc.ankr.com/eth_goerli',
+    'https://rpc.goerli.mudit.blog',
+    'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    'https://goerli.infura.io/v3/',
+  ],
 }
 
 const Chains: {
@@ -140,25 +166,6 @@ const Chains: {
       rpcUrls: endpoints[Network.Local],
     },
   },
-  [Network.Rinkeby]: {
-    id: 4,
-    isLive: false,
-    network: {
-      chainId: 4,
-      name: Network.Rinkeby,
-    },
-    config: {
-      chainId: `0x${(4).toString(16)}`,
-      chainName: 'Rinkeby',
-      nativeCurrency: {
-        name: 'Rinkeby Ether',
-        symbol: 'ETH',
-        decimals: 18,
-      },
-      rpcUrls: endpoints[Network.Rinkeby],
-      blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
-    },
-  },
   [Network.Polygon]: {
     id: 137,
     isLive: true,
@@ -195,6 +202,44 @@ const Chains: {
       },
       rpcUrls: endpoints[Network.Mumbai],
       blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+    },
+  },
+  [Network.Goerli]: {
+    id: 5,
+    isLive: false,
+    network: {
+      chainId: 5,
+      name: Network.Goerli,
+    },
+    config: {
+      chainId: `0x${(5).toString(16)}`,
+      chainName: 'Goerli',
+      nativeCurrency: {
+        name: 'Goerli Ether',
+        symbol: 'ETH',
+        decimals: 18,
+      },
+      rpcUrls: endpoints[Network.Goerli],
+      blockExplorerUrls: ['https://goerli.etherscan.io/'],
+    },
+  },
+  [Network.Rinkeby]: {
+    id: 4,
+    isLive: false,
+    network: {
+      chainId: 4,
+      name: Network.Rinkeby,
+    },
+    config: {
+      chainId: `0x${(4).toString(16)}`,
+      chainName: 'Rinkeby',
+      nativeCurrency: {
+        name: 'Rinkeby Ether',
+        symbol: 'ETH',
+        decimals: 18,
+      },
+      rpcUrls: endpoints[Network.Rinkeby],
+      blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
     },
   },
   [Network.BSCMainnet]: {
