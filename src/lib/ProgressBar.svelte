@@ -59,7 +59,7 @@
       </span>
     {/if}
   </div>
-  <LoadingOverlay visible={isLoading} className={{ container: '!top-4' }} />
+  <LoadingOverlay visible={isLoading} />
   {#if disabled}
     <div transition:fade class="absolute inset-0 flex items-center justify-center text-sm">
       <slot name="disabled" />
