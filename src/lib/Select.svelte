@@ -23,7 +23,8 @@
         .map(_.trim)
         .filter(_.negate(_.isEmpty))
     : undefined
-  $: selectedItemTitle = ref?.innerHTML?.split(`${value}">`)[1]?.split('<')[0]?.trim()
+  $: selectedItemTitle =
+    ref?.innerHTML?.split(`${value}">`)[1]?.split('<')[0]?.trim() ?? $__$?.main.notAvailable
 
   export let className: { [key in 'container']?: string } = {}
 </script>
@@ -39,12 +40,17 @@
     class="opacity-0 absolute inset-0 outline-none {disabled
       ? 'cursor-not-allowed'
       : 'cursor-pointer'} z-[1]">
+    {#if _.isNil(value)}
+      <option value={'undefined'} disabled>
+        {$__$?.main.notAvailable}
+      </option>
+    {/if}
     <slot />
   </select>
   {#each itemTitles ?? [] as itemTitle}
     <Fade mode="width" visible={selectedItemTitle === itemTitle}>
       <div class="pr-7 {isLoading ? 'text-transparent' : ''}">
-        {itemTitle}
+        {itemTitle ?? $__$?.main.notAvailable}
       </div>
     </Fade>
   {/each}
