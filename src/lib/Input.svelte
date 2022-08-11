@@ -36,7 +36,7 @@
   export let control$: Subject<InputControl> = inputControlFactory()
   export let validators: OperatorFunction<string, InputComponentError>[] = []
   export let formatter: OperatorFunction<string, string> = x => x
-  export let parser: OperatorFunction<string, string> = x => x //TODO: why this is not being used?
+  export let parser: OperatorFunction<string, string> = x => x //TODO: use this maybe?
   export let sanitizer: OperatorFunction<string, string> = x => x
   export let disabled = false
   export let value = undefined as string | undefined

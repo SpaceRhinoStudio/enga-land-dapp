@@ -1,43 +1,56 @@
 import type { ERC20 } from 'engaland_fundraising_app/typechain'
-import type { BigNumber, Contract } from 'ethers'
-import _ from 'lodash'
-import { passNil, passUndefined } from '$lib/operators/pass-undefined'
-import { reEmitUntilChanged } from '$lib/operators/repeat-on-trigger'
-import { map, mergeMap, type OperatorFunction } from 'rxjs'
-import type { Nil } from '$lib/types'
+import { BigNumber, Contract, Signer, utils } from 'ethers'
+import { switchSomeMembers } from '$lib/operators/pass-undefined'
+import {
+  combineLatest,
+  debounceTime,
+  from,
+  map,
+  merge,
+  shareReplay,
+  switchAll,
+  switchMap,
+} from 'rxjs'
+import type { Option$ } from '$lib/types'
 import { fromEventFilter } from './from-event-filter'
-import { withValidSignerAddress } from './with-valid-signer'
+import { signerAddress$ } from '$lib/observables/selected-web3-provider'
+import { memoryCache } from '$lib/contexts/memory-cache'
+import { resolveAddress } from './resolve-address'
 
-export const allowance: OperatorFunction<
-  | readonly [erc20: ERC20 | undefined, owner: string | undefined, spender: string | undefined]
-  | undefined,
-  BigNumber | undefined
-> = passUndefined(
-  map(([erc20, owner, spender]) =>
-    _.isUndefined(erc20) || _.isUndefined(owner) || _.isUndefined(spender)
-      ? undefined
-      : ([erc20, owner, spender] as const),
-  ),
-  passUndefined(
-    reEmitUntilChanged(([erc20, owner, spender]) =>
-      fromEventFilter(erc20, erc20.filters['Approval(address,address,uint256)'](owner, spender)),
-    ),
-    mergeMap(([erc20, owner, spender]) => erc20.allowance(owner, spender)),
-  ),
-)
+export const allowance$$ =
+  (
+    contract$: Option$<ERC20>,
+  ): ((
+    spender$: Option$<string | Contract>,
+  ) => (address$: Option$<string | Signer>) => Option$<BigNumber>) =>
+  spender$ => {
+    const spenderAddress$ = resolveAddress(spender$).pipe(shareReplay(1))
+    return address$ =>
+      combineLatest([contract$, spenderAddress$, resolveAddress(address$)]).pipe(
+        switchSomeMembers(
+          switchMap(([contract, spender, address]) =>
+            memoryCache.observe(
+              `allowance$$_${contract.address}_${spender}_${address}`,
+              merge(
+                from(contract.allowance(address, spender)).pipe(),
+                fromEventFilter(
+                  contract,
+                  contract.filters['Approval(address,address,uint256)'](address, spender),
+                ).pipe(
+                  debounceTime(500),
+                  map(([, , value]) => value),
+                ),
+              ),
+            ),
+          ),
+          switchAll(),
+        ),
+      )
+  }
 
-export const signerAllowance: OperatorFunction<
-  readonly [erc20: ERC20 | Nil, spender: Contract | Nil] | Nil,
-  BigNumber | Nil
-> = passNil(
-  withValidSignerAddress(
-    map(([[erc20, spender], address]) =>
-      _.isUndefined(erc20) || _.isUndefined(spender)
-        ? undefined
-        : _.isNull(erc20) || _.isNull(spender)
-        ? null
-        : ([erc20, address, spender.address] as const),
-    ),
-  ),
-  passNil(allowance),
-)
+export const userAllowance$$ = (
+  contract$: Option$<ERC20>,
+): ((spender$: Option$<string | Contract>) => Option$<BigNumber>) => {
+  const targetAllowance$$ = allowance$$(contract$)
+  return spender$ => targetAllowance$$(spender$)(signerAddress$).pipe(shareReplay(1))
+}

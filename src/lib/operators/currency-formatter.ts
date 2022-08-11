@@ -2,7 +2,7 @@ import { isSentinel, type Sentinel } from '$lib/shared/contexts/empty-sentinel'
 import { BigNumber, utils } from 'ethers'
 import _ from 'lodash'
 import { map, type OperatorFunction } from 'rxjs'
-import type { FormatterOperator } from '$lib/types'
+import type { FormatterOperator, Option } from '$lib/types'
 import { onlyNumbers } from '$lib/utils/sanitize-numbers'
 
 function zeroIfEmpty(value: string | undefined): string {
@@ -55,7 +55,7 @@ const units: { floor: number; unit: string }[] = [
 ]
 
 export function formatCurrencyWithUnit(
-  x: string | number | BigNumber | undefined | null | Sentinel,
+  x: Option<string | number | BigNumber | Sentinel>,
   precision = 2,
 ): string & { raw: string; unit: string } {
   let res = isSentinel(x) || _.isNil(x) ? 0 : x

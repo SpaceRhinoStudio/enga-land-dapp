@@ -1,9 +1,10 @@
 import { ObservableError } from '$lib/shared/classes/observable-error'
 import { ipfs$ } from '$lib/contexts/ipfs'
 import _ from 'lodash'
-import { concat, iif, map, mergeAll, Observable, of, tap, throwError } from 'rxjs'
+import { iif, map, mergeAll, Observable, of, throwError } from 'rxjs'
 import isIPFS from 'is-ipfs'
 import type { IPFSEntry } from 'ipfs-core-types/src/root'
+import { Option } from '$lib/types'
 
 export class InvalidCIDError extends ObservableError {
   constructor() {
@@ -11,7 +12,7 @@ export class InvalidCIDError extends ObservableError {
   }
 }
 
-export function ipfsTextFile$(cid: string | null | undefined): [
+export function ipfsTextFile$(cid: Option<string>): [
   file$: Observable<{
     content$: Observable<string>
     meta$: Observable<IPFSEntry>

@@ -1,4 +1,4 @@
-import { getSubjectValue } from '$lib/utils/get-subject-value'
+import { getSyncSubjectValue } from '$lib/utils/get-subject-value'
 import _ from 'lodash'
 import { ReplaySubject } from 'rxjs'
 
@@ -13,7 +13,10 @@ export function useCreateControl<Control extends _.Dictionary<unknown> = never>(
   const res = new ReplaySubject<Partial<Control>>(1)
   const next = res.next.bind(res)
   res.next = x => {
-    next({ ...(_.omit(getSubjectValue(res) ?? {}, args?.omit ?? []) as Partial<Control>), ...x })
+    next({
+      ...(_.omit(getSyncSubjectValue(res) ?? {}, args?.omit ?? []) as Partial<Control>),
+      ...x,
+    })
   }
   res.next({})
   return res

@@ -4,13 +4,15 @@
   import _ from 'lodash'
 
   import {
-    filter,
+    combineLatestWith,
+    firstValueFrom,
     map,
     Observable,
     of,
     pipe,
     Subject,
     switchMap,
+    take,
     type OperatorFunction,
   } from 'rxjs'
   import Button from './shared/Button.svelte'
@@ -18,75 +20,46 @@
   import Input from './Input.svelte'
   import type { InputComponentError, InputControl } from './input'
   import { __$ } from './shared/locales'
-  import { preSaleMinimumRequiredTargetCollateral$ } from './observables/pre-sale/minimum-required'
   import {
     CurrencyFormatterOperatorFactory,
     CurrencyParsersOperator,
+    formatCurrencyWithUnit,
   } from './operators/currency-formatter'
-  import { passNil } from './operators/pass-undefined'
-  import { signerBalanceOf } from './operators/web3/balance-of'
-  import { withUpdatesUntilChanged } from './operators/with-updates-from'
-  import { noNil, noSentinelOrUndefined } from './shared/utils/no-sentinel-or-undefined'
-  import { parseEther } from './utils/parse-ether'
+  import { switchSome } from './operators/pass-undefined'
+  import { userBalanceOf$$ } from './operators/web3/balance-of'
   import { sanitizeNumbers } from './utils/sanitize-numbers'
   import WithLoading from './shared/WithLoading.svelte'
+  import { Option$ } from './types'
 
   export let control$: Subject<InputControl>
   export let icon: any
-  export let contract$: Observable<ERC20 | EngaToken | undefined | null>
+  export let contract$: Option$<ERC20 | EngaToken>
   export let isBase: boolean
+  export let extraErrors$: Observable<InputComponentError> = of(undefined)
 
   const ticker$ = contract$.pipe(
-    passNil(
+    switchSome(
       switchMap(x => x.name()),
       map(x => x.toUpperCase()),
     ),
   )
-  const balance$ = contract$.pipe(
-    signerBalanceOf,
-    passNil(map(x => Number(utils.formatEther(x)).toLocaleString())),
-  )
 
-  const validators: OperatorFunction<string, InputComponentError>[] = !isBase
-    ? [
-        pipe(
-          map(x => (_.isEmpty(x) ? undefined : x)),
-          passNil(
-            withUpdatesUntilChanged(
-              contract$.pipe(signerBalanceOf, filter(noSentinelOrUndefined), filter(noNil)),
-            ),
-            map(([x, balance]) => parseEther(x).lte(balance)),
-            switchMap(x =>
-              x ? of(undefined) : __$.pipe(map(__ => __.presale.errors.notEnoughBalance)),
-            ),
-          ),
-          map(x => (_.isNull(x) ? undefined : x)),
-        ),
-        pipe(
-          map(x => (_.isEmpty(x) ? undefined : x)),
-          passNil(
-            withUpdatesUntilChanged(
-              preSaleMinimumRequiredTargetCollateral$.pipe(
-                filter(noSentinelOrUndefined),
-                filter(noNil),
-              ),
-            ),
-            switchMap(([x, min]) =>
-              parseEther(x).gte(min)
-                ? of(undefined)
-                : __$.pipe(
-                    map(__ =>
-                      __.presale.errors.lowerThanMinimum(
-                        Number(utils.formatEther(min)).toLocaleString(),
-                      ),
-                    ),
-                  ),
-            ),
-          ),
-          map(x => (_.isNull(x) ? undefined : x)),
-        ),
-      ]
-    : []
+  const balance$ = userBalanceOf$$(contract$)
+
+  const handleMax = () =>
+    firstValueFrom(
+      balance$.pipe(
+        map(x => (x ? utils.formatEther(x) : '')),
+        take(1),
+      ),
+    ).then(res => control$.next({ Value: res }))
+
+  const validators: OperatorFunction<string, InputComponentError>[] = [
+    pipe(
+      combineLatestWith(extraErrors$),
+      map(([, error]) => error),
+    ),
+  ]
 </script>
 
 <div class="text-text-secondary text-sm space-y-2">
@@ -97,7 +70,7 @@
         <span slot="before">
           {$__$?.presale.contribution.balance}:
         </span>
-        <span slot="data">{$balance$}</span>
+        <span slot="data">{formatCurrencyWithUnit($balance$)}</span>
       </WithLoading>
     </span>
   </div>
@@ -109,18 +82,8 @@
     formatter={CurrencyFormatterOperatorFactory()}
     parser={CurrencyParsersOperator}
     className={{ outer: 'w-full', target: 'pr-14 font-mono' }}>
-    {#if !isBase}
-      <Button
-        slot="right"
-        className={'!border-0 text-blood px-2 w-12'}
-        job={() => {
-          contract$
-            .pipe(
-              signerBalanceOf,
-              map(x => (x ? utils.formatEther(x) : '')),
-            )
-            .subscribe(x => control$.next({ Value: x }))
-        }}>
+    {#if !isBase && $balance$}
+      <Button slot="right" className={'!border-0 text-blood px-2 w-12'} job={handleMax}>
         {$__$?.presale.contribution.max}
       </Button>
     {/if}

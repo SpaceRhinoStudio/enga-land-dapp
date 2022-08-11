@@ -1,24 +1,10 @@
-import { Web3Error } from '$lib/classes/web3-error'
 import _ from 'lodash'
 import { Window$ } from '$lib/shared/observables/window'
 import { map, Observable } from 'rxjs'
-import type { Web3ProviderId } from '$lib/types'
+import { Network, Web3ProviderId } from '$lib/types'
 import type { Network as EthersNetwork } from '@ethersproject/networks'
 import type { providers } from 'ethers'
-
-export enum Network {
-  BSCMainnet = 'bsc',
-  BSCTestnet = 'bscTestnet',
-  Local = 'localhost',
-  Rinkeby = 'rinkeby',
-  Polygon = 'polygon',
-  Mumbai = 'polygonMumbai',
-  Goerli = 'goerli',
-}
-
-function providerNotFoundErrorFactory() {
-  return new Web3Error('E0x04 selected provider is not available')
-}
+import { switchSome } from '$lib/operators/pass-undefined'
 
 const Web3Providers: {
   [providerKey in Web3ProviderId]: {
@@ -26,8 +12,8 @@ const Web3Providers: {
     provider$: Observable<providers.ExternalProvider | undefined>
   }
 } = {
-  metamask: {
-    id: 'metamask',
+  [Web3ProviderId.metamask]: {
+    id: Web3ProviderId.metamask,
     provider$: Window$.pipe(
       map(win => {
         const eth = _.get(win, 'ethereum') as providers.ExternalProvider
@@ -38,15 +24,15 @@ const Web3Providers: {
       }),
     ),
   },
-  binanceChain: {
-    id: 'binanceChain',
+  [Web3ProviderId.binanceChain]: {
+    id: Web3ProviderId.binanceChain,
     provider$: Window$.pipe(
       map(win => _.get(win, 'BinanceChain') as providers.ExternalProvider),
-      map(x => (!_.isFunction(_.get(x, 'off')) ? { ...x, off: _.noop } : x)),
+      switchSome(map(x => (!_.isFunction(_.get(x, 'off')) ? { ...x, off: _.noop } : x))),
     ),
   },
-  trust: {
-    id: 'trust',
+  [Web3ProviderId.trust]: {
+    id: Web3ProviderId.trust,
     provider$: Window$.pipe(
       map(win => {
         const eth = _.get(win, 'ethereum') as providers.ExternalProvider & {
@@ -59,8 +45,8 @@ const Web3Providers: {
       }),
     ),
   },
-  safePal: {
-    id: 'safePal',
+  [Web3ProviderId.safePal]: {
+    id: Web3ProviderId.safePal,
     provider$: Window$.pipe(
       map(win => {
         const eth = _.get(win, 'ethereum') as providers.ExternalProvider & {

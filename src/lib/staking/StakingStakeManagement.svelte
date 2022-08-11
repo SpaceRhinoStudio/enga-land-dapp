@@ -1,22 +1,14 @@
 <script lang="ts">
   import { useCreateControl } from '$lib/helpers/create-control'
   import { handleDerivedInputs } from '$lib/helpers/handle-drived-inputs'
-  import {
-    CurrencyFormatterOperatorFactory,
-    CurrencyParsersOperator,
-  } from '$lib/operators/currency-formatter'
-  import Button from '$lib/shared/Button.svelte'
+  import { CurrencyFormatterOperatorFactory } from '$lib/operators/currency-formatter'
   import { config } from '$lib/configs'
-  import Slider from '$lib/Slider.svelte'
   import { parseEther } from '$lib/utils/parse-ether'
-  import { sanitizeNumbers } from '$lib/utils/sanitize-numbers'
   import { map, OperatorFunction, pipe, Subject } from 'rxjs'
-  import { parsePPM } from '$lib/observables/enga-price'
   import { BigNumber, BigNumberish, utils } from 'ethers'
-  import Input from '$lib/Input.svelte'
   import type { InputComponentError, InputControl } from '$lib/input'
-  import { flashToast$ } from '$lib/shared/contexts/flash-toast'
   import SingleStakeManagerItem from './SingleStakeManagerItem.svelte'
+  import { parsePPM } from '$lib/operators/web3/ppm'
 
   // -- props
 

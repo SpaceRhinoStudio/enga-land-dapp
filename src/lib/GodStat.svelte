@@ -26,7 +26,7 @@
   import SvgIcon from './shared/SVGIcon.svelte'
   import cn from 'classnames'
   import { GodStats } from './shared/types/enga'
-  import type { Nil } from './types'
+  import type { Nil, Option } from './types'
   import { BigNumber } from 'ethers'
   import { screen$ } from './shared/helpers/media-queries'
   import _ from 'lodash'
@@ -36,8 +36,8 @@
 
   export let className: { [key in 'container']?: string } = {}
   export let type: GodStats
-  export let value: BigNumber | number | string | Nil = undefined
-  let _value: string | Nil
+  export let value: Option<BigNumber | number | string> = undefined
+  let _value: Option<string>
   $: _value = !_.isNil(value)
     ? `${
         withSign ? (Number(formatCurrencyWithUnit(value)) > 0 ? '+' : '') : ''

@@ -1,101 +1,144 @@
-import { config } from '$lib/configs'
 import { providers } from 'ethers'
 import _ from 'lodash'
-import { selectedNetwork$ } from '$lib/observables/web3-network'
 import { Web3ProvidersMeta$ } from '$lib/observables/web3-providers/injected-external-provider'
-import { filterBy } from '$lib/operators/filter-by'
-import { mapErrors, safeThrowMap } from '$lib/operators/safe-throw'
-import { withUpdatesFrom } from '$lib/operators/with-updates-from'
 import {
   asyncScheduler,
+  catchError,
   combineLatest,
-  distinctUntilChanged,
+  combineLatestWith,
+  delay,
+  filter,
   from,
   map,
-  mergeMap,
+  mergeAll,
+  Observable,
   observeOn,
   of,
-  reduce,
   shareReplay,
   startWith,
+  switchAll,
   switchMap,
+  toArray,
 } from 'rxjs'
-import { BscScanWeb3Provider$ } from './bsc-scan-provider'
 import { CustomRemoteWeb3Providers$ } from './custom-remote-providers'
-import { DefaultWeb3Provider$ } from './default-provider'
-import { logOp } from '$lib/operators/log'
+import { selectedNetwork$ } from '../web3-network'
+import { mapNil, switchSome } from '$lib/operators/pass-undefined'
+import { onlineStatus$ } from '$lib/shared/observables/window'
+import { safeSwitchMap } from '$lib/operators/safe-throw'
+import { config } from '$lib/configs'
 
 /**
  * @description this is the ethers fallback provider, this provider uses a quorum of different providers with defined priority and weights so that we are available to always have a valid provider even if the favorite one is not available.
  */
-export const fallbackWeb3Provider$ = combineLatest({
-  external: Web3ProvidersMeta$.pipe(
-    mergeMap(x => _.values(x)),
-    filterBy(x =>
-      x.chainId$.pipe(
-        withUpdatesFrom(selectedNetwork$),
-        map(([x, network]) => x === config.Chains[network].id),
+export const fallbackWeb3Provider$ = combineLatest([
+  Web3ProvidersMeta$.pipe(
+    switchMap(x => _.values(x)),
+    switchMap(x => x.web3Provider$),
+    map(x => ({
+      provider: x,
+      priority: 1,
+      weight: 3,
+    })),
+    toArray(),
+    startWith([]),
+  ),
+  // DefaultWeb3Provider$.pipe(
+  //   passNil(
+  //     map(_default => [
+  //       {
+  //         provider: _default,
+  //         priority: 3,
+  //         weight: 1,
+  //       },
+  //     ]),
+  //   ),
+  //   mapNil(() => []),
+  //   startWith([]),
+  // ),
+  CustomRemoteWeb3Providers$.pipe(
+    switchSome(
+      map(remotes =>
+        remotes.map(remote => ({
+          provider: remote,
+          priority: 2,
+          weight: 3,
+        })),
       ),
     ),
-    mergeMap(x => x.web3Provider$),
-    reduce((acc, x) => [...acc, x], [] as providers.Web3Provider[]),
-    startWith(undefined),
+    mapNil(() => []),
+    startWith([]),
   ),
-  _default: DefaultWeb3Provider$.pipe(startWith(undefined)),
-  remotes: CustomRemoteWeb3Providers$.pipe(startWith(undefined)),
-  bscScan: BscScanWeb3Provider$.pipe(startWith(undefined)),
-}).pipe(
-  distinctUntilChanged((prev, curr) => _.isEqual(prev, curr)),
+  // BscScanWeb3Provider$.pipe(
+  //   passNil(
+  //     map(bscScan => [
+  //       {
+  //         provider: bscScan,
+  //         priority: 3,
+  //         weight: 2,
+  //       },
+  //     ]),
+  //   ),
+  //   mapNil(() => []),
+  //   startWith([]),
+  // ),
+] as Observable<providers.FallbackProviderConfig[]>[]).pipe(
   observeOn(asyncScheduler),
-  mapErrors(
-    safeThrowMap(
-      ({ bscScan, _default, external, remotes }) =>
+  switchAll(),
+  combineLatestWith(selectedNetwork$),
+  switchMap(([providers, network]) =>
+    _.isNil(network)
+      ? of(null)
+      : from(
+          providers.map(provider =>
+            of(provider).pipe(
+              safeSwitchMap(
+                x =>
+                  from(x.provider.getBlockNumber()).pipe(
+                    filter(x => x > 0),
+                    map(() => x),
+                  ),
+                { silent: true },
+              ),
+              safeSwitchMap(
+                x =>
+                  from(x.provider.getNetwork()).pipe(
+                    filter(x => x.chainId === config.Chains[network].id),
+                    map(() => x),
+                  ),
+                { silent: true },
+              ),
+            ),
+          ),
+        ).pipe(toArray(), startWith(undefined)),
+  ),
+  switchSome(
+    switchMap(x => from(x).pipe(mergeAll(), toArray())),
+    map(x => (x.length === 0 ? null : x)),
+  ),
+  switchSome(
+    map(
+      x =>
         new providers.FallbackProvider(
-          [
-            ...(external
-              ? _.values(external).map(provider => ({
-                  provider: provider,
-                  priority: 1,
-                  weight: 3,
-                }))
-              : []),
-            ...(remotes
-              ? remotes.map(remote => ({
-                  provider: remote,
-                  priority: 2,
-                  weight: 3,
-                }))
-              : []),
-            ...(bscScan
-              ? [
-                  {
-                    provider: bscScan,
-                    priority: 3,
-                    weight: 2,
-                  },
-                ]
-              : []),
-            ...(_default
-              ? [
-                  {
-                    provider: _default,
-                    priority: 3,
-                    weight: 1,
-                  },
-                ]
-              : []),
-          ],
-          1, // TODO: investigate why a response with enough weight cannot meet the quorum of more than 1
+          x,
+          1, //TODO: investigate why a response with enough weight cannot meet the quorum of more than 1
         ),
     ),
-    undefined,
+    safeSwitchMap(
+      x =>
+        x.blockNumber >= 0 ? of(x) : from(x.getBlockNumber()).pipe(map(n => (n >= 0 ? x : null))),
+      { project: null },
+    ),
+    x => x,
   ),
-  switchMap(x =>
-    _.isUndefined(x)
-      ? of(x)
-      : x.blockNumber >= 0
-      ? of(x)
-      : from(x.getBlockNumber()).pipe(map(n => (n >= 0 ? x : null))),
-  ),
+  catchError((e, o) => {
+    console.warn(e)
+    return of(null).pipe(
+      delay(1000),
+      switchMap(() => onlineStatus$),
+      filter(x => x),
+      switchMap(() => o),
+    )
+  }),
+  mapNil(() => undefined),
   shareReplay(1),
 )

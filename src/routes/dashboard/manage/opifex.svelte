@@ -1,13 +1,11 @@
 <script lang="ts">
   import FlipCard from '$lib/FlipCard.svelte'
-  import PageTitle from '$lib/PageTitle.svelte'
   import Button from '$lib/shared/Button.svelte'
   import { waitFor } from '$lib/shared/helpers/wait-for'
   import OpifexWithAnimation from '$lib/opifex-opening/OpifexWithAnimation.svelte'
   import SvgIcon from '$lib/shared/SVGIcon.svelte'
   import _ from 'lodash'
   import { firstValueFrom, timeout } from 'rxjs'
-  import { SelectedWeb3Signer$ } from '$lib/observables/selected-web3-provider'
   import cn from 'classnames'
   import { EndroMeta } from '$lib/types/enga'
   import { genArr } from '$lib/shared/utils/random'
@@ -16,6 +14,7 @@
   import OpifexOpeningModal from '$lib/opifex-opening/OpifexOpeningModal.svelte'
   import VuesaxLinearTickCircle from '$lib/shared/assets/icons/draw-transition/vuesax-linear-tick-circle.svelte'
   import Checkbox from '$lib/shared/Checkbox.svelte'
+  import { currentSigner$ } from '$lib/observables/selected-web3-provider'
 
   let isOpen = true
   let shouldPulse = false
@@ -109,10 +108,11 @@
             disabled={!hasAgreed}
             className="w-48 bg-primary-600 !border-none"
             job={async () => {
+              //TODO: rewrite this
               isLoading = true
               try {
                 await (
-                  await firstValueFrom(SelectedWeb3Signer$.pipe(timeout({ first: 6000 })))
+                  await firstValueFrom(currentSigner$.pipe(timeout({ first: 6000 })))
                 )?.signMessage('this is a dummy message')
               } catch {
                 isLoading = false

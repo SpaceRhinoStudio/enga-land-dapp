@@ -1,6 +1,7 @@
 import type { InputControl } from '$lib/input'
 import { controlStreamPayload } from '$lib/shared/operators/control-stream-payload'
 import { keysOf } from '$lib/shared/utils/type-safe'
+import { Option } from '$lib/types'
 import {
   distinctUntilChanged,
   filter,
@@ -34,7 +35,7 @@ export function handleDerivedInputs<K extends string>(
   controls: { [x in K]: Subject<InputControl> },
   derivations: { [x in K]?: { [x in K]?: OperatorFunction<string, string> } },
 ): { reset: () => void } {
-  const lastModified$ = new ReplaySubject<{ Modified: K | undefined | null }>()
+  const lastModified$ = new ReplaySubject<{ Modified: Option<K> }>()
 
   merge(
     ...keysOf(controls).map(key =>

@@ -1,6 +1,7 @@
 import rawFundraisingContractAddresses from 'engaland_fundraising_app/deploy/contract-addresses.json'
 import rawFundraisingContractABIs from 'engaland_fundraising_app/deploy/contract-abis.json'
-import type { Network } from './web3'
+import { Network } from '$lib/types'
+
 export const fundraisingContractAddresses =
   rawFundraisingContractAddresses as FundraisingContractAddresses
 export const fundraisingContractABIs = rawFundraisingContractABIs as FundraisingContractABIs

@@ -2,7 +2,6 @@
   import _ from 'lodash'
   import CardTable from './table/CardTable.svelte'
   import { __$ } from './shared/locales'
-  import { preSaleSignersVestings$ } from './observables/pre-sale/signers-vestings'
   import { signerAddress$ } from './observables/selected-web3-provider'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
   import PresaleVestingTableActionButton from './PresaleVestingTableActionButton.svelte'
@@ -10,56 +9,59 @@
   import TableCell from './table/TableCell.svelte'
   import TableRow from './table/TableRow.svelte'
   import WithCurrencyIcon from './WithCurrencyIcon.svelte'
-  import { seedSaleSignersVestings$ } from './observables/seed-sale/signers-vestings'
-  import { releaseAmount } from './operators/pre-sale/release-amount'
-
-  export let sale: 'preSale' | 'seedSale'
-  $: vestings$ = sale === 'preSale' ? preSaleSignersVestings$ : seedSaleSignersVestings$
+  import { allUserVestings$ } from './observables/enga/all-sales'
 </script>
 
 <CardTable
   className={{ container: 'w-full max-w-full' }}
   headers={_.values($__$?.presale.vestings.headers)}
   mainHeaders={[0, 1, 2]}
-  isLoading={$vestings$ === undefined && $signerAddress$ !== undefined}
-  isEmpty={!$vestings$?.length}>
-  {#each $vestings$ ?? [] as data}
+  isLoading={_.isUndefined($allUserVestings$) && !_.isUndefined($signerAddress$)}
+  isEmpty={!$allUserVestings$?.length}
+  emptyMessage={_.isNull($allUserVestings$) ? $__$.main.genericErrorMessage : $__$?.main.noItem}>
+  {#each $allUserVestings$ ?? [] as vesting}
     <TableRow>
       <TableCell>
-        <ShortenedHash hash={data.txId} />
+        <ShortenedHash hash={vesting.txId} />
       </TableCell>
       <TableCell>
-        <WithCurrencyIcon data={data.amount} />
+        <WithCurrencyIcon data={vesting.amount} />
       </TableCell>
       <TableCell>
-        {'$' + formatCurrencyWithUnit(data.price, 2)}
+        {'$' + formatCurrencyWithUnit(vesting.price, 2)}
       </TableCell>
       <TableCell>
-        <WithCurrencyIcon data={data.released} />
+        <WithCurrencyIcon data={vesting.released} />
       </TableCell>
       <TableCell>
-        {data.started.toLocaleDateString(undefined, {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-        })}
+        <span class="md:text-xs">
+          {vesting.started.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}
+        </span>
       </TableCell>
       <TableCell>
-        {data.cliff.toLocaleDateString(undefined, {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-        })}
+        <span class="md:text-xs">
+          {vesting.cliff.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}
+        </span>
       </TableCell>
       <TableCell>
-        {data.end.toLocaleDateString(undefined, {
-          year: 'numeric',
-          month: 'short',
-          day: 'numeric',
-        })}
+        <span class="md:text-xs">
+          {vesting.end.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+          })}
+        </span>
       </TableCell>
       <TableCell>
-        <PresaleVestingTableActionButton {sale} {data} />
+        <PresaleVestingTableActionButton meta={vesting} />
       </TableCell>
     </TableRow>
   {/each}

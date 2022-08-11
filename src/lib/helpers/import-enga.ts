@@ -4,7 +4,7 @@ import { currentWeb3Provider$ } from '$lib/observables/selected-web3-provider'
 import { switchSome, switchSomeMembers } from '$lib/operators/pass-undefined'
 import { EngaTokenContract$ } from '../../contracts/fundraising-contracts'
 import { providers } from 'ethers'
-import { combineLatestSwitchMap } from '$lib/operators/with-updates-from'
+import { combineLatestSwitchMap } from '$lib/operators/combine-latest-switch'
 
 export function importToken(
   provider: providers.Web3Provider,

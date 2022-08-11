@@ -47,14 +47,13 @@
     max$: Observable<BigNumberish>,
   ): OperatorFunction<string, InputComponentError>[] => [
     pipe(
-      withUpdatesFrom(max$),
+      combineLatestWith(max$),
       map(([x, max]) => (parseEther(x).gt(max) ? 'Maximum Amount Exceded' : undefined)),
     ),
   ]
 </script>
 
 <script lang="ts">
-  import { useCreateControl } from '$lib/helpers/create-control'
   import { handleDerivedInputs } from '$lib/helpers/handle-drived-inputs'
   import {
     CurrencyFormatterOperatorFactory,
@@ -66,6 +65,7 @@
   import { parseEther } from '$lib/utils/parse-ether'
   import { sanitizeNumbers } from '$lib/utils/sanitize-numbers'
   import {
+    combineLatestWith,
     delay,
     map,
     mergeMap,
@@ -76,19 +76,17 @@
     Subject,
     withLatestFrom,
   } from 'rxjs'
-  import { parsePPM } from '$lib/observables/enga-price'
   import { BigNumber, BigNumberish, utils } from 'ethers'
   import Input, { inputControlFactory } from '$lib/Input.svelte'
   import type { InputComponentError, InputControl } from '$lib/input'
   import { flashToast$ } from '$lib/shared/contexts/flash-toast'
-  import { withUpdatesFrom } from '$lib/operators/with-updates-from'
   import { ERC20 } from 'engaland_fundraising_app/typechain'
   import { createEventDispatcher, onMount, tick } from 'svelte'
   import { rnd } from '$lib/shared/utils/random'
   import WithLoading from '$lib/shared/WithLoading.svelte'
   import { fade } from 'svelte/transition'
   import LoadingOverlay from '$lib/shared/LoadingOverlay.svelte'
-  import { waitFor } from '$lib/shared/helpers/wait-for'
+  import { parsePPM } from '$lib/operators/web3/ppm'
 
   // -- props
 

@@ -1,5 +1,6 @@
 <script lang="ts" context="module">
   import {
+    combineLatestWith,
     filter,
     map,
     Observable,
@@ -25,8 +26,8 @@
   ) => OperatorFunction<string, InputComponentError>[] = min$ => [
     pipe(
       map(x => (_.isEmpty(x) ? undefined : x)),
-      passNil(
-        withUpdatesUntilChanged(engaBalanceRaw$.pipe(filter(noSentinel), filter(noNil))),
+      switchSome(
+        combineLatestWith(engaBalanceRaw$.pipe(filter(noSentinel), filter(noNil))),
         map(([x, balance]) => parseEther(x).lte(balance)),
         switchMap(x =>
           x ? of(undefined) : __$.pipe(map(__ => __.presale.errors.notEnoughBalance)),
@@ -36,8 +37,8 @@
     ),
     pipe(
       map(x => (_.isEmpty(x) ? undefined : x)),
-      passNil(
-        withUpdatesFrom(min$),
+      switchSome(
+        combineLatestWith(min$),
         switchMap(([x, min]) =>
           parseEther(x).gte(min)
             ? of(undefined)
@@ -77,8 +78,7 @@
   import EngaIcon from '$lib/shared/assets/icons/enga-icon.svg'
   import type { InputComponentError, InputControl } from '$lib/input'
   import { noNil, noSentinel } from '$lib/shared/utils/no-sentinel-or-undefined'
-  import { passNil } from '$lib/operators/pass-undefined'
-  import { withUpdatesFrom, withUpdatesUntilChanged } from '$lib/operators/with-updates-from'
+  import { switchSome } from '$lib/operators/pass-undefined'
   import { parseEther } from '$lib/utils/parse-ether'
   import { BigNumber, utils } from 'ethers'
   import { sanitizeNumbers } from '$lib/utils/sanitize-numbers'
