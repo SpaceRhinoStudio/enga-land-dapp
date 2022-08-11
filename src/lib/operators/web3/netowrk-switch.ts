@@ -17,7 +17,7 @@ import {
   filter,
   timeout,
   ObservableInput,
-  EMPTY,
+  tap,
 } from 'rxjs'
 import { mapNil, switchSome } from '../pass-undefined'
 import { inferWeb3Error, Web3Errors } from '$lib/helpers/web3-errors'
@@ -88,6 +88,21 @@ const networkSwitchEIP3326 = (provider: providers.Web3Provider) => (network: Net
   )
 }
 
+const networkSwitchWalletConnect = () => () =>
+  of(undefined).pipe(
+    tap(() => {
+      console.error('E0x05 WalletConnect does not support network switching')
+      flashToast$.next({
+        level: ToastLevel.ERROR,
+        //TODO: tl
+        message:
+          'WalletConnect does not support network switching.\nChange the network from your wallet app.',
+        timeout: 10_000,
+      })
+    }),
+    map(() => ActionStatus.FAILURE as const),
+  )
+
 export function switchNetwork(
   meta$: Option$<Web3ProviderMetadata>,
 ): (
@@ -108,6 +123,8 @@ export function switchNetwork(
       map(([id, provider]) =>
         id === Web3ProviderId.binanceChain
           ? networkSwitchBinanceWallet(provider)
+          : id === Web3ProviderId.walletConnect
+          ? networkSwitchWalletConnect()
           : networkSwitchEIP3326(provider),
       ),
     ),

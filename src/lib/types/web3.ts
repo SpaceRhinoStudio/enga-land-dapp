@@ -17,6 +17,7 @@ export enum Web3ProviderId {
   binanceChain = 'binanceChain',
   trust = 'trust',
   safePal = 'safePal',
+  walletConnect = 'walletConnect',
 }
 
 export type Web3RegisteredListener = {

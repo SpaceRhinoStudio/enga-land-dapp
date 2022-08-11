@@ -6,7 +6,6 @@
   import { filter, firstValueFrom, tap } from 'rxjs'
   import Button from './shared/Button.svelte'
   import { config } from './configs'
-  import { waitFor } from './shared/helpers/wait-for'
   import { web3ProviderIdController$, signerAddress$ } from './observables/selected-web3-provider'
   import SvgIcon from './shared/SVGIcon.svelte'
   import type { Web3ProviderId } from './types'
@@ -14,6 +13,7 @@
   import metamask from '../assets/wallet-providers/metamask-logo.svg'
   import safePal from '../assets/wallet-providers/safe-pal-logo.svg'
   import trust from '../assets/wallet-providers/trust-wallet-logo.svg'
+  import walletConnect from '../assets/wallet-providers/walletconnect.svg'
   import { __$ } from './shared/locales'
   import cn from 'classnames'
   import _ from 'lodash'
@@ -24,6 +24,7 @@
     metamask,
     safePal,
     trust,
+    walletConnect,
   }
 
   export let loading: string | null

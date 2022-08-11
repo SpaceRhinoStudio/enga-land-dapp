@@ -2,11 +2,12 @@ import { config } from '$lib/configs'
 import { localCache } from '$lib/contexts/local-cache'
 import { controlStreamPayload } from '$lib/shared/operators/control-stream-payload'
 import { isEnumMember } from '$lib/utils/enum'
-import { distinctUntilChanged, filter, map, ReplaySubject, Subject } from 'rxjs'
+import { distinctUntilChanged, filter, map, ReplaySubject, Subject, tap } from 'rxjs'
 
 import '../../index'
 import { getSyncSubjectValue } from '$lib/utils/get-subject-value'
 import { Network, Option } from '$lib/types'
+import _ from 'lodash'
 
 export const selectedNetwork$ = new ReplaySubject<Option<Network>>(1)
 
@@ -27,6 +28,11 @@ networkController$
   .pipe(
     controlStreamPayload('Request'),
     map(x => (isValidNetwork(x) ? x : null)),
+    tap(x => {
+      if (x === null && _.isFunction(_.get(getSyncSubjectValue(selectedNetwork$), 'disconnect'))) {
+        _.get(getSyncSubjectValue(selectedNetwork$), 'disconnect')()
+      }
+    }),
     map(n => ({ Set: n })),
   )
   .subscribe(networkController$)

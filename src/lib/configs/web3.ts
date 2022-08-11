@@ -1,10 +1,12 @@
 import _ from 'lodash'
 import { Window$ } from '$lib/shared/observables/window'
-import { map, Observable } from 'rxjs'
+import { map, Observable, shareReplay } from 'rxjs'
 import { Network, Web3ProviderId } from '$lib/types'
 import type { Network as EthersNetwork } from '@ethersproject/networks'
 import type { providers } from 'ethers'
 import { switchSome } from '$lib/operators/pass-undefined'
+import WalletConnectProvider from '@walletconnect/web3-provider/dist/umd/index.min.js'
+import { safeMap } from '$lib/operators/safe-throw'
 
 const Web3Providers: {
   [providerKey in Web3ProviderId]: {
@@ -22,6 +24,7 @@ const Web3Providers: {
         }
         return undefined
       }),
+      shareReplay(1),
     ),
   },
   [Web3ProviderId.binanceChain]: {
@@ -29,6 +32,7 @@ const Web3Providers: {
     provider$: Window$.pipe(
       map(win => _.get(win, 'BinanceChain') as providers.ExternalProvider),
       switchSome(map(x => (!_.isFunction(_.get(x, 'off')) ? { ...x, off: _.noop } : x))),
+      shareReplay(1),
     ),
   },
   [Web3ProviderId.trust]: {
@@ -43,6 +47,7 @@ const Web3Providers: {
         }
         return undefined
       }),
+      shareReplay(1),
     ),
   },
   [Web3ProviderId.safePal]: {
@@ -57,6 +62,24 @@ const Web3Providers: {
         }
         return undefined
       }),
+      shareReplay(1),
+    ),
+  },
+  [Web3ProviderId.walletConnect]: {
+    id: Web3ProviderId.walletConnect,
+    provider$: Window$.pipe(
+      safeMap(
+        () =>
+          new WalletConnectProvider({
+            rpc: _.values(Network).reduce(
+              (acc, network) => ({ ...acc, [Chains[network].id]: endpoints[network][0]! }),
+              {} as { [chain: number]: string },
+            ),
+            qrcode: true,
+          }),
+        { project: undefined },
+      ),
+      shareReplay(1),
     ),
   },
 }

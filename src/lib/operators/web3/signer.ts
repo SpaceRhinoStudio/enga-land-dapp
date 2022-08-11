@@ -1,4 +1,4 @@
-import { map, merge, of, type OperatorFunction, pipe, switchMap } from 'rxjs'
+import { map, merge, of, type OperatorFunction, pipe, switchMap, timeout, catchError } from 'rxjs'
 import type { Web3ProviderMetadata } from '$lib/types/rxjs'
 import type { JsonRpcSigner } from '@ethersproject/providers'
 import type EventEmitter from 'events'
@@ -34,6 +34,8 @@ const withAddress: OperatorFunction<JsonRpcSigner, readonly [JsonRpcSigner, stri
     of(x).pipe(
       safeSwitchMap(x => x.getAddress(), { silent: true, project: null }),
       map(s => (s?.length ? s : null)),
+      timeout({ first: 200 }),
+      catchError(() => of(null)),
     ),
   ),
 )

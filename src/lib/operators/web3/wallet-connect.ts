@@ -16,7 +16,7 @@ import {
   first,
 } from 'rxjs'
 import type { Web3ProviderMetadata } from '$lib/types/rxjs'
-import type { Option } from '$lib/types'
+import { Option, Web3ProviderId } from '$lib/types'
 import { switchSome } from '../pass-undefined'
 import { mapToValidSigner } from './signer'
 import type { JsonRpcSigner } from '@ethersproject/providers'
@@ -84,11 +84,13 @@ const connectToWallet = (meta: Web3ProviderMetadata) => (): Observable<ConnectTo
   return meta.web3Provider$.pipe(
     first(),
     switchMap(provider =>
-      requestAccountsEIP1102(provider).pipe(
-        switchMap(x =>
-          x === ConnectToWalletState.Error ? requestAccountsLegacy(provider) : of(x),
-        ),
-      ),
+      meta.id === Web3ProviderId.walletConnect
+        ? requestAccountsLegacy(provider)
+        : requestAccountsEIP1102(provider).pipe(
+            switchMap(x =>
+              x === ConnectToWalletState.Error ? requestAccountsLegacy(provider) : of(x),
+            ),
+          ),
     ),
   )
 }
