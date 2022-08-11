@@ -43,7 +43,7 @@
         job={() => void (collection = x.id)}
         disabled={x.disabled}
         className={cn(
-          'relative flex gap-3 !border-none !py-3 !pl-3 disabled:!bg-transparent disabled:!text-primary-600 hover:!scale-100',
+          'relative flex gap-3 !border-transparent !py-3 !pl-3 disabled:!bg-transparent disabled:!text-primary-600 hover:!scale-100',
           x.id === collection
             ? 'text-secondary-500 hover:!text-secondary-500 hover:!cursor-default'
             : 'text-text-secondary',

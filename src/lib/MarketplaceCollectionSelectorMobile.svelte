@@ -2,7 +2,6 @@
   import Card from './Card.svelte'
   import ArrowDown from './shared/assets/icons/arrow-down.svg'
   import { Routes } from './shared/configs/routes'
-  import Fade from './Fade.svelte'
   import Link from './shared/Link.svelte'
   import { __$ } from './shared/locales'
   import Modal from './shared/Modal.svelte'
@@ -77,7 +76,7 @@
           }}
           disabled={x.disabled}
           className={cn(
-            'relative !duration-150 flex items-center !pl-2 gap-3 !border-none !py-3 disabled:!bg-transparent disabled:!text-primary-600',
+            'relative !duration-150 flex items-center !pl-2 gap-3 !border-transparent !py-3 disabled:!bg-transparent disabled:!text-primary-600',
             x.id === collection
               ? 'text-secondary-500 hover:!text-secondary-500'
               : 'text-text-secondary',
