@@ -1,9 +1,13 @@
 import _ from 'lodash'
-import { distinctUntilChanged, filter, from, mergeMap, ReplaySubject } from 'rxjs'
+import { distinctUntilChanged, filter, from, mergeMap, ReplaySubject, switchMap } from 'rxjs'
 import type { AsyncMapper, CacheService, StorageAPI, UnPromise } from '$lib/types'
 import { deepMapAsync } from '$lib/utils/deep-map-async'
 import { orderedAsyncChainMapFactory } from '$lib/utils/ordered-async-chain-map'
 import type { MemoryCache } from './memory-cache'
+import { noNil } from '$lib/shared/utils/no-sentinel-or-undefined'
+import { wrapWith } from '$lib/utils/zone'
+
+//DEBUG: see if `await`s here break Zones
 
 export class LocalCache implements CacheService {
   private observablesMemoryCacheKey = 'localCacheObservables'
@@ -32,7 +36,7 @@ export class LocalCache implements CacheService {
 
   public async get<T = unknown>(key: string): Promise<T | UnPromise<T>> {
     const item = await this.storage.read(key)
-    if (_.isNull(item) || item === 'undefined') {
+    if (_.isNull(item)) {
       throw new Error(`key ${key} doesn't exist in LocalCache`)
     }
     return this.deserialize(item)
@@ -48,11 +52,16 @@ export class LocalCache implements CacheService {
 
   public async getDefault<T = unknown>(key: string, initializer: T): Promise<T | UnPromise<T>> {
     if (await this.has(key)) {
-      return this.get(key)
+      try {
+        const res = await this.get<T>(key)
+        if (!_.isUndefined(res)) {
+          return res
+        }
+      } catch {
+        //ignore
+      }
     }
-    // no await
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    this.store(key, initializer)
+    await this.store(key, initializer)
     return initializer
   }
 
@@ -79,6 +88,13 @@ export class LocalCache implements CacheService {
     }>(this.observablesMemoryCacheKey)
 
     if (!(key in observables)) {
+      const zone = Zone.current.fork({
+        name: 'LocalCache',
+        properties: {
+          bgColor: '#007605',
+        },
+      })
+
       observables[key] = new ReplaySubject<T | UnPromise<T>>(1)
       const observable = observables[key]!
 
@@ -88,16 +104,16 @@ export class LocalCache implements CacheService {
         // ignore
       })
       from(promise).subscribe({
-        next: val => val !== undefined && observable.next(val),
+        next: wrapWith(zone, val => val !== undefined && observable.next(val)),
       })
 
       const rawObservable = this.storage.observe(key)
 
       const rawSubWrite = rawObservable
         .pipe(
-          filter(_.negate(_.isNil)),
+          filter(noNil),
           distinctUntilChanged(),
-          mergeMap<string, Promise<T | UnPromise<T>>>(x => this.deserialize<T>(x)),
+          switchMap(x => this.deserialize<T>(x)),
         )
         .subscribe(observable)
 
@@ -110,7 +126,7 @@ export class LocalCache implements CacheService {
       observable
         .pipe(
           distinctUntilChanged((prev, curr) => _.isEqual(prev, curr)),
-          mergeMap(x => this.serialize(x)),
+          switchMap(x => this.serialize(x)),
           distinctUntilChanged(),
         )
         .subscribe(rawObservable)
