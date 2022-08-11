@@ -19,6 +19,11 @@
     "format": "prettier --ignore-path .gitignore --write --plugin-search-dir=. ."
   },
   "devDependencies": {
+    "@babel/core": "^7.18.10",
+    "@babel/plugin-proposal-async-generator-functions": "^7.18.10",
+    "@babel/plugin-transform-async-to-generator": "^7.18.6",
+    "@babel/preset-env": "^7.18.10",
+    "@babel/preset-typescript": "^7.18.6",
     "@playwright/test": "^1.21.0",
     "@poppanator/sveltekit-svg": "^0.3.2",
     "@sveltejs/adapter-auto": "next",
@@ -28,6 +33,7 @@
     "@types/cookie": "^0.4.1",
     "@types/enzyme": "^3.10.12",
     "@types/jsdom": "^16.2.14",
+    "@types/sinon": "^10.0.13",
     "@types/tailwindcss": "^3.0.10",
     "@typescript-eslint/eslint-plugin": "^5.10.1",
     "@typescript-eslint/parser": "^5.10.1",
@@ -50,6 +56,10 @@
     "postcss-nested": "^5.0.6",
     "prettier": "^2.5.1",
     "prettier-plugin-svelte": "^2.5.0",
+    "rxjs-marbles": "^7.0.1",
+    "rxjs-spy": "^8.0.2",
+    "rxjs-spy-devtools-plugin": "^0.0.4",
+    "sinon": "^14.0.0",
     "svelte": "^3.46.0",
     "svelte-check": "^2.2.6",
     "svelte-preprocess": "^4.10.5",
@@ -58,7 +68,8 @@
     "ts-node": "^10.7.0",
     "tsconfig-paths": "^4.0.0",
     "tslib": "^2.3.1",
-    "typescript": "~4.6.2"
+    "typescript": "~4.6.2",
+    "zone.js": "^0.11.7"
   },
   "type": "module",
   "dependencies": {
