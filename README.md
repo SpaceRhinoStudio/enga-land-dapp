@@ -4,6 +4,8 @@ This repository hosts the decentralized application for [EngaLand Protocol](http
 latest stable version is hosted [here](https://app.enga.land/).  
 For more information about the protocol please visit the [EngaLand Wiki](https://docs.enga.land).
 
+[![wakatime](https://wakatime.com/badge/user/5e4f5ed0-dd2e-4204-b88b-ee84d3aad996/project/f5ccbf8f-29bb-4c1c-88c5-cfee579afc19.svg)](https://wakatime.com/badge/user/5e4f5ed0-dd2e-4204-b88b-ee84d3aad996/project/f5ccbf8f-29bb-4c1c-88c5-cfee579afc19)
+
 ## Technologies
 
 Notable technologies used in this project consist of:
@@ -80,7 +82,7 @@ root
 
 ### RxJS structure
 
-All observables are marked with a `$` suffix. and observable factories also contain the `$` sign before the `Factory` suffix.
+All observables are marked with a `$`, and observable factories with `$$` suffix.
 
 #### Usage in svelte
 
