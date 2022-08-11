@@ -29,6 +29,7 @@
   export let mainHeaders: number[] | undefined = undefined
   export let isLoading = false
   export let isEmpty = false
+  export let emptyMessage = $__$?.main.noItem
 
   const cells = writable<{ [row: symbol]: symbol[] }>({})
   const isCollapsed = writable<boolean>(true)
@@ -80,7 +81,7 @@
   </div>
   {#if !isLoading && (!$$slots.default || isEmpty)}
     <div transition:fade class="absolute inset-0 flex items-center justify-center">
-      {$__$?.main.noItem}
+      {emptyMessage}
     </div>
   {/if}
   <LoadingOverlay visible={isLoading} />
