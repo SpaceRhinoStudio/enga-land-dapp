@@ -1,4 +1,5 @@
 <script context="module" lang="ts">
+  import '../index'
   export const intro = true
 </script>
 
@@ -16,16 +17,17 @@
   headerBlurContainer
   footerRoutes={[
     Routes.home,
-    Routes.dapp,
     Routes.marketplace,
     Routes.docs,
-    Routes.help,
+    Routes.blog,
+    // Routes.help,
     Routes.aboutUs,
   ]}
   headerRoutes={[Routes.home, Routes.dapp, Routes.marketplace]}
   headerCollapsedRoutes={[
     Routes.docs,
-    Routes.help,
+    Routes.blog,
+    // Routes.help,
     Routes.tokenomics,
     Routes.github,
     Routes.community,
@@ -36,6 +38,7 @@
     Routes.dapp,
     Routes.marketplace,
     Routes.docs,
+    Routes.blog,
     Routes.help,
     Routes.tokenomics,
     Routes.github,
