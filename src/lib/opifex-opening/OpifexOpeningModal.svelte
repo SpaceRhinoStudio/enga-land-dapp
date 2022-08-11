@@ -133,7 +133,7 @@
     className={{
       container: cn(
         'max-w-xl w-screen box-border mx-3 !pt-6',
-        $screen$.isMobile && '!rounded-b-none',
+        $screen$.exact === 'xs' && '!rounded-b-none',
       ),
       wrapper: 'flex flex-col gap-2 md:gap-4 items-center',
     }}>
@@ -230,7 +230,7 @@
     className={{
       container: cn(
         'max-w-xs w-screen relative md:mt-28 !overflow-visible',
-        $screen$.isMobile && '!rounded-b-none',
+        $screen$.exact === 'xs' && '!rounded-b-none',
       ),
       wrapper: 'pt-36 md:pt-48 !mt-2 !px-3',
     }}>
