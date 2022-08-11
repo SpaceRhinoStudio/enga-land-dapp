@@ -1,5 +1,7 @@
 import { config } from '../configs'
 
+//TODO: rewrite with rxjs
+
 export type RetryFn<T extends any[], R> = (...args: T) => R | Promise<R>
 
 export type Retry = <T extends any[], R>(p: RetryFn<T, R>, ...params: T) => Promise<R>
