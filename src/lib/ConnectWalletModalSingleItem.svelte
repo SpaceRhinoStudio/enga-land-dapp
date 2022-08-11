@@ -51,7 +51,7 @@
 </script>
 
 <Button
-  className="flex flex-col items-center !border-transparent disabled:!bg-transparent bg-transparent text-text-secondary px-2 py-2 m-0 text-sm w-full h-full"
+  className="flex flex-col items-center !border-transparent disabled:!bg-transparent bg-transparent text-text-secondary px-2 py-2 text-sm w-full h-full"
   disabled={!!loading || !$provider$}
   job={handleConnect}>
   <SvgIcon

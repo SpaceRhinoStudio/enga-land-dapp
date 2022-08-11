@@ -22,7 +22,9 @@
 <Modal bind:toggle on:requestExit={() => !loading && toggle()}>
   <Card
     className={{
-      container: `${$screen$.exact === 'xs' ? '!rounded-b-none' : ''} w-full sm:max-w-xl max-w-md`,
+      container: `${
+        $screen$.exact === 'xs' ? '!rounded-b-none' : ''
+      } w-full sm:max-w-lg max-w-md md:max-w-2xl`,
       wrapper: 'flex flex-col justify-center items-center gap-4 relative w-full',
     }}>
     <span slot="header">{$__$?.web3Provider.connect.title}</span>
