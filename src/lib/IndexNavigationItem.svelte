@@ -26,7 +26,7 @@
     className={cn(
       'font-serif',
       'tracking-wide',
-      'border-none',
+      '!border-transparent',
       $isFirefox$
         ? cn('disabled:!bg-opacity-100 disabled:!bg-primary-800 disabled:brightness-75')
         : cn('backdrop-blur-xl', 'bg-opacity-50', 'disabled:bg-opacity-20'),
