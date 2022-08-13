@@ -6,11 +6,15 @@
   import { __$ } from './shared/locales'
   import { EngaTokenContract$ } from '../contracts/fundraising-contracts'
   import _ from 'lodash'
-  import { debounceTime, filter, map } from 'rxjs'
+  import { combineLatest, debounceTime, map } from 'rxjs'
   import cn from 'classnames'
+  import { currentWeb3Provider$ } from './observables/selected-web3-provider'
 
   const isLoading$ = EngaTokenContract$.pipe(map(_.isUndefined), debounceTime(500))
-  const isUnavailable$ = EngaTokenContract$.pipe(map(_.isNull), debounceTime(500))
+  const isUnavailable$ = combineLatest([
+    currentWeb3Provider$.pipe(map(_.isNil)),
+    EngaTokenContract$.pipe(map(_.isNil), debounceTime(500)),
+  ]).pipe(map(x => x.some(x => x)))
 </script>
 
 <Button
