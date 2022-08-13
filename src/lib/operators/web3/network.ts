@@ -1,5 +1,5 @@
 import { config } from '$lib/configs'
-import { ActionStatus, Network, Option, Option$ } from '$lib/types'
+import { ActionStatus, Network, Option, Option$, Web3ProviderId } from '$lib/types'
 import { Web3ProviderMetadata } from '$lib/types/rxjs'
 import _ from 'lodash'
 import {
@@ -147,7 +147,7 @@ export function evaluateNetwork(
               return of(meta)
             }
             if (isCorrect === false) {
-              if (i !== 0 && !hasNetworkUpdated) {
+              if ((i !== 0 && !hasNetworkUpdated) || meta.id === Web3ProviderId.walletConnect) {
                 return matchNetworkWithProvider().pipe(map(() => meta))
               }
               if (i !== 0 && hasNetworkUpdated) {

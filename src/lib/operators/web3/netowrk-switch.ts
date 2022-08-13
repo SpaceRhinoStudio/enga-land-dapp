@@ -123,9 +123,9 @@ export function switchNetwork(
       map(([id, provider]) =>
         id === Web3ProviderId.binanceChain
           ? networkSwitchBinanceWallet(provider)
-          : id === Web3ProviderId.walletConnect
-          ? networkSwitchWalletConnect()
-          : networkSwitchEIP3326(provider),
+          : // : id === Web3ProviderId.walletConnect
+            // ? networkSwitchWalletConnect()
+            networkSwitchEIP3326(provider),
       ),
     ),
   )

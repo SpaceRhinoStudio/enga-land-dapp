@@ -238,9 +238,9 @@ class PreSaleClass extends Sale<PreSaleContractType> {
       first(),
       switchSome(
         withLatestFrom(amount$),
-        executeTx(([x, amount]) => x.contribute(amount)),
+        executeTx(([x, amount], signer) => x.connect(signer).contribute(amount)),
         //TODO: double check with event logs
-        map(() => ActionStatus.SUCCESS as const),
+        switchSome(map(() => ActionStatus.SUCCESS as const)),
       ),
       handleCommonProviderErrors(),
     )
@@ -254,9 +254,9 @@ class PreSaleClass extends Sale<PreSaleContractType> {
     return ControllerContract$.pipe(
       first(),
       switchSome(
-        executeTx(x => x.release(vest.vestId)),
+        executeTx((x, signer) => x.connect(signer).release(vest.vestId)),
         //TODO: double check with event logs
-        map(() => ActionStatus.SUCCESS as const),
+        switchSome(map(() => ActionStatus.SUCCESS as const)),
       ),
       handleCommonProviderErrors(),
     )
@@ -271,8 +271,8 @@ class PreSaleClass extends Sale<PreSaleContractType> {
       first(),
       withLatestFrom(signerAddress$),
       switchSomeMembers(
-        executeTx(([x, address]) => x.refund(address, vest.vestId)),
-        map(() => ActionStatus.SUCCESS as const),
+        executeTx(([x, address], signer) => x.connect(signer).refund(address, vest.vestId)),
+        switchSome(map(() => ActionStatus.SUCCESS as const)),
       ),
       handleCommonProviderErrors(),
     )

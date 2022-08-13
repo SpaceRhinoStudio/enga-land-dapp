@@ -10,12 +10,7 @@ import { Network } from '$lib/types'
 export const BscScanWeb3Provider$ = from(selectedNetwork$).pipe(
   filter(x => x === Network.BSCMainnet || x === Network.BSCTestnet),
   switchSome(
-    safeMap(x => new BscscanProvider(config.Chains[x].network), { silent: true }),
-    safeSwitchMap(
-      x =>
-        x.blockNumber > 0 ? of(x) : from(x.getBlockNumber()).pipe(map(n => (n > 0 ? x : null))),
-      { silent: true },
-    ),
+    safeMap(x => new BscscanProvider(config.Chains[x].network), { silent: true, project: null }),
     shareReplay(1),
   ),
 )

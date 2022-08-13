@@ -22,6 +22,9 @@ import {
   mergeMap,
   scan,
   EMPTY,
+  tap,
+  take,
+  BehaviorSubject,
 } from 'rxjs'
 import { Option, Option$, Web3ProviderId } from '$lib/types'
 import type { Web3ProviderMetadata } from '$lib/types/rxjs'
@@ -33,7 +36,7 @@ import { isEnumMember } from '$lib/utils/enum'
 import { onlineStatus$ } from '$lib/shared/observables/window'
 import { getSyncSubjectValue } from '$lib/utils/get-subject-value'
 import { safeSwitchMap } from '$lib/operators/safe-throw'
-import { noUndefined } from '$lib/shared/utils/no-sentinel-or-undefined'
+import { noNil, noUndefined } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { inferWeb3Error, Web3Errors } from '$lib/helpers/web3-errors'
 import { evaluateNetwork } from '$lib/operators/web3/network'
 import { defaultNetwork, networkController$, selectedNetwork$ } from './web3-network'
@@ -74,12 +77,40 @@ export const currentWeb3Provider$: Option$<Web3ProviderMetadata> = merge(
     controlStreamPayload('Request'),
     setLoading('connecting', true),
     map(id => (_.isString(id) && isValidProviderId(id) ? id : null)),
+    tap(x => {
+      if (x === null) {
+        lastValidProvider$
+          .pipe(
+            take(1),
+            filter(noNil),
+            switchMap(x => x.provider$),
+            take(1),
+          )
+          .subscribe(currentExternalProvider => {
+            lastValidProvider$.next(null)
+            // const disconnect = _.get(currentExternalProvider, 'disconnect')
+            const connector = _.get(currentExternalProvider, 'connector')
+            const killSession = _.get(connector, 'killSession')
+            const emit = _.get(connector, 'emit')
+            if (_.isFunction(killSession)) {
+              of(undefined)
+                .pipe(safeSwitchMap(killSession.bind(connector)))
+                .subscribe(() => {
+                  if (_.isFunction(emit)) {
+                    emit.bind(currentExternalProvider)('error')
+                  }
+                })
+            }
+          })
+      }
+    }),
     mapToProviderMeta,
     evaluateProvider,
     catchError((e, o) => {
       if (inferWeb3Error(e) === Web3Errors.REJECTED) {
         web3ProviderIdController$.next({ Request: null })
       }
+      console.warn(e)
       return of(undefined).pipe(
         delay(2000),
         switchMap(() => onlineStatus$),
@@ -88,20 +119,21 @@ export const currentWeb3Provider$: Option$<Web3ProviderMetadata> = merge(
       )
     }),
     setLoading('connecting', false),
-    setLoading('checking network', true),
     evaluateNetwork(
       selectedNetwork$,
       network => networkController$.next({ Request: network }),
       defaultNetwork,
       setLoading,
     ),
-    setLoading('checking network', false),
   ),
   isLoadingWeb3Provider$.pipe(
     filter(x => x),
     map(() => undefined),
   ),
 ).pipe(distinctUntilChanged(), shareReplay(1))
+
+const lastValidProvider$ = new BehaviorSubject<Option<Web3ProviderMetadata>>(null)
+currentWeb3Provider$.pipe(filter(noNil)).subscribe(lastValidProvider$)
 
 export const currentWeb3ProviderId$: Option$<Web3ProviderId> = currentWeb3Provider$.pipe(
   switchSome(map(x => x.id)),

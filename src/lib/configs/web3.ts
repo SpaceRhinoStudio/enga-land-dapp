@@ -1,12 +1,25 @@
 import _ from 'lodash'
 import { Window$ } from '$lib/shared/observables/window'
-import { map, Observable, shareReplay } from 'rxjs'
+import {
+  catchError,
+  concat,
+  map,
+  merge,
+  Observable,
+  of,
+  shareReplay,
+  switchMap,
+  tap,
+  throwError,
+  timer,
+} from 'rxjs'
 import { Network, Web3ProviderId } from '$lib/types'
 import type { Network as EthersNetwork } from '@ethersproject/networks'
 import type { providers } from 'ethers'
 import { switchSome } from '$lib/operators/pass-undefined'
 import WalletConnectProvider from '@walletconnect/web3-provider/dist/umd/index.min.js'
 import { safeMap } from '$lib/operators/safe-throw'
+import { fromEventZone } from '$lib/operators/zone'
 
 const Web3Providers: {
   [providerKey in Web3ProviderId]: {
@@ -79,6 +92,10 @@ const Web3Providers: {
           }),
         { project: undefined },
       ),
+      switchMap(x =>
+        concat(of(x), fromEventZone(x, 'error').pipe(switchMap(() => throwError(() => null)))),
+      ),
+      catchError((e, o) => timer(200).pipe(switchMap(() => o))),
       shareReplay(1),
     ),
   },
@@ -126,7 +143,7 @@ const endpoints: { [network in Network]: string[] } = {
   ],
   [Network.Mumbai]: [
     'https://matic-mumbai.chainstacklabs.com',
-    'https://matic-testnet-archive-rpc.bwarelabs.com',
+    // 'https://matic-testnet-archive-rpc.bwarelabs.com',
     'https://rpc.ankr.com/polygon_mumbai',
     'https://rpc-mumbai.maticvigil.com',
     'https://polygontestapi.terminet.io/rpc',

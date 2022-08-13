@@ -47,7 +47,7 @@
     {style}>
     <div
       class="{className.wrapper ?? 'p-px'} {mode === 'width' || mode === 'both'
-        ? 'w-auto min-w-max'
+        ? 'w-max min-w-max'
         : ''}"
       bind:clientHeight={height}
       bind:clientWidth={width}>

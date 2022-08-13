@@ -253,7 +253,7 @@
         <span
           class="absolute inset-0 flex justify-center items-center text-center"
           transition:fade|local>{$__$?.presale.errors.kyc}</span>
-      {:else if $canContribute$ === Web3Errors.RESOURCE_NOT_FOUND}
+      {:else if $canContribute$ === Web3Errors.RESOURCE_NOT_FOUND || $canContribute$ === undefined}
         <span
           class="absolute inset-0 flex justify-center items-center text-center"
           transition:fade|local>

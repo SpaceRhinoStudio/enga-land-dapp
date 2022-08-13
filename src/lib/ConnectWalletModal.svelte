@@ -29,7 +29,7 @@
     }}>
     <span slot="header">{$__$?.web3Provider.connect.title}</span>
     <div class="absolute bottom-0 left-1/2 -translate-x-1/2 scale-125 pointer-events-none z-10">
-      {#each keysOf(config.Web3Providers).filter(key => key === loading) as key (key)}
+      {#each keysOf(config.Web3Providers).filter( key => ($screen$.exact === 'xs' ? false : key === loading), ) as key (key)}
         <div
           class="pointer-events-auto"
           in:tsFix={[receive, { key: key }]}
@@ -39,7 +39,7 @@
       {/each}
     </div>
     <div class="flex flex-wrap justify-center items-center relative z-0">
-      {#each keysOf(config.Web3Providers).filter(key => key !== loading) as key (key)}
+      {#each keysOf(config.Web3Providers).filter( key => ($screen$.exact === 'xs' ? true : key !== loading), ) as key (key)}
         <div
           in:tsFix={[receive, { key }]}
           out:tsFix={[send, { key }]}

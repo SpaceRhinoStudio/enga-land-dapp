@@ -1,7 +1,7 @@
 import { wrapWith } from '$lib/utils/zone'
 import type { TypedEventFilter, TypedListener } from 'engaland_fundraising_app/typechain/common'
 import type { Contract } from 'ethers'
-import { fromEventPattern, Observable } from 'rxjs'
+import { Observable } from 'rxjs'
 export function fromEventFilter<
   T extends Contract,
   _EventArgsArray extends unknown[],
@@ -11,8 +11,9 @@ export function fromEventFilter<
   filter: TypedEventFilter<_EventArgsArray, _EventArgsObject>,
 ): Observable<Parameters<TypedListener<_EventArgsArray, _EventArgsObject>>> {
   const zone = Zone.current
-  return fromEventPattern(
-    handler => contract.on(filter, wrapWith(zone, handler)),
-    handler => contract.off(filter, wrapWith(zone, handler)),
-  )
+  return new Observable(subscriber => {
+    const handler = wrapWith(zone, (...e: any[]) => subscriber.next(e.length === 1 ? e[0] : e))
+    contract.on(filter, handler)
+    return () => contract.off(filter, handler)
+  })
 }

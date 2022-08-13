@@ -22,7 +22,7 @@
   {#each $allUserVestings$ ?? [] as vesting}
     <TableRow>
       <TableCell>
-        <ShortenedHash hash={vesting.txId} />
+        <ShortenedHash hash={vesting.vestId} />
       </TableCell>
       <TableCell>
         <WithCurrencyIcon data={vesting.amount} />

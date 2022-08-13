@@ -8,5 +8,9 @@ export const mapToProviderMeta: OperatorFunction<
   Option<Web3ProviderId>,
   Option<Web3ProviderMetadata>
 > = pipe(
-  switchSome(switchMap(id => Web3ProvidersMeta$.pipe(map(providerMeta => providerMeta[id])))),
+  switchSome(
+    switchMap(id =>
+      Web3ProvidersMeta$.pipe(map(providerMeta => providerMeta.find(x => x.id === id))),
+    ),
+  ),
 )

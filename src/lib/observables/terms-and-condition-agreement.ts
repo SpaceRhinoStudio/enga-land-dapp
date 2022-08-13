@@ -3,7 +3,7 @@ import { flashToast$ } from '$lib/shared/contexts/flash-toast'
 import { __$ } from '$lib/shared/locales'
 import _ from 'lodash'
 import { controlStreamPayload, setLoadingFor } from '$lib/shared/operators/control-stream-payload'
-import { switchSome, switchSomeMembers } from '$lib/operators/pass-undefined'
+import { mapNil, switchSome, switchSomeMembers } from '$lib/operators/pass-undefined'
 import { reEvaluateSwitchMap } from '$lib/operators/re-evaluate'
 import {
   catchError,
@@ -26,7 +26,7 @@ import { selectedNetwork$ } from './web3-network'
 import type { Option$ } from '$lib/types'
 
 export const termsAndConditionsAgreementsController$: Subject<
-  Partial<{ Signature: string; Loading: boolean; Request: true; Submitted: true }>
+  Partial<{ Signature: string; Loading: boolean; Request: true; Submitted: boolean }>
 > = new Subject()
 
 type TermsAndConditionsMessageApiResponse = {
@@ -56,7 +56,7 @@ termsAndConditionsAgreementsController$
     ),
     switchSome(map(x => ({ Signature: x }))),
     setLoading(false),
-    filter(noNil),
+    mapNil(() => ({ Submitted: false })),
   )
   .subscribe(termsAndConditionsAgreementsController$)
 
@@ -88,7 +88,7 @@ termsAndConditionsAgreementsController$
     ),
     setLoading(false),
     filter(noNil),
-    map(() => ({ Submitted: true as const })),
+    map(() => ({ Submitted: true })),
   )
   .subscribe(termsAndConditionsAgreementsController$)
 

@@ -1,13 +1,13 @@
 import { solTime } from '$lib/helpers/solidity-time'
 import { Web3Errors } from '$lib/helpers/web3-errors'
 import { mapNil } from '$lib/operators/pass-undefined'
+import { parseEther } from '$lib/utils/parse-ether'
 import { BigNumber, Contract } from 'ethers'
 import { first, map, Observable, of, switchMap } from 'rxjs'
 import type { Sale } from '../services/sale'
 
 export class Vesting<C extends Contract> {
   constructor(
-    public readonly txId: string,
     public readonly price: number,
     public readonly amount: BigNumber,
     public readonly released: BigNumber,
@@ -48,7 +48,7 @@ export class Vesting<C extends Contract> {
   canRelease(): Observable<boolean> {
     return this.sale.canReleaseVestings$.pipe(
       mapNil(() => false),
-      map(x => x && this.releasable().gt(0)),
+      map(x => x && this.releasable().gt(parseEther(1))),
     )
   }
   release(): ReturnType<Sale<C>['releaseVesting']> {

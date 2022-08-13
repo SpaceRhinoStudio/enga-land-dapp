@@ -4,7 +4,6 @@ import {
   type FundraisingContractNames,
 } from '$lib/configs/fundraising-contracts'
 import { Contract } from 'ethers'
-import { signerOrProvider$ } from '$lib/observables/signer-or-provider'
 import {
   combineLatestWith,
   debounceTime,
@@ -15,6 +14,7 @@ import {
   of,
   scan,
   shareReplay,
+  startWith,
   switchMap,
 } from 'rxjs'
 import type {
@@ -36,14 +36,16 @@ import { noNil } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { config } from '$lib/configs'
 import type { Option$, WithDeployBlock } from '$lib/types'
 import { isEqual } from '$lib/shared/utils/type-safe'
+import { fallbackWeb3Provider$ } from '$lib/observables/web3-providers/fallback-provider'
 
 function fundraisingContract$Factory<T extends Contract>(
   key: FundraisingContractNames,
   explicitAddress?: string,
 ): Option$<WithDeployBlock<T>> {
-  return signerOrProvider$.pipe(
+  return fallbackWeb3Provider$.pipe(
     combineLatestWith(selectedNetwork$),
     switchSomeMembers(
+      distinctUntilChanged(isEqual),
       map(([x, network]) =>
         fundraisingContractAddresses[network]?.[key] ?? explicitAddress
           ? ([x, network] as const)
@@ -77,7 +79,7 @@ function fundraisingContract$Factory<T extends Contract>(
         }),
       ),
     ),
-
+    startWith(undefined),
     distinctUntilChanged(),
     shareReplay(1),
   )

@@ -28,11 +28,6 @@ networkController$
   .pipe(
     controlStreamPayload('Request'),
     map(x => (isValidNetwork(x) ? x : null)),
-    tap(x => {
-      if (x === null && _.isFunction(_.get(getSyncSubjectValue(selectedNetwork$), 'disconnect'))) {
-        _.get(getSyncSubjectValue(selectedNetwork$), 'disconnect')()
-      }
-    }),
     map(n => ({ Set: n })),
   )
   .subscribe(networkController$)

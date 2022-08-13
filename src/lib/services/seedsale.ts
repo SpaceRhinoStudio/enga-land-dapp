@@ -10,14 +10,14 @@ import {
   catchError,
   combineLatestWith,
   distinctUntilChanged,
-  filter,
   first,
   from,
   map,
   merge,
-  mergeAll,
+  mergeMap,
   Observable,
   of,
+  range,
   shareReplay,
   switchMap,
   toArray,
@@ -28,13 +28,13 @@ import { BigNumber, utils } from 'ethers'
 import { config } from '$lib/configs'
 import { signerAddress$ } from '$lib/observables/selected-web3-provider'
 import _ from 'lodash'
-import { safeQueryFilter } from '$lib/operators/web3/safe-query-filter'
 import { noNil } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { Vesting } from '$lib/classes/vesting'
 import { ActionStatus, WithDeployBlock } from '$lib/types'
 import { isUserKYCVerified$ } from '$lib/observables/enga/kyc'
 import { executeTx } from '$lib/operators/web3/wait-for-transaction'
 import { handleCommonProviderErrors, Web3Errors } from '$lib/helpers/web3-errors'
+import { combineLatestSwitchMap } from '$lib/operators/combine-latest-switch'
 
 class SeedSaleClass extends Sale<SeedSaleContractType> {
   private static _instance: SeedSaleClass
@@ -80,11 +80,15 @@ class SeedSaleClass extends Sale<SeedSaleContractType> {
       shareReplay(1),
     )
 
-    const exchangeRatePPM$ = SeedSaleContract$.pipe(
+    const exchangeRatePPMRaw$ = SeedSaleContract$.pipe(
       switchSome(
-        switchMap(x => Promise.all([x.engaGoal(), x.daiGoal()])),
-        map(([engaGoal, daiGoal]) => daiGoal.mul(BigNumber.from(config.PPM)).div(engaGoal)),
+        switchMap(x => x.getExchangeRate()),
+        map(x => BigNumber.from(config.PPM).pow(2).div(x)),
       ),
+      shareReplay(1),
+    )
+
+    const exchangeRatePPM$ = exchangeRatePPMRaw$.pipe(
       combineLatestWith(status$),
       map(([x, status]) => (status === SaleStatus.Funding ? x : null)),
       distinctUntilChanged(),
@@ -132,55 +136,43 @@ class SeedSaleClass extends Sale<SeedSaleContractType> {
       combineLatestWith(signerAddress$),
       switchSomeMembers(
         reEvaluateSwitchMap(userVestingsChangeTrigger$$),
-        switchMap(([x, address]) =>
-          safeQueryFilter(
-            x,
-            x.filters['VestingCreated(address,bytes32,uint256)'](address),
-            x.deployedOn,
-            'latest',
-          ).pipe(map(logs => [x, logs] as const)),
-        ),
-        switchMap(([x, logs]) =>
-          x
-            .getExchangeRate()
-            .then(rate => 1 / (rate.toNumber() / config.PPM))
-            .then(price => [x, logs, price] as const),
-        ),
-        map(
-          ([x, logs, price]) =>
-            [
-              x,
-              logs.map(log => ({
-                vestId: log.args.id,
-                price,
-                txId: log.transactionHash,
-                saleContractAddress: x.address,
-              })),
-            ] as const,
-        ),
-
-        map(([x, vestings]) =>
-          vestings.map(vest =>
-            x
-              .getVesting(vest.vestId)
-              .then(_vest =>
-                !_vest.amountTotal.eq(_vest.released)
-                  ? new Vesting(
-                      vest.txId,
-                      vest.price,
-                      _vest.amountTotal,
-                      _vest.released,
-                      new Date(_vest.start.toNumber() * 1000),
-                      new Date(_vest.cliff.toNumber() * 1000),
-                      new Date(_vest.end.toNumber() * 1000),
-                      vest.vestId,
-                      this,
-                    )
-                  : undefined,
+        combineLatestSwitchMap(([x, address]) => x.getHolderVestingCount(address)),
+        switchMap(([[x, address], n]) =>
+          range(0, n.toNumber()).pipe(
+            map(n =>
+              utils.solidityKeccak256(
+                ['bytes'],
+                [utils.solidityPack(['address', 'uint256'], [address, n])],
               ),
+            ),
+            toArray(),
+            map(ids => [x, ids] as const),
           ),
         ),
-        switchMap(x => from(x).pipe(mergeAll(), filter(noNil), toArray())),
+        switchMap(([x, ids]) =>
+          from(ids).pipe(
+            mergeMap(id => from(x.getVesting(id)).pipe(map(vest => [vest, id] as const))),
+            toArray(),
+          ),
+        ),
+        withLatestFrom(exchangeRatePPMRaw$),
+        map(([vestings, price]) =>
+          vestings.map(([vest, id]) =>
+            !vest.amountTotal.eq(vest.released)
+              ? new Vesting(
+                  price!.toNumber(),
+                  vest.amountTotal,
+                  vest.released,
+                  new Date(vest.start.toNumber() * 1000),
+                  new Date(vest.cliff.toNumber() * 1000),
+                  new Date(vest.end.toNumber() * 1000),
+                  id,
+                  this,
+                )
+              : null,
+          ),
+        ),
+        map(x => x.filter(noNil)),
       ),
       shareReplay(1),
     )
@@ -219,9 +211,9 @@ class SeedSaleClass extends Sale<SeedSaleContractType> {
       first(),
       switchSome(
         withLatestFrom(amount$),
-        executeTx(([x, amount]) => x.contribute(amount)),
+        executeTx(([x, amount], signer) => x.connect(signer).contribute(amount)),
         //TODO: double check with event logs
-        map(() => ActionStatus.SUCCESS as const),
+        switchSome(map(() => ActionStatus.SUCCESS as const)),
       ),
       handleCommonProviderErrors(),
     )
@@ -235,9 +227,9 @@ class SeedSaleClass extends Sale<SeedSaleContractType> {
     return this.contract$.pipe(
       first(),
       switchSome(
-        executeTx(x => x.release(vest.vestId)),
+        executeTx((x, signer) => x.connect(signer).release(vest.vestId)),
         //TODO: double check with event logs
-        map(() => ActionStatus.SUCCESS as const),
+        switchSome(map(() => ActionStatus.SUCCESS as const)),
       ),
       handleCommonProviderErrors(),
     )

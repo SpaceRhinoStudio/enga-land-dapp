@@ -1,11 +1,12 @@
 import { providers } from 'ethers'
 import * as rxjs from 'rxjs'
 import { Observable, OperatorFunction } from 'rxjs'
+import { Option$ } from '.'
 import { Web3ProviderId } from './web3'
 
 export type Web3ProviderMetadata = {
   web3Provider$: Observable<providers.Web3Provider>
-  chainId$: Observable<number>
+  chainId$: Option$<number>
   id: Web3ProviderId
   provider$: Observable<providers.ExternalProvider>
   supportsAddEthereumChain?: boolean

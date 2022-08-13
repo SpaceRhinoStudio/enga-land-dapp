@@ -1,5 +1,5 @@
 import type { ERC20 } from 'engaland_fundraising_app/typechain'
-import { mapNil, switchSomeMembers } from '$lib/operators/pass-undefined'
+import { mapNil, switchSome, switchSomeMembers } from '$lib/operators/pass-undefined'
 import { map, combineLatest, switchMap, of, shareReplay, first } from 'rxjs'
 import { BigNumber, Contract } from 'ethers'
 import { executeTx } from './wait-for-transaction'
@@ -41,10 +41,12 @@ export const userApprove = (
               : combineLatest([contract$, spenderAddress$, _amount$, signerAddress$]).pipe(
                   first(),
                   switchSomeMembers(
-                    executeTx(([erc20, spender, amount]) => erc20.approve(spender, amount)),
+                    executeTx(([erc20, spender, amount], signer) =>
+                      erc20.connect(signer).approve(spender, amount),
+                    ),
                     //TODO: double check with event logs
                     //TODO: add utility to do event log check automatically with proper types
-                    map(() => ActionStatus.SUCCESS),
+                    switchSome(map(() => ActionStatus.SUCCESS)),
                   ),
                   handleCommonProviderErrors(),
                 ),

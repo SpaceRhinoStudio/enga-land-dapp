@@ -24,6 +24,7 @@ import type EventEmitter from 'events'
 import { inferWeb3Error, Web3Errors } from '$lib/helpers/web3-errors'
 import { providers } from 'ethers'
 import { fromEventZone } from '../zone'
+import { safeSwitchMap } from '../safe-throw'
 
 const isWalletConnected$$ = (meta: Web3ProviderMetadata) =>
   of(meta).pipe(
@@ -60,16 +61,27 @@ const requestAccountsEIP1102 = (provider: providers.Web3Provider) =>
   )
 
 const requestAccountsLegacy = (provider: providers.Web3Provider) => {
-  if (_.get(provider.provider, 'enable')) {
+  const enable = _.get(provider.provider, 'enable')
+  if (_.isFunction(enable)) {
     try {
-      from(Promise.resolve(_.get(provider.provider, 'enable')())).pipe(
+      console.debug('hasEnable', provider.provider)
+
+      return merge(
+        from(Promise.resolve(enable.bind(provider.provider)())),
+        // fromEventZone(provider.provider),
+      ).pipe(
         map(() => ConnectToWalletState.Unknown),
         catchError(e => {
+          const emit = _.get(provider.provider, 'emit')
+          if (_.isFunction(emit)) {
+            emit.bind(provider.provider)('error')
+          }
+
           if (inferWeb3Error(e) === Web3Errors.REJECTED) {
             return of(ConnectToWalletState.Rejected)
           }
           console.warn(e)
-          return of(ConnectToWalletState.Unknown)
+          return of(ConnectToWalletState.Error)
         }),
       )
     } catch (e) {
@@ -126,7 +138,7 @@ export const evaluateProvider: MonoTypeOperatorFunction<Option<Web3ProviderMetad
         of(x),
         of(x).pipe(
           switchMap(x => x.provider$),
-          switchMap(x =>
+          safeSwitchMap(x =>
             merge(
               fromEventZone(x as EventEmitter, 'close'),
               fromEventZone(x as EventEmitter, 'disconnect'),
