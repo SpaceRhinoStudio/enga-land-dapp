@@ -35,6 +35,7 @@ import { isUserKYCVerified$ } from '$lib/observables/enga/kyc'
 import { executeTx } from '$lib/operators/web3/wait-for-transaction'
 import { handleCommonProviderErrors, Web3Errors } from '$lib/helpers/web3-errors'
 import { combineLatestSwitchMap } from '$lib/operators/combine-latest-switch'
+import { parsePPM } from '$lib/operators/web3/ppm'
 
 class SeedSaleClass extends Sale<SeedSaleContractType> {
   private static _instance: SeedSaleClass
@@ -155,12 +156,12 @@ class SeedSaleClass extends Sale<SeedSaleContractType> {
             toArray(),
           ),
         ),
-        withLatestFrom(exchangeRatePPMRaw$),
+        withLatestFrom(exchangeRatePPMRaw$.pipe(parsePPM)),
         map(([vestings, price]) =>
           vestings.map(([vest, id]) =>
             !vest.amountTotal.eq(vest.released)
               ? new Vesting(
-                  Number(utils.formatEther(price!)),
+                  price!,
                   vest.amountTotal,
                   vest.released,
                   new Date(vest.start.toNumber() * 1000),
