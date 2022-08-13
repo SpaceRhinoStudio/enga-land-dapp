@@ -160,7 +160,7 @@ class SeedSaleClass extends Sale<SeedSaleContractType> {
           vestings.map(([vest, id]) =>
             !vest.amountTotal.eq(vest.released)
               ? new Vesting(
-                  price!.toNumber(),
+                  Number(utils.formatEther(price!)),
                   vest.amountTotal,
                   vest.released,
                   new Date(vest.start.toNumber() * 1000),
