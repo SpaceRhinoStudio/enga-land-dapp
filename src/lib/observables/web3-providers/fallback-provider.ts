@@ -34,6 +34,7 @@ import { noNil } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { fromEventZone } from '$lib/operators/zone'
 import { isEqual } from '$lib/utils/is-equal'
 import { toScanArray } from '$lib/operators/scan-array'
+import { reEvaluate } from '$lib/operators/re-evaluate'
 
 /**
  * @description this is the ethers fallback provider, this provider uses a quorum of different providers with defined priority and weights so that we are available to always have a valid provider even if the favorite one is not available.
@@ -95,6 +96,7 @@ export const fallbackWeb3Provider$ = combineLatest<providers.FallbackProviderCon
   ),
 ]).pipe(
   observeOn(asyncScheduler),
+  reEvaluate(onlineStatus$),
   combineLatestWith(selectedNetwork$),
   switchMap(([providers, network]) =>
     _.isNil(network)
@@ -145,13 +147,13 @@ export const fallbackWeb3Provider$ = combineLatest<providers.FallbackProviderCon
                   ),
                 ),
               ),
-              startWith(null),
+              // startWith(null),
             ),
           ),
         ).pipe(
           map(x => x.filter(noNil)),
           map(x => (x.length === 0 ? null : x)),
-          startWith(undefined),
+          // startWith(undefined),
         ),
   ),
   distinctUntilChanged(isEqual),
