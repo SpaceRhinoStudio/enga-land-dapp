@@ -108,6 +108,111 @@ export function passUndefined<T>(
 }
 
 /**  */
+export function mergeSome<T>(): OperatorFunction<T, T | NilOf<T>>
+/**  */
+export function mergeSome<T, A>(
+  op1: OperatorFunction<Some<T>, A>,
+): OperatorFunction<T, A | NilOf<T>>
+/**  */
+export function mergeSome<T, A, B>(
+  op1: OperatorFunction<Some<T>, A>,
+  op2: OperatorFunction<A, B>,
+): OperatorFunction<T, B | NilOf<T>>
+/**  */
+export function mergeSome<T, A, B, C>(
+  op1: OperatorFunction<Some<T>, A>,
+  op2: OperatorFunction<A, B>,
+  op3: OperatorFunction<B, C>,
+): OperatorFunction<T, C | NilOf<T>>
+/**  */
+export function mergeSome<T, A, B, C, D>(
+  op1: OperatorFunction<Some<T>, A>,
+  op2: OperatorFunction<A, B>,
+  op3: OperatorFunction<B, C>,
+  op4: OperatorFunction<C, D>,
+): OperatorFunction<T, D | NilOf<T>>
+/**  */
+export function mergeSome<T, A, B, C, D, E>(
+  op1: OperatorFunction<Some<T>, A>,
+  op2: OperatorFunction<A, B>,
+  op3: OperatorFunction<B, C>,
+  op4: OperatorFunction<C, D>,
+  op5: OperatorFunction<D, E>,
+): OperatorFunction<T, E | NilOf<T>>
+/**  */
+export function mergeSome<T, A, B, C, D, E, F>(
+  op1: OperatorFunction<Some<T>, A>,
+  op2: OperatorFunction<A, B>,
+  op3: OperatorFunction<B, C>,
+  op4: OperatorFunction<C, D>,
+  op5: OperatorFunction<D, E>,
+  op6: OperatorFunction<E, F>,
+): OperatorFunction<T, F | NilOf<T>>
+/**  */
+export function mergeSome<T, A, B, C, D, E, F, G>(
+  op1: OperatorFunction<Some<T>, A>,
+  op2: OperatorFunction<A, B>,
+  op3: OperatorFunction<B, C>,
+  op4: OperatorFunction<C, D>,
+  op5: OperatorFunction<D, E>,
+  op6: OperatorFunction<E, F>,
+  op7: OperatorFunction<F, G>,
+): OperatorFunction<T, G | NilOf<T>>
+/**  */
+export function mergeSome<T, A, B, C, D, E, F, G, H>(
+  op1: OperatorFunction<Some<T>, A>,
+  op2: OperatorFunction<A, B>,
+  op3: OperatorFunction<B, C>,
+  op4: OperatorFunction<C, D>,
+  op5: OperatorFunction<D, E>,
+  op6: OperatorFunction<E, F>,
+  op7: OperatorFunction<F, G>,
+  op8: OperatorFunction<G, H>,
+): OperatorFunction<T, H | NilOf<T>>
+/**  */
+export function mergeSome<T, A, B, C, D, E, F, G, H, I>(
+  op1: OperatorFunction<Some<T>, A>,
+  op2: OperatorFunction<A, B>,
+  op3: OperatorFunction<B, C>,
+  op4: OperatorFunction<C, D>,
+  op5: OperatorFunction<D, E>,
+  op6: OperatorFunction<E, F>,
+  op7: OperatorFunction<F, G>,
+  op8: OperatorFunction<G, H>,
+  op9: OperatorFunction<H, I>,
+): OperatorFunction<T, I | NilOf<T>>
+/**  */
+export function mergeSome<T, A, B, C, D, E, F, G, H, I>(
+  op1: OperatorFunction<Some<T>, A>,
+  op2: OperatorFunction<A, B>,
+  op3: OperatorFunction<B, C>,
+  op4: OperatorFunction<C, D>,
+  op5: OperatorFunction<D, E>,
+  op6: OperatorFunction<E, F>,
+  op7: OperatorFunction<F, G>,
+  op8: OperatorFunction<G, H>,
+  op9: OperatorFunction<H, I>,
+  ...ops: OperatorFunction<unknown, unknown>[]
+): OperatorFunction<T, unknown | NilOf<T>>
+
+//TODO: replace inner implementation with passNilIf
+/**  */
+export function mergeSome<T>(
+  ...ops: readonly OperatorFunction<Some<T>, unknown>[]
+): OperatorFunction<T, unknown> {
+  return pipe(
+    mergeMap(x =>
+      _.isNil(x)
+        ? of(x)
+        : of(x).pipe(
+            //@ts-ignore it accepts any number of operations
+            ...ops,
+          ),
+    ),
+  )
+}
+
+/**  */
 export function switchSome<T>(): OperatorFunction<T, T | NilOf<T>>
 /**  */
 export function switchSome<T, A>(

@@ -224,6 +224,31 @@ export function safeSwitchMap<T, O, R>(
   })
 }
 
+export function safeMergeMap<T, O, R>(
+  project: (value: T, index: number) => ObservableInput<O>,
+  options: SafeMapErrorProject<T, R> & SafeMapOptions,
+): OperatorFunction<T, R | O>
+export function safeMergeMap<T, O>(
+  project: (value: T, index: number) => ObservableInput<O>,
+  options?: SafeMapOptions,
+): OperatorFunction<T, O>
+export function safeMergeMap<T, O, R>(
+  project: (value: T, index: number) => ObservableInput<O>,
+  options?: SafeMapOptions & Partial<SafeMapErrorProject<T, R>>,
+): OperatorFunction<T, O | R> {
+  return mergeMap((...args) => {
+    try {
+      return from(project(...args)).pipe(
+        catchError(e => {
+          return safeMapCatch(e, options, ...args)
+        }),
+      )
+    } catch (e) {
+      return safeMapCatch(e, options, ...args)
+    }
+  })
+}
+
 export function safeMap<T, O, R>(
   project: (value: T, index: number) => O,
   options: SafeMapErrorProject<T, R> & SafeMapOptions,
