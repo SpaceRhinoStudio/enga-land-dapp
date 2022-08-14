@@ -12,6 +12,7 @@
   import { crossfade, fade } from 'svelte/transition'
   import { flip, tsFix } from './shared/helpers/svelte-animation-fix'
   import NetworkSelector from './NetworkSelector.svelte'
+  import { clearCache } from './operators/web3/provider'
 
   export let toggle: () => void
   export let loading = null as Web3ProviderId | null
@@ -50,9 +51,13 @@
       {/each}
     </div>
     <div class="flex items-center justify-between w-full py-3 sm:py-0">
+      <span>Trouble connecting?</span>
+      <Button className="text-sm !my-0" job={clearCache}>Clear cache</Button>
+    </div>
+    <div class="flex items-center justify-between w-full py-3 sm:py-0">
       <NetworkSelector />
       <Button
-        className="text-sm border-0 text-secondary-500 !my-0"
+        className="text-sm border-transparent text-secondary-500 !my-0"
         isLoading={!!loading}
         job={toggle}>
         {$__$?.userInteraction.confirmation.cancel.toUpperCase()}
