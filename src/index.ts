@@ -1,5 +1,8 @@
+import { config } from '$lib/configs'
 import _ from 'lodash'
 import { nanoid } from 'nanoid'
+import { firstValueFrom } from 'rxjs'
+import { ajax } from 'rxjs/ajax'
 import 'zone.js'
 import 'zone.js/plugins/zone-error'
 
@@ -65,3 +68,37 @@ if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined')
     window.localStorage.setItem('debug-id', nanoid())
   }
 }
+
+function zoneTrack(zone: Zone): string[] {
+  return zone.parent
+    ? zone.parent !== Zone.root
+      ? [...zoneTrack(zone.parent), zone.parent.name]
+      : []
+    : []
+}
+
+export function addToLogs(zone: Zone, title: string, log: string): Promise<unknown> {
+  const id = `${zoneTrack(zone).join('.')}__${title}__${Date.now()}`
+  if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+    const debugId = window.localStorage.getItem('debug-id')
+    window.localStorage.setItem(
+      'debug-sent',
+      JSON.stringify(
+        (JSON.parse(window.localStorage.getItem('debug-sent') ?? '[]') as string[]).concat(id),
+      ),
+    )
+    return firstValueFrom(
+      ajax({
+        method: 'POST',
+        url: `${config.apiAddress}/debug/log`,
+        body: {
+          id: `${debugId}__${id}`,
+          log,
+        },
+      }),
+    )
+  }
+  return Promise.resolve()
+}
+
+void addToLogs(Zone.root, 'Start', '[]')

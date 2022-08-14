@@ -318,5 +318,4 @@ export const web3Config = {
   BscScanApiKey: undefined,
   txFinalityBlocks: 15,
   PPM: 1_000_000,
-  apiAddress: 'https://enga-cache.aboosakamod.money',
 }
