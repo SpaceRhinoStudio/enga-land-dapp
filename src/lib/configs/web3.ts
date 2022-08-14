@@ -136,12 +136,12 @@ const endpoints: { [network in Network]: string[] } = {
   [Network.Polygon]: [
     'https://polygon-rpc.com',
     'https://rpc-mainnet.matic.quiknode.pro',
-    'https://matic-mainnet-full-rpc.bwarelabs.com',
+    // 'https://matic-mainnet-full-rpc.bwarelabs.com',
     'https://rpc.ankr.com/polygon',
     'https://polygonapi.terminet.io/rpc',
     'https://rpc-mainnet.maticvigil.com',
     'https://poly-rpc.gateway.pokt.network',
-    'https://polygon-mainnet.public.blastapi.io',
+    // 'https://polygon-mainnet.public.blastapi.io',
   ],
   [Network.Mumbai]: [
     'https://matic-mumbai.chainstacklabs.com',
@@ -152,9 +152,9 @@ const endpoints: { [network in Network]: string[] } = {
   ],
   [Network.Goerli]: [
     'https://rpc.ankr.com/eth_goerli',
-    'https://rpc.goerli.mudit.blog',
+    // 'https://rpc.goerli.mudit.blog',
     'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-    'https://goerli.infura.io/v3/',
+    // 'https://goerli.infura.io/v3/',
   ],
 }
 
