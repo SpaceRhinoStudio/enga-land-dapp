@@ -50,6 +50,27 @@
         ),
         logOp('logs'),
         toArray(),
+        map(x =>
+          x.sort((a, b) => {
+            const aSplit = a.id.split('__')
+            const bSplit = b.id.split('__')
+            return Number(aSplit[aSplit.length - 1]) - Number(bSplit[bSplit.length - 1])
+          }),
+        ),
+        map(x =>
+          x.map(x => {
+            const xSplit = x.id.split('__')
+            return {
+              id: x.id,
+              time: new Date(Number(xSplit[xSplit.length - 1])).toLocaleTimeString(undefined, {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false,
+              }),
+            }
+          }),
+        ),
         switchMap(x => {
           return ajax<DPasteResponse>({
             method: 'POST',
