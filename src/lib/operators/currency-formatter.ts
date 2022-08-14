@@ -31,7 +31,7 @@ export const CurrencyFormatterOperatorFactory: FormatterOperator<[number?, boole
           f = f?.padEnd(precision, '0')
         }
 
-        return `${n}${f ? `.${f}` : ''}`
+        return `${n}${!_.isNil(f) ? `.${f}` : ''}`
       }),
     )
 }
