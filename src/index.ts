@@ -1,4 +1,3 @@
-import { config } from '$lib/configs'
 import _ from 'lodash'
 import { nanoid } from 'nanoid'
 import { firstValueFrom } from 'rxjs'
@@ -90,7 +89,7 @@ export function addToLogs(zone: Zone, title: string, log: string): Promise<unkno
     return firstValueFrom(
       ajax({
         method: 'POST',
-        url: `${config.apiAddress}/debug/log`,
+        url: `https://enga-cache.aboosakamod.money/debug/log`,
         body: {
           id: `${debugId}__${id}`,
           message: log,
