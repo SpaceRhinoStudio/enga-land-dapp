@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import { nanoid } from 'nanoid'
 import 'zone.js'
 import 'zone.js/plugins/zone-error'
 
@@ -58,3 +59,9 @@ console.log = remapLog(console.log)
 console.warn = remapLog(console.warn)
 console.error = remapLog(console.error)
 console.info = remapLog(console.info)
+
+if (typeof window !== 'undefined' && typeof window.localStorage !== 'undefined') {
+  if (!window.localStorage.getItem('debug-id')) {
+    window.localStorage.setItem('debug-id', nanoid())
+  }
+}

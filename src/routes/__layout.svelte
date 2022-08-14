@@ -11,6 +11,9 @@
   import PendingTransactions from '$lib/PendingTransactions.svelte'
   import { Routes } from '$lib/shared/configs/routes'
   import MainLayout from '$lib/shared/MainLayout.svelte'
+
+  import DebugButton from '$lib/DebugButton.svelte'
+  import { screen$ } from '$lib/shared/helpers/media-queries'
 </script>
 
 <MainLayout
@@ -50,7 +53,17 @@
     <PendingTransactions />
     <ConnectWalletButton />
   </svelte:fragment>
-  <ConnectWalletButton slot="sidebar-foot" alwaysExpand upward dir="ltr" />
-  <ImportEnga slot="footer-foot" />
+  <div slot="sidebar-foot" class="flex justify-between w-full">
+    <ConnectWalletButton alwaysExpand upward dir="ltr" />
+    {#if $screen$.isMobile}
+      <DebugButton />
+    {/if}
+  </div>
+  <div slot="footer-foot" class="flex gap-3">
+    <ImportEnga />
+    {#if !$screen$.isMobile}
+      <DebugButton />
+    {/if}
+  </div>
   <EngaPrice slot="footer-metadata" />
 </MainLayout>
