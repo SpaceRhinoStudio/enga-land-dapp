@@ -12,3 +12,4 @@ node_modules
 tsconfig.tsbuildinfo
 yarn-error.log
 nohup.out
+vite.config.js.*
