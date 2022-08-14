@@ -93,7 +93,7 @@ export function addToLogs(zone: Zone, title: string, log: string): Promise<unkno
         url: `${config.apiAddress}/debug/log`,
         body: {
           id: `${debugId}__${id}`,
-          log,
+          message: log,
         },
       }),
     )
