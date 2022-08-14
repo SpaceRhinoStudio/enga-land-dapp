@@ -14,6 +14,7 @@ import {
   merge,
   concatMap,
   first,
+  tap,
 } from 'rxjs'
 import type { Web3ProviderMetadata } from '$lib/types/rxjs'
 import { Option, Web3ProviderId } from '$lib/types'
@@ -42,8 +43,9 @@ enum ConnectToWalletState {
   Rejected,
 }
 
-const requestAccountsEIP1102 = (provider: providers.Web3Provider) =>
-  from(
+const requestAccountsEIP1102 = (provider: providers.Web3Provider, hooks?: Hooks) => {
+  hooks?.beforeConnect()
+  return from(
     Promise.resolve(provider.send('eth_requestAccounts', [])) as Promise<
       string[] | { result: string[] } | undefined
     >,
@@ -61,9 +63,12 @@ const requestAccountsEIP1102 = (provider: providers.Web3Provider) =>
       }
       return of(ConnectToWalletState.Error)
     }),
+    tap(x => hooks?.afterConnect(x)),
   )
+}
 
-const requestAccountsLegacy = (provider: providers.Web3Provider) => {
+const requestAccountsLegacy = (provider: providers.Web3Provider, hooks?: Hooks) => {
+  hooks?.beforeConnect()
   const enable = _.get(provider.provider, 'enable')
   if (_.isFunction(enable)) {
     try {
@@ -86,19 +91,22 @@ const requestAccountsLegacy = (provider: providers.Web3Provider) => {
           console.warn(e)
           return of(ConnectToWalletState.Error)
         }),
+        tap(x => hooks?.afterConnect(x)),
       )
     } catch (e) {
       console.warn(e)
-      return of(ConnectToWalletState.Error)
+      return of(ConnectToWalletState.Error).pipe(tap(x => hooks?.afterConnect(x)))
     }
   }
-  return of(ConnectToWalletState.Error)
+  return of(ConnectToWalletState.Error).pipe(tap(x => hooks?.afterConnect(x)))
 }
 
 const requestAccountsWalletConnect = (
   provider: Omit<providers.Web3Provider, 'provider'> & { provider: WalletConnectProvider },
+  hooks?: Hooks,
 ) => {
   return of(undefined).pipe(
+    tap(() => hooks?.beforeConnect()),
     switchMap(() => provider.provider.enable()),
     map(() => ConnectToWalletState.Success),
     catchError(e =>
@@ -120,65 +128,75 @@ const requestAccountsWalletConnect = (
           )
         : of(x),
     ),
+    tap(x => hooks?.afterConnect(x)),
   )
 }
 
-const connectToWallet = (meta: Web3ProviderMetadata) => (): Observable<ConnectToWalletState> => {
-  return meta.web3Provider$.pipe(
-    first(),
-    switchMap(provider =>
-      meta.id === Web3ProviderId.walletConnect
-        ? requestAccountsWalletConnect(provider as any)
-        : //? requestAccountsLegacy(provider)
-          requestAccountsEIP1102(provider).pipe(
-            switchMap(x =>
-              x === ConnectToWalletState.Error ? requestAccountsLegacy(provider) : of(x),
-            ),
-          ),
-    ),
-  )
-}
-
-export const evaluateProvider: MonoTypeOperatorFunction<Option<Web3ProviderMetadata>> = switchSome(
-  switchMap(meta => {
-    const isConnected$ = isWalletConnected$$(meta).pipe(shareReplay(1))
-    const connect = connectToWallet(meta)
-    const handleConnectRequest = () =>
-      from(connect()).pipe(
-        switchMap(status =>
-          status === ConnectToWalletState.Error || status === ConnectToWalletState.Rejected
-            ? of(null)
-            : isConnected$.pipe(
-                filter(x => x),
-                first(),
-                map(() => meta),
-                timeout({ first: 2000 }),
-                catchError(() => of(null)),
+const connectToWallet =
+  (meta: Web3ProviderMetadata, hooks?: Hooks) => (): Observable<ConnectToWalletState> => {
+    return meta.web3Provider$.pipe(
+      first(),
+      switchMap(provider =>
+        meta.id === Web3ProviderId.walletConnect
+          ? requestAccountsWalletConnect(provider as any, hooks)
+          : //? requestAccountsLegacy(provider)
+            requestAccountsEIP1102(provider, hooks).pipe(
+              switchMap(x =>
+                x === ConnectToWalletState.Error ? requestAccountsLegacy(provider, hooks) : of(x),
               ),
-        ),
-      )
-
-    return isConnected$.pipe(
-      concatMap((isConnected, i) =>
-        isConnected ? of(meta) : i === 0 ? handleConnectRequest() : of(null),
+            ),
       ),
     )
-  }),
+  }
+
+type Hooks = Option<{
+  beforeConnect: () => void
+  afterConnect: (status: ConnectToWalletState) => void
+}>
+
+export const evaluateProvider: (
+  hooks?: Hooks,
+) => MonoTypeOperatorFunction<Option<Web3ProviderMetadata>> = hooks =>
   switchSome(
-    switchMap(x =>
-      concat(
-        of(x),
-        of(x).pipe(
-          switchMap(x => x.provider$),
-          safeSwitchMap(x =>
-            merge(
-              fromEventZone(x as EventEmitter, 'close'),
-              fromEventZone(x as EventEmitter, 'disconnect'),
-            ),
+    switchMap(meta => {
+      const isConnected$ = isWalletConnected$$(meta).pipe(shareReplay(1))
+      const connect = connectToWallet(meta, hooks)
+      const handleConnectRequest = () =>
+        from(connect()).pipe(
+          switchMap(status =>
+            status === ConnectToWalletState.Error || status === ConnectToWalletState.Rejected
+              ? of(null)
+              : isConnected$.pipe(
+                  filter(x => x),
+                  first(),
+                  map(() => meta),
+                  timeout({ first: 2000 }),
+                  catchError(() => of(null)),
+                ),
           ),
-          map(() => null),
+        )
+
+      return isConnected$.pipe(
+        concatMap((isConnected, i) =>
+          isConnected ? of(meta) : i === 0 ? handleConnectRequest() : of(null),
+        ),
+      )
+    }),
+    switchSome(
+      switchMap(x =>
+        concat(
+          of(x),
+          of(x).pipe(
+            switchMap(x => x.provider$),
+            safeSwitchMap(x =>
+              merge(
+                fromEventZone(x as EventEmitter, 'close'),
+                fromEventZone(x as EventEmitter, 'disconnect'),
+              ),
+            ),
+            map(() => null),
+          ),
         ),
       ),
     ),
-  ),
-)
+  )

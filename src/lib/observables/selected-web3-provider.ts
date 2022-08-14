@@ -40,6 +40,7 @@ import { noNil, noUndefined } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { inferWeb3Error, Web3Errors } from '$lib/helpers/web3-errors'
 import { evaluateNetwork } from '$lib/operators/web3/network'
 import { defaultNetwork, networkController$, selectedNetwork$ } from './web3-network'
+import { fallbackWeb3Provider$ } from './web3-providers/fallback-provider'
 
 export const web3ProviderIdController$ = new Subject<
   Partial<{
@@ -83,7 +84,18 @@ const requests$ = merge(
 export const currentWeb3Provider$: Option$<Web3ProviderMetadata> = merge(
   requests$.pipe(
     setLoading('connecting', true),
-    evaluateProvider,
+    evaluateProvider({
+      beforeConnect: () =>
+        fallbackWeb3Provider$
+          .pipe(take(1), filter(noNil))
+          .subscribe(x =>
+            console.log('setting polling interval', (x.pollingInterval = 15 * 60 * 1000)),
+          ),
+      afterConnect: () =>
+        fallbackWeb3Provider$
+          .pipe(take(1), filter(noNil))
+          .subscribe(x => console.log('setting polling interval', (x.pollingInterval = 4000))),
+    }),
     catchError((e, o) => {
       if (inferWeb3Error(e) === Web3Errors.REJECTED) {
         web3ProviderIdController$.next({ Request: null })

@@ -12,10 +12,13 @@
   import { crossfade, fade } from 'svelte/transition'
   import { flip, tsFix } from './shared/helpers/svelte-animation-fix'
   import NetworkSelector from './NetworkSelector.svelte'
+  import { web3ProviderIdController$ } from './observables/selected-web3-provider'
   import { clearCache } from './operators/web3/provider'
+  import { fallbackWeb3Provider$ } from './observables/web3-providers/fallback-provider'
 
   export let toggle: () => void
-  export let loading = null as Web3ProviderId | null
+  export let loading = 'fallback' as Web3ProviderId | null | 'fallback'
+  $: !_.isNil($fallbackWeb3Provider$) && setTimeout(() => (loading = null), 1000)
 
   const [send, receive] = crossfade({ fallback: node => fade(node), duration: 300 })
 </script>
