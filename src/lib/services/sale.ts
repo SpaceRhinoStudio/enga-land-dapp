@@ -117,6 +117,18 @@ export abstract class Sale<C extends Contract> {
         mapNil(() => Web3Errors.INVALID_PARAMS as const),
       )
     }
+    this.contract$.subscribe()
+    this.goal$.subscribe()
+    this.raised$.subscribe()
+    this.status$.subscribe()
+    this.exchangeRatePPM$.subscribe()
+    this.canUserContribute$.subscribe()
+    this.targetCollateral$.subscribe()
+    this.minimumContribution$.subscribe()
+    this.userVestings$.subscribe()
+    this.canReleaseVestings$.subscribe()
+    this.canRevokeVesting$.subscribe()
+    this.userCollateralBalance$.subscribe()
   }
 
   protected abstract _contribute(amount$: Observable<BigNumber>): Observable<ContributeActionStatus>
