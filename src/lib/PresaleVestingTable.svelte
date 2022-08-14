@@ -34,7 +34,16 @@
         <WithCurrencyIcon data={vesting.released} />
       </TableCell>
       <TableCell>
-        <span class="md:text-xs">
+        <span
+          class="md:text-xs"
+          title={vesting.started.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          })}>
           {vesting.started.toLocaleDateString(undefined, {
             year: 'numeric',
             month: 'short',
@@ -43,7 +52,16 @@
         </span>
       </TableCell>
       <TableCell>
-        <span class="md:text-xs">
+        <span
+          class="md:text-xs"
+          title={vesting.cliff.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          })}>
           {vesting.cliff.toLocaleDateString(undefined, {
             year: 'numeric',
             month: 'short',
@@ -52,7 +70,16 @@
         </span>
       </TableCell>
       <TableCell>
-        <span class="md:text-xs">
+        <span
+          class="md:text-xs"
+          title={vesting.end.toLocaleDateString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+          })}>
           {vesting.end.toLocaleDateString(undefined, {
             year: 'numeric',
             month: 'short',
