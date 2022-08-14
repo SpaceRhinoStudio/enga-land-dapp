@@ -77,7 +77,7 @@
   </div>
   <Input
     {disabled}
-    options={{ type: 'number', pattern: 'd*' }}
+    options={{ inputmode: 'numeric' }}
     {icon}
     bind:control$
     sanitizer={map(sanitizeNumbers)}
