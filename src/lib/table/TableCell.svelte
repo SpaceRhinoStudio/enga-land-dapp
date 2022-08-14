@@ -1,4 +1,6 @@
 <script lang="ts">
+  import cn from 'classnames'
+
   import { getContext, onDestroy, onMount } from 'svelte'
   import { slide } from 'svelte/transition'
   import { table, type TableContext } from './CardTable.svelte'
@@ -19,6 +21,8 @@
     unRegister?.(rowId, id)
   })
   export let colSpan = 1
+  let className: { [key in 'cell']?: string } = {}
+  export { className as class }
 </script>
 
 {#if mainHeaders !== undefined && !mainHeaders.includes(index) && $isCollapsed && isRenderingCollapsedMode}
@@ -32,7 +36,7 @@
   <td
     transition:slide={!$shouldSlide ? { easing: () => 1 } : {}}
     colspan={colSpan}
-    class="align-middle py-2.5 px-3.5"
+    class={cn('align-middle py-2.5 px-3.5', className.cell)}
     data-index={index}>
     <div transition:slide={!$shouldSlide ? { easing: () => 1 } : {}}>
       <slot />
