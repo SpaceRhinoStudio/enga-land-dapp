@@ -15,7 +15,7 @@ import { wrapWith } from '$lib/utils/zone'
 import { isWeb3Error, nameOfWeb3Error } from '$lib/helpers/web3-errors'
 import { isEnumMember } from '$lib/utils/enum'
 import { ActionStatus } from '$lib/types'
-import { addToLogs } from 'src'
+import { addToLogs } from '../../index'
 
 const isAction = isEnumMember(ActionStatus)
 
