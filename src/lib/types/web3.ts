@@ -12,14 +12,6 @@ export enum Network {
   Goerli = 'goerli',
 }
 
-export enum Web3ProviderId {
-  metamask = 'metamask',
-  binanceChain = 'binanceChain',
-  trust = 'trust',
-  safePal = 'safePal',
-  walletConnect = 'walletConnect',
-}
-
 export type Web3RegisteredListener = {
   provider: providers.ExternalProvider
   event: string
