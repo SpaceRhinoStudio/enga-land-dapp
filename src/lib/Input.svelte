@@ -8,6 +8,7 @@
   import cn from 'classnames'
   import {
     asyncScheduler,
+    BehaviorSubject,
     combineLatest,
     distinctUntilChanged,
     map,
@@ -87,9 +88,13 @@
     )
     .subscribe(x => control$.next(x))
 
+  const shouldPulse$ = new BehaviorSubject(disabled)
+  $: pulseSub = control$.pipe(controlStreamPayload('Disable')).subscribe(x => shouldPulse$.next(x))
+
   onDestroy(() => {
     valueSub.unsubscribe()
     validatorSub.unsubscribe()
+    pulseSub.unsubscribe()
   })
 
   let focused = false
@@ -112,7 +117,7 @@
 </script>
 
 <div
-  use:pulse={{ should: $control$?.Disable ?? false }}
+  use:pulse={{ should$: shouldPulse$ }}
   class={cn(
     'relative children:transition-opacity',
     $$slots.label && 'table-row',

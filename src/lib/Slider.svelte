@@ -82,7 +82,7 @@
 </script>
 
 <div
-  use:pulse={{ should: disabled }}
+  use:pulse={{ should$: disabledStore }}
   class={cn('relative transition-all w-full flex items-center h-full', className.container)}>
   {#if !isLoading}
     <div
