@@ -19,7 +19,7 @@ export const allUserVestings$: Observable<Vesting<Contract>[] | undefined> = com
   switchSome(map(x => (x.every(e => !e.length) ? null : x))),
   switchSome(mergeAll(), mergeAll(), toScanArray()),
   mapNil(x => (x === null ? [] : x)),
-  delay(2000),
+  map(x => x?.sort((a, b) => Number(a.started) - Number(b.started))),
 )
 
 export const allSalesStatuses$ = combineLatest(
