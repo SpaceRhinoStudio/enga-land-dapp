@@ -25,6 +25,9 @@ import { inferWeb3Error, Web3Errors } from '$lib/helpers/web3-errors'
 import { providers } from 'ethers'
 import { fromEventZone } from '../zone'
 import { safeSwitchMap } from '../safe-throw'
+import type WalletConnectProvider from '@walletconnect/web3-provider'
+import { uselessInteractionController$ } from '$lib/contexts/useless-interaction'
+import { controlStreamPayload } from '$lib/shared/operators/control-stream-payload'
 
 const isWalletConnected$$ = (meta: Web3ProviderMetadata) =>
   of(meta).pipe(
@@ -92,13 +95,42 @@ const requestAccountsLegacy = (provider: providers.Web3Provider) => {
   return of(ConnectToWalletState.Error)
 }
 
+const requestAccountsWalletConnect = (
+  provider: Omit<providers.Web3Provider, 'provider'> & { provider: WalletConnectProvider },
+) => {
+  return of(undefined).pipe(
+    switchMap(() => provider.provider.enable()),
+    map(() => ConnectToWalletState.Success),
+    catchError(e =>
+      String(e).includes('User close QRCode Modal')
+        ? of(ConnectToWalletState.Rejected)
+        : of(ConnectToWalletState.Error),
+    ),
+    tap(
+      x =>
+        x === ConnectToWalletState.Success &&
+        uselessInteractionController$.next({ Display: 'WalletConnect successfully connected' }),
+    ),
+    switchMap(x =>
+      x === ConnectToWalletState.Success
+        ? uselessInteractionController$.pipe(
+            controlStreamPayload('Display'),
+            filter(_.isNil),
+            map(() => x),
+          )
+        : of(x),
+    ),
+  )
+}
+
 const connectToWallet = (meta: Web3ProviderMetadata) => (): Observable<ConnectToWalletState> => {
   return meta.web3Provider$.pipe(
     first(),
     switchMap(provider =>
       meta.id === Web3ProviderId.walletConnect
-        ? requestAccountsLegacy(provider)
-        : requestAccountsEIP1102(provider).pipe(
+        ? requestAccountsWalletConnect(provider as any)
+        : //? requestAccountsLegacy(provider)
+          requestAccountsEIP1102(provider).pipe(
             switchMap(x =>
               x === ConnectToWalletState.Error ? requestAccountsLegacy(provider) : of(x),
             ),

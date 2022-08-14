@@ -72,39 +72,17 @@ export const isLoadingWeb3Provider$ = web3ProviderIdController$.pipe(
 
 const isValidProviderId = isEnumMember(Web3ProviderId)
 
-export const currentWeb3Provider$: Option$<Web3ProviderMetadata> = merge(
+const requests$ = merge(
   web3ProviderIdController$.pipe(
     controlStreamPayload('Request'),
-    setLoading('connecting', true),
     map(id => (_.isString(id) && isValidProviderId(id) ? id : null)),
-    tap(x => {
-      if (x === null) {
-        lastValidProvider$
-          .pipe(
-            take(1),
-            filter(noNil),
-            switchMap(x => x.provider$),
-            take(1),
-          )
-          .subscribe(currentExternalProvider => {
-            lastValidProvider$.next(null)
-            // const disconnect = _.get(currentExternalProvider, 'disconnect')
-            const connector = _.get(currentExternalProvider, 'connector')
-            const killSession = _.get(connector, 'killSession')
-            const emit = _.get(connector, 'emit')
-            if (_.isFunction(killSession)) {
-              of(undefined)
-                .pipe(safeSwitchMap(killSession.bind(connector)))
-                .subscribe(() => {
-                  if (_.isFunction(emit)) {
-                    emit.bind(currentExternalProvider)('error')
-                  }
-                })
-            }
-          })
-      }
-    }),
     mapToProviderMeta,
+  ),
+).pipe(shareReplay(1))
+
+export const currentWeb3Provider$: Option$<Web3ProviderMetadata> = merge(
+  requests$.pipe(
+    setLoading('connecting', true),
     evaluateProvider,
     catchError((e, o) => {
       if (inferWeb3Error(e) === Web3Errors.REJECTED) {
@@ -132,8 +110,50 @@ export const currentWeb3Provider$: Option$<Web3ProviderMetadata> = merge(
   ),
 ).pipe(distinctUntilChanged(), shareReplay(1))
 
-const lastValidProvider$ = new BehaviorSubject<Option<Web3ProviderMetadata>>(null)
-currentWeb3Provider$.pipe(filter(noNil)).subscribe(lastValidProvider$)
+const lastRequestedProvider$ = new BehaviorSubject<Option<Web3ProviderMetadata>>(null)
+web3ProviderIdController$
+  .pipe(
+    controlStreamPayload('Request'),
+    map(id => (_.isString(id) && isValidProviderId(id) ? id : null)),
+    mapToProviderMeta,
+    filter(noNil),
+  )
+  .subscribe(lastRequestedProvider$)
+
+currentWeb3Provider$
+  .pipe(
+    tap(
+      x =>
+        x === null &&
+        lastRequestedProvider$
+          .pipe(
+            take(1),
+            filter(noNil),
+            switchMap(x => x.provider$),
+            take(1),
+          )
+          .subscribe(currentExternalProvider => {
+            console.debug('disconnecting')
+            lastRequestedProvider$.next(null)
+            // const disconnect = _.get(currentExternalProvider, 'disconnect')
+            const connector = _.get(currentExternalProvider, 'connector')
+            const killSession = _.get(connector, 'killSession')
+            const emit = _.get(currentExternalProvider, 'emit')
+            if (_.isFunction(killSession)) {
+              of(undefined)
+                .pipe(safeSwitchMap(killSession.bind(connector), { project: null }))
+                .subscribe(() => {
+                  console.log('doing error')
+                  if (_.isFunction(emit)) {
+                    console.log('doing error 2')
+                    emit.bind(currentExternalProvider)('error')
+                  }
+                })
+            }
+          }),
+    ),
+  )
+  .subscribe()
 
 export const currentWeb3ProviderId$: Option$<Web3ProviderId> = currentWeb3Provider$.pipe(
   switchSome(map(x => x.id)),

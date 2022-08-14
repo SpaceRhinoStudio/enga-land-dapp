@@ -14,6 +14,7 @@
 
   import DebugButton from '$lib/DebugButton.svelte'
   import { screen$ } from '$lib/shared/helpers/media-queries'
+  import UselessUserInteractionModal from '$lib/UselessUserInteractionModal.svelte'
 </script>
 
 <MainLayout
@@ -67,3 +68,4 @@
   </div>
   <EngaPrice slot="footer-metadata" />
 </MainLayout>
+<UselessUserInteractionModal />
