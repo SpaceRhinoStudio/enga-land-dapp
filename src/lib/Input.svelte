@@ -19,7 +19,7 @@
     type Subject,
   } from 'rxjs'
 
-  import { tick } from 'svelte'
+  import { onDestroy, tick } from 'svelte'
   import { controlStreamPayload } from './shared/operators/control-stream-payload'
   import SvgIcon from './shared/SVGIcon.svelte'
   import LoadingOverlay from './shared/LoadingOverlay.svelte'
@@ -32,6 +32,8 @@
   import { isArray, isEqual } from './shared/utils/type-safe'
   import { pipeIfNot } from './operators/pipe-if-not'
   import { isSentinel } from './shared/contexts/empty-sentinel'
+  import { logOp } from './operators/log'
+  import { Option } from './types'
 
   export let control$: Subject<InputControl> = inputControlFactory()
   export let validators: OperatorFunction<string, InputComponentError>[] = []
@@ -42,20 +44,22 @@
   export let value = undefined as string | undefined
   export let className: { [key in 'outer' | 'wrapper' | 'target']?: string } = {}
   export let icon: any | undefined = undefined
+  export let options: svelte.JSX.HTMLAttributes<HTMLInputElement> = {}
 
   control$.pipe(controlStreamPayload('Reset')).subscribe(() => (value = undefined))
   $: !_.isNil(value) && control$.next({ Value: value })
   $: control$.next({ Disable: disabled })
   control$.pipe(controlStreamPayload('Value')).subscribe(x => (value = x))
 
-  combineLatest(
+  const validatorSub = combineLatest(
     validators.map(validator =>
       control$.pipe(
         controlStreamPayload('Value'),
         distinctUntilChanged(),
-        throttleTime(500, undefined, { leading: true, trailing: true }),
         validator,
+        logOp('error 2 inside'),
         startWith(undefined),
+        throttleTime(100, undefined, { leading: true, trailing: true }),
       ),
     ),
   )
@@ -65,7 +69,7 @@
     )
     .subscribe(x => control$.next(x))
 
-  control$
+  const valueSub = control$
     .pipe(
       subscribeOn(asyncScheduler),
       controlStreamPayload(['Value', 'Reset']),
@@ -82,6 +86,11 @@
       map(x => ({ Value: x })),
     )
     .subscribe(x => control$.next(x))
+
+  onDestroy(() => {
+    valueSub.unsubscribe()
+    validatorSub.unsubscribe()
+  })
 
   let focused = false
   let state: {
@@ -131,6 +140,7 @@
         className={cn('absolute top-1/2 -translate-y-1/2 left-4 md:left-3')} />
     {/if}
     <input
+      {...options}
       class={cn(
         'disabled:bg-primary-900 disabled:bg-opacity-80 disabled:border-transparent disabled:cursor-not-allowed',
         'w-full',
