@@ -17,7 +17,7 @@ export const CustomRemoteWeb3Providers$ = from(selectedNetwork$).pipe(
       x
         .map(endpoint => {
           try {
-            return new providers.JsonRpcProvider(endpoint)
+            return new providers.StaticJsonRpcProvider(endpoint)
           } catch (e) {
             return null
           }
