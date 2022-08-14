@@ -123,7 +123,7 @@
       )
       return firstValueFrom(
         sale$.pipe(
-          tap(() => (waitingForTx = false)),
+          tap(() => (waitingForTx = true)),
           exhaustMap(sale => sale.contribute(quoteValue$)),
           withLatestFrom(__$),
           tap(([status, __]) => {
@@ -161,7 +161,7 @@
           ),
           switchMap(() => hasNewVesting$),
           tap(reset),
-          finalize(() => (waitingForTx = true)),
+          finalize(() => (waitingForTx = false)),
         ),
       )
     }
