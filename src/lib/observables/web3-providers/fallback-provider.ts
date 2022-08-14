@@ -35,18 +35,23 @@ import { fromEventZone } from '$lib/operators/zone'
 import { isEqual } from '$lib/utils/is-equal'
 import { toScanArray } from '$lib/operators/scan-array'
 import { reEvaluate } from '$lib/operators/re-evaluate'
+import { combineLatestSwitchMap } from '$lib/operators/combine-latest-switch'
+import { logOp } from '$lib/operators/log'
 
 /**
  * @description this is the ethers fallback provider, this provider uses a quorum of different providers with defined priority and weights so that we are available to always have a valid provider even if the favorite one is not available.
  */
-export const fallbackWeb3Provider$ = combineLatest<providers.FallbackProviderConfig[][]>([
+export const fallbackWeb3Provider$ = combineLatest<
+  (providers.FallbackProviderConfig & { id: string })[][]
+>([
   Web3ProvidersMeta$.pipe(
     switchAll(),
-    switchMap(x => x.web3Provider$),
-    map(x => ({
-      provider: x,
+    combineLatestSwitchMap(x => x.web3Provider$),
+    map(([meta, provider]) => ({
+      provider: provider,
       priority: 1,
       weight: 2,
+      id: meta.id,
       // stallTimeout: 300,
     })),
     toScanArray(),
@@ -60,6 +65,7 @@ export const fallbackWeb3Provider$ = combineLatest<providers.FallbackProviderCon
           priority: 3,
           weight: 1,
           stallTimeout: 300,
+          id: 'default',
         },
       ]),
     ),
@@ -74,6 +80,7 @@ export const fallbackWeb3Provider$ = combineLatest<providers.FallbackProviderCon
           priority: 2,
           weight: 1,
           stallTimeout: 300,
+          id: remote.connection.url,
         })),
       ),
     ),
@@ -88,6 +95,7 @@ export const fallbackWeb3Provider$ = combineLatest<providers.FallbackProviderCon
           priority: 3,
           weight: 1,
           stallTimeout: 300,
+          id: 'bscScan',
         },
       ]),
     ),
@@ -157,6 +165,7 @@ export const fallbackWeb3Provider$ = combineLatest<providers.FallbackProviderCon
         ),
   ),
   distinctUntilChanged(isEqual),
+  logOp('SEND_LOG', 'providers', x => x?.map(e => e.id)),
   switchSome(map(x => new providers.FallbackProvider(x, 1))),
   catchError((e, o) => {
     console.warn(e)
