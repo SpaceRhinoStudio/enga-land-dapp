@@ -36,6 +36,7 @@
   export let contract$: Option$<ERC20 | EngaToken>
   export let isBase: boolean
   export let extraErrors$: Observable<InputComponentError> = of(undefined)
+  export let disabled: boolean = false
 
   const ticker$ = contract$.pipe(
     switchSome(
@@ -66,7 +67,7 @@
   <div class="flex justify-between text-xs md:text-2xs items-center">
     <slot name="title" />
     <span class="flex">
-      <WithLoading data={[$balance$, $ticker$]}>
+      <WithLoading data={[$balance$ ?? undefined, $ticker$ ?? undefined]}>
         <span slot="before">
           {$__$?.presale.contribution.balance}:
         </span>
@@ -75,6 +76,8 @@
     </span>
   </div>
   <Input
+    {disabled}
+    options={{ type: 'text', pattern: 'd*' }}
     {icon}
     bind:control$
     sanitizer={map(sanitizeNumbers)}
@@ -83,7 +86,7 @@
     parser={CurrencyParsersOperator}
     className={{ outer: 'w-full', target: 'pr-14 font-mono' }}>
     {#if !isBase && $balance$}
-      <Button slot="right" className={'!border-0 text-blood px-2 w-12'} job={handleMax}>
+      <Button slot="right" className={'!border-transparent text-blood px-2 w-12'} job={handleMax}>
         {$__$?.presale.contribution.max}
       </Button>
     {/if}

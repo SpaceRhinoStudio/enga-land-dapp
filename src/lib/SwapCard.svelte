@@ -41,12 +41,12 @@
 
   export let sale$: Observable<Sale<Contract>>
 
-  const canContribute$ = sale$.pipe(
+  $: canContribute$ = sale$.pipe(
     switchMap(sale => sale.canUserContribute$),
     debounceTime(500),
   )
 
-  const isNotFunding$ = sale$.pipe(
+  $: isNotFunding$ = sale$.pipe(
     switchMap(x => x.status$),
     map(x => x !== SaleStatus.Funding),
   )
@@ -81,9 +81,8 @@
       )
       return firstValueFrom(
         approve$?.pipe(
-          first(),
           tap(() => (waitingForTx = true)),
-          finalize(() => (waitingForTx = false)),
+          first(),
           exhaustMap(x => x()),
           filter(x => x !== ActionStatus.PENDING),
           withLatestFrom(__$),
@@ -110,6 +109,7 @@
             status !== ActionStatus.SUCCESS ? throwError(() => false) : of(true),
           ),
           switchSome(switchMap(() => isApprovalDone$)),
+          finalize(() => (waitingForTx = false)),
         ) ?? of(null),
       )
     }
@@ -123,10 +123,8 @@
       )
       return firstValueFrom(
         sale$.pipe(
-          tap(() => (waitingForTx = true)),
-          exhaustMap(sale => sale.contribute(quoteValue$)),
           tap(() => (waitingForTx = false)),
-          finalize(() => (waitingForTx = false)),
+          exhaustMap(sale => sale.contribute(quoteValue$)),
           withLatestFrom(__$),
           tap(([status, __]) => {
             switch (status) {
@@ -163,6 +161,7 @@
           ),
           switchMap(() => hasNewVesting$),
           tap(reset),
+          finalize(() => (waitingForTx = true)),
         ),
       )
     }
@@ -183,7 +182,12 @@
       true
         ? 'opacity-100'
         : 'opacity-0'}">
-      <SwapCardInputs {sale$} bind:reset bind:canContributeAmount$ bind:quoteValue$ />
+      <SwapCardInputs
+        waitingForTx={_.isUndefined(hasAgreed) || isLoadingContrib || waitingForTx}
+        {sale$}
+        bind:reset
+        bind:canContributeAmount$
+        bind:quoteValue$ />
       <div class="md:flex md:grow items-end w-full">
         <div
           class="flex flex-col gap-7 md:flex-row md:justify-between md:items-center md:grow children:grow md:pb-2">
@@ -193,7 +197,7 @@
             job={swap}
             disabled={!hasAgreed || (!canContrib && !shouldApprove)}
             isLoading={_.isUndefined(hasAgreed) || isLoadingContrib || waitingForTx}
-            className="h-12 md:h-9 flex w-full md:w-36 relative items-center justify-center m-0 !border-0 {shouldApprove
+            className="h-12 md:h-9 flex w-full md:w-36 relative items-center justify-center m-0 !border-transparent {shouldApprove
               ? 'bg-yellow-700'
               : 'bg-secondary-700'}">
             {#if !isLoadingContrib && hasAgreed}

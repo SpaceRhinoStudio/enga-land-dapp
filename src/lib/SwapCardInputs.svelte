@@ -42,6 +42,7 @@
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
 
   export let sale$: Observable<Sale<Contract>>
+  export let waitingForTx: boolean
 
   const baseControl$ = inputControlFactory()
   const quoteControl$ = inputControlFactory()
@@ -122,7 +123,7 @@
     },
   ).reset
 
-  const collateralTicker$ = sale$.pipe(
+  $: collateralTicker$ = sale$.pipe(
     switchMap(sale => sale.targetCollateral$),
     switchSome(
       switchMap(x => x.name()),
@@ -130,10 +131,11 @@
     ),
   )
 
-  const exchangeRate$ = ratePPM$.pipe(parsePPM)
+  $: exchangeRate$ = ratePPM$.pipe(parsePPM)
 </script>
 
 <SwapInputRow
+  disabled={waitingForTx}
   icon={CollateralIcon}
   control$={quoteControl$}
   contract$={sale$.pipe(switchMap(sale => sale.targetCollateral$))}
@@ -141,7 +143,12 @@
   isBase={false}>
   <span slot="title">{$__$?.presale.contribution.quote}</span>
 </SwapInputRow>
-<SwapInputRow icon={EngaIcon} control$={baseControl$} contract$={EngaTokenContract$} isBase>
+<SwapInputRow
+  disabled={waitingForTx}
+  icon={EngaIcon}
+  control$={baseControl$}
+  contract$={EngaTokenContract$}
+  isBase>
   <span slot="title">{$__$?.presale.contribution.base}</span>
 </SwapInputRow>
 <div class="flex justify-between flex-col space-y-4 md:flex-row md:space-y-0">
@@ -150,7 +157,7 @@
     <span>{$__$?.presale.contribution.rate}</span>
   </div>
   <span>
-    <WithLoading data={[$exchangeRate$, $collateralTicker$]} passSentinel>
+    <WithLoading data={[$exchangeRate$ ?? undefined, $collateralTicker$ ?? undefined]} passSentinel>
       <span slot="before">1 ENGA:</span>
       <span slot="data" class="text-yellow-400">
         <span>
