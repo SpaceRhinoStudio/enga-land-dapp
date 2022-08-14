@@ -79,6 +79,7 @@
         map(() => true),
         shareReplay(1),
       )
+      const sub = isApprovalDone$.subscribe()
       return firstValueFrom(
         approve$?.pipe(
           tap(() => (waitingForTx = true)),
@@ -110,6 +111,7 @@
           ),
           switchSome(switchMap(() => isApprovalDone$)),
           finalize(() => (waitingForTx = false)),
+          finalize(() => sub.unsubscribe()),
         ) ?? of(null),
       )
     }
@@ -121,6 +123,7 @@
         map(() => true),
         shareReplay(1),
       )
+      const sub = hasNewVesting$.subscribe()
       return firstValueFrom(
         sale$.pipe(
           tap(() => (waitingForTx = true)),
@@ -162,6 +165,7 @@
           switchMap(() => hasNewVesting$),
           tap(reset),
           finalize(() => (waitingForTx = false)),
+          finalize(() => sub.unsubscribe()),
         ),
       )
     }
