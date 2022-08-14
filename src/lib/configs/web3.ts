@@ -92,8 +92,10 @@ const Web3Providers: {
           }),
         { project: undefined },
       ),
-      switchMap(x =>
-        concat(of(x), fromEventZone(x, 'error').pipe(switchMap(() => throwError(() => null)))),
+      switchSome(
+        switchMap(x =>
+          concat(of(x), fromEventZone(x, 'error').pipe(switchMap(() => throwError(() => null)))),
+        ),
       ),
       catchError((e, o) => timer(200).pipe(switchMap(() => o))),
       shareReplay(1),
