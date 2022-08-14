@@ -25,7 +25,7 @@ import { combineLatestSwitchMap } from '../combine-latest-switch'
 import { mapIndex } from '../operate-on-tuple'
 import { safeSwitchMap } from '../safe-throw'
 import { mapToNetwork } from './network'
-import { noUndefined } from '$lib/shared/utils/no-sentinel-or-undefined'
+import type WalletConnectProvider from '@walletconnect/web3-provider'
 
 export type NetworkSwitchState =
   | ActionStatus.FAILURE
@@ -88,20 +88,25 @@ const networkSwitchEIP3326 = (provider: providers.Web3Provider) => (network: Net
   )
 }
 
-const networkSwitchWalletConnect = () => () =>
-  of(undefined).pipe(
-    tap(() => {
-      console.error('E0x05 WalletConnect does not support network switching')
-      flashToast$.next({
-        level: ToastLevel.ERROR,
-        //TODO: tl
-        message:
-          'WalletConnect does not support network switching.\nChange the network from your wallet app.',
-        timeout: 10_000,
-      })
-    }),
-    map(() => ActionStatus.FAILURE as const),
-  )
+const networkSwitchWalletConnect = (
+  provider: Omit<providers.Web3Provider, 'provider'> & { provider: WalletConnectProvider },
+) =>
+  provider.provider.connector.peerMeta?.name === 'MetaMask'
+    ? networkSwitchEIP3326(provider)
+    : (network: Network) =>
+        of(undefined).pipe(
+          tap(() => {
+            console.error('E0x05 WalletConnect does not support network switching')
+            flashToast$.next({
+              level: ToastLevel.ERROR,
+              //TODO: tl
+              message:
+                'WalletConnect does not support network switching.\nChange the network from your wallet app.',
+              timeout: 10_000,
+            })
+          }),
+          map(() => ActionStatus.FAILURE as const),
+        )
 
 export function switchNetwork(
   meta$: Option$<Web3ProviderMetadata>,
@@ -123,9 +128,9 @@ export function switchNetwork(
       map(([id, provider]) =>
         id === Web3ProviderId.binanceChain
           ? networkSwitchBinanceWallet(provider)
-          : // : id === Web3ProviderId.walletConnect
-            // ? networkSwitchWalletConnect()
-            networkSwitchEIP3326(provider),
+          : id === Web3ProviderId.walletConnect
+          ? networkSwitchWalletConnect(provider as any)
+          : networkSwitchEIP3326(provider),
       ),
     ),
   )

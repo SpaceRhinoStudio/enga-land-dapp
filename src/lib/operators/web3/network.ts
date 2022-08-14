@@ -142,12 +142,17 @@ export function evaluateNetwork(
         return isCorrect$.pipe(
           setLoading('perNetworkChangeNetworkProviderNetworkEvaluation', true),
           withLatestFrom(hasNetworkUpdated$),
-          switchMap(([isCorrect, hasNetworkUpdated], i) => {
+          withLatestFrom(meta.provider$),
+          switchMap(([[isCorrect, hasNetworkUpdated], provider], i) => {
             if (isCorrect === true) {
               return of(meta)
             }
             if (isCorrect === false) {
-              if ((i !== 0 && !hasNetworkUpdated) || meta.id === Web3ProviderId.walletConnect) {
+              if (
+                (i !== 0 && !hasNetworkUpdated) ||
+                (meta.id === Web3ProviderId.walletConnect &&
+                  provider.connector.peerMeta?.name !== 'MetaMask')
+              ) {
                 return matchNetworkWithProvider().pipe(map(() => meta))
               }
               if (i !== 0 && hasNetworkUpdated) {
