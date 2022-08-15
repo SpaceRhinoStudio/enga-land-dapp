@@ -15,7 +15,6 @@
   import { firstValueFrom, from, mergeMap, toArray, map, mergeAll, tap, switchMap } from 'rxjs'
   import { ajax } from 'rxjs/ajax'
   import { config } from './configs'
-  import { logOp } from './operators/log'
   import CloseIcon from '$lib/shared/assets/icons/close-sidebar.svg'
 
   const copy = (msg: string) => {
@@ -48,7 +47,6 @@
             map(x => ({ id: logId, data: x })),
           ),
         ),
-        logOp('logs'),
         toArray(),
         map(x =>
           x.sort((a, b) => {
