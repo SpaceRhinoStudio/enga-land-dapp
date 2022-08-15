@@ -100,14 +100,12 @@
   <SvgIcon Icon={BugIcon} dimensions="1.5rem" />
 </Button>
 
+<!-- TODO: tl ⬇️ -->
 <Modal bind:toggle acceptExit>
   <Card className={{ wrapper: 'flex flex-col gap-6 w-screen max-w-sm' }}>
     <div slot="header" class="flex justify-between items-center w-full">
-      <span>Debug</span><SvgIcon
-        dimensions="1.5rem"
-        Icon={CloseIcon}
-        on:click={toggle}
-        className="cursor-pointer" />
+      <span>Debug</span>
+      <SvgIcon dimensions="1.5rem" Icon={CloseIcon} on:click={toggle} className="cursor-pointer" />
     </div>
     <Button job={clearCache}>Clear cache</Button>
     <div slot="footer" class="flex flex-col gap-4 pt-5 w-full">

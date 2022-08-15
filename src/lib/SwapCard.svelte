@@ -197,7 +197,7 @@
           class="flex flex-col gap-7 md:flex-row md:justify-between md:items-center md:grow children:grow md:pb-2">
           <SwapCardAgreement bind:hasAgreed />
           <Button
-            tooltip={hasAgreed ? undefined : $__$.presale.errors.shouldAgree}
+            tooltip={hasAgreed && $__$.presale.errors.shouldAgree}
             job={swap}
             disabled={!hasAgreed || (!canContrib && !shouldApprove)}
             isLoading={_.isUndefined(hasAgreed) || isLoadingContrib || waitingForTx}
