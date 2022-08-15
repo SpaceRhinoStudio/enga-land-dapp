@@ -12,6 +12,7 @@
     combineLatest,
     distinctUntilChanged,
     map,
+    observeOn,
     pipe,
     startWith,
     subscribeOn,
@@ -33,8 +34,6 @@
   import { isArray, isEqual } from './shared/utils/type-safe'
   import { pipeIfNot } from './operators/pipe-if-not'
   import { isSentinel } from './shared/contexts/empty-sentinel'
-  import { logOp } from './operators/log'
-  import { Option } from './types'
 
   export let control$: Subject<InputControl> = inputControlFactory()
   export let validators: OperatorFunction<string, InputComponentError>[] = []
@@ -55,10 +54,10 @@
   const validatorSub = combineLatest(
     validators.map(validator =>
       control$.pipe(
+        observeOn(asyncScheduler),
         controlStreamPayload('Value'),
         distinctUntilChanged(),
         validator,
-        logOp('error 2 inside'),
         startWith(undefined),
         throttleTime(100, undefined, { leading: true, trailing: true }),
       ),
@@ -186,7 +185,7 @@
             state.set((state.cursorEnd ?? 0) + offset, (state.cursorEnd ?? 0) + offset)
           })
       }} />
-    <div class="absolute -right-1 top-1/2 -translate-y-1/2 ">
+    <div class="absolute right-0 top-1/2 -translate-y-1/2 ">
       <slot name="right" />
     </div>
   </div>
