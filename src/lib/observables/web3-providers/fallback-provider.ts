@@ -167,16 +167,16 @@ export const fallbackWeb3Provider$ = combineLatest<
   distinctUntilChanged(isEqual),
   logOp('SEND_LOG', 'providers', x => x?.map(e => e.id)),
   switchSome(map(x => new providers.FallbackProvider(x, 1))),
+  switchMap(x => (_.isNil(x) ? throwError(() => 'unavailable') : of(x))),
   catchError((e, o) => {
     console.warn(e)
     return of(null).pipe(
-      delay(2000),
+      delay(1000),
       switchMap(() => onlineStatus$),
       filter(x => x),
       switchMap(() => o),
       startWith(undefined),
     )
   }),
-  mapNil(() => undefined),
   shareReplay(1),
 )
