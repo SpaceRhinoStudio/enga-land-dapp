@@ -24,7 +24,7 @@ export const clearCache: () => Promise<void> = () =>
         of([win.localStorage.getItem('debug-id'), win.localStorage.getItem('debug-sent') ?? '[]']),
       ),
       tap(([win]) => win.localStorage.clear()),
-      tap(([win, [debugId, logsSent]]) => {
+      tap(([win, debugId, logsSent]) => {
         win.localStorage.setItem('debug-id', debugId!)
         win.localStorage.setItem('debug-sent', logsSent!)
       }),

@@ -1,10 +1,10 @@
 import { mapNil } from '$lib/operators/pass-undefined'
 import { noNil } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { keysOf } from '$lib/shared/utils/type-safe'
-import { ActionStatus, Some } from '$lib/types'
+import { Nil, Some } from '$lib/types'
 import { isEnumMember } from '$lib/utils/enum'
 import _ from 'lodash'
-import { catchError, of, OperatorFunction, pipe } from 'rxjs'
+import { OperatorFunction, pipe } from 'rxjs'
 
 export enum Web3Errors {
   // EIP-1193
@@ -74,8 +74,13 @@ export const inferWeb3Error = (error: unknown): Web3Errors | undefined => {
   if (res) {
     const errRes = Web3Errors[res]
     return errRes === Web3Errors.INTERNAL_ERROR
-      ? inferWeb3Error(_.get(error, 'data.originalError')) ?? errRes
+      ? inferWeb3Error(_.get(error, 'data')) ??
+          inferWeb3Error(_.get(error, 'data.originalError')) ??
+          errRes
       : errRes
+  }
+  if (String(error).includes('failed to meet quorum')) {
+    return Web3Errors.DISCONNECTED
   }
   return undefined
 }
@@ -84,22 +89,21 @@ export const nameOfWeb3Error = (x: Web3Errors): string =>
     .map(k => (x === Web3Errors[k] ? k : null))
     .find(noNil)!
 
-export function handleCommonProviderErrors<T>(): OperatorFunction<
+export const isWeb3Error = isEnumMember(Web3Errors)
+
+export function mapNilToWeb3Error<T>(): OperatorFunction<
   T,
-  Some<T> | Web3Errors.REJECTED | ActionStatus.FAILURE | Web3Errors.INVALID_PARAMS
+  | Some<T>
+  | (Nil extends T
+      ? Web3Errors.INVALID_PARAMS | Web3Errors.RESOURCE_NOT_FOUND
+      : null extends T
+      ? Web3Errors.INVALID_PARAMS
+      : undefined extends T
+      ? Web3Errors.RESOURCE_NOT_FOUND
+      : never)
 > {
+  //@ts-ignore it's obvious but TS is dumb
   return pipe(
-    catchError(e => {
-      const web3Error = inferWeb3Error(e)
-      if (web3Error === Web3Errors.REJECTED) {
-        return of(web3Error)
-      }
-      return of(ActionStatus.FAILURE as const)
-    }),
-    mapNil<T | Web3Errors.REJECTED | ActionStatus.FAILURE, Web3Errors.INVALID_PARAMS>(
-      () => Web3Errors.INVALID_PARAMS as const,
-    ),
+    mapNil(x => (_.isUndefined(x) ? Web3Errors.RESOURCE_NOT_FOUND : Web3Errors.INVALID_PARAMS)),
   )
 }
-
-export const isWeb3Error = isEnumMember(Web3Errors)

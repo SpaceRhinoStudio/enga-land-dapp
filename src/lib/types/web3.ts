@@ -35,11 +35,7 @@ export type ConditionedAction<
     | Web3Errors.INVALID_PARAMS
     | Web3Errors.RESOURCE_NOT_FOUND
     | ActionStatus.FAILURE,
-  CallReturn =
-    | ActionStatus
-    | Web3Errors.INVALID_PARAMS
-    | Web3Errors.REJECTED
-    | Web3Errors.RESOURCE_NOT_FOUND,
+  CallReturn = ActionStatus.SUCCESS | ActionStatus.USELESS | ActionStatus.PENDING | Web3Errors,
 > = {
   can$: Observable<CanStatus>
   call: () => Observable<CallReturn>

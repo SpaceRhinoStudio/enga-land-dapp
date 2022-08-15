@@ -21,14 +21,7 @@ export enum ContributeActionErrors {
 
 export const isContributionError = isEnumMember(ContributeActionErrors)
 
-type SaleActionStatus =
-  | ActionStatus.FAILURE
-  | Web3Errors.REJECTED
-  | ActionStatus.SUCCESS
-  | Web3Errors.INVALID_PARAMS
-  | Web3Errors.RESOURCE_NOT_FOUND
-
-type ContributeActionStatus = SaleActionStatus | ContributeActionErrors
+type ContributeActionStatus = ActionStatus.SUCCESS | Web3Errors | ContributeActionErrors
 
 export enum SaleStatus {
   Pending = 0, // Sale is idle and pending to be started
@@ -141,6 +134,6 @@ export abstract class Sale<C extends Contract> {
     )
   }
 
-  public abstract releaseVesting(vest: Vesting<C>): Observable<SaleActionStatus>
-  public abstract revokeVesting(vest: Vesting<C>): Observable<SaleActionStatus>
+  public abstract releaseVesting(vest: Vesting<C>): Observable<ActionStatus.SUCCESS | Web3Errors>
+  public abstract revokeVesting(vest: Vesting<C>): Observable<ActionStatus.SUCCESS | Web3Errors>
 }

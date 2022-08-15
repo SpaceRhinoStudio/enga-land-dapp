@@ -1,4 +1,4 @@
-import { ContractReceipt, ContractTransaction } from 'ethers'
+import { PopulatedTransaction, providers } from 'ethers'
 import {
   type OperatorFunction,
   pipe,
@@ -8,48 +8,75 @@ import {
   withLatestFrom,
   of,
   switchMap,
-  take,
-  map,
   finalize,
+  catchError,
+  throwError,
+  map,
 } from 'rxjs'
 import { pendingTransactionsController$ } from './pending-transactions'
-import { currentValidSigner$ } from '$lib/observables/selected-web3-provider'
-import type { JsonRpcSigner } from '@ethersproject/providers'
+import { currentValidSigner$, signerAddress$ } from '$lib/observables/selected-web3-provider'
 import _ from 'lodash'
-import { switchSome } from '../pass-undefined'
-import { Option } from '$lib/types'
+import { mapNil, switchSomeMembers } from '../pass-undefined'
 import { fallbackWeb3Provider$ } from '$lib/observables/web3-providers/fallback-provider'
+import { combineLatestSwitchMap } from '../combine-latest-switch'
+import { inferWeb3Error, Web3Errors } from '$lib/helpers/web3-errors'
+import { ActionStatus } from '$lib/types'
 
 //DEBUG: write tests maybe? works fine though
-/**@throws {EthersErrors} */
-export function executeTx<T>(
-  project: (source: T, signer: JsonRpcSigner) => ObservableInput<ContractTransaction>,
-): OperatorFunction<T, Option<ContractReceipt>> {
+/**
+ * @see https://docs.walletconnect.com/mobile-linking
+ * @throws if error is not recognized as an standard web3 error it will be thrown untouched
+ */
+export function executeWrite(options: {
+  returnReceipt: true
+}): OperatorFunction<PopulatedTransaction, providers.TransactionReceipt | Web3Errors>
+export function executeWrite(options?: {
+  returnReceipt?: false
+}): OperatorFunction<PopulatedTransaction, ActionStatus.SUCCESS | Web3Errors>
+export function executeWrite(options?: {
+  returnReceipt?: boolean
+}): OperatorFunction<
+  PopulatedTransaction,
+  providers.TransactionReceipt | ActionStatus.SUCCESS | Web3Errors
+> {
   return pipe(
-    withLatestFrom(currentValidSigner$),
-    switchMap(x =>
-      fallbackWeb3Provider$.pipe(
-        take(1),
-        tap(provider => provider && (provider.pollingInterval = 15 * 60 * 1000)),
-        map(() => x),
-      ),
+    withLatestFrom(fallbackWeb3Provider$),
+    switchSomeMembers(withLatestFrom(signerAddress$)),
+    switchSomeMembers(
+      map(([[tx, provider], address]) => [{ ...tx, from: address }, provider] as const),
+      combineLatestSwitchMap(([tx, provider]) => provider.estimateGas(tx)),
+      withLatestFrom(currentValidSigner$),
     ),
-    exhaustMap(([x, signer]) => (_.isNil(signer) ? of(null) : project(x, signer))),
-    switchMap(x =>
-      fallbackWeb3Provider$.pipe(
-        take(1),
-        tap(provider => provider && (provider.pollingInterval = 4000)),
-        map(() => x),
+    switchSomeMembers(
+      // all the higher levels should be exhausted instead of switched :shrug:
+      exhaustMap(([[tx, provider, gasLimit], signer]) =>
+        of(undefined).pipe(
+          tap(() => (provider.pollingInterval = 15 * 60 * 1000)),
+          switchMap(() => signer.sendUncheckedTransaction({ ...tx, gasLimit })),
+          finalize(() => (provider.pollingInterval = 4000)),
+          switchMap(hash => provider.getTransaction(hash)),
+        ),
       ),
-    ),
-    switchSome(
       tap(x => x && pendingTransactionsController$.next({ Add: x })),
-      exhaustMap(x => x.wait()),
+      switchMap(x => x.wait()),
+      map(x => (options?.returnReceipt ? x : (ActionStatus.SUCCESS as const))),
     ),
-    finalize(() =>
-      fallbackWeb3Provider$
-        .pipe(take(1))
-        .subscribe(x => x && x.pollingInterval !== 4000 && (x.pollingInterval = 4000)),
-    ),
+    catchError(e => {
+      const err = inferWeb3Error(e)
+      return err ? of(err) : throwError(() => e)
+    }),
+    mapNil(x => (_.isUndefined(x) ? Web3Errors.RESOURCE_NOT_FOUND : Web3Errors.INVALID_PARAMS)),
+  )
+}
+
+export function executeRead<T, R>(
+  project: (input: T) => ObservableInput<R>,
+): OperatorFunction<T, R | Web3Errors> {
+  return pipe(
+    switchMap(project),
+    catchError(e => {
+      const err = inferWeb3Error(e)
+      return err ? of(err) : throwError(() => e)
+    }),
   )
 }

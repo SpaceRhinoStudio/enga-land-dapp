@@ -1,4 +1,4 @@
-import { PreSale as PreSaleContractType } from 'engaland_fundraising_app/typechain'
+import { PreSale as PreSaleContractType, TokenManager } from 'engaland_fundraising_app/typechain'
 import { ContributeActionErrors, Sale, SaleStatus } from './sale'
 import {
   ControllerContract$,
@@ -12,14 +12,16 @@ import {
   catchError,
   combineLatestWith,
   distinctUntilChanged,
+  exhaustMap,
   filter,
   first,
   from,
   map,
   merge,
-  mergeAll,
+  mergeMap,
   Observable,
   of,
+  range,
   shareReplay,
   switchMap,
   toArray,
@@ -29,13 +31,14 @@ import { fromEventFilter } from '$lib/operators/web3/from-event-filter'
 import { BigNumber, utils } from 'ethers'
 import { config } from '$lib/configs'
 import { signerAddress$ } from '$lib/observables/selected-web3-provider'
-import { safeQueryFilter } from '$lib/operators/web3/safe-query-filter'
 import { noNil } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { Vesting } from '$lib/classes/vesting'
 import { ActionStatus, WithDeployBlock } from '$lib/types'
-import { executeTx } from '$lib/operators/web3/wait-for-transaction'
-import { handleCommonProviderErrors, Web3Errors } from '$lib/helpers/web3-errors'
+import { executeWrite } from '$lib/operators/web3/wait-for-transaction'
+import { mapNilToWeb3Error, Web3Errors } from '$lib/helpers/web3-errors'
 import { isUserKYCVerified$ } from '$lib/observables/enga/kyc'
+import { combineLatestSwitchMap } from '$lib/operators/combine-latest-switch'
+import { parsePPM } from '$lib/operators/web3/ppm'
 
 class PreSaleClass extends Sale<PreSaleContractType> {
   private static _instance: PreSaleClass
@@ -84,11 +87,15 @@ class PreSaleClass extends Sale<PreSaleContractType> {
       shareReplay(1),
     )
 
-    const exchangeRatePPM$ = PreSaleContract$.pipe(
+    const exchangeRatePPMRaw$ = PreSaleContract$.pipe(
       switchSome(
         switchMap(x => x.exchangeRate()),
         map(x => BigNumber.from(config.PPM).pow(2).div(x)),
       ),
+      shareReplay(1),
+    )
+
+    const exchangeRatePPM$ = exchangeRatePPMRaw$.pipe(
       combineLatestWith(status$),
       map(([x, status]) => (status === SaleStatus.Funding ? x : null)),
       distinctUntilChanged(),
@@ -123,76 +130,78 @@ class PreSaleClass extends Sale<PreSaleContractType> {
       shareReplay(1),
     )
 
-    const userVestingsChangeTrigger$$ = ([sale, address]: [
-      WithDeployBlock<PreSaleContractType>,
+    const userVestingsChangeTrigger$$ = ([manager, address]: [
+      WithDeployBlock<TokenManager>,
       string,
     ]) =>
       merge(
-        fromEventFilter(sale, sale.filters['Contribute(address,uint256,uint256,bytes32)'](address)),
-        TokenManagerContract$.pipe(
+        fromEventFilter(
+          manager,
+          manager.filters['VestingReleased(address,bytes32,uint256)'](address),
+        ),
+        fromEventFilter(
+          manager,
+          manager.filters['VestingCreated(address,bytes32,uint256)'](address),
+        ),
+        fromEventFilter(
+          manager,
+          manager.filters['VestingRevoked(address,bytes32,uint256)'](address),
+        ),
+        PreSaleContract$.pipe(
           filter(noNil),
-          switchMap(x =>
+          switchMap(sale =>
             merge(
-              fromEventFilter(x, x.filters['VestingReleased(address,bytes32,uint256)'](address)),
-              fromEventFilter(x, x.filters['VestingCreated(address,bytes32,uint256)'](address)),
-              fromEventFilter(x, x.filters['VestingRevoked(address,bytes32,uint256)'](address)),
+              fromEventFilter(
+                sale,
+                sale.filters['Contribute(address,uint256,uint256,bytes32)'](address),
+              ),
             ),
           ),
         ),
       ).pipe(catchError(() => of(null)))
 
-    const userVestings$ = PreSaleContract$.pipe(
+    const userVestings$ = TokenManagerContract$.pipe(
       combineLatestWith(signerAddress$),
       switchSomeMembers(
         reEvaluateSwitchMap(userVestingsChangeTrigger$$),
-
-        switchMap(([x, address]) =>
-          safeQueryFilter(
-            x,
-            x.filters['Contribute(address,uint256,uint256,bytes32)'](address),
-            x.deployedOn,
-            'latest',
-          ).pipe(map(logs => [x, logs] as const)),
-        ),
-        switchMap(([x, logs]) =>
-          x
-            .exchangeRate()
-            .then(rate => 1 / (rate.toNumber() / config.PPM))
-            .then(price => [x, logs, price] as const),
-        ),
-        map(([x, logs, price]) =>
-          logs.map(log => ({
-            vestId: log.args.vestedPurchaseId,
-            price,
-            txId: log.transactionHash,
-            saleContractAddress: x.address,
-          })),
-        ),
-        combineLatestWith(TokenManagerContract$.pipe(filter(noNil))),
-        map(([vestings, tm]) =>
-          vestings.map(vest =>
-            tm
-              .getVesting(vest.vestId)
-              .then(_vest =>
-                !_vest.revoked && !_vest.amountTotal.eq(_vest.released)
-                  ? new Vesting(
-                      vest.txId,
-                      vest.price,
-                      _vest.amountTotal,
-                      _vest.released,
-                      new Date(_vest.start.toNumber() * 1000),
-                      new Date(_vest.cliff.toNumber() * 1000),
-                      new Date(_vest.end.toNumber() * 1000),
-                      vest.vestId,
-                      this,
-                    )
-                  : undefined,
+        combineLatestSwitchMap(([x, address]) => x.getHolderVestingCount(address)),
+        switchMap(([x, address, n]) =>
+          range(0, n.toNumber()).pipe(
+            map(n =>
+              utils.solidityKeccak256(
+                ['bytes'],
+                [utils.solidityPack(['address', 'uint256'], [address, n])],
               ),
+            ),
+            toArray(),
+            map(ids => [x, ids] as const),
           ),
         ),
-        switchMap(x => from(x).pipe(mergeAll(), filter(noNil), toArray())),
+        switchMap(([x, ids]) =>
+          from(ids).pipe(
+            mergeMap(id => from(x.getVesting(id)).pipe(map(vest => [vest, id] as const))),
+            toArray(),
+          ),
+        ),
+        withLatestFrom(exchangeRatePPMRaw$.pipe(parsePPM)),
+        map(([vestings, price]) =>
+          vestings.map(([vest, id]) =>
+            !vest.amountTotal.eq(vest.released)
+              ? new Vesting(
+                  price!,
+                  vest.amountTotal,
+                  vest.released,
+                  new Date(vest.start.toNumber() * 1000),
+                  new Date(vest.cliff.toNumber() * 1000),
+                  new Date(vest.end.toNumber() * 1000),
+                  id,
+                  this,
+                )
+              : null,
+          ),
+        ),
+        map(x => x.filter(noNil)),
       ),
-      map(x => x),
       shareReplay(1),
     )
 
@@ -225,56 +234,44 @@ class PreSaleClass extends Sale<PreSaleContractType> {
 
   protected _contribute(
     amount$: Observable<BigNumber>,
-  ): Observable<
-    | ContributeActionErrors
-    | (
-        | ActionStatus.FAILURE
-        | Web3Errors.REJECTED
-        | ActionStatus.SUCCESS
-        | Web3Errors.INVALID_PARAMS
-      )
-  > {
+  ): Observable<ActionStatus.SUCCESS | Web3Errors | ContributeActionErrors> {
     return ControllerContract$.pipe(
       first(),
       switchSome(
         withLatestFrom(amount$),
-        executeTx(([x, amount], signer) => x.connect(signer).contribute(amount)),
+        exhaustMap(([x, amount]) => x.populateTransaction.contribute(amount)),
+        executeWrite(),
         //TODO: double check with event logs
-        switchSome(map(() => ActionStatus.SUCCESS as const)),
       ),
-      handleCommonProviderErrors(),
+      mapNilToWeb3Error(),
     )
   }
 
   public releaseVesting(
     vest: Vesting<PreSaleContractType>,
-  ): Observable<
-    ActionStatus.FAILURE | Web3Errors.REJECTED | ActionStatus.SUCCESS | Web3Errors.INVALID_PARAMS
-  > {
+  ): Observable<ActionStatus.SUCCESS | Web3Errors> {
     return ControllerContract$.pipe(
       first(),
       switchSome(
-        executeTx((x, signer) => x.connect(signer).release(vest.vestId)),
+        exhaustMap(x => x.populateTransaction.release(vest.vestId)),
+        executeWrite(),
         //TODO: double check with event logs
-        switchSome(map(() => ActionStatus.SUCCESS as const)),
       ),
-      handleCommonProviderErrors(),
+      mapNilToWeb3Error(),
     )
   }
 
   public revokeVesting(
     vest: Vesting<PreSaleContractType>,
-  ): Observable<
-    ActionStatus.FAILURE | Web3Errors.REJECTED | ActionStatus.SUCCESS | Web3Errors.INVALID_PARAMS
-  > {
+  ): Observable<ActionStatus.SUCCESS | Web3Errors> {
     return ControllerContract$.pipe(
       first(),
       withLatestFrom(signerAddress$),
       switchSomeMembers(
-        executeTx(([x, address], signer) => x.connect(signer).refund(address, vest.vestId)),
-        switchSome(map(() => ActionStatus.SUCCESS as const)),
+        exhaustMap(([x, address]) => x.populateTransaction.refund(address, vest.vestId)),
+        executeWrite(),
       ),
-      handleCommonProviderErrors(),
+      mapNilToWeb3Error(),
     )
   }
 }

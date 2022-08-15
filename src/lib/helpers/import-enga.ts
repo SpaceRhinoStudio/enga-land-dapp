@@ -45,7 +45,7 @@ export function importEnga(): Promise<void> {
           ),
         ),
         switchSomeMembers(
-          switchMap(([provider, [address, symbol, decimals]]) =>
+          switchMap(([provider, address, symbol, decimals]) =>
             importToken(
               provider,
               address,

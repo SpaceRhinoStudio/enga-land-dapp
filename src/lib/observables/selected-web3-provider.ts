@@ -88,13 +88,11 @@ export const currentWeb3Provider$: Option$<Web3ProviderMetadata> = merge(
       beforeConnect: () =>
         fallbackWeb3Provider$
           .pipe(take(1), filter(noNil))
-          .subscribe(x =>
-            console.log('setting polling interval', (x.pollingInterval = 15 * 60 * 1000)),
-          ),
+          .subscribe(x => (x.pollingInterval = 15 * 60 * 1000)),
       afterConnect: () =>
         fallbackWeb3Provider$
           .pipe(take(1), filter(noNil))
-          .subscribe(x => console.log('setting polling interval', (x.pollingInterval = 4000))),
+          .subscribe(x => (x.pollingInterval = 4000)),
     }),
     catchError((e, o) => {
       if (inferWeb3Error(e) === Web3Errors.REJECTED) {
@@ -145,7 +143,6 @@ currentWeb3Provider$
             take(1),
           )
           .subscribe(currentExternalProvider => {
-            console.debug('disconnecting')
             lastRequestedProvider$.next(null)
             // const disconnect = _.get(currentExternalProvider, 'disconnect')
             const connector = _.get(currentExternalProvider, 'connector')
@@ -155,9 +152,7 @@ currentWeb3Provider$
               of(undefined)
                 .pipe(safeSwitchMap(killSession.bind(connector), { project: null }))
                 .subscribe(() => {
-                  console.log('doing error')
                   if (_.isFunction(emit)) {
-                    console.log('doing error 2')
                     emit.bind(currentExternalProvider)('error')
                   }
                 })

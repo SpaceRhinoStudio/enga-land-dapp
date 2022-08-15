@@ -10,6 +10,7 @@ import {
   catchError,
   combineLatestWith,
   distinctUntilChanged,
+  exhaustMap,
   first,
   from,
   map,
@@ -32,8 +33,8 @@ import { noNil } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { Vesting } from '$lib/classes/vesting'
 import { ActionStatus, WithDeployBlock } from '$lib/types'
 import { isUserKYCVerified$ } from '$lib/observables/enga/kyc'
-import { executeTx } from '$lib/operators/web3/wait-for-transaction'
-import { handleCommonProviderErrors, Web3Errors } from '$lib/helpers/web3-errors'
+import { executeWrite } from '$lib/operators/web3/wait-for-transaction'
+import { mapNilToWeb3Error, Web3Errors } from '$lib/helpers/web3-errors'
 import { combineLatestSwitchMap } from '$lib/operators/combine-latest-switch'
 import { parsePPM } from '$lib/operators/web3/ppm'
 
@@ -138,7 +139,7 @@ class SeedSaleClass extends Sale<SeedSaleContractType> {
       switchSomeMembers(
         reEvaluateSwitchMap(userVestingsChangeTrigger$$),
         combineLatestSwitchMap(([x, address]) => x.getHolderVestingCount(address)),
-        switchMap(([[x, address], n]) =>
+        switchMap(([x, address, n]) =>
           range(0, n.toNumber()).pipe(
             map(n =>
               utils.solidityKeccak256(
@@ -199,49 +200,37 @@ class SeedSaleClass extends Sale<SeedSaleContractType> {
 
   protected _contribute(
     amount$: Observable<BigNumber>,
-  ): Observable<
-    | ContributeActionErrors
-    | (
-        | ActionStatus.FAILURE
-        | Web3Errors.REJECTED
-        | ActionStatus.SUCCESS
-        | Web3Errors.INVALID_PARAMS
-      )
-  > {
+  ): Observable<ContributeActionErrors | ActionStatus.SUCCESS | Web3Errors> {
     return this.contract$.pipe(
       first(),
       switchSome(
         withLatestFrom(amount$),
-        executeTx(([x, amount], signer) => x.connect(signer).contribute(amount)),
+        exhaustMap(([x, amount]) => x.populateTransaction.contribute(amount)),
+        executeWrite(),
         //TODO: double check with event logs
-        switchSome(map(() => ActionStatus.SUCCESS as const)),
       ),
-      handleCommonProviderErrors(),
+      mapNilToWeb3Error(),
     )
   }
 
   public releaseVesting(
     vest: Vesting<SeedSaleContractType>,
-  ): Observable<
-    ActionStatus.FAILURE | Web3Errors.REJECTED | ActionStatus.SUCCESS | Web3Errors.INVALID_PARAMS
-  > {
+  ): Observable<ActionStatus.SUCCESS | Web3Errors> {
     return this.contract$.pipe(
       first(),
       switchSome(
-        executeTx((x, signer) => x.connect(signer).release(vest.vestId)),
+        exhaustMap(x => x.populateTransaction.release(vest.vestId)),
+        executeWrite(),
         //TODO: double check with event logs
-        switchSome(map(() => ActionStatus.SUCCESS as const)),
       ),
-      handleCommonProviderErrors(),
+      mapNilToWeb3Error(),
     )
   }
 
   public revokeVesting(
     vest: Vesting<SeedSaleContractType>,
-  ): Observable<
-    ActionStatus.FAILURE | Web3Errors.REJECTED | ActionStatus.SUCCESS | Web3Errors.INVALID_PARAMS
-  > {
-    return of(Web3Errors.INVALID_PARAMS)
+  ): Observable<ActionStatus.SUCCESS | Web3Errors> {
+    return of(Web3Errors.UNSUPPORTED_METHOD)
   }
 }
 

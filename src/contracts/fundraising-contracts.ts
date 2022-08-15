@@ -64,7 +64,7 @@ function fundraisingContract$Factory<T extends Contract>(
             distinctUntilChanged(),
           ),
         ),
-        map(([[x, network], abi]) => {
+        map(([x, network, abi]) => {
           if (!(abi && (fundraisingContractAddresses[network]![key]?.address ?? explicitAddress))) {
             return null
           }
