@@ -85,10 +85,15 @@
     formatter={CurrencyFormatterOperatorFactory()}
     parser={CurrencyParsersOperator}
     className={{ outer: 'w-full', target: 'pr-14 font-mono' }}>
-    {#if !isBase && $balance$}
-      <Button slot="right" className={'!border-transparent text-blood px-2 w-12'} job={handleMax}>
-        {$__$?.presale.contribution.max}
-      </Button>
-    {/if}
+    <svelte:fragment slot="right">
+      {#if !isBase && $balance$}
+        <Button
+          {disabled}
+          className={'!border-transparent text-blood !px-2 disabled:!bg-transparent'}
+          job={handleMax}>
+          {$__$?.presale.contribution.max}
+        </Button>
+      {/if}
+    </svelte:fragment>
   </Input>
 </div>
