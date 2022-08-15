@@ -21,6 +21,7 @@ import {
   concat,
   throwError,
   switchAll,
+  take,
 } from 'rxjs'
 import { CustomRemoteWeb3Providers$ } from './custom-remote-providers'
 import { selectedNetwork$ } from '../web3-network'
@@ -174,6 +175,7 @@ export const fallbackWeb3Provider$ = combineLatest<
       delay(1000),
       switchMap(() => onlineStatus$),
       filter(x => x),
+      take(1),
       switchMap(() => o),
       startWith(undefined),
     )
