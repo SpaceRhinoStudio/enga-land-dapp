@@ -114,20 +114,20 @@ const requestAccountsWalletConnect = (
         ? of(ConnectToWalletState.Rejected)
         : of(ConnectToWalletState.Error),
     ),
-    tap(
-      x =>
-        x === ConnectToWalletState.Success &&
-        uselessInteractionController$.next({ Display: 'WalletConnect successfully connected' }),
-    ),
-    switchMap(x =>
-      x === ConnectToWalletState.Success
-        ? uselessInteractionController$.pipe(
-            controlStreamPayload('Display'),
-            filter(_.isNil),
-            map(() => x),
-          )
-        : of(x),
-    ),
+    // tap(
+    //   x =>
+    //     x === ConnectToWalletState.Success &&
+    //     uselessInteractionController$.next({ Display: 'WalletConnect successfully connected' }),
+    // ),
+    // switchMap(x =>
+    //   x === ConnectToWalletState.Success
+    //     ? uselessInteractionController$.pipe(
+    //         controlStreamPayload('Display'),
+    //         filter(_.isNil),
+    //         map(() => x),
+    //       )
+    //     : of(x),
+    // ),
     tap(x => hooks?.afterConnect(x)),
   )
 }
