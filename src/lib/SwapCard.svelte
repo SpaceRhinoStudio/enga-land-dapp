@@ -102,7 +102,10 @@
               default:
                 return flashToast$.next({
                   level: ToastLevel.ERROR,
-                  message: __.main.genericErrorMessage,
+                  message:
+                    __.main.genericErrorMessage +
+                    '\n' +
+                    (isWeb3Error(status) ? nameOfWeb3Error(status) : status),
                 })
             }
           }),
@@ -131,13 +134,14 @@
           withLatestFrom(__$),
           tap(([status, __]) => {
             switch (status) {
-              // all should be handled beforehand
-              case Web3Errors.INVALID_PARAMS:
-              case ContributeActionErrors.LESS_THAN_MIN:
-              case ContributeActionErrors.NOT_FUNDING:
-              case ContributeActionErrors.NO_KYC:
-              case ContributeActionErrors.LOW_ALLOWANCE:
-              case ContributeActionErrors.LOW_BALANCE:
+              case Web3Errors.REJECTED:
+                return
+              case ActionStatus.SUCCESS:
+                return flashToast$.next({
+                  level: ToastLevel.SUCCESS,
+                  message: __.userInteraction.toastTitles[ToastLevel.SUCCESS],
+                })
+              default:
                 return flashToast$.next({
                   level: ToastLevel.ERROR,
                   message:
@@ -145,18 +149,6 @@
                     '\n' +
                     (isWeb3Error(status) ? nameOfWeb3Error(status) : status),
                 })
-              case ActionStatus.FAILURE:
-                return flashToast$.next({
-                  level: ToastLevel.ERROR,
-                  message: __.main.genericErrorMessage,
-                })
-              case ActionStatus.SUCCESS:
-                return flashToast$.next({
-                  level: ToastLevel.SUCCESS,
-                  message: __.userInteraction.toastTitles[ToastLevel.SUCCESS],
-                })
-              default:
-                return
             }
           }),
           switchMap(([status]) =>
