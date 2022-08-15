@@ -25,7 +25,12 @@ export const CurrencyFormatterOperatorFactory: FormatterOperator<[number?, boole
         let f = res[1]?.substring(0, precision)
 
         if (!fixedPrecision) {
-          f = f?.split('').reduceRight((acc, x) => (!acc.length && x === '0' ? '' : x + acc), '')
+          f = f
+            ?.split('')
+            .reduceRight(
+              (acc, x, index) => (!acc.length && x === '0' && index !== 0 ? '' : x + acc),
+              '',
+            )
         }
         if (fixedPrecision && precision) {
           f = f?.padEnd(precision, '0')
