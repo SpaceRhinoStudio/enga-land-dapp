@@ -3,26 +3,25 @@ import type { TypedEvent, TypedEventFilter } from 'engaland_fundraising_app/type
 import type { Contract } from 'ethers'
 import _ from 'lodash'
 import {
+  combineLatest,
   from,
   map,
-  merge,
   mergeAll,
   mergeMap,
   Observable,
   of,
-  reduce,
   switchMap,
   toArray,
 } from 'rxjs'
-import { logOp } from '../log'
 import { switchSome } from '../pass-undefined'
 
+//FIX: catch errors
 export function safeQueryFilter<
-  T extends Contract,
+  // T extends Contract,
   _EventArgsArray extends unknown[],
   _EventArgsObject,
 >(
-  contract: T,
+  contract: Contract,
   filter: TypedEventFilter<_EventArgsArray, _EventArgsObject>,
   start: string | number,
   end: string | number,
@@ -30,15 +29,13 @@ export function safeQueryFilter<
   return of(contract.provider).pipe(
     switchSome(
       switchMap(x =>
-        merge(
-          _.isNumber(start)
-            ? of({ start })
-            : from(x.getBlock(start).then(x => ({ start: x.number }))),
-          _.isNumber(end) ? of({ end }) : from(x.getBlock(end).then(x => ({ end: x.number }))),
-        ).pipe(reduce((acc, curr) => ({ ...acc, ...curr }), {} as { start: number; end: number })),
+        combineLatest({
+          start: _.isNumber(start) ? of(start) : x.getBlock(start).then(x => x.number),
+          end: _.isNumber(end) ? of(end) : x.getBlock(end).then(x => x.number),
+        }),
       ),
       map(({ start, end }) => {
-        const res: { start: number; end: number }[] = []
+        const blockNumbers: { start: number; end: number }[] = []
         let _start = start
         let _end = end
         do {
@@ -47,22 +44,20 @@ export function safeQueryFilter<
           } else {
             _end = end
           }
-          res.push({ start: _start, end: _end })
+          blockNumbers.push({ start: _start, end: _end })
           _start = _end + 1
         } while (end === _start)
-        return res
+        return blockNumbers
       }),
-      logOp('doin queryfilter'),
       switchMap(blockNumbers => {
         const catchError = _.throttle(e => {
           console.warn('QueryFilter failed', e)
           return []
         }, 5000)
         return from(blockNumbers).pipe(
-          logOp('doin queryfilter'),
           mergeMap(
             ({ start, end }) =>
-              contract!.queryFilter(filter, start, end).catch(catchError) as Promise<
+              contract.queryFilter(filter, start, end).catch(catchError) as Promise<
                 TypedEvent<_EventArgsArray & _EventArgsObject>[]
               >,
           ),
