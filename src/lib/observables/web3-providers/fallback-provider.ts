@@ -33,11 +33,11 @@ import { DefaultWeb3Provider$ } from './default-provider'
 import { BscScanWeb3Provider$ } from './bsc-scan-provider'
 import { noNil } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { fromEventZone } from '$lib/operators/zone'
-import { isEqual } from '$lib/utils/is-equal'
 import { toScanArray } from '$lib/operators/scan-array'
 import { reEvaluate } from '$lib/operators/re-evaluate'
 import { combineLatestSwitchMap } from '$lib/operators/combine-latest-switch'
 import { logOp } from '$lib/operators/log'
+import { isEqual } from '$lib/shared/utils/type-safe'
 
 /**
  * @description this is the ethers fallback provider, this provider uses a quorum of different providers with defined priority and weights so that we are available to always have a valid provider even if the favorite one is not available.
