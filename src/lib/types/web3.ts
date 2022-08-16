@@ -1,4 +1,5 @@
 import { Web3Errors } from '$lib/helpers/web3-errors'
+import { isEnumMember } from '$lib/utils/enum'
 import { providers } from 'ethers'
 import { Observable, of } from 'rxjs'
 
@@ -25,6 +26,8 @@ export enum ActionStatus {
   USELESS = 'USELESS',
   UNKNOWN = 'UNKNOWN',
 }
+
+export const isAction = isEnumMember(ActionStatus)
 
 export type WithDeployBlock<T> = T & { deployedOn: number }
 
