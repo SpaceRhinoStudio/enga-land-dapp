@@ -15,6 +15,7 @@
   import DebugButton from '$lib/DebugButton.svelte'
   import { screen$ } from '$lib/shared/helpers/media-queries'
   import UselessUserInteractionModal from '$lib/UselessUserInteractionModal.svelte'
+  import WaitingForTxAccept from '$lib/WaitingForTxAccept.svelte'
 </script>
 
 <MainLayout
@@ -69,3 +70,4 @@
   <EngaPrice slot="footer-metadata" />
 </MainLayout>
 <UselessUserInteractionModal />
+<WaitingForTxAccept />
