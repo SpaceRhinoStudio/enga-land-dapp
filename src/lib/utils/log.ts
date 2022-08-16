@@ -170,7 +170,6 @@ export function logger(
   const now = options.now ?? new Date()
 
   const title = getLogTitle(options.level, options.category, now, options.zone).join(' ')
-  console.log({ title, logs })
   return firstValueFrom(
     logs$.pipe(
       take(1),
