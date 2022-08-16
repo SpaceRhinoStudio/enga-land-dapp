@@ -1,11 +1,7 @@
 import type { AsyncMapper } from '../types'
 
 export function orderedAsyncChainMapFactory(mappers: AsyncMapper[]) {
-  return async function orderedAsyncChainMapper(value: unknown): Promise<unknown> {
-    let result = value
-    for (const mapper of mappers) {
-      result = await mapper(result)
-    }
-    return result
+  return function orderedAsyncChainMapper(value: unknown): Promise<unknown> {
+    return mappers.reduce((acc, curr) => acc.then(curr), Promise.resolve(value))
   }
 }

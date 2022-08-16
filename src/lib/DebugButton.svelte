@@ -12,10 +12,13 @@
   import clipboardCopy from 'copy-to-clipboard'
   import { flashToast$, ToastLevel } from './shared/contexts/flash-toast'
   import { clearCache } from './operators/web3/provider'
-  import { firstValueFrom, from, mergeMap, toArray, map, mergeAll, tap, switchMap } from 'rxjs'
+  import { firstValueFrom, map, tap } from 'rxjs'
   import { ajax } from 'rxjs/ajax'
   import { config } from './configs'
   import CloseIcon from '$lib/shared/assets/icons/close-sidebar.svg'
+  import { localCache } from './contexts/local-cache'
+  import { Serializable } from './types'
+  import _ from 'lodash'
 
   const copy = (msg: string) => {
     if (clipboardCopy(msg)) {
@@ -25,72 +28,40 @@
     }
   }
 
+  const logs$ = localCache.observe<{ [title: string]: Serializable[] }>('logs', {})
+
   let toggle: () => void
-  const getId = () => localStorage.getItem('debug-id')
+  const id = localStorage.getItem('debug-id')
 
   $: copyId = () => {
-    copy(getId() ?? 'undefined')
+    copy(id ?? 'undefined')
   }
-  const getLogList = () => localStorage.getItem('debug-sent') ?? '[]'
   $: copyLog = () => {
-    copy(getLogList())
+    copy(JSON.stringify(_.keys($logs$)))
   }
-  $: getLogs = () =>
-    firstValueFrom(
-      from(JSON.parse(getLogList()) as string[]).pipe(
-        mergeMap(logId =>
-          ajax<LogResponse>({
-            method: 'GET',
-            url: `${config.apiAddress}/debug/log?id=${getId()}__${logId}`,
-          }).pipe(
-            map(x => JSON.parse(x.response.data)),
-            map(x => ({ id: logId, data: x })),
-          ),
-        ),
-        toArray(),
-        map(x =>
-          x.sort((a, b) => {
-            const aSplit = a.id.split('__')
-            const bSplit = b.id.split('__')
-            return Number(aSplit[aSplit.length - 1]) - Number(bSplit[bSplit.length - 1])
-          }),
-        ),
-        map(x =>
-          x.map(x => {
-            const xSplit = x.id.split('__')
-            return {
-              id: x.id,
-              time: new Date(Number(xSplit[xSplit.length - 1])).toLocaleTimeString(undefined, {
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit',
-                hour12: false,
-              }),
-            }
-          }),
-        ),
-        switchMap(x => {
-          return ajax<DPasteResponse>({
-            method: 'POST',
-            url: 'https://api.paste.ee/v1/pastes',
-            headers: { 'X-Auth-Token': 'aGLP8tt4366LWCMyfWWKumdZUNnmRsi4L7PzwmgTo' },
-            body: {
-              description: getId(),
-              sections: [
-                { name: 'logs', syntax: 'json', contents: JSON.stringify(x, undefined, 2) },
-              ],
-            },
-          })
-        }),
-        map(x => x.response.link),
+  $: getLogs = () => {
+    const now = Date.now()
+    return firstValueFrom(
+      ajax({
+        method: 'POST',
+        url: `${config.apiAddress}/debug/log`,
+        body: {
+          id: `${id}__${now}`,
+          message: JSON.stringify($logs$),
+        },
+      }).pipe(
+        map(() => `${config.apiAddress}/debug/log?id=${id}__${now}`),
         tap(copy),
       ),
     )
+  }
 
   const killDebugId = () => {
+    logs$.next({})
     localStorage.removeItem('debug-id')
-    localStorage.removeItem('debug-sent')
-    location.reload()
+    setTimeout(() => {
+      location.reload()
+    }, 100)
   }
 </script>
 
@@ -100,7 +71,7 @@
 
 <!-- TODO: tl ⬇️ -->
 <Modal bind:toggle acceptExit>
-  <Card className={{ wrapper: 'flex flex-col gap-6 w-screen max-w-sm' }}>
+  <Card className={{ wrapper: 'flex flex-col gap-6 w-screen max-w-xs' }}>
     <div slot="header" class="flex justify-between items-center w-full">
       <span>Debug</span>
       <SvgIcon dimensions="1.5rem" Icon={CloseIcon} on:click={toggle} className="cursor-pointer" />
@@ -109,7 +80,7 @@
     <div slot="footer" class="flex flex-col gap-4 pt-5 w-full">
       <div class="flex gap-3 justify-between">
         <span class="text- leading-none">Debug ID:</span>
-        <span class="font-mono">{getId()}</span>
+        <span class="font-mono">{id}</span>
       </div>
       <Button job={copyId}>Copy debug ID</Button>
       <Button job={copyLog}>Copy log list</Button>

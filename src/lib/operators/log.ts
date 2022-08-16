@@ -1,97 +1,87 @@
+import '../../index'
 import _ from 'lodash'
-import {
-  type MonoTypeOperatorFunction,
-  pipe,
-  concatMap,
-  map,
-  from,
-  of,
-  reduce,
-  dematerialize,
-  materialize,
-} from 'rxjs'
-import { unLazy } from '$lib/shared/utils/un-lazy'
+import { type MonoTypeOperatorFunction, pipe, dematerialize, materialize } from 'rxjs'
 import { wrapWith } from '$lib/utils/zone'
-import { isWeb3Error, nameOfWeb3Error } from '$lib/helpers/web3-errors'
-import { isEnumMember } from '$lib/utils/enum'
-import { ActionStatus } from '$lib/types'
-import { addToLogs } from '../../index'
+import { LogLevel, Serializable } from '$lib/types'
+import { tapWithIndex } from './tap-with-index'
+import {
+  formatForConsole,
+  formatIndexForConsole,
+  getLogTitle,
+  logger,
+  prepareForJSON,
+  resolveDerivedForObservableNotification,
+} from '$lib/utils/log'
 
-const isAction = isEnumMember(ActionStatus)
-
-function transform(x: unknown): unknown[] {
-  if (isWeb3Error(x)) {
-    return ['%c' + nameOfWeb3Error(x), 'color: #f00']
-  }
-  if (isAction(x)) {
-    return ['%c' + x, 'color: #e50']
-  }
-
-  return [x]
-}
-
-export function logOp<T>(
-  ...messages: (string | number | ((source: T) => unknown) | 'SEND_LOG')[]
+export function logOpBase<T>(
+  options: { level: LogLevel; save?: boolean; category: string },
+  ...messages: (Serializable | ((source: T) => unknown))[]
 ): MonoTypeOperatorFunction<T> {
   const zone = Zone.current
   return pipe(
     materialize(),
-    concatMap((x, i) => {
-      return from(
-        x.kind !== 'N'
-          ? messages.filter(_.negate(_.isFunction)).filter(e => e !== 'SEND_LOG')
-          : _.castArray(messages).filter(e => e !== 'SEND_LOG'),
-      ).pipe(
-        concatMap(curr =>
-          _.isString(curr) ? of(curr.trim()) : from(Promise.resolve(unLazy(curr, x.value!))),
-        ),
-        reduce((acc, curr) => [...acc, ...(acc.length ? [' '] : []), curr], [] as unknown[]),
-        map(res => {
-          const newZone =
-            zone === Zone.current
-              ? zone
-              : zone.fork({
-                  name: Zone.current.name,
-                  properties: {
-                    fgColor: Zone.current.get('fgColor'),
-                    bgColor: Zone.current.get('bgColor'),
-                  },
-                })
-          wrapWith(newZone, console.debug)(
-            `%c[${i}]`,
-            'color: #666',
-            ...res,
-            ...(x.kind === 'N'
-              ? transform(x.value)
-              : x.kind === 'C'
-              ? ['OBSERVABLE_COMPLETE']
-              : ['OBSERVABLE_ERROR', x.error]),
-          )
-          if (messages.includes('SEND_LOG')) {
-            let log: string
-            try {
-              log = JSON.stringify(
-                res
-                  .filter(x => x !== ' ' && x !== '')
-                  .concat(
-                    messages.findIndex(x => _.isFunction(x)) === -1
-                      ? x.kind === 'N'
-                        ? transform(x.value)
-                        : x.kind === 'C'
-                        ? ['OBSERVABLE_COMPLETE']
-                        : ['OBSERVABLE_ERROR', x.error]
-                      : [],
-                  ),
-              )
-            } catch {
-              log = JSON.stringify(res.filter(x => x !== ' ' && x !== ''))
-            }
-            void addToLogs(newZone, String(res[0]), log)
-          }
-          return x
-        }),
-      )
+    tapWithIndex((x, i) => {
+      const now = new Date()
+      const resolved = resolveDerivedForObservableNotification(x, ...messages)
+      const newZone =
+        zone === Zone.current
+          ? zone
+          : zone.fork({
+              name: Zone.current.name,
+              properties: {
+                fgColor: Zone.current.get('fgColor'),
+                bgColor: Zone.current.get('bgColor'),
+              },
+            })
+      const consoleLogger = wrapWith(newZone, console.debug)
+      void resolved.then(res => {
+        if (options.save) {
+          void logger({ ...options, now, zone: newZone }, { index: i }, ...res.map(prepareForJSON))
+        }
+        const time = getLogTitle(options.level, options.category, now, newZone)[0]
+        consoleLogger(
+          ...['%c' + time, 'color: #666'],
+          ...formatForConsole(options.level),
+          options.category,
+          ...formatIndexForConsole(i),
+          ...res.flatMap(formatForConsole),
+        )
+        return
+      })
     }),
     dematerialize(),
   )
 }
+
+type LogOperatorFunction = <T>(
+  category: string,
+  ...messages: (Serializable | ((source: T) => unknown))[]
+) => MonoTypeOperatorFunction<T>
+
+function logOpFactory(options: { level: LogLevel; save?: boolean }): LogOperatorFunction {
+  return (category, ...messages) => logOpBase({ ...options, category }, ...messages)
+}
+
+interface LogOperator {
+  <T>(
+    category: string,
+    ...messages: (Serializable | ((source: T) => unknown))[]
+  ): MonoTypeOperatorFunction<T>
+  fatal: LogOperatorFunction
+  error: LogOperatorFunction
+  warn: LogOperatorFunction
+  notice: LogOperatorFunction
+  info: LogOperatorFunction
+  debug: LogOperatorFunction
+}
+
+//@ts-ignore
+const logOp: LogOperator = logOpFactory({ level: 'TRACE', save: false })
+logOp.debug = logOpFactory({ level: 'DEBUG', save: false })
+logOp.info = logOpFactory({ level: 'INFO', save: false })
+logOp.notice = logOpFactory({ level: 'NOTICE', save: true })
+logOp.warn = logOpFactory({ level: 'WARN', save: true })
+logOp.error = logOpFactory({ level: 'ERROR', save: true })
+logOp.fatal = logOpFactory({ level: 'FATAL', save: true })
+
+export { logOp }
