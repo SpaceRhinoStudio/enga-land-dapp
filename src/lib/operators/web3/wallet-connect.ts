@@ -72,8 +72,6 @@ const requestAccountsLegacy = (provider: providers.Web3Provider, hooks?: Hooks) 
   const enable = _.get(provider.provider, 'enable')
   if (_.isFunction(enable)) {
     try {
-      console.debug('hasEnable', provider.provider)
-
       return merge(
         from(Promise.resolve(enable.bind(provider.provider)())),
         // fromEventZone(provider.provider),

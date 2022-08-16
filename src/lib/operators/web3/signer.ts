@@ -12,7 +12,7 @@ import { safeMap, safeSwitchMap } from '../safe-throw'
 const signerChangeTrigger$$ = (meta: Web3ProviderMetadata) =>
   meta.provider$.pipe(
     switchMap(
-      forkWrap('AccountsChanged', x =>
+      forkWrap('Event:AccountsChanged', x =>
         merge(
           fromEventZone(x as EventEmitter, 'accountsChanged'),
           // fromEvent(x as EventEmitter, 'connect'),

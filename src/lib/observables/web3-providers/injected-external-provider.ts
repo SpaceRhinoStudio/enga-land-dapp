@@ -38,7 +38,7 @@ export const Web3ProvidersMeta$ = from(_.values(config.Web3Providers)).pipe(
 
 Zone.current
   .fork({
-    name: 'ProvidersInitialization',
+    name: 'Init:Providers',
     properties: { bgColor: '#090' },
   })
   .run(() =>

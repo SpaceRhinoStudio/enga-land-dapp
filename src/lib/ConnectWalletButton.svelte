@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-  const zone = Zone.current.fork({ name: 'UserDisconnectWalletButton' })
+  const zone = Zone.current.fork({ name: 'User:DisconnectWalletButton' })
 </script>
 
 <script lang="ts">

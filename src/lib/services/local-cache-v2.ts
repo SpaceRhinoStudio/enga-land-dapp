@@ -89,7 +89,7 @@ export class LocalCache implements CacheService {
 
     if (!(key in observables)) {
       const zone = Zone.current.fork({
-        name: 'LocalCache',
+        name: 'Init:LocalCache',
         properties: {
           bgColor: '#007605',
         },

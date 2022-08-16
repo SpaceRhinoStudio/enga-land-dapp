@@ -23,7 +23,7 @@ export class BrowserLocalStorageAPI implements StorageAPI {
   }
   private _makeObservable(key: string, observables: ObservablesCache): void {
     const zone = Zone.current.fork({
-      name: 'LocalStorage',
+      name: 'Init:LocalStorage',
       properties: { bgColor: '#007605' },
     })
 

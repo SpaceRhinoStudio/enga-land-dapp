@@ -33,7 +33,7 @@ import { tapWithIndex } from '../tap-with-index'
 export const networkChangeTrigger$$ = (meta: Web3ProviderMetadata): Observable<unknown> =>
   meta.web3Provider$.pipe(
     switchMap(
-      forkWrap('ProviderNetworkEvents', '#830083', x =>
+      forkWrap('Event:ProviderNetwork', '#830083', x =>
         merge(
           fromEventZone(x.provider as EventEmitter, 'chainChanged'),
           fromEventZone(x.provider as EventEmitter, 'networkChanged'),
@@ -107,7 +107,7 @@ export function evaluateNetwork(
   defaultNetwork: Network,
   setLoading: <T>(id: string, state: boolean) => MonoTypeOperatorFunction<T>,
 ): MonoTypeOperatorFunction<Option<Web3ProviderMetadata>> {
-  const zone = Zone.current.fork({ name: 'EvaluateNetwork', properties: { bgColor: '#008a98' } })
+  const zone = Zone.current.fork({ name: 'P:EvaluateNetwork', properties: { bgColor: '#008a98' } })
   return switchSome(
     setLoading('initialProviderNetworkEvaluation', true),
     safeSwitchMap(

@@ -1,5 +1,5 @@
 <script lang="ts" context="module">
-  const zone = Zone.current.fork({ name: 'UserNetworkSelectDropdown' })
+  const zone = Zone.current.fork({ name: 'User:NetworkSelectDropdown' })
 </script>
 
 <script lang="ts">
