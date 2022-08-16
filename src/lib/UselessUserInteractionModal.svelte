@@ -16,7 +16,7 @@
 <Modal bind:toggle acceptExit>
   <Card
     className={{
-      wrapper: 'flex flex-col w-screen max-w-sm gap-6',
+      wrapper: 'flex flex-col w-screen max-w-xs gap-6',
       container: cn($screen$.exact === 'xs' && 'rounded-b-none'),
     }}>
     <span slot="header">Alert</span>

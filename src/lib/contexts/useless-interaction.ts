@@ -1,4 +1,4 @@
-import { BehaviorSubject, ReplaySubject } from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
 
 export const uselessInteractionController$ = new BehaviorSubject<{ Display: string | null }>({
   Display: null,
