@@ -13,7 +13,7 @@ import {
   toArray,
 } from 'rxjs'
 import { unLazy } from '$lib/shared/utils/un-lazy'
-import { keysOf } from '$lib/shared/utils/type-safe'
+import { isSerializableBase, keysOf } from '$lib/shared/utils/type-safe'
 
 export function log<T>(input: T, message?: string | ((x: T) => string)): T {
   console.debug(_.isFunction(message) ? message(input) : message, [input])
@@ -30,6 +30,9 @@ function pushTo(source: _.Dictionary<unknown> | unknown[]) {
 export function prepareForJSON(obj: unknown): Serializable {
   const seen = new Map()
   const recurse = (obj: unknown): Serializable => {
+    if (seen.has(obj)) {
+      return '*RECURSIVE'
+    }
     if (_.isObject(obj)) {
       const acc: SerializableCollection = _.isArray(obj) ? [] : {}
       const push = pushTo(acc)
@@ -38,11 +41,10 @@ export function prepareForJSON(obj: unknown): Serializable {
         if (seen.has(v)) {
           return
         }
-        try {
-          JSON.stringify(v)
+        if (isSerializableBase(v)) {
           push(k, v)
           return
-        } catch {
+        } else {
           push(k, recurse(v))
           return
         }
@@ -124,16 +126,12 @@ export function resolveDerivedForObservableNotification(
   ...derived: unknown[]
 ): Promise<unknown[]> {
   return x.kind !== 'N'
-    ? resolveDerived(undefined, ...derived.map(x => (_.isFunction(x) ? null : x)))
+    ? resolveDerived(undefined, x, ...derived.map(x => (_.isFunction(x) ? '_FUNC' : x)))
     : resolveDerived(x.value, ...derived)
 }
 
-export function zoneTrack(zone: Zone): string[] {
-  return zone.parent
-    ? zone.parent !== Zone.root
-      ? [...zoneTrack(zone.parent), zone.parent.name]
-      : []
-    : []
+export function zoneTrack(zone: Zone | null): string[] {
+  return zone ? (zone !== Zone.root ? [...zoneTrack(zone.parent), zone.name] : []) : []
 }
 
 function pad(length: number, input: string | number): string {
@@ -161,7 +159,9 @@ export function getLogTitle(
   ]
 }
 
-const logs$ = localCache.observe<{ [title: string]: Serializable[] }>('logs', {})
+type LogsType = { [title: string]: Serializable[] }
+
+const logs$ = localCache.observe<LogsType>('logs', {})
 
 export function logger(
   options: { level: LogLevel; category: string; now?: Date | undefined; zone?: Zone },
@@ -174,6 +174,11 @@ export function logger(
     logs$.pipe(
       take(1),
       map(x => ({ ...x, [title]: logs })),
+      map(x =>
+        keysOf(x)
+          .sort()
+          .reduce((acc, k) => ({ ...acc, [k]: x[k]! }), {} as LogsType),
+      ),
       tap(x => logs$.next(x)),
     ),
   ).then(_.noop)
