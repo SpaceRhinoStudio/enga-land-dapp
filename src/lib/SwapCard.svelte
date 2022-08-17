@@ -1,6 +1,6 @@
 <script lang="ts">
   import _ from 'lodash'
-  import { fade, fly, slide } from 'svelte/transition'
+  import { fade, slide } from 'svelte/transition'
   import Button from './shared/Button.svelte'
   import Card from './Card.svelte'
   import { __$ } from './shared/locales'
@@ -38,6 +38,7 @@
   import { isWeb3Error, Web3Errors, nameOfWeb3Error } from './helpers/web3-errors'
   import { isEqual } from './shared/utils/type-safe'
   import LoadingSpinner from './shared/LoadingSpinner.svelte'
+  import Slide from './shared/Slide.svelte'
 
   export let sale$: Observable<Sale<Contract>>
 
@@ -196,43 +197,32 @@
             className="h-12 md:h-9 flex w-full md:w-36 relative items-center justify-center m-0 !border-transparent {shouldApprove
               ? 'bg-yellow-700'
               : 'bg-secondary-700'}">
-            {#if !isLoadingContrib && hasAgreed}
-              {#if shouldApprove}
-                <div
-                  in:fly={{ x: -50 }}
-                  out:fly={{ x: 50 }}
-                  class="absolute inset-0 flex justify-center gap-2 items-center">
-                  <SvgIcon Icon={TickIcon} width="1.125rem" height="1.125rem" />
-                  <span>
-                    {$__$?.presale.contribution.approve.toUpperCase()}
-                  </span>
-                </div>
-              {:else}
-                <div
-                  in:fly={{ x: -50 }}
-                  out:fly={{ x: 50 }}
-                  class="absolute inset-0 flex justify-center gap-2 items-center">
-                  <SvgIcon Icon={FlashIcon} width="1.125rem" height="1.125rem" />
-                  <span>
-                    {$__$?.presale.contribution.swap.toUpperCase()}
-                  </span>
-                </div>
-              {/if}
-            {:else}
-              <div
-                in:fly={{ x: -50 }}
-                out:fly={{ x: 50 }}
-                class="absolute inset-0 flex justify-center items-center">
-                <SvgIcon
-                  Icon={RestrictedIcon}
-                  width="1.125rem"
-                  height="1.125rem"
-                  className={'hidden md:flex'} />
-                <span class="md:hidden">
-                  {$__$?.presale.errors.shouldAgree}
-                </span>
-              </div>
-            {/if}
+            <Slide
+              class={{ wrapper: 'gap-2' }}
+              visible={!isLoadingContrib && !!hasAgreed && !!shouldApprove}>
+              <SvgIcon Icon={TickIcon} width="1.125rem" height="1.125rem" />
+              <span>
+                {$__$?.presale.contribution.approve.toUpperCase()}
+              </span>
+            </Slide>
+            <Slide
+              class={{ wrapper: 'gap-2' }}
+              visible={!isLoadingContrib && !!hasAgreed && !shouldApprove}>
+              <SvgIcon Icon={FlashIcon} width="1.125rem" height="1.125rem" />
+              <span>
+                {$__$?.presale.contribution.swap.toUpperCase()}
+              </span>
+            </Slide>
+            <Slide class={{ wrapper: 'gap-2' }} visible={isLoadingContrib || !hasAgreed}>
+              <SvgIcon
+                Icon={RestrictedIcon}
+                width="1.125rem"
+                height="1.125rem"
+                className={'hidden md:flex'} />
+              <span class="md:hidden">
+                {$__$?.presale.errors.shouldAgree}
+              </span>
+            </Slide>
           </Button>
         </div>
       </div>
