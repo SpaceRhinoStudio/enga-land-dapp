@@ -69,8 +69,11 @@ export enum Web3Errors {
 }
 
 export const inferWeb3Error = (error: unknown): Web3Errors | undefined => {
+  if (isWeb3Error(error)) {
+    return error
+  }
   const code = String(_.get(error, 'code'))
-  const res = keysOf(Web3Errors).find(k => code === Web3Errors[k])
+  const res = keysOf(Web3Errors).find(k => code === Web3Errors[k] || code === k)
   if (res) {
     const errRes = Web3Errors[res]
     return errRes === Web3Errors.INTERNAL_ERROR
