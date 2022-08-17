@@ -27,8 +27,6 @@
     throwError,
     withLatestFrom,
   } from 'rxjs'
-  import { controlStreamPayload } from './shared/operators/control-stream-payload'
-  import { switchSome } from './operators/pass-undefined'
   import { flashToast$, ToastLevel } from './shared/contexts/flash-toast'
   import SwapCardAgreement from './SwapCardAgreement.svelte'
   import SwapCardInputs from './SwapCardInputs.svelte'
@@ -76,8 +74,8 @@
   $: swap = () => {
     if (shouldApprove) {
       const isApprovalDone$ = canContributeAmount$.pipe(
-        filter(x => x !== ContributeActionErrors.LOW_ALLOWANCE),
-        map(() => true),
+        skip(1),
+        map(x => (x === ContributeActionErrors.LOW_ALLOWANCE ? false : true)),
         shareReplay(1),
       )
       const sub = isApprovalDone$.subscribe()
@@ -113,7 +111,8 @@
           switchMap(([status]) =>
             status !== ActionStatus.SUCCESS ? throwError(() => false) : of(true),
           ),
-          switchSome(switchMap(() => isApprovalDone$)),
+          switchMap(() => isApprovalDone$),
+          switchMap(x => (x ? of(true) : throwError(() => false))),
           finalize(() => (waitingForTx = false)),
           finalize(() => sub.unsubscribe()),
         ) ?? of(null),
