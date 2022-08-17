@@ -21,7 +21,7 @@
 {#if keysOf($pendingTransactions$).length}
   <DropDown
     dir={$screen$.isMobile ? 'rtl' : 'ltr'}
-    className={{ dropContainer: 'flex flex-col p-5' }}>
+    className={{ dropContainer: 'flex flex-col p-5 gap-3' }}>
     <div
       transition:tsFix={[fade]}
       class={cn(
