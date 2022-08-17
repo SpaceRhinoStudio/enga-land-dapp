@@ -32,7 +32,7 @@ export const allowance$$ =
             memoryCache.observe(
               `allowance$$_${contract.address}_${spender}_${address}`,
               merge(
-                from(contract.allowance(address, spender)).pipe(),
+                from(contract.allowance(address, spender)),
                 fromEventFilter(
                   contract,
                   contract.filters['Approval(address,address,uint256)'](address, spender),
