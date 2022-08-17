@@ -2,7 +2,7 @@ import { firstValueFrom, from, map, switchMap } from 'rxjs'
 import { config } from '$lib/configs'
 import { currentWeb3Provider$ } from '$lib/observables/selected-web3-provider'
 import { switchSome, switchSomeMembers } from '$lib/operators/pass-undefined'
-import { EngaTokenContract$ } from '../../contracts/fundraising-contracts'
+import { EngaTokenContract$ } from '../../contracts'
 import { providers } from 'ethers'
 import { combineLatestSwitchMap } from '$lib/operators/combine-latest-switch'
 

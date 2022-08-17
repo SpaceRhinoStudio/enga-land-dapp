@@ -14,7 +14,7 @@
   import EngaIcon from './shared/assets/icons/enga-icon.svg'
   import CollateralIcon from './shared/assets/icons/dai-icon.svg'
   import InfoIcon from './shared/assets/icons/vuesax-linear-info-circle.svg'
-  import { EngaTokenContract$ } from '../contracts/fundraising-contracts'
+  import { EngaTokenContract$ } from '../contracts'
   import { isSentinel } from './shared/contexts/empty-sentinel'
   import {
     combineLatestWith,

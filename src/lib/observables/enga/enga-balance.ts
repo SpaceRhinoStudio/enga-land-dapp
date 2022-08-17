@@ -6,7 +6,7 @@ import { formatCurrencyWithUnit } from '$lib/operators/currency-formatter'
 import { switchSome } from '$lib/operators/pass-undefined'
 import { userBalanceOf$$ } from '$lib/operators/web3/balance-of'
 import { map, shareReplay } from 'rxjs'
-import { EngaTokenContract$ } from '../../../contracts/fundraising-contracts'
+import { EngaTokenContract$ } from '../../../contracts'
 
 export const engaBalanceRaw$ = userBalanceOf$$(EngaTokenContract$).pipe(shareReplay(1))
 

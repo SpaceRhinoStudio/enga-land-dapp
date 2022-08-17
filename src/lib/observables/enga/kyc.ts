@@ -3,7 +3,7 @@ import { reEvaluateSwitchMap } from '$lib/operators/re-evaluate'
 import { fromEventFilter } from '$lib/operators/web3/from-event-filter'
 import type { Option$ } from '$lib/types'
 import { combineLatestWith, merge, switchMap } from 'rxjs'
-import { KycContract$ } from '../../../contracts/fundraising-contracts'
+import { KycContract$ } from '../../../contracts'
 import { signerAddress$ } from '../selected-web3-provider'
 
 export const isUserKYCVerified$: Option$<boolean> = KycContract$.pipe(

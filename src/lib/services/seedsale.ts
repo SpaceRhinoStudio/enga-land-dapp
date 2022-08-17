@@ -1,9 +1,6 @@
 import { SeedSale as SeedSaleContractType } from 'engaland_fundraising_app/typechain'
 import { ContributeActionErrors, Sale, SaleStatus } from './sale'
-import {
-  SeedSaleContract$,
-  SeedSaleTargetERC20Collateral$,
-} from '../../contracts/fundraising-contracts'
+import { SeedSaleContract$, SeedSaleTargetERC20Collateral$ } from '../../contracts'
 import { mapNil, switchSome, switchSomeMembers } from '$lib/operators/pass-undefined'
 import { reEvaluateSwitchMap } from '$lib/operators/re-evaluate'
 import {

@@ -5,7 +5,7 @@ import {
   PreSaleContract$,
   PreSaleTargetERC20Collateral$,
   TokenManagerContract$,
-} from '../../contracts/fundraising-contracts'
+} from '../../contracts'
 import { mapNil, switchSome, switchSomeMembers } from '$lib/operators/pass-undefined'
 import { reEvaluateSwitchMap } from '$lib/operators/re-evaluate'
 import {

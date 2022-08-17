@@ -3,7 +3,7 @@ import { reEvaluateSwitchMap } from '$lib/operators/re-evaluate'
 import { fromEventFilter } from '$lib/operators/web3/from-event-filter'
 import { MarketMaker as MarketMakerContractType } from 'engaland_fundraising_app/typechain'
 import { retry, shareReplay, skip, switchMap, take } from 'rxjs'
-import { MarketMakerContract$ } from '../../contracts/fundraising-contracts'
+import { MarketMakerContract$ } from '../../contracts'
 
 //TODO: implement
 class MarketMakerClass {

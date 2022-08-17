@@ -1,8 +1,4 @@
-import {
-  fundraisingContractABIs,
-  fundraisingContractAddresses,
-  type FundraisingContractNames,
-} from '$lib/configs/fundraising-contracts'
+import { contractABIs, contractAddresses, type ContractNames } from '$lib/configs/contracts'
 import { Contract } from 'ethers'
 import {
   combineLatestWith,
@@ -35,11 +31,25 @@ import { flashToast$, ToastLevel } from '$lib/shared/contexts/flash-toast'
 import { noNil } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { config } from '$lib/configs'
 import type { Option$, WithDeployBlock } from '$lib/types'
-import { isEqual } from '$lib/shared/utils/type-safe'
+import { isEqual, keysOf } from '$lib/shared/utils/type-safe'
 import { fallbackWeb3Provider$ } from '$lib/observables/web3-providers/fallback-provider'
 
-function fundraisingContract$Factory<T extends Contract>(
-  key: FundraisingContractNames,
+export function getContractName(contract: Contract): Promise<ContractNames | undefined> {
+  return contract.provider
+    .getNetwork()
+    .then(net => net.chainId)
+    .then(chain => keysOf(config.Chains).find(k => config.Chains[k].id == chain))
+    .then(network => (!network ? Promise.reject() : network))
+    .then(network =>
+      keysOf(contractAddresses[network]).find(
+        k => contractAddresses[network]?.[k]?.address === contract.address,
+      ),
+    )
+    .catch(() => undefined)
+}
+
+function contract$$<T extends Contract>(
+  key: ContractNames,
   explicitAddress?: string,
 ): Option$<WithDeployBlock<T>> {
   return fallbackWeb3Provider$.pipe(
@@ -47,9 +57,7 @@ function fundraisingContract$Factory<T extends Contract>(
     switchSomeMembers(
       distinctUntilChanged(isEqual),
       map(([x, network]) =>
-        fundraisingContractAddresses[network]?.[key] ?? explicitAddress
-          ? ([x, network] as const)
-          : null,
+        contractAddresses[network]?.[key] ?? explicitAddress ? ([x, network] as const) : null,
       ),
       switchSome(
         combineLatestSwitchMap(([, network]) =>
@@ -57,7 +65,7 @@ function fundraisingContract$Factory<T extends Contract>(
             // verifiedContractAbi$Factory(
             //     fundraisingContractAddresses[network]![key]!,
             // ),
-            of(fundraisingContractABIs[network]?.[key]),
+            of(contractABIs[network]?.[key]),
             externalContractAbi$Factory(key),
           ).pipe(
             scan((acc, x) => acc ?? x, undefined as string | undefined),
@@ -65,16 +73,16 @@ function fundraisingContract$Factory<T extends Contract>(
           ),
         ),
         map(([x, network, abi]) => {
-          if (!(abi && (fundraisingContractAddresses[network]![key]?.address ?? explicitAddress))) {
+          if (!(abi && (contractAddresses[network]![key]?.address ?? explicitAddress))) {
             return null
           }
           const res = new Contract(
-            (fundraisingContractAddresses[network]![key]?.address ?? explicitAddress)!,
+            (contractAddresses[network]![key]?.address ?? explicitAddress)!,
             abi,
             x,
           ) as T
           ;(res as WithDeployBlock<T>).deployedOn =
-            fundraisingContractAddresses[network]![key]?.blockNumber ?? 0
+            contractAddresses[network]![key]?.blockNumber ?? 0
           return res as WithDeployBlock<T>
         }),
       ),
@@ -85,13 +93,13 @@ function fundraisingContract$Factory<T extends Contract>(
   )
 }
 
-export const PreSaleContract$ = fundraisingContract$Factory<PreSale>('PreSale')
-export const SeedSaleContract$ = fundraisingContract$Factory<SeedSale>('SeedSale')
+export const PreSaleContract$ = contract$$<PreSale>('PreSale')
+export const SeedSaleContract$ = contract$$<SeedSale>('SeedSale')
 
 export const PreSaleTargetERC20Collateral$ = PreSaleContract$.pipe(
   switchSome(
     switchMap(x => x.contributionToken()),
-    switchMap(x => fundraisingContract$Factory<ERC20>('ERC20', x)),
+    switchMap(x => contract$$<ERC20>('ERC20', x)),
   ),
   shareReplay(1),
 )
@@ -99,20 +107,20 @@ export const PreSaleTargetERC20Collateral$ = PreSaleContract$.pipe(
 export const SeedSaleTargetERC20Collateral$ = SeedSaleContract$.pipe(
   switchSome(
     switchMap(x => x.contributionToken()),
-    switchMap(x => fundraisingContract$Factory<ERC20>('ERC20', x)),
+    switchMap(x => contract$$<ERC20>('ERC20', x)),
   ),
   shareReplay(1),
 )
 
-export const MarketMakerContract$ = fundraisingContract$Factory<MarketMaker>('MarketMaker')
+export const MarketMakerContract$ = contract$$<MarketMaker>('MarketMaker')
 
-export const TokenManagerContract$ = fundraisingContract$Factory<TokenManager>('TokenManager')
+export const TokenManagerContract$ = contract$$<TokenManager>('TokenManager')
 
-export const EngaTokenContract$ = fundraisingContract$Factory<EngaToken>('EngaToken')
+export const EngaTokenContract$ = contract$$<EngaToken>('EngaToken')
 
-export const ControllerContract$ = fundraisingContract$Factory<Controller>('Controller')
+export const ControllerContract$ = contract$$<Controller>('Controller')
 
-export const KycContract$ = fundraisingContract$Factory<KycAuthorization>('KycAuthorization')
+export const KycContract$ = contract$$<KycAuthorization>('KycAuthorization')
 
 ControllerContract$.pipe(
   combineLatestWith(selectedNetwork$.pipe(filter(noNil), distinctUntilChanged())),

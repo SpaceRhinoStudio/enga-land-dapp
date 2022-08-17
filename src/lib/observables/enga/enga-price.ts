@@ -1,5 +1,5 @@
-import { fundraisingContractAddresses } from '$lib/configs/fundraising-contracts'
-import { MarketMakerContract$ } from '../../../contracts/fundraising-contracts'
+import { contractAddresses } from '$lib/configs/contracts'
+import { MarketMakerContract$ } from '../../../contracts'
 import { BigNumber } from 'ethers'
 import { switchSome, switchSomeMembers } from '$lib/operators/pass-undefined'
 import { combineLatestWith, delay, map, of, retry, shareReplay, skip, switchMap, take } from 'rxjs'
@@ -17,8 +17,8 @@ export const engaPriceFromMarketMakerPPM$ = MarketMakerContract$.pipe(
   switchSomeMembers(
     map(([x, network]) =>
       //TODO: maybe use the address from the first AddCollateralToken event
-      fundraisingContractAddresses[network]?.ERC20
-        ? ([x, fundraisingContractAddresses[network]!.ERC20!] as const)
+      contractAddresses[network]?.ERC20
+        ? ([x, contractAddresses[network]!.ERC20!] as const)
         : undefined,
     ),
   ),

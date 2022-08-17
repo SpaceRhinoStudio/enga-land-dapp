@@ -2,11 +2,10 @@ import rawFundraisingContractAddresses from 'engaland_fundraising_app/deploy/con
 import rawFundraisingContractABIs from 'engaland_fundraising_app/deploy/contract-abis.json'
 import { Network } from '$lib/types'
 
-export const fundraisingContractAddresses =
-  rawFundraisingContractAddresses as FundraisingContractAddresses
-export const fundraisingContractABIs = rawFundraisingContractABIs as FundraisingContractABIs
+export const contractAddresses = rawFundraisingContractAddresses as ContractAddresses
+export const contractABIs = rawFundraisingContractABIs as ContractABIs
 
-export type FundraisingContractNames =
+export type ContractNames =
   | 'ERC20'
   | 'CoreMultisig'
   | 'EngaToken'
@@ -21,9 +20,9 @@ export type FundraisingContractNames =
   | 'KycAuthorization'
   | 'Controller'
 
-export type FundraisingContractAddresses = {
+export type ContractAddresses = {
   [key in Network]?: {
-    [key in FundraisingContractNames]?: {
+    [key in ContractNames]?: {
       address: string
       blockNumber: number
       blockHash: string
@@ -31,8 +30,8 @@ export type FundraisingContractAddresses = {
   }
 }
 
-export type FundraisingContractABIs = {
+export type ContractABIs = {
   [key in Network]?: {
-    [key in FundraisingContractNames]?: string
+    [key in ContractNames]?: string
   }
 }

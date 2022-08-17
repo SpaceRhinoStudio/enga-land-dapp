@@ -4,7 +4,7 @@
   import SvgIcon from './shared/SVGIcon.svelte'
   import MetamaskIcon from '../assets/wallet-providers/metamask-logo.svg'
   import { __$ } from './shared/locales'
-  import { EngaTokenContract$ } from '../contracts/fundraising-contracts'
+  import { EngaTokenContract$ } from '../contracts'
   import _ from 'lodash'
   import { combineLatest, debounceTime, map, startWith } from 'rxjs'
   import cn from 'classnames'
