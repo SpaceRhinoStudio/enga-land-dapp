@@ -1,10 +1,10 @@
 import { mapNil } from '$lib/operators/pass-undefined'
 import { noNil } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { keysOf } from '$lib/shared/utils/type-safe'
-import { Nil, Some } from '$lib/types'
+import { Nil, Some, SomeMembers } from '$lib/types'
 import { isEnumMember } from '$lib/utils/enum'
 import _ from 'lodash'
-import { OperatorFunction, pipe } from 'rxjs'
+import { catchError, Observable, of, OperatorFunction, pipe, switchMap, throwError } from 'rxjs'
 
 export enum Web3Errors {
   // EIP-1193
@@ -108,5 +108,67 @@ export function mapNilToWeb3Error<T>(): OperatorFunction<
   //@ts-ignore it's obvious but TS is dumb
   return pipe(
     mapNil(x => (_.isUndefined(x) ? Web3Errors.RESOURCE_NOT_FOUND : Web3Errors.INVALID_PARAMS)),
+  )
+}
+
+export type Web3ErrorObject<E extends Web3Errors = Web3Errors> = {
+  code: E
+  message: string
+}
+
+function makeNilErrorWith(subjectName: string) {
+  return function <E extends Web3Errors.RESOURCE_NOT_FOUND | Web3Errors.INVALID_PARAMS>(
+    error: E,
+  ): Observable<never> {
+    return throwError(() => ({
+      code: error,
+      message: `${subjectName} ${
+        error === Web3Errors.RESOURCE_NOT_FOUND
+          ? 'not available'
+          : error === Web3Errors.INVALID_PARAMS
+          ? 'not valid'
+          : 'is wrong'
+      }`,
+    }))
+  }
+}
+
+/**@throws {Web3ErrorObject<Web3Errors.RESOURCE_NOT_FOUND | Web3Errors.INVALID_PARAMS>} respective to resources being undefined or null */
+export function switchSomeMembersOrWeb3Error<T>(
+  subjectName: string,
+): OperatorFunction<T, SomeMembers<T>> {
+  const makeError = makeNilErrorWith(subjectName)
+  return pipe(
+    switchMap(x =>
+      _.isNull(x)
+        ? makeError(Web3Errors.INVALID_PARAMS)
+        : _.isUndefined(x)
+        ? makeError(Web3Errors.RESOURCE_NOT_FOUND)
+        : !_.isArray(x)
+        ? of(x as SomeMembers<T>)
+        : x.some(_.isNull)
+        ? makeError(Web3Errors.INVALID_PARAMS)
+        : x.some(_.isUndefined)
+        ? makeError(Web3Errors.RESOURCE_NOT_FOUND)
+        : of(x as SomeMembers<T>),
+    ),
+  )
+}
+export type Web3ErrorWithPayload = readonly [status: Web3Errors, payload: Error]
+
+export function catchWeb3ErrorWithPayload<T>(): OperatorFunction<T, T | Web3ErrorWithPayload> {
+  return catchError(e => of([inferWeb3Error(e) ?? Web3Errors.INTERNAL_ERROR, e as Error] as const))
+}
+
+export function throwIfWeb3ErrorWithPayload<S, P>(): OperatorFunction<
+  readonly [status: S, payload: P] | Web3ErrorWithPayload,
+  readonly [status: S, payload: P]
+> {
+  return pipe(
+    switchMap(([status, payload]) =>
+      isWeb3Error(status)
+        ? throwError(() => payload as Error)
+        : of([status, payload as P] as const),
+    ),
   )
 }
