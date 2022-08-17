@@ -35,8 +35,12 @@ export function logOpBase<T>(
             })
       const consoleLogger = wrapWith(newZone, console.debug)
       void resolved.then(res => {
-        if (options.save) {
-          void logger({ ...options, now, zone: newZone }, { index: i }, ...res.map(prepareForJSON))
+        if (options.save && x.kind !== 'C') {
+          void wrapWith(zone, logger)(
+            { ...options, now, zone: newZone },
+            { index: i },
+            ...res.map(prepareForJSON),
+          )
         }
         const time = getLogTitle(options.level, options.category, now, newZone)[0]
         consoleLogger(
@@ -45,6 +49,7 @@ export function logOpBase<T>(
           options.category,
           ...formatIndexForConsole(i),
           ...res.flatMap(formatForConsole),
+          ...(x.kind === 'N' ? [x.value] : []),
         )
         return
       })
