@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+  const zone = Zone.current.fork({ name: 'User:TxRejectModal' })
+</script>
+
 <script lang="ts">
   import cn from 'classnames'
   import Card from './Card.svelte'
@@ -9,6 +13,7 @@
   import LoadingSpinner from './shared/LoadingSpinner.svelte'
   import { __$ } from './shared/locales'
   import Modal from './shared/Modal.svelte'
+  import { wrapWith } from './utils/zone'
 
   let toggle: (state?: boolean) => void
 
@@ -17,7 +22,7 @@
   let agreed = false
 </script>
 
-<Modal bind:toggle acceptExit>
+<Modal bind:toggle>
   <Card
     className={{
       wrapper: 'flex flex-col w-screen max-w-xs gap-6',
@@ -37,7 +42,7 @@
     <Button
       disabled={!agreed}
       danger
-      job={() => waitingForTxAcceptController$.next({ Reject: true })}>
+      job={wrapWith(zone, () => waitingForTxAcceptController$.next({ Reject: true }))}>
       {$__$.web3Provider.waitingForTx.rejectButton.toUpperCase()}
     </Button>
   </Card>
