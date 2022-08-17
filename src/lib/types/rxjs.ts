@@ -1,8 +1,8 @@
 import { providers } from 'ethers'
 import * as rxjs from 'rxjs'
-import { Observable, OperatorFunction } from 'rxjs'
+import { Observable, OperatorFunction, UnaryFunction } from 'rxjs'
 import { Option$ } from '.'
-import { Web3ProviderId } from './web3'
+import { Web3ProviderId } from '$lib/shared/types/web3'
 
 export type Web3ProviderMetadata = {
   web3Provider$: Observable<providers.Web3Provider>
@@ -19,6 +19,162 @@ export interface WithHooks<T extends (...args: unknown[]) => unknown, I = unknow
 }
 
 declare module 'rxjs' {
+  export function pipe<T, A, B, C, D, E, F, G, H, I>(
+    fn1: UnaryFunction<T, A>,
+    fn2: UnaryFunction<A, B>,
+    fn3: UnaryFunction<B, C>,
+    fn4: UnaryFunction<C, D>,
+    fn5: UnaryFunction<D, E>,
+    fn6: UnaryFunction<E, F>,
+    fn7: UnaryFunction<F, G>,
+    fn8: UnaryFunction<G, H>,
+    fn9: UnaryFunction<H, I>,
+  ): UnaryFunction<T, I>
+  export function pipe<T, A, B, C, D, E, F, G, H, I, J>(
+    fn1: UnaryFunction<T, A>,
+    fn2: UnaryFunction<A, B>,
+    fn3: UnaryFunction<B, C>,
+    fn4: UnaryFunction<C, D>,
+    fn5: UnaryFunction<D, E>,
+    fn6: UnaryFunction<E, F>,
+    fn7: UnaryFunction<F, G>,
+    fn8: UnaryFunction<G, H>,
+    fn9: UnaryFunction<H, I>,
+    fn10: UnaryFunction<I, J>,
+  ): UnaryFunction<T, J>
+  export function pipe<T, A, B, C, D, E, F, G, H, I, J, K>(
+    fn1: UnaryFunction<T, A>,
+    fn2: UnaryFunction<A, B>,
+    fn3: UnaryFunction<B, C>,
+    fn4: UnaryFunction<C, D>,
+    fn5: UnaryFunction<D, E>,
+    fn6: UnaryFunction<E, F>,
+    fn7: UnaryFunction<F, G>,
+    fn8: UnaryFunction<G, H>,
+    fn9: UnaryFunction<H, I>,
+    fn10: UnaryFunction<I, J>,
+    fn11: UnaryFunction<J, K>,
+  ): UnaryFunction<T, K>
+  export function pipe<T, A, B, C, D, E, F, G, H, I, J, K, L>(
+    fn1: UnaryFunction<T, A>,
+    fn2: UnaryFunction<A, B>,
+    fn3: UnaryFunction<B, C>,
+    fn4: UnaryFunction<C, D>,
+    fn5: UnaryFunction<D, E>,
+    fn6: UnaryFunction<E, F>,
+    fn7: UnaryFunction<F, G>,
+    fn8: UnaryFunction<G, H>,
+    fn9: UnaryFunction<H, I>,
+    fn10: UnaryFunction<I, J>,
+    fn11: UnaryFunction<J, K>,
+    fn12: UnaryFunction<K, L>,
+  ): UnaryFunction<T, L>
+  export function pipe<T, A, B, C, D, E, F, G, H, I, J, K, L, M>(
+    fn1: UnaryFunction<T, A>,
+    fn2: UnaryFunction<A, B>,
+    fn3: UnaryFunction<B, C>,
+    fn4: UnaryFunction<C, D>,
+    fn5: UnaryFunction<D, E>,
+    fn6: UnaryFunction<E, F>,
+    fn7: UnaryFunction<F, G>,
+    fn8: UnaryFunction<G, H>,
+    fn9: UnaryFunction<H, I>,
+    fn10: UnaryFunction<I, J>,
+    fn11: UnaryFunction<J, K>,
+    fn12: UnaryFunction<K, L>,
+    fn13: UnaryFunction<L, M>,
+  ): UnaryFunction<T, M>
+  export function pipe<T, A, B, C, D, E, F, G, H, I, J, K, L, M, N>(
+    fn1: UnaryFunction<T, A>,
+    fn2: UnaryFunction<A, B>,
+    fn3: UnaryFunction<B, C>,
+    fn4: UnaryFunction<C, D>,
+    fn5: UnaryFunction<D, E>,
+    fn6: UnaryFunction<E, F>,
+    fn7: UnaryFunction<F, G>,
+    fn8: UnaryFunction<G, H>,
+    fn9: UnaryFunction<H, I>,
+    fn10: UnaryFunction<I, J>,
+    fn11: UnaryFunction<J, K>,
+    fn12: UnaryFunction<K, L>,
+    fn13: UnaryFunction<L, M>,
+    fn14: UnaryFunction<M, N>,
+  ): UnaryFunction<T, N>
+  export function pipe<T, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O>(
+    fn1: UnaryFunction<T, A>,
+    fn2: UnaryFunction<A, B>,
+    fn3: UnaryFunction<B, C>,
+    fn4: UnaryFunction<C, D>,
+    fn5: UnaryFunction<D, E>,
+    fn6: UnaryFunction<E, F>,
+    fn7: UnaryFunction<F, G>,
+    fn8: UnaryFunction<G, H>,
+    fn9: UnaryFunction<H, I>,
+    fn10: UnaryFunction<I, J>,
+    fn11: UnaryFunction<J, K>,
+    fn12: UnaryFunction<K, L>,
+    fn13: UnaryFunction<L, M>,
+    fn14: UnaryFunction<M, N>,
+    fn15: UnaryFunction<N, O>,
+  ): UnaryFunction<T, O>
+  export function pipe<T, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P>(
+    fn1: UnaryFunction<T, A>,
+    fn2: UnaryFunction<A, B>,
+    fn3: UnaryFunction<B, C>,
+    fn4: UnaryFunction<C, D>,
+    fn5: UnaryFunction<D, E>,
+    fn6: UnaryFunction<E, F>,
+    fn7: UnaryFunction<F, G>,
+    fn8: UnaryFunction<G, H>,
+    fn9: UnaryFunction<H, I>,
+    fn10: UnaryFunction<I, J>,
+    fn11: UnaryFunction<J, K>,
+    fn12: UnaryFunction<K, L>,
+    fn13: UnaryFunction<L, M>,
+    fn14: UnaryFunction<M, N>,
+    fn15: UnaryFunction<N, O>,
+    fn16: UnaryFunction<O, P>,
+  ): UnaryFunction<T, P>
+  export function pipe<T, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q>(
+    fn1: UnaryFunction<T, A>,
+    fn2: UnaryFunction<A, B>,
+    fn3: UnaryFunction<B, C>,
+    fn4: UnaryFunction<C, D>,
+    fn5: UnaryFunction<D, E>,
+    fn6: UnaryFunction<E, F>,
+    fn7: UnaryFunction<F, G>,
+    fn8: UnaryFunction<G, H>,
+    fn9: UnaryFunction<H, I>,
+    fn10: UnaryFunction<I, J>,
+    fn11: UnaryFunction<J, K>,
+    fn12: UnaryFunction<K, L>,
+    fn13: UnaryFunction<L, M>,
+    fn14: UnaryFunction<M, N>,
+    fn15: UnaryFunction<N, O>,
+    fn16: UnaryFunction<O, P>,
+    fn17: UnaryFunction<P, Q>,
+  ): UnaryFunction<T, Q>
+  export function pipe<T, A, B, C, D, E, F, G, H, I, J, K, L, M, N, O, P, Q, R>(
+    fn1: UnaryFunction<T, A>,
+    fn2: UnaryFunction<A, B>,
+    fn3: UnaryFunction<B, C>,
+    fn4: UnaryFunction<C, D>,
+    fn5: UnaryFunction<D, E>,
+    fn6: UnaryFunction<E, F>,
+    fn7: UnaryFunction<F, G>,
+    fn8: UnaryFunction<G, H>,
+    fn9: UnaryFunction<H, I>,
+    fn10: UnaryFunction<I, J>,
+    fn11: UnaryFunction<J, K>,
+    fn12: UnaryFunction<K, L>,
+    fn13: UnaryFunction<L, M>,
+    fn14: UnaryFunction<M, N>,
+    fn15: UnaryFunction<N, O>,
+    fn16: UnaryFunction<O, P>,
+    fn17: UnaryFunction<P, Q>,
+    fn18: UnaryFunction<Q, R>,
+  ): UnaryFunction<A, R>
+
   class Observable<T> {
     pipe<A, B, C, D, E, F, G, H, I>(
       op1: OperatorFunction<T, A>,
