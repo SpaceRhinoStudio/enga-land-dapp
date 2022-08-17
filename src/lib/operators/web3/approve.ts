@@ -2,7 +2,7 @@ import type { ERC20 } from 'engaland_fundraising_app/typechain'
 import { mapNil, switchSomeMembers } from '$lib/operators/pass-undefined'
 import { map, combineLatest, switchMap, of, shareReplay, first, exhaustMap } from 'rxjs'
 import { BigNumber, Contract } from 'ethers'
-import { executeWrite } from './wait-for-transaction'
+import { executeWrite, staticCall } from './wait-for-transaction'
 import { userAllowance$$ } from './allowance'
 import { ActionStatus, ConditionedAction, Option$ } from '$lib/types'
 import { resolveAddress } from './resolve-address'
@@ -31,10 +31,9 @@ export const userApprove = (
         ),
         shareReplay(1),
       )
-      const call = () => {
-        return can$.pipe(
+      const call = () =>
+        can$.pipe(
           first(),
-
           switchMap(can =>
             can !== true
               ? of(can)
@@ -42,17 +41,18 @@ export const userApprove = (
                   first(),
                   switchSomeMembers(
                     exhaustMap(([erc20, spender, amount]) =>
-                      erc20.populateTransaction.approve(spender, amount),
+                      staticCall(erc20, 'approve', spender, amount),
                     ),
                     executeWrite(),
                     //TODO: double check with event logs
                     //TODO: add utility to do event log check automatically with proper types
+                    map(([status]) => status),
                   ),
                   mapNilToWeb3Error(),
                 ),
           ),
         )
-      }
+
       return { can$, call }
     }
   }

@@ -30,7 +30,7 @@ import { noNil } from '$lib/shared/utils/no-sentinel-or-undefined'
 import { Vesting } from '$lib/classes/vesting'
 import { ActionStatus, WithDeployBlock } from '$lib/types'
 import { isUserKYCVerified$ } from '$lib/observables/enga/kyc'
-import { executeWrite } from '$lib/operators/web3/wait-for-transaction'
+import { executeWrite, staticCall } from '$lib/operators/web3/wait-for-transaction'
 import { mapNilToWeb3Error, Web3Errors } from '$lib/helpers/web3-errors'
 import { combineLatestSwitchMap } from '$lib/operators/combine-latest-switch'
 import { parsePPM } from '$lib/operators/web3/ppm'
@@ -202,9 +202,10 @@ class SeedSaleClass extends Sale<SeedSaleContractType> {
       first(),
       switchSome(
         withLatestFrom(amount$),
-        exhaustMap(([x, amount]) => x.populateTransaction.contribute(amount)),
+        exhaustMap(([x, amount]) => staticCall(x, 'contribute', amount)),
         executeWrite(),
         //TODO: double check with event logs
+        map(([status]) => status),
       ),
       mapNilToWeb3Error(),
     )
@@ -216,9 +217,10 @@ class SeedSaleClass extends Sale<SeedSaleContractType> {
     return this.contract$.pipe(
       first(),
       switchSome(
-        exhaustMap(x => x.populateTransaction.release(vest.vestId)),
+        exhaustMap(x => staticCall(x, 'release', vest.vestId)),
         executeWrite(),
         //TODO: double check with event logs
+        map(([status]) => status),
       ),
       mapNilToWeb3Error(),
     )
