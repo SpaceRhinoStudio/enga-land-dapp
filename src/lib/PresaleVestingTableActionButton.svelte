@@ -1,6 +1,12 @@
+<script lang="ts" context="module">
+  const zone = Zone.current.fork({ name: 'User:VestingTable' })
+</script>
+
 <script lang="ts">
   import {
     distinctUntilChanged,
+    exhaustMap,
+    finalize,
     first,
     firstValueFrom,
     map,
@@ -29,6 +35,9 @@
   import { allUserVestings$ } from './observables/enga/all-sales'
   import { isEqual } from './shared/utils/type-safe'
   import { flashToast$, ToastLevel } from './shared/contexts/flash-toast'
+  import Slide from './shared/Slide.svelte'
+  import { waitingForTxAcceptController$ } from './contexts/waiting-for-tx-accept'
+  import { wrapWith } from './utils/zone'
 
   export let meta: Vesting<Contract>
 
@@ -36,7 +45,9 @@
   meta.canRelease().subscribe(x => (canRelease = x))
   let canRevoke = false
   meta.canRevoke().subscribe(x => (canRevoke = x))
-  let toggle: () => void
+  let toggle: (state?: boolean) => void
+
+  let isLoading = false
 
   const handleAction = () => {
     const hasVestingsChanged$ = allUserVestings$.pipe(
@@ -56,18 +67,21 @@
           level: ToastLevel.SUCCESS,
         }),
       ),
+      finalize(() => (isLoading = false)),
     )
   }
 </script>
 
 {#if canRelease || canRevoke}
   <Button
-    job={() =>
+    {isLoading}
+    job={wrapWith(zone, () =>
       canRelease
-        ? toggle()
+        ? toggle(true)
         : canRevoke
         ? firstValueFrom(meta.revoke().pipe(handleAction()))
-        : undefined}
+        : undefined,
+    )}
     disabled={!canRevoke && !canRelease}
     secondary
     className={cn('md:w-full justify-center flex', $screen$.isMobile && '!py-3 !px-7 text-base')}>
@@ -91,13 +105,31 @@
       <WithCurrencyIcon data={meta.releasable()} />
     </div>
     <div class="flex justify-end gap-4 children:w-full">
-      <Button job={() => toggle()} danger>
-        {$__$.userInteraction.confirmation.cancel}
+      <Button
+        disabled={!!$waitingForTxAcceptController$.Display}
+        job={() => toggle(false)}
+        danger={!isLoading}
+        className="w-32">
+        <Slide visible={!isLoading}>
+          {$__$.userInteraction.confirmation.cancel}
+        </Slide>
+        <Slide visible={isLoading}>
+          {$__$.userInteraction.confirmation.close}
+        </Slide>
       </Button>
       <Button
         disabled={!canRelease}
-        job={() =>
-          canRelease ? firstValueFrom(meta.release().pipe(handleAction())).then(toggle) : undefined}
+        job={wrapWith(zone, () =>
+          canRelease
+            ? firstValueFrom(
+                of(undefined).pipe(
+                  tap(() => (isLoading = true)),
+                  exhaustMap(() => meta.release()),
+                  handleAction(),
+                ),
+              ).then(() => toggle(false))
+            : undefined,
+        )}
         className="px-10"
         active>
         {$__$.presale.vestings.actions.release}
