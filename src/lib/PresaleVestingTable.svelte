@@ -19,7 +19,7 @@
   isLoading={_.isUndefined($allUserVestings$) && !_.isUndefined($signerAddress$)}
   isEmpty={!$allUserVestings$?.length}
   emptyMessage={_.isNull($allUserVestings$) ? $__$.main.genericErrorMessage : $__$?.main.noItem}>
-  {#each $allUserVestings$ ?? [] as vesting}
+  {#each $allUserVestings$ ?? [] as vesting (vesting.vestId)}
     <TableRow>
       <TableCell>
         <ShortenedHash hash={vesting.vestId} />
