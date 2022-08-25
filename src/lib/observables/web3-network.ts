@@ -1,31 +1,46 @@
 import { config } from '$lib/configs'
-import { Network } from '$lib/configs/web3'
 import { localCache } from '$lib/contexts/local-cache'
-import { controlStreamPayload } from '$lib/operators/control-stream-payload'
+import { controlStreamPayload } from '$lib/shared/operators/control-stream-payload'
 import { isEnumMember } from '$lib/utils/enum'
-import { distinctUntilChanged, filter, map, ReplaySubject, Subject } from 'rxjs'
+import { distinctUntilChanged, filter, map, ReplaySubject, Subject, tap } from 'rxjs'
 
-export const selectedNetwork$ = new ReplaySubject<Network>(1)
+import '../../index'
+import { getSyncSubjectValue } from '$lib/utils/get-subject-value'
+import { Network, Option } from '$lib/types'
+import _ from 'lodash'
 
-export const selectedNetworkController$ = new Subject<Partial<{ Set: string }>>()
+export const selectedNetwork$ = new ReplaySubject<Option<Network>>(1)
 
-selectedNetworkController$
+export const defaultNetwork = Network.Polygon
+
+const storage = localCache.observe<Option<Network>>(
+  config.SelectedNetworkStorageKey,
+  defaultNetwork,
+)
+
+export const networkController$ = new Subject<
+  Partial<{ Set: Option<Network>; Request: Option<string> }>
+>()
+
+const isValidNetwork = isEnumMember(Network)
+
+networkController$
   .pipe(
-    controlStreamPayload('Set'),
-    filter(x => !isEnumMember(x, Network)),
-    map(x => x as Network),
-    distinctUntilChanged(),
+    controlStreamPayload('Request'),
+    map(x => (isValidNetwork(x) ? x : null)),
+    map(n => ({ Set: n })),
   )
-  .subscribe(selectedNetwork$)
+  .subscribe(networkController$)
 
-selectedNetwork$
-  .pipe(distinctUntilChanged())
-  .subscribe(localCache.observe<Network>(config.SelectedNetworkStorageKey, Network.Polygon))
+networkController$.pipe(controlStreamPayload('Set')).subscribe(selectedNetwork$)
 
-localCache
-  .observe<Network>(config.SelectedNetworkStorageKey, Network.Polygon)
+selectedNetwork$.pipe(distinctUntilChanged()).subscribe(storage)
+
+storage
   .pipe(
     distinctUntilChanged(),
-    map(x => ({ Set: x })),
+    filter(x => x !== getSyncSubjectValue(selectedNetwork$)),
+    distinctUntilChanged(),
+    map(x => ({ Request: x })),
   )
-  .subscribe(selectedNetworkController$)
+  .subscribe(networkController$)

@@ -1,50 +1,90 @@
+<script lang="ts" context="module">
+  const zone = Zone.current.fork({ name: 'User:VestingTable' })
+</script>
+
 <script lang="ts">
-  import { firstValueFrom, map, pipe, tap } from 'rxjs'
-  import { ControllerContract$, SeedSaleContract$ } from '../contracts/fundraising-contracts'
-  import Button from './Button.svelte'
-  import { __$ } from './locales'
-  import { preSaleStatus$ } from './observables/pre-sale/status'
-  import { preSaleRequestRefund } from './operators/pre-sale/request-refund'
-  import { preSaleRequestRelease } from './operators/pre-sale/request-release'
-  import { PreSaleStatus } from './operators/pre-sale/status'
-  import SvgIcon from './SVGIcon.svelte'
-  import RestrictedIcon from '../assets/icons/vuesax-linear-group.svg'
-  import type { VestingType } from './observables/pre-sale/signers-vestings'
-  import { seedSaleRequestRelease } from './operators/seed-sale/request-release'
-  import { releaseAmount } from './operators/pre-sale/release-amount'
-  import Modal from './Modal.svelte'
+  import {
+    distinctUntilChanged,
+    exhaustMap,
+    finalize,
+    first,
+    firstValueFrom,
+    map,
+    of,
+    pipe,
+    shareReplay,
+    skip,
+    switchMap,
+    tap,
+    throwError,
+    withLatestFrom,
+  } from 'rxjs'
+  import Button from './shared/Button.svelte'
+  import { __$ } from './shared/locales'
+  import SvgIcon from './shared/SVGIcon.svelte'
+  import RestrictedIcon from './shared/assets/icons/vuesax-linear-group.svg'
+  import Modal from './shared/Modal.svelte'
   import Card from './Card.svelte'
-  import { screen$ } from './helpers/media-queries'
+  import { screen$ } from './shared/helpers/media-queries'
   import cn from 'classnames'
   import WithCurrencyIcon from './WithCurrencyIcon.svelte'
-  import _, { camelCase } from 'lodash'
+  import _ from 'lodash'
+  import { Vesting } from './classes/vesting'
+  import { Contract } from 'ethers'
+  import { ActionStatus } from './types'
+  import { allUserVestings$ } from './observables/enga/all-sales'
+  import { isEqual } from './shared/utils/type-safe'
+  import { flashToast$, ToastLevel } from './shared/contexts/flash-toast'
+  import Slide from './shared/Slide.svelte'
+  import { waitingForTxAcceptController$ } from './contexts/waiting-for-tx-accept'
+  import { wrapWith } from './utils/zone'
 
-  export let data: VestingType
-  export let sale: 'preSale' | 'seedSale'
+  export let meta: Vesting<Contract>
 
-  $: canRelease =
-    (sale === 'preSale' ? $preSaleStatus$ === PreSaleStatus.Closed : true) &&
-    releaseAmount(data).gt(0)
-  $: canRevoke = sale === 'preSale' && $preSaleStatus$ === PreSaleStatus.Refunding
-  let toggle: () => void
+  let canRelease = false
+  meta.canRelease().subscribe(x => (canRelease = x))
+  let canRevoke = false
+  meta.canRevoke().subscribe(x => (canRevoke = x))
+  let toggle: (state?: boolean) => void
+
+  let isLoading = false
+
+  const handleAction = () => {
+    const hasVestingsChanged$ = allUserVestings$.pipe(
+      skip(1),
+      distinctUntilChanged(isEqual),
+      map(() => true),
+      shareReplay(1),
+    )
+    return pipe(
+      switchMap(x => (x !== ActionStatus.SUCCESS ? throwError(() => null) : of(x))),
+      switchMap(() => hasVestingsChanged$),
+      first(),
+      withLatestFrom(__$),
+      tap(([, __]) =>
+        flashToast$.next({
+          message: __.userInteraction.toastTitles[ToastLevel.SUCCESS],
+          level: ToastLevel.SUCCESS,
+        }),
+      ),
+      finalize(() => (isLoading = false)),
+    )
+  }
 </script>
 
 {#if canRelease || canRevoke}
   <Button
-    job={async () =>
+    {isLoading}
+    job={wrapWith(zone, () =>
       canRelease
-        ? toggle()
+        ? toggle(true)
         : canRevoke
-        ? firstValueFrom(
-            ControllerContract$.pipe(
-              preSaleRequestRefund(data.vestId),
-              map(() => undefined),
-            ),
-          )
-        : undefined}
+        ? firstValueFrom(meta.revoke().pipe(handleAction()))
+        : undefined,
+    )}
     disabled={!canRevoke && !canRelease}
     secondary
-    className={'w-full justify-center flex'}>
+    className={cn('md:w-full justify-center flex', $screen$.isMobile && '!py-3 !px-7 text-base')}>
     {#if canRevoke}
       {$__$?.presale.vestings.actions.revoke.toUpperCase()}
     {:else if canRelease}
@@ -56,32 +96,40 @@
 <Modal acceptExit bind:toggle>
   <Card
     className={{
-      container: cn($screen$.isMobile && '!rounded-b-none'),
-      wrapper: 'sm:w-96 max-w-full flex flex-col gap-5',
+      container: cn('max-w-md w-full', $screen$.exact === 'xs' && '!rounded-b-none'),
+      wrapper: 'flex flex-col gap-9',
     }}>
     <span slot="header">{$__$.presale.vestings.actions.release}</span>
     <div class="flex flex-col gap-2">
       <span>{$__$.presale.vestings.actions.ableToRelease}:</span>
-      <WithCurrencyIcon data={releaseAmount(data)} />
+      <WithCurrencyIcon data={meta.releasable()} />
     </div>
-    <div class="flex gap-4 children:w-full">
-      <Button job={() => toggle()} danger>
-        {$__$.userInteraction.confirmation.cancel}
+    <div class="flex justify-end gap-4 children:w-full">
+      <Button
+        disabled={!!$waitingForTxAcceptController$.Display}
+        job={() => toggle(false)}
+        danger={!isLoading}
+        className="w-32">
+        <Slide visible={!isLoading}>
+          {$__$.userInteraction.confirmation.cancel}
+        </Slide>
+        <Slide visible={isLoading}>
+          {$__$.userInteraction.confirmation.close}
+        </Slide>
       </Button>
       <Button
         disabled={!canRelease}
-        job={() =>
+        job={wrapWith(zone, () =>
           canRelease
             ? firstValueFrom(
-                (sale === 'preSale'
-                  ? ControllerContract$.pipe(preSaleRequestRelease(data.vestId))
-                  : SeedSaleContract$.pipe(seedSaleRequestRelease(data.vestId))
-                ).pipe(
-                  map(() => undefined),
-                  tap(toggle),
+                of(undefined).pipe(
+                  tap(() => (isLoading = true)),
+                  exhaustMap(() => meta.release()),
+                  handleAction(),
                 ),
-              )
-            : undefined}
+              ).then(() => toggle(false))
+            : undefined,
+        )}
         className="px-10"
         active>
         {$__$.presale.vestings.actions.release}
@@ -91,5 +139,7 @@
 </Modal>
 
 {#if !canRevoke && !canRelease}
-  <SvgIcon Icon={RestrictedIcon} width={'1rem'} height={'1rem'} className={'my-0.5'} />
+  <div class="flex justify-start md:justify-center">
+    <SvgIcon Icon={RestrictedIcon} width={'1rem'} height={'1rem'} className={'my-0.5'} />
+  </div>
 {/if}

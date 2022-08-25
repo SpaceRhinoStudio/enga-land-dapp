@@ -1,83 +1,73 @@
 <script context="module" lang="ts">
+  import '../index'
   export const intro = true
 </script>
 
 <script lang="ts">
-  import '../app.css'
-  import Header from '$lib/Header.svelte'
-  import MobileVhFix from '$lib/helpers/mobile-vh-fix.svelte'
-  import MobileHoverFix from '$lib/helpers/mobile-hover-fix.svelte'
-  import MainLoadingOverlay from '$lib/MainLoadingOverlay.svelte'
-  import IsNavigating from '$lib/IsNavigating.svelte'
-  import { type TransitionConfig } from 'svelte/transition'
-  import { portalMap, create_portal_root } from '$lib/actions/portal'
-  import _ from 'lodash'
-  import { onMount } from 'svelte'
-  import Footer from '$lib/Footer.svelte'
-  import WithScrollHint from '$lib/WithScrollHint.svelte'
-  import { zeroIfNegative } from '$lib/utils/zero'
-  import { useWobble } from '$lib/helpers/wobble-svelte'
-  import EngaLogo from '../../src/assets/favicon.png'
+  import ConnectWalletButton from '$lib/ConnectWalletButton.svelte'
 
-  const [shouldBlur, setShouldBlur] = useWobble({})
-  $: setShouldBlur($portalMap.every(x => x.index === null) || $portalMap.length === 0 ? 0 : 1)
+  import EngaPrice from '$lib/EngaPrice.svelte'
+  import ImportEnga from '$lib/ImportEnga.svelte'
+  import PendingTransactions from '$lib/PendingTransactions.svelte'
+  import { Routes } from '$lib/shared/configs/routes'
+  import MainLayout from '$lib/shared/MainLayout.svelte'
 
-  function fadeAndBlur(node: HTMLElement, { delay = 0, duration = 500 }): TransitionConfig {
-    return {
-      delay,
-      duration,
-      css: t => `filter: blur(${(1 - t) * 20}px); opacity: ${t};`,
-    }
-  }
-
-  let isReady = false
-  onMount(() => (isReady = true))
-
-  let footerHeight: number
-  let mainHeight: number
+  import DebugButton from '$lib/DebugButton.svelte'
+  import { screen$ } from '$lib/shared/helpers/media-queries'
+  import UselessUserInteractionModal from '$lib/UselessUserInteractionModal.svelte'
+  import WaitingForTxAccept from '$lib/WaitingForTxAccept.svelte'
 </script>
 
-<svelte:head>
-  <link rel="shortcut icon" href={EngaLogo} />
-</svelte:head>
-
-<MobileHoverFix />
-<MobileVhFix />
-<MainLoadingOverlay />
-
-<div id="portal_root" use:create_portal_root />
-
-{#if isReady}
-  <div in:fadeAndBlur={{ duration: 1200 }}>
-    <IsNavigating>
-      <div
-        slot="hide"
-        id="app"
-        transition:fadeAndBlur
-        style={zeroIfNegative($shouldBlur) === 0
-          ? ''
-          : `filter: blur(${zeroIfNegative($shouldBlur) * 20}px);`}
-        class="w-screen relative">
-        <Header />
-        <WithScrollHint
-          goToTopButton
-          hintDownscaleFactor={{ start: 25 }}
-          mode="vertical"
-          className={{
-            container:
-              'w-full h-[calc(100vh-theme(spacing.24))] md:h-[calc(100vh-theme(spacing.28))] mt-24 md:mt-28',
-            innerWrapper:
-              'min-h-[calc(100vh-theme(spacing.24))] md:min-h-[calc(100vh-theme(spacing.28))] flex flex-col',
-          }}>
-          <main
-            bind:clientHeight={mainHeight}
-            style="padding-bottom: calc({footerHeight}px + 1.25rem);"
-            class="relative w-screen max-w-[min(calc(100%-theme(spacing.10)),theme(screens.xl))] children:max-w-full mx-auto py-5 grow flex flex-col">
-            <slot />
-            <Footer bind:clientHeight={footerHeight} />
-          </main>
-        </WithScrollHint>
-      </div>
-    </IsNavigating>
+<MainLayout
+  headerBlurContainer
+  footerRoutes={[
+    Routes.home,
+    Routes.marketplace,
+    Routes.docs,
+    Routes.blog,
+    // Routes.help,
+    Routes.aboutUs,
+  ]}
+  headerRoutes={[Routes.home, Routes.dapp, Routes.marketplace]}
+  headerCollapsedRoutes={[
+    Routes.docs,
+    Routes.blog,
+    // Routes.help,
+    Routes.tokenomics,
+    Routes.github,
+    Routes.community,
+    Routes.aboutUs,
+  ]}
+  sidebarRoutes={[
+    Routes.home,
+    Routes.dapp,
+    Routes.marketplace,
+    Routes.docs,
+    Routes.blog,
+    Routes.help,
+    Routes.tokenomics,
+    Routes.github,
+    Routes.community,
+    Routes.aboutUs,
+  ]}>
+  <slot />
+  <svelte:fragment slot="header-right">
+    <PendingTransactions />
+    <ConnectWalletButton />
+  </svelte:fragment>
+  <div slot="sidebar-foot" class="flex justify-between w-full">
+    <ConnectWalletButton alwaysExpand upward dir="ltr" />
+    {#if $screen$.isMobile}
+      <DebugButton />
+    {/if}
   </div>
-{/if}
+  <div slot="footer-foot" class="flex gap-3">
+    <ImportEnga />
+    {#if !$screen$.isMobile}
+      <DebugButton />
+    {/if}
+  </div>
+  <EngaPrice slot="footer-metadata" />
+</MainLayout>
+<UselessUserInteractionModal />
+<WaitingForTxAccept />

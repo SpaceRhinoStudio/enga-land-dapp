@@ -1,4 +1,4 @@
-import type { ContractTransaction } from 'ethers'
+import type { providers } from 'ethers'
 import _ from 'lodash'
 import { asyncScheduler, observeOn, scan, Subject, tap } from 'rxjs'
 
@@ -6,7 +6,7 @@ type TxHash = string
 
 export const pendingTransactionsController$ = new Subject<
   Partial<{
-    Add: ContractTransaction
+    Add: providers.TransactionResponse
     Fulfill: TxHash
     Fail: TxHash
   }>
@@ -30,6 +30,6 @@ export const pendingTransactions$ = pendingTransactionsController$.pipe(
         : x.Fail ?? x.Fulfill
         ? _.omit(acc, x.Fulfill ?? x.Fail ?? '')
         : acc,
-    {} as { [hash: TxHash]: ContractTransaction },
+    {} as { [hash: TxHash]: providers.TransactionResponse },
   ),
 )

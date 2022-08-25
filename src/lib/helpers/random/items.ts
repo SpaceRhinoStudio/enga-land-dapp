@@ -1,12 +1,7 @@
-import {
-  CosmeticSlots,
-  type EndroItemMeta,
-  EndroItemType,
-  GodStats,
-  ItemRarity,
-} from '$lib/types/enga'
-import { genArr, rnd, rndElm, rndEnum, rndPick } from '$lib/utils/random'
-import { keysOf } from '$lib/utils/type-safe'
+import { CosmeticSlots, EndroItemType, GodStats, ItemRarity } from '$lib/shared/types/enga'
+import type { EndroItemMeta } from '$lib/types/enga'
+import { genArr, rnd, rndAddress, rndElm, rndEnum, rndPick } from '$lib/shared/utils/random'
+import { keysOf } from '$lib/shared/utils/type-safe'
 import FemaleEngoCommonTanktop from '../../../assets/samples/items/FemaleEngoCommonTanktop.png'
 import FemaleEngoLegendaryTanktop from '../../../assets/samples/items/FemaleEngoLegendaryTanktop.png'
 import FemaleEngoRareTanktop from '../../../assets/samples/items/FemaleEngoRareTanktop.png'
@@ -14,6 +9,7 @@ import FemaleHCType2MaizeCrayola from '../../../assets/samples/items/FemaleHCTyp
 import FemaleHCType3CadetFront from '../../../assets/samples/items/FemaleHCType3Cadet-Front.png'
 import FemaleHCType3TimberWolfFront from '../../../assets/samples/items/FemaleHCType3TimberWolf-Front.png'
 import FemaleHCType4ByzantiumFront from '../../../assets/samples/items/FemaleHCType4Byzantium-Front.png'
+import { parseEther } from '$lib/utils/parse-ether'
 
 const dummyItemImages = [
   FemaleEngoCommonTanktop,
@@ -93,6 +89,7 @@ export function rndEndroItem(
   type?: EndroItemType,
   modifiers?: EndroItemMeta['modifiers'],
   slot?: CosmeticSlots,
+  statsToModify?: GodStats[],
 ): EndroItemMeta {
   if (!type) {
     type = rndEnum(EndroItemType)
@@ -102,8 +99,11 @@ export function rndEndroItem(
       modifiers = { brs: rnd(10) + 1 }
     }
     if (type === EndroItemType.chipset) {
-      const statsToModify = rndPick(keysOf(GodStats), rnd(6) + 1)
-      modifiers = statsToModify.reduce(
+      if (!statsToModify) {
+        //@ts-ignore it's identical
+        statsToModify = rndPick(keysOf(GodStats), rnd(4) + 1)
+      }
+      modifiers = statsToModify!.reduce(
         (acc, key) => ({
           ...acc,
           [GodStats[key]]: rnd(21) - 10 || 1,
@@ -118,7 +118,7 @@ export function rndEndroItem(
     }
   }
   return {
-    id: `${rnd(1000)}`,
+    id: `${rnd(10000)}`,
     name: rndElm(dummyItemNames),
     rarity: rndEnum(ItemRarity),
     ...(type === EndroItemType.chipset ? {} : { image: rndElm(dummyItemImages) }),
@@ -126,6 +126,8 @@ export function rndEndroItem(
     ...(slot ? { slot } : {}),
     mintDate: new Date(`2022/${rnd(12) + 1}/${rnd(28) + 1}`),
     ...(modifiers ? { modifiers } : {}),
+    marketPrice: parseEther(rnd(1200)),
+    owner: rndAddress(),
   }
 }
 

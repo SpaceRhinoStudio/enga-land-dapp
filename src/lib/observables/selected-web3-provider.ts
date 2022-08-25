@@ -1,168 +1,222 @@
+/**@description these are a set of helpers designed to ease the connecting process for web3 injected providers */
+
 import { config } from '$lib/configs'
 import { localCache } from '$lib/contexts/local-cache'
-import { isWeb3ProviderId } from '$lib/helpers/validate-web3-provider'
 import _ from 'lodash'
-import { pipeIfNot } from '$lib/operators/pipe-if-not'
-import { isProviderIdAvailable, mapToProviderMeta } from '$lib/operators/web3/provider'
-import { passUndefined } from '$lib/operators/pass-undefined'
+import { mapToProviderMeta } from '$lib/operators/web3/provider'
+import { switchSome } from '$lib/operators/pass-undefined'
 import {
   asyncScheduler,
-  BehaviorSubject,
   distinctUntilChanged,
-  filter,
-  fromEvent,
   map,
-  merge,
-  mergeMap,
-  Observable,
   observeOn,
-  of,
-  type OperatorFunction,
-  pipe,
   shareReplay,
-  startWith,
   Subject,
-  subscribeOn,
   switchMap,
+  catchError,
+  of,
+  from,
+  merge,
+  delay,
+  filter,
+  mergeMap,
+  scan,
+  EMPTY,
   tap,
+  take,
+  BehaviorSubject,
 } from 'rxjs'
-import type { Web3ProviderId } from '$lib/types'
+import { Option, Option$, Web3ProviderId } from '$lib/types'
 import type { Web3ProviderMetadata } from '$lib/types/rxjs'
-import { requestChainIdCorrection } from '$lib/operators/web3/chain-id'
-import { web3Signer, web3SignersAddress, web3SignerWithAddress } from '$lib/operators/web3/signer'
-import { requestWalletConnect } from '$lib/operators/web3/wallet-connect'
+import { mapToSigner } from '$lib/operators/web3/signer'
 import type { JsonRpcSigner } from '@ethersproject/providers'
-import { passAfter } from '$lib/operators/pass-after'
-import type EventEmitter from 'events'
-import { withUpdatesFrom } from '$lib/operators/with-updates-from'
-import { selectedNetwork$ } from './web3-network'
+import { controlStreamPayload, setLoadingForId } from '$lib/shared/operators/control-stream-payload'
+import { evaluateProvider } from '$lib/operators/web3/wallet-connect'
+import { isEnumMember } from '$lib/utils/enum'
+import { onlineStatus$ } from '$lib/shared/observables/window'
+import { getSyncSubjectValue } from '$lib/utils/get-subject-value'
+import { safeSwitchMap } from '$lib/operators/safe-throw'
+import { noNil, noUndefined } from '$lib/shared/utils/no-sentinel-or-undefined'
+import { inferWeb3Error, Web3Errors } from '$lib/helpers/web3-errors'
+import { evaluateNetwork } from '$lib/operators/web3/network'
+import { defaultNetwork, networkController$, selectedNetwork$ } from './web3-network'
+import { fallbackWeb3Provider$ } from './web3-providers/fallback-provider'
 
-export const SelectedWeb3ProviderIdController$ = new Subject<
+export const web3ProviderIdController$ = new Subject<
   Partial<{
-    Set: string
-    Unset: true
+    Request: Option<string>
+    Loading: boolean | { id: string; value: boolean }
   }>
 >()
+const loadings: Record<string, boolean> = {}
 
-localCache
-  .observe<string | undefined>(config.Web3ProviderIdCacheKey, undefined)
+const setLoading = setLoadingForId(web3ProviderIdController$)
+
+export const isLoadingWeb3Provider$ = web3ProviderIdController$.pipe(
+  // observeOn(asyncScheduler),
+  controlStreamPayload('Loading'),
+  mergeMap(x => {
+    let res = _.isBoolean(x) ? x : null
+    if (!_.isBoolean(x)) {
+      res = x.value && !loadings[x.id] ? true : !x.value && loadings[x.id] ? false : null
+      if (_.isBoolean(res)) {
+        //side effect
+        loadings[x.id] = res
+      }
+    }
+    return res === true ? of(1) : res === false ? of(-1) : EMPTY
+  }),
+  scan((acc, x) => acc + x, 0),
+  map(x => !!x),
+  shareReplay(1),
+)
+
+const isValidProviderId = isEnumMember(Web3ProviderId)
+
+const requests$ = merge(
+  web3ProviderIdController$.pipe(
+    controlStreamPayload('Request'),
+    map(id => (_.isString(id) && isValidProviderId(id) ? id : null)),
+    mapToProviderMeta,
+  ),
+).pipe(shareReplay(1))
+
+export const currentWeb3Provider$: Option$<Web3ProviderMetadata> = merge(
+  requests$.pipe(
+    setLoading('connecting', true),
+    evaluateProvider({
+      beforeConnect: () =>
+        fallbackWeb3Provider$
+          .pipe(take(1), filter(noNil))
+          .subscribe(x => (x.pollingInterval = 15 * 60 * 1000)),
+      afterConnect: () =>
+        fallbackWeb3Provider$
+          .pipe(take(1), filter(noNil))
+          .subscribe(x => (x.pollingInterval = 4000)),
+    }),
+    catchError((e, o) => {
+      if (inferWeb3Error(e) === Web3Errors.REJECTED) {
+        web3ProviderIdController$.next({ Request: null })
+      }
+      console.warn(e)
+      return of(undefined).pipe(
+        delay(2000),
+        switchMap(() => onlineStatus$),
+        filter(x => x),
+        switchMap(() => o),
+      )
+    }),
+    setLoading('connecting', false),
+    evaluateNetwork(
+      selectedNetwork$,
+      network => networkController$.next({ Request: network }),
+      defaultNetwork,
+      setLoading,
+    ),
+  ),
+  isLoadingWeb3Provider$.pipe(
+    filter(x => x),
+    map(() => undefined),
+  ),
+).pipe(distinctUntilChanged(), shareReplay(1))
+
+const lastRequestedProvider$ = new BehaviorSubject<Option<Web3ProviderMetadata>>(null)
+web3ProviderIdController$
+  .pipe(
+    controlStreamPayload('Request'),
+    map(id => (_.isString(id) && isValidProviderId(id) ? id : null)),
+    mapToProviderMeta,
+    filter(noNil),
+  )
+  .subscribe(lastRequestedProvider$)
+
+currentWeb3Provider$
+  .pipe(
+    tap(
+      x =>
+        x === null &&
+        lastRequestedProvider$
+          .pipe(
+            take(1),
+            filter(noNil),
+            switchMap(x => x.provider$),
+            take(1),
+          )
+          .subscribe(currentExternalProvider => {
+            lastRequestedProvider$.next(null)
+            // const disconnect = _.get(currentExternalProvider, 'disconnect')
+            const connector = _.get(currentExternalProvider, 'connector')
+            const killSession = _.get(connector, 'killSession')
+            const emit = _.get(currentExternalProvider, 'emit')
+            if (_.isFunction(killSession)) {
+              of(undefined)
+                .pipe(safeSwitchMap(killSession.bind(connector), { project: null }))
+                .subscribe(() => {
+                  if (_.isFunction(emit)) {
+                    emit.bind(currentExternalProvider)('error')
+                  }
+                })
+            }
+          }),
+    ),
+  )
+  .subscribe()
+
+export const currentWeb3ProviderId$: Option$<Web3ProviderId> = currentWeb3Provider$.pipe(
+  switchSome(map(x => x.id)),
+  shareReplay(1),
+)
+
+const storage = localCache.observe<Option<string>>(config.Web3ProviderIdCacheKey, null)
+
+storage
   .pipe(
     observeOn(asyncScheduler),
-    map(x => (x && isWeb3ProviderId(x) ? x : undefined)),
     distinctUntilChanged(),
-    map(x => (!_.isUndefined(x) ? { Set: x } : { Unset: true as const })),
-  )
-  .subscribe(SelectedWeb3ProviderIdController$)
-
-export const IsConnectingToSelectedProvider$ = new BehaviorSubject<boolean>(false)
-
-const doesProviderHaveValidSignerWithAddress: OperatorFunction<
-  Web3ProviderId | undefined,
-  boolean
-> = pipe(
-  mapToProviderMeta,
-  passUndefined(web3SignerWithAddress),
-  map(x => !!x),
-)
-
-export const isProviderOnCorrectChain: OperatorFunction<Web3ProviderId | undefined, boolean> = pipe(
-  mapToProviderMeta,
-  passUndefined(mergeMap(x => x?.chainId$)),
-  withUpdatesFrom(selectedNetwork$),
-  map(([x, network]) => x === config.Chains[network].id),
-)
-
-export const SelectedWeb3ProviderId$: Observable<Web3ProviderId | undefined> =
-  SelectedWeb3ProviderIdController$.pipe(
-    observeOn(asyncScheduler),
-    subscribeOn(asyncScheduler),
-    filter(x => 'Set' in x || 'Unset' in x),
-    map(x => (x.Set && isWeb3ProviderId(x.Set) ? (x.Set as Web3ProviderId) : undefined)),
+    filter(x => x !== getSyncSubjectValue(currentWeb3ProviderId$)),
     distinctUntilChanged(),
-
-    pipeIfNot(
-      pipe(isProviderIdAvailable),
-      map(() => undefined),
-    ),
-
-    pipeIfNot(
-      pipe(isProviderOnCorrectChain),
-      passAfter(
-        pipe(
-          tap(() => IsConnectingToSelectedProvider$.next(true)),
-          mapToProviderMeta,
-          passUndefined(requestChainIdCorrection),
-          tap(() => IsConnectingToSelectedProvider$.next(false)),
-        ),
-      ),
-    ),
-
-    pipeIfNot(
-      isProviderOnCorrectChain,
-      map(() => undefined),
-    ),
-
-    pipeIfNot(
-      doesProviderHaveValidSignerWithAddress,
-      passAfter(
-        pipe(
-          tap(() => IsConnectingToSelectedProvider$.next(true)),
-          mapToProviderMeta,
-          passUndefined(requestWalletConnect),
-          tap(() => IsConnectingToSelectedProvider$.next(false)),
-        ),
-      ),
-    ),
-    pipeIfNot(
-      doesProviderHaveValidSignerWithAddress,
-      map(() => undefined),
-    ),
-
-    switchMap(x =>
-      of(x).pipe(
-        mapToProviderMeta,
-        passUndefined(
-          switchMap(x =>
-            x?.provider$.pipe(
-              mergeMap(x =>
-                merge(
-                  fromEvent(x as EventEmitter, 'close'),
-                  fromEvent(x as EventEmitter, 'disconnect'),
-                ),
-              ),
-            ),
-          ),
-        ),
-        map(() => undefined),
-        startWith(x),
-      ),
-    ),
-    shareReplay(1),
+    map(x => ({ Request: x })),
   )
+  .subscribe(web3ProviderIdController$)
 
-SelectedWeb3ProviderId$.pipe(distinctUntilChanged()).subscribe(
-  localCache.observe<Web3ProviderId | undefined>(config.Web3ProviderIdCacheKey),
+currentWeb3ProviderId$.pipe(distinctUntilChanged(), filter(noUndefined)).subscribe(storage)
+
+export const currentSigner$: Option$<JsonRpcSigner> = currentWeb3Provider$.pipe(
+  switchSome(mapToSigner),
+  shareReplay(1),
 )
 
-export const SelectedWeb3ProviderMeta$: Observable<Web3ProviderMetadata | undefined> =
-  SelectedWeb3ProviderId$.pipe(mapToProviderMeta, shareReplay(1))
+export const currentValidSigner$: Option$<JsonRpcSigner> = currentSigner$.pipe(
+  switchSome(
+    switchMap(x => {
+      try {
+        return !_.isEmpty(x._address)
+          ? of(x)
+          : from(x.getAddress()).pipe(
+              map(add => (_.isEmpty(add) ? null : x)),
+              catchError(e => {
+                console.warn(e)
+                return of(null)
+              }),
+            )
+      } catch (e) {
+        console.warn(e)
+        return of(null)
+      }
+    }),
+  ),
+  shareReplay(1),
+)
 
-export const SelectedWeb3Signer$: Observable<JsonRpcSigner | undefined> =
-  SelectedWeb3ProviderMeta$.pipe(
-    passUndefined(web3Signer),
-    distinctUntilChanged((prev, x) => _.isEqual(prev, x)),
-    shareReplay(1),
-  )
-
-export const SelectedWeb3SignerWithAddress$: Observable<JsonRpcSigner | undefined> =
-  SelectedWeb3ProviderMeta$.pipe(
-    passUndefined(web3SignerWithAddress),
-    distinctUntilChanged((prev, x) => _.isEqual(prev, x)),
-    shareReplay(1),
-  )
-
-export const signerAddress$ = SelectedWeb3ProviderMeta$.pipe(
-  passUndefined(web3SignersAddress),
-  distinctUntilChanged(),
+export const signerAddress$: Option$<string> = currentValidSigner$.pipe(
+  switchSome(
+    safeSwitchMap(
+      x =>
+        !_.isEmpty(x._address)
+          ? of(x._address)
+          : from(x.getAddress()).pipe(map(add => (_.isEmpty(add) ? null : add))),
+      { silent: true, project: null },
+    ),
+  ),
   shareReplay(1),
 )

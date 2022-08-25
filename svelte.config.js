@@ -1,32 +1,26 @@
 // import adapter from '@sveltejs/adapter-auto'
 import adapter from '@sveltejs/adapter-cloudflare'
 import preprocess from 'svelte-preprocess'
-import svg from '@poppanator/sveltekit-svg'
 
-const svgPlugin = svg({
-  includePaths: ['./src/assets/'],
-  svgoOptions: {
-    multipass: true,
-    plugins: [
-      'removeXMLNS',
-      'minifyStyles',
-      'removeDimensions',
-      'prefixIds',
-      {
-        name: 'preset-default',
-        params: {
-          overrides: {
-            removeViewBox: false,
-            removeUselessStrokeAndFill: false,
-            removeUnknownsAndDefaults: false,
-            cleanupIDs: false,
-          },
-        },
-      },
-      // { name: 'removeAttrs', params: { attrs: '(fill|stroke)' } },
-    ],
-  },
-})
+// const babelConfig = {
+//   presets: [
+//     [
+//       '@babel/preset-env',
+//       {
+//         loose: true,
+//         modules: false,
+//         targets: {
+//           esmodules: true,
+//         },
+//       },
+//     ],
+//     '@babel/preset-typescript',
+//   ],
+//   plugins: [
+//     '@babel/plugin-proposal-async-generator-functions',
+//     '@babel/plugin-transform-async-to-generator',
+//   ],
+// }
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -35,19 +29,13 @@ const config = {
   preprocess: [
     preprocess({
       postcss: true,
-      typescript: true,
+      // typescript: true,
+      // babel: babelConfig,
+      // sourceMap: true,
     }),
   ],
-
   kit: {
     adapter: adapter(),
-
-    vite: {
-      plugins: [
-        //@ts-ignore
-        svgPlugin,
-      ],
-    },
   },
 }
 

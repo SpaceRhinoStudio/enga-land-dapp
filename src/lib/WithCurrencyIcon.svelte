@@ -1,16 +1,17 @@
 <script lang="ts">
   import { BigNumber } from 'ethers'
-  import type { Sentinel } from './contexts/empty-sentinel'
+  import type { Sentinel } from './shared/contexts/empty-sentinel'
   import { formatCurrencyWithUnit } from './operators/currency-formatter'
-  import SvgIcon from './SVGIcon.svelte'
-  import EngaIcon from '../assets/icons/enga-icon.svg'
+  import SvgIcon from './shared/SVGIcon.svelte'
+  import EngaIcon from './shared/assets/icons/enga-icon.svg'
   import _ from 'lodash'
+  import { Option } from './types'
 
   export let className: { [key in 'container' | 'iconWrapper' | 'wrapper' | 'unit']?: string } = {}
   export let icon: any = undefined
   export let noIcon: boolean = false
   export let smallUnit: boolean = false
-  export let data: string | number | BigNumber | undefined | null | Sentinel = undefined
+  export let data: Option<string | number | BigNumber | Sentinel> = undefined
   export let iconDimensions: string = '0.8rem'
 </script>
 

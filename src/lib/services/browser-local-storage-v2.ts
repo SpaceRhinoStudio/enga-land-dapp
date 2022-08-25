@@ -4,7 +4,8 @@ import { filter, mergeMap } from 'rxjs/operators'
 import type { StorageAPI, WindowLocalStorageEvent } from '$lib/types'
 import type { MemoryCache } from './memory-cache'
 import { config } from '$lib/configs'
-import { Window$ } from '$lib/observables/window'
+import { Window$ } from '$lib/shared/observables/window'
+import { wrapWith } from '$lib/utils/zone'
 
 type ObservablesCache = { [key: string]: ReplaySubject<string | null> }
 
@@ -21,6 +22,11 @@ export class BrowserLocalStorageAPI implements StorageAPI {
     )
   }
   private _makeObservable(key: string, observables: ObservablesCache): void {
+    const zone = Zone.current.fork({
+      name: 'Init:LocalStorage',
+      properties: { bgColor: '#007605' },
+    })
+
     observables[key] = new ReplaySubject<string | null>(1)
     const observable = observables[key]!
 
@@ -40,9 +46,11 @@ export class BrowserLocalStorageAPI implements StorageAPI {
         }
         throw new Error(`key ${key} not defined`)
       })
-      .then(value => {
-        observable.next(value)
-      })
+      .then(
+        wrapWith(zone, value => {
+          observable.next(value)
+        }),
+      )
       .catch(() => {
         //ignore
       })
@@ -52,7 +60,7 @@ export class BrowserLocalStorageAPI implements StorageAPI {
       filter(ev => ev.key === config.BrowserLocalStorageCacheKey.concat(key)),
       mergeMap(ev => this.read(ev.key)),
     ).subscribe({
-      next: val => observable.next(val),
+      next: wrapWith(zone, val => observable.next(val)),
     })
   }
 

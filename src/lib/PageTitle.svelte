@@ -2,7 +2,7 @@
   import { page } from '$app/stores'
   import _ from 'lodash'
   import { config } from './configs'
-  import { __$ } from './locales'
+  import { __$ } from './shared/locales'
 
   function sanitizeRoute(route: string): string {
     return route.replace(/^\//, '').replace(/\/$/, '')

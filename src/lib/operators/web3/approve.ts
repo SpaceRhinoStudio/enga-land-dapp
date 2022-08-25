@@ -1,39 +1,62 @@
 import type { ERC20 } from 'engaland_fundraising_app/typechain'
-import _ from 'lodash'
-import { passNil } from '$lib/operators/pass-undefined'
-import { map, type OperatorFunction, pipe } from 'rxjs'
-import type { Contract } from 'ethers'
-import { waitForTransaction } from './wait-for-transaction'
-import { pipeIfNot } from '$lib/operators/pipe-if-not'
-import { signerAllowance } from './allowance'
-import { parseEther } from '$lib/utils/parse-ether'
-import type { Nil } from '$lib/types'
-import { withValidSignerAddress } from './with-valid-signer'
+import { mapNil, switchSomeMembers } from '$lib/operators/pass-undefined'
+import { map, combineLatest, switchMap, of, shareReplay, first, exhaustMap } from 'rxjs'
+import { BigNumber, Contract } from 'ethers'
+import { executeWrite, staticCall } from './wait-for-transaction'
+import { userAllowance$$ } from './allowance'
+import { ActionStatus, ConditionedAction, Option$ } from '$lib/types'
+import { resolveAddress } from './resolve-address'
+import { signerAddress$ } from '$lib/observables/selected-web3-provider'
+import { mapNilToWeb3Error, Web3Errors } from '$lib/helpers/web3-errors'
+import { wrap } from '$lib/utils/zone'
 
-export function signerApprove(
-  _amount: string,
-): OperatorFunction<[erc20: ERC20 | Nil, spender: Contract | Nil] | undefined, boolean> {
-  const amount = parseEther(_amount)
-  return pipe(
-    passNil(
-      map(([erc20, spender]) =>
-        _.isUndefined(erc20) || _.isUndefined(spender)
-          ? undefined
-          : _.isNull(erc20) || _.isNull(spender)
-          ? null
-          : ([erc20, spender] as const),
-      ),
-    ),
-    pipeIfNot(
-      pipe(
-        signerAllowance,
-        map(x => x?.gte(amount)),
-        map(x => !!x),
-      ),
-      withValidSignerAddress(
-        waitForTransaction(([[erc20, spender]]) => erc20!.approve(spender!.address, amount)),
-      ),
-    ),
-    map(x => !!x),
-  )
+export const userApprove = (
+  contract$: Option$<ERC20>,
+): ((
+  spender$: Option$<string | Contract>,
+) => (amount$: Option$<BigNumber>) => ConditionedAction) => {
+  const targetAllowance$$ = userAllowance$$(contract$)
+  return spender$ => {
+    const spenderAddress$ = resolveAddress(spender$).pipe(shareReplay(1))
+    const allowance$ = targetAllowance$$(spenderAddress$).pipe(shareReplay(1))
+    return amount$ => {
+      const _amount$ = amount$.pipe(map(x => (x?.lte(0) ? null : x)))
+      const can$ = combineLatest([contract$, _amount$, allowance$, signerAddress$]).pipe(
+        switchSomeMembers(
+          map(([, amount, allowance]) => (allowance.gte(amount) ? ActionStatus.USELESS : true)),
+        ),
+        mapNil(x =>
+          x === null
+            ? (Web3Errors.INVALID_PARAMS as const)
+            : (Web3Errors.RESOURCE_NOT_FOUND as const),
+        ),
+        shareReplay(1),
+      )
+      const call = () =>
+        can$.pipe(
+          first(),
+          switchMap(can =>
+            can !== true
+              ? of(can)
+              : combineLatest([contract$, spenderAddress$, _amount$, signerAddress$]).pipe(
+                  first(),
+                  switchSomeMembers(
+                    exhaustMap(
+                      wrap(([erc20, spender, amount]) =>
+                        staticCall(erc20, 'approve', spender, amount),
+                      ),
+                    ),
+                    executeWrite(),
+                    //TODO: double check with event logs
+                    //TODO: add utility to do event log check automatically with proper types
+                    map(([status]) => status),
+                  ),
+                  mapNilToWeb3Error(),
+                ),
+          ),
+        )
+
+      return { can$, call }
+    }
+  }
 }

@@ -10,8 +10,8 @@
   import { getContext, setContext } from 'svelte'
   import { table, type TableContext } from './CardTable.svelte'
   import TableRowCollapsed from './TableRowCollapsed.svelte'
-  import ArrowDown from '../../assets/icons/arrow-down.svg'
-  import SvgIcon from '../SVGIcon.svelte'
+  import ArrowDown from '../shared/assets/icons/arrow-down.svg'
+  import SvgIcon from '../shared/SVGIcon.svelte'
   import { slide } from 'svelte/transition'
 
   const isCollapsed = getContext<TableContext>(table)?.isCollapsed

@@ -9,6 +9,7 @@
   export let noWidthSet: boolean = false
   export let setHeightFrom: 'back' | 'front' | undefined = undefined
   export let setWidthFrom: 'back' | 'front' | undefined = undefined
+  export let noBackfaceRender = false
 
   let backWidth: number, backHeight: number, frontWidth: number, frontHeight: number
 </script>
@@ -42,7 +43,7 @@
     bind:clientHeight={frontHeight}
     bind:clientWidth={frontWidth}
     class={cn(
-      'transition-all duration-1000 absolute top-0 left-0 will-change-transform transform-gpu',
+      'transition-all duration-1000 absolute top-0 left-0 will-change-transform transform-gpu noBackface',
       noHeightSet && 'bottom-0',
       setHeightFrom === 'back' && 'bottom-0',
       noWidthSet && 'right-0',
@@ -57,7 +58,7 @@
     bind:clientHeight={backHeight}
     bind:clientWidth={backWidth}
     class={cn(
-      'transition-all duration-1000 absolute top-0 left-0 will-change-transform transform-gpu',
+      'transition-all duration-1000 absolute top-0 left-0 will-change-transform transform-gpu noBackface',
       noHeightSet && 'bottom-0',
       setHeightFrom === 'front' && 'bottom-0',
       noWidthSet && 'right-0',
@@ -68,6 +69,14 @@
     style="backface-visibility: hidden; transform: {!backfaceVisible
       ? 'rotateY(-180deg)'
       : 'rotateY(0deg)'};">
-    <slot name="backface" />
+    {#if (noBackfaceRender && backfaceVisible) || !noBackfaceRender}
+      <slot name="backface" />
+    {/if}
   </div>
 </div>
+
+<style>
+  .noBackface {
+    backface-visibility: hidden;
+  }
+</style>

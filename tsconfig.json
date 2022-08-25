@@ -10,6 +10,8 @@
     "sourceMap": true,
     "preserveValueImports": false,
     "importsNotUsedAsValues": "preserve",
+    "preserveConstEnums": true,
+    "removeComments": true,
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "allowJs": true,
     "skipLibCheck": true,

@@ -1,3 +1,7 @@
+/**
+ * @description this helper script is used to initialize `mocha` environment for testing.
+ */
+
 import chai from 'chai'
 import chaiShallowDeepEqual from 'chai-shallow-deep-equal'
 import chaiAsPromised from 'chai-as-promised'

@@ -1,3 +1,7 @@
+/**
+ * @description this helper script is used to initialize `enzyme` environment if you're not using `puppeteer`.
+ */
+
 import Enzyme from 'enzyme'
 import { JSDOM } from 'jsdom'
 

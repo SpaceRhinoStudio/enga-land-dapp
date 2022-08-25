@@ -1,61 +1,57 @@
-import { passUndefined } from '$lib/operators/pass-undefined'
-import { safeThrowMap, safeThrowMergeMap } from '$lib/operators/safe-throw'
-import {
-  distinctUntilChanged,
-  fromEvent,
-  map,
-  merge,
-  mergeMap,
-  of,
-  type OperatorFunction,
-  pipe,
-  switchMap,
-} from 'rxjs'
+import { map, merge, of, type OperatorFunction, pipe, switchMap, timeout, catchError } from 'rxjs'
 import type { Web3ProviderMetadata } from '$lib/types/rxjs'
 import type { JsonRpcSigner } from '@ethersproject/providers'
 import type EventEmitter from 'events'
-import { safeCatchAndIgnoreAlreadyInProgressError } from '$lib/operators/web3/ignore-alreadyInProgress-error'
-import _ from 'lodash'
-import { reEmitUntilChanged } from '$lib/operators/repeat-on-trigger'
+import { reEvaluateSwitchMap } from '$lib/operators/re-evaluate'
+import { combineLatestSwitchMap } from '../combine-latest-switch'
+import { switchSome } from '../pass-undefined'
+import { fromEventZone } from '../zone'
+import { forkWrap } from '$lib/utils/zone'
+import { safeMap, safeSwitchMap } from '../safe-throw'
 
-export const web3Signer: OperatorFunction<Web3ProviderMetadata, JsonRpcSigner | undefined> = pipe(
-  passUndefined(
-    mergeMap(x => x.web3Provider$),
-    safeThrowMap(x => x.getSigner()),
-  ),
+const signerChangeTrigger$$ = (meta: Web3ProviderMetadata) =>
+  meta.provider$.pipe(
+    switchMap(
+      forkWrap('Event:AccountsChanged', x =>
+        merge(
+          fromEventZone(x as EventEmitter, 'accountsChanged'),
+          // fromEvent(x as EventEmitter, 'connect'),
+          // fromEvent(x as EventEmitter, 'disconnect'),
+        ),
+      ),
+    ),
+    map(() => true),
+  )
+
+export const mapToSigner: OperatorFunction<Web3ProviderMetadata, JsonRpcSigner | null> = pipe(
+  reEvaluateSwitchMap(signerChangeTrigger$$),
+  switchMap(x => x.web3Provider$),
+  safeMap(x => x.getSigner(), { silent: true, project: null }),
 )
 
-export const web3SignerAddressChangeTrigger: OperatorFunction<Web3ProviderMetadata, true> = pipe(
-  switchMap(x => x.provider$),
-  switchMap(x => merge(fromEvent(x as EventEmitter, 'accountsChanged'))),
-  map(() => true),
-)
-
-const web3SignerAndAddress: OperatorFunction<
-  Web3ProviderMetadata,
-  readonly [JsonRpcSigner | undefined, string | undefined]
-> = pipe(
-  reEmitUntilChanged(x => of(x).pipe(web3SignerAddressChangeTrigger)),
-  web3Signer,
-  mergeMap(signer =>
-    of(signer).pipe(
-      distinctUntilChanged(),
-      safeThrowMergeMap(x => x?.getAddress() ?? of(undefined)),
-      safeCatchAndIgnoreAlreadyInProgressError(() => of(undefined)),
-      map(address => [signer, _.isEmpty(address) ? undefined : address] as const),
+const withAddress: OperatorFunction<JsonRpcSigner, readonly [JsonRpcSigner, string | null]> = pipe(
+  combineLatestSwitchMap(x =>
+    of(x).pipe(
+      safeSwitchMap(x => x.getAddress(), { silent: true, project: null }),
+      map(s => (s?.length ? s : null)),
+      timeout({ first: 200 }),
+      catchError(() => of(null)),
     ),
   ),
 )
 
-export const web3SignerWithAddress: OperatorFunction<
-  Web3ProviderMetadata,
-  JsonRpcSigner | undefined
-> = pipe(
-  web3SignerAndAddress,
-  map(([signer, address]) => (signer && address ? signer : undefined)),
+export const mapToValidSigner: OperatorFunction<Web3ProviderMetadata, JsonRpcSigner | null> = pipe(
+  mapToSigner,
+  switchSome(
+    withAddress,
+    map(([signer, address]) => (signer && address ? signer : null)),
+  ),
 )
 
-export const web3SignersAddress: OperatorFunction<Web3ProviderMetadata, string | undefined> = pipe(
-  web3SignerAndAddress,
-  map(([, address]) => address),
+export const mapToSignerAddress: OperatorFunction<Web3ProviderMetadata, string | null> = pipe(
+  mapToSigner,
+  switchSome(
+    withAddress,
+    map(([, address]) => address),
+  ),
 )

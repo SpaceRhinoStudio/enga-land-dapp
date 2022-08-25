@@ -1,21 +1,26 @@
 import _ from 'lodash'
 import type { AsyncMapper } from '../types'
 
-export async function deepMapAsync(obj: unknown, asyncCallback: AsyncMapper): Promise<unknown> {
-  const touched = await asyncCallback(obj)
-  if (_.isObject(touched)) {
-    let acc: unknown
-    if (_.isArray(touched)) {
-      acc = []
-    } else {
-      acc = {}
-    }
-    await Promise.all(
-      _.entries(touched).map(async ([k, v]) => {
-        ;(acc as { [x: string]: unknown })[k] = await deepMapAsync(v, asyncCallback)
-      }),
-    )
-    return acc
-  }
-  return touched
+function resolveObject(source: any): Promise<any> {
+  return _.isObject(source)
+    ? Promise.all(_.entries(source).map(([k, v]) => Promise.resolve(v).then(res => [k, res]))).then(
+        entries =>
+          entries.reduce((acc, [k, v]) => {
+            acc[k] = v
+            return acc
+          }, (_.isArray(source) ? [] : {}) as any),
+      )
+    : Promise.resolve(source)
+}
+
+//DEBUG: test
+export function deepMapAsync(obj: unknown, asyncCallback: AsyncMapper): Promise<unknown> {
+  return asyncCallback(obj).then(res =>
+    _.isObject(res)
+      ? resolveObject(
+          //@ts-ignore
+          (_.isArray(res) ? _.map : _.mapValues)(res, v => deepMapAsync(v, asyncCallback)),
+        )
+      : res,
+  )
 }

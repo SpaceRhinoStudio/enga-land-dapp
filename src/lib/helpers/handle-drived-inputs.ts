@@ -1,7 +1,7 @@
-import type { InputControl } from '$lib/Input.svelte'
-import { controlStreamPayload } from '$lib/operators/control-stream-payload'
-import { logOp } from '$lib/operators/log'
-import { keysOf } from '$lib/utils/type-safe'
+import type { InputControl } from '$lib/input'
+import { controlStreamPayload } from '$lib/shared/operators/control-stream-payload'
+import { keysOf } from '$lib/shared/utils/type-safe'
+import { Option } from '$lib/types'
 import {
   distinctUntilChanged,
   filter,
@@ -14,6 +14,7 @@ import {
 } from 'rxjs'
 
 /**
+ * @description used for handling multiple inputs that their values are driven by each other. notice that when you use this function you must format the final values yourself in the `derivations`. (you cannot rely on the input component `formatters` to do this for you, because this directly writes to `Value` in the control object)
  * ## Example
  * ```ts
  * const derivations = {
@@ -34,7 +35,7 @@ export function handleDerivedInputs<K extends string>(
   controls: { [x in K]: Subject<InputControl> },
   derivations: { [x in K]?: { [x in K]?: OperatorFunction<string, string> } },
 ): { reset: () => void } {
-  const lastModified$ = new ReplaySubject<{ Modified: K | undefined | null }>()
+  const lastModified$ = new ReplaySubject<{ Modified: Option<K> }>()
 
   merge(
     ...keysOf(controls).map(key =>
@@ -69,7 +70,7 @@ export function handleDerivedInputs<K extends string>(
   const reset = () => {
     lastModified$.next({ Modified: null })
     for (const key of keysOf(derivations)) {
-      controls[key].next({ Value: '' })
+      controls[key].next({ Reset: true })
     }
     lastModified$.next({ Modified: undefined })
   }

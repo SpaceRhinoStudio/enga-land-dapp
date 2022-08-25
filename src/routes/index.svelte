@@ -5,9 +5,10 @@
 <script lang="ts">
   import IndexNavigationItem from '$lib/IndexNavigationItem.svelte'
   import MainBackground from '$lib/MainBackground.svelte'
-  import { routeConfig, Routes } from '$lib/configs/routes'
-  import { __$ } from '$lib/locales'
-  import MarketplaceIcon from '../assets/icons/dapp-market.svg'
+  import { routeConfig, Routes } from '$lib/shared/configs/routes'
+  import { __$ } from '$lib/shared/locales'
+  import _ from 'lodash'
+  import MarketplaceIcon from '../lib/shared/assets/icons/dapp-market.svg'
 
   const items = [Routes.marketplace, ...(routeConfig[Routes.dapp].subRoutes ?? [])].map(
     x => routeConfig[x],
@@ -22,12 +23,12 @@
 <MainBackground />
 
 <div class="grow w-screen !max-w-screen-xl self-center flex items-center py-4">
-  <div class="grow flex flex-wrap justify-center">
+  <div class="relative z-10 grow flex flex-wrap justify-center">
     {#each items as x}
       <IndexNavigationItem
         title={$__$?.nav[x.id]}
         Icon={x.id !== Routes.marketplace ? x.icon : MarketplaceIcon}
-        href={x.href}
+        href={_.isString(x.href) ? x.href : '/'}
         disabled={x.disabled} />
     {/each}
   </div>

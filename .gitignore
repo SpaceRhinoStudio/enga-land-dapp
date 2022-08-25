@@ -11,3 +11,5 @@ node_modules
 .eslintcache
 tsconfig.tsbuildinfo
 yarn-error.log
+nohup.out
+vite.config.js.*

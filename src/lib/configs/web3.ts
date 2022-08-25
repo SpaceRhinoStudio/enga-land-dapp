@@ -1,23 +1,25 @@
-import { Web3Error } from '$lib/classes/web3-error'
 import _ from 'lodash'
-import { Window$ } from '$lib/observables/window'
-import { map, Observable, tap } from 'rxjs'
-import type { Web3ProviderId } from '$lib/types'
+import { Window$ } from '$lib/shared/observables/window'
+import {
+  catchError,
+  concat,
+  map,
+  merge,
+  Observable,
+  of,
+  shareReplay,
+  switchMap,
+  tap,
+  throwError,
+  timer,
+} from 'rxjs'
+import { Network, Web3ProviderId } from '$lib/types'
 import type { Network as EthersNetwork } from '@ethersproject/networks'
 import type { providers } from 'ethers'
-
-export enum Network {
-  BSCMainnet = 'bsc',
-  BSCTestnet = 'bscTestnet',
-  Local = 'localhost',
-  Rinkeby = 'rinkeby',
-  Polygon = 'polygon',
-  Mumbai = 'polygonMumbai',
-}
-
-function providerNotFoundErrorFactory() {
-  return new Web3Error('E0x04 selected provider is not available')
-}
+import { switchSome } from '$lib/operators/pass-undefined'
+import WalletConnectProvider from '@walletconnect/web3-provider/dist/umd/index.min.js'
+import { safeMap } from '$lib/operators/safe-throw'
+import { fromEventZone } from '$lib/operators/zone'
 
 const Web3Providers: {
   [providerKey in Web3ProviderId]: {
@@ -25,8 +27,8 @@ const Web3Providers: {
     provider$: Observable<providers.ExternalProvider | undefined>
   }
 } = {
-  metamask: {
-    id: 'metamask',
+  [Web3ProviderId.metamask]: {
+    id: Web3ProviderId.metamask,
     provider$: Window$.pipe(
       map(win => {
         const eth = _.get(win, 'ethereum') as providers.ExternalProvider
@@ -35,17 +37,19 @@ const Web3Providers: {
         }
         return undefined
       }),
+      shareReplay(1),
     ),
   },
-  binanceChain: {
-    id: 'binanceChain',
+  [Web3ProviderId.binanceChain]: {
+    id: Web3ProviderId.binanceChain,
     provider$: Window$.pipe(
       map(win => _.get(win, 'BinanceChain') as providers.ExternalProvider),
-      tap(x => (!_.isFunction(_.get(x, 'off')) ? _.assign(x, { off: _.identity }) : undefined)),
+      switchSome(map(x => (!_.isFunction(_.get(x, 'off')) ? { ...x, off: _.noop } : x))),
+      shareReplay(1),
     ),
   },
-  trust: {
-    id: 'trust',
+  [Web3ProviderId.trust]: {
+    id: Web3ProviderId.trust,
     provider$: Window$.pipe(
       map(win => {
         const eth = _.get(win, 'ethereum') as providers.ExternalProvider & {
@@ -56,10 +60,11 @@ const Web3Providers: {
         }
         return undefined
       }),
+      shareReplay(1),
     ),
   },
-  safePal: {
-    id: 'safePal',
+  [Web3ProviderId.safePal]: {
+    id: Web3ProviderId.safePal,
     provider$: Window$.pipe(
       map(win => {
         const eth = _.get(win, 'ethereum') as providers.ExternalProvider & {
@@ -70,8 +75,87 @@ const Web3Providers: {
         }
         return undefined
       }),
+      shareReplay(1),
     ),
   },
+  [Web3ProviderId.walletConnect]: {
+    id: Web3ProviderId.walletConnect,
+    provider$: Window$.pipe(
+      safeMap(
+        () =>
+          new WalletConnectProvider({
+            rpc: _.values(Network).reduce(
+              (acc, network) => ({ ...acc, [Chains[network].id]: endpoints[network][0]! }),
+              {} as { [chain: number]: string },
+            ),
+            qrcode: true,
+          }),
+        { project: undefined },
+      ),
+      switchSome(
+        switchMap(x =>
+          concat(of(x), fromEventZone(x, 'error').pipe(switchMap(() => throwError(() => null)))),
+        ),
+      ),
+      catchError((e, o) => timer(200).pipe(switchMap(() => o))),
+      shareReplay(1),
+    ),
+  },
+}
+
+const endpoints: { [network in Network]: string[] } = {
+  [Network.BSCMainnet]: [
+    'https://bsc-dataseed.binance.org',
+    'https://bsc-dataseed1.defibit.io',
+    'https://bsc-dataseed1.ninicoin.io',
+    'https://bsc-dataseed2.defibit.io',
+    'https://bsc-dataseed3.defibit.io',
+    'https://bsc-dataseed4.defibit.io',
+    'https://bsc-dataseed2.ninicoin.io',
+    'https://bsc-dataseed3.ninicoin.io',
+    'https://bsc-dataseed4.ninicoin.io',
+    'https://bsc-dataseed1.binance.org',
+    'https://bsc-dataseed2.binance.org',
+    'https://bsc-dataseed3.binance.org',
+    'https://bsc-dataseed4.binance.org',
+  ],
+  [Network.BSCTestnet]: [
+    'https://data-seed-prebsc-1-s1.binance.org:8545/',
+    // 'https://data-seed-prebsc-2-s1.binance.org:8545/',
+    // 'https://data-seed-prebsc-1-s2.binance.org:8545/',
+    // 'https://data-seed-prebsc-2-s2.binance.org:8545/',
+    'https://data-seed-prebsc-1-s3.binance.org:8545/',
+    'https://data-seed-prebsc-2-s3.binance.org:8545/',
+  ],
+  [Network.Local]: ['http://127.0.0.1:8545'],
+  [Network.Rinkeby]: [
+    'https://rpc.ankr.com/eth_rinkeby',
+    'https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    'https://rinkeby.infura.io/v3',
+  ],
+  [Network.Polygon]: [
+    'https://polygon-rpc.com',
+    'https://rpc-mainnet.matic.quiknode.pro',
+    // 'https://matic-mainnet-full-rpc.bwarelabs.com',
+    'https://rpc.ankr.com/polygon',
+    'https://polygonapi.terminet.io/rpc',
+    'https://rpc-mainnet.maticvigil.com',
+    'https://poly-rpc.gateway.pokt.network',
+    // 'https://polygon-mainnet.public.blastapi.io',
+  ],
+  [Network.Mumbai]: [
+    'https://matic-mumbai.chainstacklabs.com',
+    // 'https://matic-testnet-archive-rpc.bwarelabs.com',
+    'https://rpc.ankr.com/polygon_mumbai',
+    'https://rpc-mumbai.maticvigil.com',
+    'https://polygontestapi.terminet.io/rpc',
+  ],
+  [Network.Goerli]: [
+    'https://rpc.ankr.com/eth_goerli',
+    // 'https://rpc.goerli.mudit.blog',
+    'https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    // 'https://goerli.infura.io/v3/',
+  ],
 }
 
 const Chains: {
@@ -107,26 +191,7 @@ const Chains: {
         symbol: 'ETH',
         decimals: 18,
       },
-      rpcUrls: ['http://127.0.0.1:8545'],
-    },
-  },
-  [Network.Rinkeby]: {
-    id: 4,
-    isLive: false,
-    network: {
-      chainId: 4,
-      name: Network.Rinkeby,
-    },
-    config: {
-      chainId: `0x${(4).toString(16)}`,
-      chainName: 'Rinkeby',
-      nativeCurrency: {
-        name: 'Rinkeby Ether',
-        symbol: 'ETH',
-        decimals: 18,
-      },
-      rpcUrls: ['https://rinkeby.infura.io/v3'],
-      blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
+      rpcUrls: endpoints[Network.Local],
     },
   },
   [Network.Polygon]: {
@@ -144,7 +209,7 @@ const Chains: {
         symbol: 'MATIC',
         decimals: 18,
       },
-      rpcUrls: ['https://polygon-rpc.com'],
+      rpcUrls: endpoints[Network.Polygon],
       blockExplorerUrls: ['https://polygonscan.com/'],
     },
   },
@@ -163,8 +228,46 @@ const Chains: {
         symbol: 'MATIC',
         decimals: 18,
       },
-      rpcUrls: ['https://matic-mumbai.chainstacklabs.com'],
+      rpcUrls: endpoints[Network.Mumbai],
       blockExplorerUrls: ['https://mumbai.polygonscan.com/'],
+    },
+  },
+  [Network.Goerli]: {
+    id: 5,
+    isLive: false,
+    network: {
+      chainId: 5,
+      name: Network.Goerli,
+    },
+    config: {
+      chainId: `0x${(5).toString(16)}`,
+      chainName: 'Goerli',
+      nativeCurrency: {
+        name: 'Goerli Ether',
+        symbol: 'ETH',
+        decimals: 18,
+      },
+      rpcUrls: endpoints[Network.Goerli],
+      blockExplorerUrls: ['https://goerli.etherscan.io/'],
+    },
+  },
+  [Network.Rinkeby]: {
+    id: 4,
+    isLive: false,
+    network: {
+      chainId: 4,
+      name: Network.Rinkeby,
+    },
+    config: {
+      chainId: `0x${(4).toString(16)}`,
+      chainName: 'Rinkeby',
+      nativeCurrency: {
+        name: 'Rinkeby Ether',
+        symbol: 'ETH',
+        decimals: 18,
+      },
+      rpcUrls: endpoints[Network.Rinkeby],
+      blockExplorerUrls: ['https://rinkeby.etherscan.io/'],
     },
   },
   [Network.BSCMainnet]: {
@@ -182,11 +285,7 @@ const Chains: {
         symbol: 'bnb',
         decimals: 18,
       },
-      rpcUrls: [
-        // "https://bsc-dataseed1.ninicoin.io",
-        // "https://bsc-dataseed1.defibit.io",
-        'https://bsc-dataseed.binance.org',
-      ],
+      rpcUrls: endpoints[Network.BSCMainnet],
       blockExplorerUrls: ['https://bscscan.com/'],
     },
   },
@@ -205,49 +304,18 @@ const Chains: {
         symbol: 'bnb',
         decimals: 18,
       },
-      rpcUrls: ['https://data-seed-prebsc-1-s1.binance.org:8545'],
+      rpcUrls: endpoints[Network.BSCTestnet],
       blockExplorerUrls: ['https://testnet.bscscan.com/'],
     },
   },
-}
-
-const CustomEndpoints: { [network in Network]: string[] } = {
-  [Network.BSCMainnet]: [
-    'https://bsc-dataseed.binance.org',
-    'https://bsc-dataseed1.defibit.io',
-    'https://bsc-dataseed1.ninicoin.io',
-    'https://bsc-dataseed2.defibit.io',
-    'https://bsc-dataseed3.defibit.io',
-    'https://bsc-dataseed4.defibit.io',
-    'https://bsc-dataseed2.ninicoin.io',
-    'https://bsc-dataseed3.ninicoin.io',
-    'https://bsc-dataseed4.ninicoin.io',
-    'https://bsc-dataseed1.binance.org',
-    'https://bsc-dataseed2.binance.org',
-    'https://bsc-dataseed3.binance.org',
-    'https://bsc-dataseed4.binance.org',
-  ],
-  [Network.BSCTestnet]: [
-    'https://data-seed-prebsc-1-s1.binance.org:8545/',
-    // 'https://data-seed-prebsc-2-s1.binance.org:8545/',
-    // 'https://data-seed-prebsc-1-s2.binance.org:8545/',
-    // 'https://data-seed-prebsc-2-s2.binance.org:8545/',
-    'https://data-seed-prebsc-1-s3.binance.org:8545/',
-    'https://data-seed-prebsc-2-s3.binance.org:8545/',
-  ],
-  [Network.Local]: ['http://127.0.0.1:8545'],
-  [Network.Rinkeby]: [],
-  [Network.Polygon]: [],
-  [Network.Mumbai]: [],
 }
 
 export const web3Config = {
   Web3Providers,
   Chains,
   SelectedNetworkStorageKey: 'selected-web3-network',
-  CustomEndpoints,
+  CustomEndpoints: endpoints,
   BscScanApiKey: undefined,
   txFinalityBlocks: 15,
   PPM: 1_000_000,
-  apiAddress: 'https://enga-cache.aboosakamod.money',
 }

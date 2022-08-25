@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-  import { ItemRarity } from './types/enga'
+  import { ItemRarity } from './shared/types/enga'
 
   export const ItemRarityTextColorMap: { [key in ItemRarity]: string } = {
     [ItemRarity.common]: 'text-rarity-common',

@@ -11,16 +11,10 @@ import {
   toArray,
   withLatestFrom,
 } from 'rxjs'
-import {
-  type EndroItemMeta,
-  EndroItemType,
-  type EndroMeta,
-  ItemRarity,
-  MainNFTTypes,
-  type OpifexMeta,
-} from '$lib/types/enga'
-import { genArr, rnd } from '$lib/utils/random'
-import { keysOf } from '$lib/utils/type-safe'
+import { EndroItemType, ItemRarity, MainNFTTypes } from '$lib/shared/types/enga'
+import { genArr, rnd } from '$lib/shared/utils/random'
+import { keysOf } from '$lib/shared/utils/type-safe'
+import type { EndroItemMeta, EndroMeta, OpifexMeta } from '$lib/types/enga'
 
 export type OwnedAssetsList = {
   [MainNFTTypes.endro]: EndroMeta[]
@@ -34,6 +28,7 @@ export type OwnedAssetsList = {
   [EndroItemType.skins]: EndroItemMeta[]
 }
 
+/**@description lists owned assets of a certain address (string) */
 export function ownedAssetsList(): OperatorFunction<string, OwnedAssetsList> {
   return pipe(
     mergeMap(() =>

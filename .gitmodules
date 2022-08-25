@@ -2,3 +2,6 @@
 	path = contracts/Fundraising
 	url = git@github.com:SpaceRhinoStudio/fundraising-dapp.git
 	branch = main
+[submodule "src/lib/shared"]
+	path = src/lib/shared
+	url = git@github.com:SpaceRhinoStudio/enga-land-frontend-components.git

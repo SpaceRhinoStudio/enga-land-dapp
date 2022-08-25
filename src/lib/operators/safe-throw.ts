@@ -11,8 +11,11 @@ import {
   type OperatorFunction,
   throwError,
   type TruthyTypesOf,
+  switchMap,
+  from,
+  isObservable,
 } from 'rxjs'
-import { unLazy } from '$lib/utils/un-lazy'
+import { unLazy } from '$lib/shared/utils/un-lazy'
 import { type BooleanObservableInputConstructor, filterBy } from './filter-by'
 
 export function safeThrowMergeMap<T, O extends ObservableInput<any>>(
@@ -35,7 +38,7 @@ export function safeThrowMergeMap<T, O extends ObservableInput<any>>(
         try {
           return project(...args) ?? of(undefined)
         } catch (e) {
-          console.log('safeThrowMergeMap:')
+          console.debug('safeThrowMergeMap:')
           console.warn(e)
           return throwError(() => e)
         }
@@ -52,7 +55,7 @@ export function safeThrowMap<T, R>(
         try {
           return of(project(...args))
         } catch (e) {
-          console.log('safeThrowMap:')
+          console.debug('safeThrowMap:')
           console.warn(e)
           return throwError(() => e)
         }
@@ -69,7 +72,7 @@ export function safeThrowCatchError<T, O extends ObservableInput<any>>(
         try {
           return selector(...args)
         } catch (e) {
-          console.log('safeThrowCatchError:')
+          console.debug('safeThrowCatchError:')
           console.warn(e)
           return throwError(() => e)
         }
@@ -94,7 +97,7 @@ export function safeThrowFilter<T>(predicate: (value: T) => boolean): MonoTypeOp
         try {
           return of(predicate(value))
         } catch (e) {
-          console.log('safeThrowFilter:')
+          console.debug('safeThrowFilter:')
           console.warn(e)
           return throwError(() => e)
         }
@@ -127,7 +130,7 @@ export function safeThrowFilterBy<T>(
         try {
           return predicate(x)
         } catch (e) {
-          console.log('safeThrowFilterBy:')
+          console.debug('safeThrowFilterBy:')
           console.warn(e)
           if (falseIfThrown) {
             return of(false)
@@ -145,7 +148,7 @@ export function filterErrors<T, R>(operator: OperatorFunction<T, R>): OperatorFu
         of(x).pipe(
           operator,
           catchError(e => {
-            console.log('filterErrors:')
+            console.debug('filterErrors:')
             console.warn(e)
             return EMPTY
           }),
@@ -164,11 +167,99 @@ export function mapErrors<T, R, E>(
         of(x).pipe(
           operator,
           catchError(e => {
-            console.log('mapErrors:')
+            console.debug('mapErrors:')
             console.warn(e)
             return of(unLazy(placeholder, x))
           }),
         ),
       ),
     )
+}
+
+type SafeMapOptions = { silent?: boolean }
+type SafeMapErrorProject<T, R> = {
+  project: ((error: unknown, value: T, index: number) => R | Observable<R>) | R
+}
+
+function safeMapCatch<T, R = T>(
+  error: unknown,
+  options: (SafeMapOptions & Partial<SafeMapErrorProject<T, R>>) | undefined,
+  ...args: [T, number]
+): Observable<R> {
+  if (!options?.silent) {
+    console.warn(error)
+  }
+  if (!_.isUndefined(options) && 'project' in options) {
+    if (_.isFunction(options.project)) {
+      const res = options.project(error, ...args)
+      return isObservable(res) ? res : of(res)
+    }
+    return of(options.project)
+  }
+  return EMPTY
+}
+
+export function safeSwitchMap<T, O, R>(
+  project: (value: T, index: number) => ObservableInput<O>,
+  options: SafeMapErrorProject<T, R> & SafeMapOptions,
+): OperatorFunction<T, R | O>
+export function safeSwitchMap<T, O>(
+  project: (value: T, index: number) => ObservableInput<O>,
+  options?: SafeMapOptions,
+): OperatorFunction<T, O>
+export function safeSwitchMap<T, O, R>(
+  project: (value: T, index: number) => ObservableInput<O>,
+  options?: SafeMapOptions & Partial<SafeMapErrorProject<T, R>>,
+): OperatorFunction<T, O | R> {
+  return switchMap((...args) => {
+    try {
+      return from(project(...args)).pipe(
+        catchError(e => {
+          return safeMapCatch(e, options, ...args)
+        }),
+      )
+    } catch (e) {
+      return safeMapCatch(e, options, ...args)
+    }
+  })
+}
+
+export function safeMergeMap<T, O, R>(
+  project: (value: T, index: number) => ObservableInput<O>,
+  options: SafeMapErrorProject<T, R> & SafeMapOptions,
+): OperatorFunction<T, R | O>
+export function safeMergeMap<T, O>(
+  project: (value: T, index: number) => ObservableInput<O>,
+  options?: SafeMapOptions,
+): OperatorFunction<T, O>
+export function safeMergeMap<T, O, R>(
+  project: (value: T, index: number) => ObservableInput<O>,
+  options?: SafeMapOptions & Partial<SafeMapErrorProject<T, R>>,
+): OperatorFunction<T, O | R> {
+  return mergeMap((...args) => {
+    try {
+      return from(project(...args)).pipe(
+        catchError(e => {
+          return safeMapCatch(e, options, ...args)
+        }),
+      )
+    } catch (e) {
+      return safeMapCatch(e, options, ...args)
+    }
+  })
+}
+
+export function safeMap<T, O, R>(
+  project: (value: T, index: number) => O,
+  options: SafeMapErrorProject<T, R> & SafeMapOptions,
+): OperatorFunction<T, R | O>
+export function safeMap<T, O>(
+  project: (value: T, index: number) => O,
+  options?: SafeMapOptions,
+): OperatorFunction<T, O>
+export function safeMap<T, O, R>(
+  project: (value: T, index: number) => R,
+  options?: SafeMapOptions & Partial<SafeMapErrorProject<T, R>>,
+): OperatorFunction<T, O | R> {
+  return safeSwitchMap((...args) => of(project(...args)), options)
 }

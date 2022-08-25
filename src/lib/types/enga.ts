@@ -1,3 +1,4 @@
+import { CosmeticSlots, EndroItemType, GodStats, ItemRarity, Realms } from '$lib/shared/types/enga'
 import type { BigNumber } from 'ethers'
 
 export type EndroMeta = {
@@ -20,39 +21,6 @@ export type EndroMeta = {
   image: string | undefined
 }
 
-export enum GodStats {
-  'str' = 'str',
-  'dex' = 'dex',
-  'con' = 'con',
-  'men' = 'men',
-  'com' = 'com',
-  'agg' = 'agg',
-}
-
-export enum ItemRarity {
-  'common' = 'common',
-  'uncommon' = 'uncommon',
-  'rare' = 'rare',
-  'legendary' = 'legendary',
-  'mythical' = 'mythical',
-  'celestial' = 'celestial',
-}
-
-export enum EndroItemType {
-  'cosmetics' = 'cosmetics',
-  'chipset' = 'chipset',
-  'consumable' = 'consumable',
-  'accoutrements' = 'accoutrements',
-  'skins' = 'skins',
-}
-
-export enum CosmeticSlots {
-  'head' = 'head',
-  'eye' = 'eye',
-  'body' = 'body',
-  'mask' = 'mask',
-}
-
 export type EndroItemMeta = {
   id: string
   name: string
@@ -64,22 +32,9 @@ export type EndroItemMeta = {
   modifiers?: {
     [key in 'brs' | GodStats]?: number
   }
+  owner?: string
+  marketPrice?: BigNumber
   // consumableModifiers?: unknown
-}
-
-export enum Realms {
-  'ufm' = 'ufm',
-  'magesta' = 'magesta',
-  'nubia' = 'nubia',
-  'sigr' = 'sigr',
-  'komorebi' = 'komorebi',
-}
-
-export enum MainNFTTypes {
-  'endro' = 'endro',
-  'opifexOff' = 'opifexOff',
-  'opifexIndexed' = 'opifexIndexed',
-  'tickets' = 'tickets',
 }
 
 export type OpifexMeta = {
@@ -87,8 +42,11 @@ export type OpifexMeta = {
   generation: number
   isIndexed: boolean
   indexResults?: EndroMeta[]
+  marketPrice?: BigNumber
+  owner?: string
 }
 
 export type RaffleTicketMeta = {
   rarity: ItemRarity
+  ownedCount?: number
 }

@@ -1,27 +1,45 @@
-import { isSentinel, type Sentinel } from '$lib/contexts/empty-sentinel'
+import { isSentinel, type Sentinel } from '$lib/shared/contexts/empty-sentinel'
 import { BigNumber, utils } from 'ethers'
 import _ from 'lodash'
 import { map, type OperatorFunction } from 'rxjs'
-import type { FormatterOperator } from '$lib/types'
+import type { FormatterOperator, Option } from '$lib/types'
 import { onlyNumbers } from '$lib/utils/sanitize-numbers'
 
-export const CurrencyFormatterOperatorFactory: FormatterOperator<[number?]> = () =>
-  // precision?: number,
-  {
-    return input =>
-      input.pipe(
-        map(input => {
-          const res = onlyNumbers(input).split('.')
-          return (
-            (res[0]
-              ?.replace(/^0+$/, '0')
-              .replace(/^0*(?=[^0])/, '')
-              .replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? '') +
-            (!_.isUndefined(res[1]) ? `.${res[1]}` : '')
-          )
-        }),
-      )
-  }
+function zeroIfEmpty(value: string | undefined): string {
+  return !_.isEmpty(value) && value ? value : '0.0'
+}
+
+export const CurrencyFormatterOperatorFactory: FormatterOperator<[number?, boolean?]> = (
+  precision?: number,
+  fixedPrecision = false,
+) => {
+  return input =>
+    input.pipe(
+      map(input => {
+        const res = zeroIfEmpty(onlyNumbers(input)).split('.')
+        const n =
+          res[0]
+            ?.replace(/^0+$/, '0')
+            .replace(/^0*(?=[^0])/, '')
+            .replace(/\B(?=(\d{3})+(?!\d))/g, ',') ?? ''
+        let f = res[1]?.substring(0, precision)
+
+        if (!fixedPrecision) {
+          f = f
+            ?.split('')
+            .reduceRight(
+              (acc, x, index) => (!acc.length && x === '0' && index !== 0 ? '' : x + acc),
+              '',
+            )
+        }
+        if (fixedPrecision && precision) {
+          f = f?.padEnd(precision, '0')
+        }
+
+        return `${n}${!_.isNil(f) ? `.${f}` : ''}`
+      }),
+    )
+}
 
 export const CurrencyParsersOperator: OperatorFunction<string, string> = input =>
   input.pipe(map(onlyNumbers))
@@ -42,7 +60,7 @@ const units: { floor: number; unit: string }[] = [
 ]
 
 export function formatCurrencyWithUnit(
-  x: string | number | BigNumber | undefined | null | Sentinel,
+  x: Option<string | number | BigNumber | Sentinel>,
   precision = 2,
 ): string & { raw: string; unit: string } {
   let res = isSentinel(x) || _.isNil(x) ? 0 : x

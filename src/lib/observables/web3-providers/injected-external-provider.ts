@@ -2,46 +2,51 @@ import { config } from '$lib/configs'
 import { providers } from 'ethers'
 import _ from 'lodash'
 import { filterBy } from '$lib/operators/filter-by'
-import { safeThrowMap } from '$lib/operators/safe-throw'
-import { web3ProviderChainId } from '$lib/operators/web3/chain-id'
-import { catchError, EMPTY, from, map, mergeMap, Observable, of, reduce, shareReplay } from 'rxjs'
-import type { Web3ProviderId } from '$lib/types'
-import type { Web3ProviderMetadata } from '$lib/types/rxjs'
+import { safeMap } from '$lib/operators/safe-throw'
+import { distinctUntilChanged, EMPTY, filter, from, map, of, shareReplay } from 'rxjs'
+import { mapToChainId } from '$lib/operators/web3/network'
+import { noUndefined } from '$lib/shared/utils/no-sentinel-or-undefined'
+import { toScanArray } from '$lib/operators/scan-array'
 
-export const Web3ProvidersMeta$: Observable<{
-  [id in Web3ProviderId]?: Web3ProviderMetadata
-}> = from(_.values(config.Web3Providers)).pipe(
-  filterBy(x => x.provider$.pipe(map(x => !!x))),
-  map(
-    x =>
-      x as {
-        id: Web3ProviderId
-        provider$: Observable<providers.ExternalProvider>
-      },
-  ),
-  mergeMap(x =>
+/**@description this is the injected web3 provider, the most useful provider available because it is the only one that can sign transactions/messages but yet not always available so we have a bunch of other providers so the app partially works even without the presence of this provider */
+export const Web3ProvidersMeta$ = from(_.values(config.Web3Providers)).pipe(
+  filterBy(x =>
     x.provider$.pipe(
-      safeThrowMap(x => new providers.Web3Provider(x!, 'any')),
-      map(web3Provider => ({
-        ...x,
-        web3Provider$: of(web3Provider).pipe(shareReplay(1)),
-      })),
+      map(x => !!x),
+      distinctUntilChanged<boolean>(),
     ),
   ),
+  map(x => ({ ...x, provider$: x.provider$.pipe(filter(noUndefined), shareReplay(1)) })),
+  map(x => ({
+    ...x,
+    web3Provider$: x.provider$.pipe(
+      safeMap(x => new providers.Web3Provider(x!, 'any'), { silent: true }),
+      shareReplay(1),
+    ),
+  })),
   map(x => ({
     ...x,
     chainId$: of(x).pipe(
       map(x => ({ ...x, chainId$: EMPTY })),
-      web3ProviderChainId,
+      mapToChainId,
       shareReplay(1),
     ),
   })),
-  catchError(() => of(undefined)),
-  reduce(
-    (acc, curr) => ({ ...acc, ...(curr ? { [curr.id]: curr } : {}) }),
-    {} as {
-      [id in Web3ProviderId]: Web3ProviderMetadata
-    },
-  ),
+  toScanArray(),
   shareReplay(1),
 )
+
+Zone.current
+  .fork({
+    name: 'Init:Providers',
+    properties: { bgColor: '#090' },
+  })
+  .run(() =>
+    Web3ProvidersMeta$.subscribe(x =>
+      x.forEach(x => {
+        x.chainId$.subscribe()
+        x.provider$.subscribe()
+        x.web3Provider$.subscribe()
+      }),
+    ),
+  )

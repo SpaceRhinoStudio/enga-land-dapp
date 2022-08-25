@@ -1,5 +1,7 @@
-import { keysOf } from './type-safe'
+import _ from 'lodash'
 
-export function isEnumMember<T>(x: unknown, source: Record<string | number, T>): x is T {
-  return keysOf(source).findIndex(e => e === x) !== -1
-}
+export const isEnumMember =
+  <T>(source: Record<string | number, T>) =>
+  (x: unknown): x is T => {
+    return _.values(source).findIndex(e => String(e) === String(x)) !== -1
+  }

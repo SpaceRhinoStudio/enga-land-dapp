@@ -1,396 +1,262 @@
+<script lang="ts" context="module">
+  const zone = Zone.current.fork({ name: 'User:SwapCard' })
+</script>
+
 <script lang="ts">
   import _ from 'lodash'
-  import { fade, fly, slide } from 'svelte/transition'
-  import Button from './Button.svelte'
+  import { fade, slide } from 'svelte/transition'
+  import Button from './shared/Button.svelte'
   import Card from './Card.svelte'
-  import { __$ } from './locales'
-  import { PreSaleStatus } from './operators/pre-sale/status'
-  import SvgIcon from './SVGIcon.svelte'
-  import WithLoading from './WithLoading.svelte'
-  import EngaIcon from '../assets/icons/enga-icon.svg'
-  import BusdIcon from '../assets/icons/dai-icon.svg'
-  import InfoIcon from '../assets/icons/vuesax-linear-info-circle.svg'
-  import TickIcon from '../assets/icons/vuesax-linear-tick-circle.svg'
-  import FlashIcon from '../assets/icons/vuesax-linear-flash.svg'
-  import RestrictedIcon from '../assets/icons/vuesax-linear-group.svg'
-  import TickSquareIcon from '../assets/icons/vuesax-linear-tick-square.svg'
-  import TickSquareEmptyIcon from '../assets/icons/vuesax-linear-tick-square-empty.svg'
-  import {
-    ControllerContract$,
-    EngaTokenContract$,
-    PreSaleContract$,
-    PreSaleTargetERC20Collateral$,
-    SeedSaleContract$,
-    SeedSaleTargetERC20Collateral$,
-  } from '../contracts/fundraising-contracts'
-  import { isSentinel } from './contexts/empty-sentinel'
-  import { preSaleStatus$ } from './observables/pre-sale/status'
+  import { __$ } from './shared/locales'
+  import SvgIcon from './shared/SVGIcon.svelte'
+  import TickIcon from './shared/assets/icons/vuesax-linear-tick-circle.svg'
+  import FlashIcon from './shared/assets/icons/vuesax-linear-flash.svg'
+  import RestrictedIcon from './shared/assets/icons/vuesax-linear-group.svg'
   import { signerAddress$ } from './observables/selected-web3-provider'
   import {
-    BehaviorSubject,
-    combineLatest,
+    debounceTime,
     distinctUntilChanged,
+    exhaustMap,
     filter,
+    finalize,
+    first,
     firstValueFrom,
     map,
+    Observable,
     of,
-    ReplaySubject,
     shareReplay,
-    startWith,
+    skip,
     switchMap,
-    take,
     tap,
+    throwError,
+    withLatestFrom,
   } from 'rxjs'
-  import { parseEther } from './utils/parse-ether'
-  import { signerApprove } from './operators/web3/approve'
-  import { preSaleRequestContribute } from './operators/pre-sale/request-contribute'
-  import { controlStreamPayload } from './operators/control-stream-payload'
-  import { utils } from 'ethers'
-  import {
-    engaPriceFromPreSalePPM$,
-    engaPriceFromSeedSalePPM$,
-    engaPricePPM$,
-    parsePPM,
-  } from './observables/enga-price'
-  import { BigNumber } from 'ethers'
-  import { config } from './configs'
-  import { noNil, noSentinelOrUndefined } from './utils/no-sentinel-or-undefined'
-  import { preSaleSignersVestings$ } from './observables/pre-sale/signers-vestings'
-  import { preSaleTargetCollateralAllowance$ } from './observables/pre-sale/target-collateral-allowance'
-  import { passNil } from './operators/pass-undefined'
-  import { withUpdatesFrom } from './operators/with-updates-from'
-  import {
-    termsAndConditionsAgreements$,
-    termsAndConditionsAgreementsController$,
-  } from './observables/terms-and-condition-agreement'
-  import { flashToast$, ToastType } from './contexts/flash-toast'
-  import SwapInputRow from './SwapInputRow.svelte'
-  import { type InputControl } from './Input.svelte'
-  import { handleDerivedInputs } from './helpers/handle-drived-inputs'
-  import { useCreateControl } from './helpers/create-control'
-  import { seedSaleStatus$ } from './observables/seed-sale/status'
-  import { SeedSaleStatus } from './operators/seed-sale/status'
-  import { seedSaleSignersVestings$ } from './observables/seed-sale/signers-vestings'
-  import { seedSaleTargetCollateralAllowance$ } from './observables/seed-sale/target-collateral-allowance'
-  import { seedSaleRequestContribute } from './operators/seed-sale/request-contribute'
+  import { flashToast$, ToastLevel } from './shared/contexts/flash-toast'
+  import SwapCardAgreement from './SwapCardAgreement.svelte'
+  import SwapCardInputs from './SwapCardInputs.svelte'
+  import { ContributeActionErrors, Sale, SaleStatus } from './services/sale'
+  import { Contract } from 'ethers'
+  import { ActionStatus, Option } from './types'
+  import { isWeb3Error, Web3Errors, nameOfWeb3Error } from './helpers/web3-errors'
+  import { isEqual } from './shared/utils/type-safe'
+  import LoadingSpinner from './shared/LoadingSpinner.svelte'
+  import Slide from './shared/Slide.svelte'
+  import { fork, forkWrap, runAs, wrapWith } from './utils/zone'
 
-  export let sale: 'preSale' | 'seedSale'
+  export let sale$: Observable<Sale<Contract>>
 
-  $: isFunding =
-    sale === 'preSale'
-      ? $preSaleStatus$ === PreSaleStatus.Funding
-      : $seedSaleStatus$ === SeedSaleStatus.Funding
-  $: isWhitelisted = true //TODO: implement
-  $: canContribute = !!$signerAddress$?.length && isFunding && isWhitelisted
-
-  const baseControl$ = useCreateControl<InputControl>({ omit: ['LastKeyStroke'] })
-  const quoteControl$ = useCreateControl<InputControl>({ omit: ['LastKeyStroke'] })
-  const shouldApprove$ = new ReplaySubject<Partial<{ Should: boolean; Loading: boolean }>>()
-  let waitingForTx = false
-  const hasAgreed$ = termsAndConditionsAgreements$
-  const successfulContribution$ = new ReplaySubject<{ Success: true }>()
-
-  const { reset } = handleDerivedInputs(
-    { base: baseControl$, quote: quoteControl$ },
-    {
-      base: {
-        quote: switchMap(x =>
-          sale$.pipe(
-            switchMap(sale =>
-              sale === 'preSale' ? engaPriceFromPreSalePPM$ : engaPriceFromSeedSalePPM$,
-            ),
-            filter(noSentinelOrUndefined),
-            filter(noNil),
-            map(price => parseEther(x).mul(BigNumber.from(config.PPM).pow(2)).div(price)),
-            map(x =>
-              (Number(utils.formatEther(x)) / config.PPM).toLocaleString(undefined, {
-                maximumFractionDigits: 2,
-              }),
-            ),
-          ),
-        ),
-      },
-      quote: {
-        base: switchMap(x =>
-          sale$.pipe(
-            switchMap(sale =>
-              sale === 'preSale' ? engaPriceFromPreSalePPM$ : engaPriceFromSeedSalePPM$,
-            ),
-            filter(noSentinelOrUndefined),
-            filter(noNil),
-            map(price => parseEther(x).mul(price)),
-            map(x =>
-              (Number(utils.formatEther(x)) / config.PPM).toLocaleString(undefined, {
-                maximumFractionDigits: 2,
-              }),
-            ),
-          ),
-        ),
-      },
-    },
+  $: canContribute$ = sale$.pipe(
+    switchMap(sale => sale.canUserContribute$),
+    debounceTime(500),
   )
 
-  $: signersVestings$ = sale === 'preSale' ? preSaleSignersVestings$ : seedSaleSignersVestings$
-
-  successfulContribution$
-    .pipe(
-      controlStreamPayload('Success'),
-      filter(x => x === true),
-    )
-    .subscribe(() => {
-      reset()
-      waitingForTx = true
-      signersVestings$.pipe(take(1)).subscribe(() => (waitingForTx = false))
-    })
-
-  const sale$ = new BehaviorSubject(sale)
-  $: sale$.next(sale)
-
-  sale$
-    .pipe(
-      switchMap(sale =>
-        sale === 'preSale' ? preSaleTargetCollateralAllowance$ : seedSaleTargetCollateralAllowance$,
-      ),
-      passNil(
-        withUpdatesFrom(
-          quoteControl$.pipe(controlStreamPayload('Value'), distinctUntilChanged(), startWith('0')),
-        ),
-        map(([allowance, x]) => allowance.lt(parseEther(x))),
-      ),
-      map(x => (_.isUndefined(x) ? { Loading: true } : { Loading: false, Should: x ?? false })),
-      shareReplay(1),
-    )
-    .subscribe(x => shouldApprove$.next(x))
-
-  const isLoadingAgreement$ = termsAndConditionsAgreementsController$.pipe(
-    controlStreamPayload('Loading'),
+  $: isNotFunding$ = sale$.pipe(
+    switchMap(x => x.status$),
+    map(x => x !== SaleStatus.Funding),
   )
 
-  const handleAgree = () => {
-    //TODO: test if this is reactive after implementing toast stuff
-    if (_.isUndefined($hasAgreed$) || $isLoadingAgreement$) {
-      return
-    }
-    if ($hasAgreed$) {
-      __$.subscribe(__ =>
-        flashToast$.next({
-          message: __.presale.errors.cannotRemoveAgreement,
-          level: ToastType.error,
-        }),
+  let canContributeAmount$: Observable<true | Web3Errors.INVALID_PARAMS | ContributeActionErrors>
+
+  let quoteValue$: Observable<string>
+
+  $: approve$ = quoteValue$
+    ? sale$.pipe(
+        map(wrapWith(zone, sale => sale.approve(quoteValue$))),
+        map(x => x.call),
       )
-      return
-    }
-    termsAndConditionsAgreementsController$.next({
-      Request: true,
-    })
-  }
+    : undefined
 
-  const collateralTicker$ = sale$.pipe(
-    switchMap(sale =>
-      sale === 'preSale' ? PreSaleTargetERC20Collateral$ : SeedSaleTargetERC20Collateral$,
-    ),
-    passNil(
-      switchMap(x => x.name()),
-      map(x => x.toUpperCase()),
-    ),
-  )
+  let hasAgreed: Option<boolean>
 
-  const handleApproveOrSwap$ = combineLatest({
-    shouldApprove: shouldApprove$.pipe(controlStreamPayload('Should'), distinctUntilChanged()),
-    value: quoteControl$.pipe(controlStreamPayload('Value'), distinctUntilChanged()),
-  }).pipe(
-    map(({ shouldApprove, value }) => {
-      if (shouldApprove && value) {
-        return sale$.pipe(
-          switchMap(sale =>
-            sale === 'preSale'
-              ? combineLatest([PreSaleTargetERC20Collateral$, PreSaleContract$])
-              : combineLatest([SeedSaleTargetERC20Collateral$, SeedSaleContract$]),
-          ),
-          take(1),
+  let waitingForTx = false
+
+  let reset: () => void
+
+  $: isLoadingContrib = _.isUndefined($canContributeAmount$)
+  $: shouldApprove = $canContributeAmount$ === ContributeActionErrors.LOW_ALLOWANCE
+  $: canContrib = $canContributeAmount$ === true
+
+  $: swap = wrapWith(zone, () => {
+    if (shouldApprove) {
+      const isApprovalDone$ = canContributeAmount$.pipe(
+        skip(1),
+        map(x => (x === ContributeActionErrors.LOW_ALLOWANCE ? false : true)),
+        shareReplay(1),
+      )
+      const sub = isApprovalDone$.subscribe()
+      return firstValueFrom(
+        approve$?.pipe(
           tap(() => (waitingForTx = true)),
-          signerApprove(value),
-          tap(
-            x =>
-              x &&
-              shouldApprove$.next({
-                Loading: true,
-              }),
+          first(),
+          exhaustMap(x => x()),
+          filter(x => x !== ActionStatus.PENDING),
+          withLatestFrom(__$),
+          tap(([status, __]) => {
+            switch (status) {
+              // should be handled beforehand
+              case Web3Errors.INVALID_PARAMS:
+                return flashToast$.next({
+                  level: ToastLevel.ERROR,
+                  message: __.main.requirementsNotMet,
+                })
+              case ActionStatus.SUCCESS:
+              case ActionStatus.USELESS:
+              case Web3Errors.REJECTED:
+                return
+              default:
+                return flashToast$.next({
+                  level: ToastLevel.ERROR,
+                  message:
+                    __.main.genericErrorMessage +
+                    '\n' +
+                    (isWeb3Error(status) ? nameOfWeb3Error(status) : status),
+                })
+            }
+          }),
+          switchMap(([status]) =>
+            status !== ActionStatus.SUCCESS ? throwError(() => false) : of(true),
           ),
-          tap(() => (waitingForTx = false)),
-        )
-      } else if (value) {
-        return sale$.pipe(
-          switchMap(sale =>
-            sale === 'preSale'
-              ? ControllerContract$.pipe(
-                  tap(() => (waitingForTx = true)),
-                  preSaleRequestContribute(value),
-                  take(1),
-                  tap(() => (waitingForTx = false)),
-                  tap(
-                    x =>
-                      x &&
-                      successfulContribution$.next({
-                        Success: true,
-                      }),
-                  ),
-                )
-              : SeedSaleContract$.pipe(
-                  tap(() => (waitingForTx = true)),
-                  seedSaleRequestContribute(value),
-                  take(1),
-                  tap(() => (waitingForTx = false)),
-                  tap(
-                    x =>
-                      x &&
-                      successfulContribution$.next({
-                        Success: true,
-                      }),
-                  ),
-                ),
+          switchMap(() => isApprovalDone$),
+          switchMap(x => (x ? of(true) : throwError(() => false))),
+          finalize(() => (waitingForTx = false)),
+          finalize(() => sub.unsubscribe()),
+        ) ?? of(null),
+      )
+    }
+    if (canContrib) {
+      const hasNewVesting$ = sale$.pipe(
+        switchMap(sale => sale.userVestings$),
+        skip(1),
+        distinctUntilChanged(isEqual),
+        map(() => true),
+        shareReplay(1),
+      )
+      const sub = hasNewVesting$.subscribe()
+      return firstValueFrom(
+        sale$.pipe(
+          tap(() => (waitingForTx = true)),
+          exhaustMap(sale => sale.contribute(quoteValue$)),
+          withLatestFrom(__$),
+          tap(([status, __]) => {
+            switch (status) {
+              case Web3Errors.REJECTED:
+                return
+              case ActionStatus.SUCCESS:
+                return flashToast$.next({
+                  level: ToastLevel.SUCCESS,
+                  message: __.userInteraction.toastTitles[ToastLevel.SUCCESS],
+                })
+              default:
+                return flashToast$.next({
+                  level: ToastLevel.ERROR,
+                  message:
+                    __.main.requirementsNotMet +
+                    '\n' +
+                    (isWeb3Error(status) ? nameOfWeb3Error(status) : status),
+                })
+            }
+          }),
+          switchMap(([status]) =>
+            status !== ActionStatus.SUCCESS ? throwError(() => false) : of(true),
           ),
-        )
-      }
-      return of(false)
-    }),
-    map(x => () => firstValueFrom(x.pipe(map(() => undefined)))),
-    startWith(_.noop),
-  )
-
-  const exchangeRate$ = sale$.pipe(
-    switchMap(sale => (sale === 'preSale' ? engaPriceFromPreSalePPM$ : engaPriceFromSeedSalePPM$)),
-    parsePPM,
-  )
+          switchMap(() => hasNewVesting$),
+          tap(reset),
+          finalize(() => (waitingForTx = false)),
+          finalize(() => sub.unsubscribe()),
+        ),
+      )
+    }
+    return
+  })
 </script>
 
 <Card
   className={{
-    container: 'text-sm sm:w-screen flex flex-col',
+    container: 'text-sm sm:w-screen flex flex-col !overflow-visible',
     wrapper: 'relative grow min-h-[theme(spacing.20)]',
   }}>
   <span slot="header">{$__$?.presale.contribution.title}</span>
-  {#if canContribute}
+  {#if $canContribute$ === true}
     <div
       transition:slide
-      class="flex flex-col space-y-7 md:h-full transition-all duration-1000 h-full {canContribute
+      class="flex flex-col space-y-7 md:h-full transition-all duration-1000 h-full {$canContribute$ ===
+      true
         ? 'opacity-100'
         : 'opacity-0'}">
-      <SwapInputRow
-        icon={BusdIcon}
-        control$={quoteControl$}
-        contract$={sale === 'preSale'
-          ? PreSaleTargetERC20Collateral$
-          : SeedSaleTargetERC20Collateral$}
-        isBase={false}>
-        <span slot="title">{$__$?.presale.contribution.quote}</span>
-      </SwapInputRow>
-      <SwapInputRow icon={EngaIcon} control$={baseControl$} contract$={EngaTokenContract$} isBase>
-        <span slot="title">{$__$?.presale.contribution.base}</span>
-      </SwapInputRow>
-      <div class="flex justify-between flex-col space-y-4 md:flex-row md:space-y-0">
-        <div class="flex space-x-1 items-start">
-          <SvgIcon Icon={InfoIcon} width="1.125rem" height="1.125rem" />
-          <span>{$__$?.presale.contribution.rate}</span>
-        </div>
-        <span>
-          <WithLoading data={[$exchangeRate$, $collateralTicker$]} passSentinel>
-            <span slot="before">1 ENGA:</span>
-            <span slot="data" class="text-yellow-400">
-              <span>
-                {isSentinel($exchangeRate$) ? $__$?.main.notAvailable : $exchangeRate$}
-              </span>
-              <span>{$collateralTicker$}</span>
-            </span>
-          </WithLoading>
-        </span>
-      </div>
+      <SwapCardInputs
+        waitingForTx={_.isUndefined(hasAgreed) || isLoadingContrib || waitingForTx}
+        {sale$}
+        bind:reset
+        bind:canContributeAmount$
+        bind:quoteValue$ />
       <div class="md:flex md:grow items-end w-full">
         <div
-          class="flex flex-col space-y-7 md:flex-row md:space-y-0 md:justify-between md:items-center text-xs md:grow children:grow md:pb-2">
-          <div class="flex space-x-2 items-center cursor-pointer" on:click={handleAgree}>
-            <WithLoading
-              data={_.isUndefined($hasAgreed$) || $isLoadingAgreement$}
-              predicate={e => !e}>
-              <svelte:fragment slot="data">
-                {#if !!$hasAgreed$}
-                  <SvgIcon Icon={TickSquareIcon} width="1.25rem" height="1.25rem" />
-                {/if}
-                {#if !$hasAgreed$}
-                  <SvgIcon Icon={TickSquareEmptyIcon} width="1.25rem" height="1.25rem" />
-                {/if}
-              </svelte:fragment>
-              <span slot="after" class="text-text-secondary text-2xs cursor-pointer">
-                {$__$?.presale.contribution.termsNotice}
-              </span>
-            </WithLoading>
-          </div>
+          class="flex flex-col gap-7 md:flex-row md:justify-between md:items-center md:grow children:grow md:pb-2">
+          <SwapCardAgreement bind:hasAgreed />
           <Button
-            job={$handleApproveOrSwap$}
-            disabled={!$hasAgreed$ ||
-              !!$quoteControl$?.Errors?.length ||
-              !$quoteControl$?.Value?.length}
-            isLoading={_.isUndefined($shouldApprove$?.Should) ||
-              $shouldApprove$?.Loading ||
-              waitingForTx ||
-              _.isUndefined($hasAgreed$) ||
-              !!$isLoadingAgreement$}
-            className="h-8 flex w-full md:w-20 relative items-center justify-center m-0 !border-0 {$shouldApprove$?.Should
+            tooltip={hasAgreed && $__$.presale.errors.shouldAgree}
+            job={swap}
+            disabled={!hasAgreed || (!canContrib && !shouldApprove)}
+            isLoading={_.isUndefined(hasAgreed) || isLoadingContrib || waitingForTx}
+            className="h-12 md:h-9 flex w-full md:w-36 relative items-center justify-center m-0 !border-transparent {shouldApprove
               ? 'bg-yellow-700'
               : 'bg-secondary-700'}">
-            {#if !$shouldApprove$?.Loading && !!$shouldApprove$?.Should && !!$hasAgreed$}
-              <div
-                in:fly={{ x: -50 }}
-                out:fly={{ x: 50 }}
-                class="absolute inset-0 flex justify-center gap-2 items-center">
-                <SvgIcon Icon={TickIcon} width="1.125rem" height="1.125rem" />
-                <span>
-                  {$__$?.presale.contribution.approve.toUpperCase()}
-                </span>
-              </div>
-            {/if}
-
-            {#if !$shouldApprove$?.Loading && !$shouldApprove$?.Should && !!$hasAgreed$}
-              <div
-                in:fly={{ x: -50 }}
-                out:fly={{ x: 50 }}
-                class="absolute inset-0 flex justify-center gap-2 items-center">
-                <SvgIcon Icon={FlashIcon} width="1.125rem" height="1.125rem" />
-                <span>
-                  {$__$?.presale.contribution.swap.toUpperCase()}
-                </span>
-              </div>
-            {/if}
-
-            {#if !$hasAgreed$}
-              <div
-                in:fly={{ x: -50 }}
-                out:fly={{ x: 50 }}
-                class="absolute inset-0 flex justify-center items-center">
-                <SvgIcon
-                  Icon={RestrictedIcon}
-                  width="1.125rem"
-                  height="1.125rem"
-                  className={'hidden md:flex'} />
-                <span class="md:hidden">
-                  {$__$?.presale.errors.shouldAgree}
-                </span>
-              </div>
-            {/if}
+            <Slide
+              class={{ wrapper: 'gap-2' }}
+              visible={!isLoadingContrib && !!hasAgreed && !!shouldApprove}>
+              <SvgIcon Icon={TickIcon} width="1.125rem" height="1.125rem" />
+              <span>
+                {$__$?.presale.contribution.approve.toUpperCase()}
+              </span>
+            </Slide>
+            <Slide
+              class={{ wrapper: 'gap-2' }}
+              visible={!isLoadingContrib && !!hasAgreed && !shouldApprove}>
+              <SvgIcon Icon={FlashIcon} width="1.125rem" height="1.125rem" />
+              <span>
+                {$__$?.presale.contribution.swap.toUpperCase()}
+              </span>
+            </Slide>
+            <Slide class={{ wrapper: 'gap-2' }} visible={isLoadingContrib || !hasAgreed}>
+              <SvgIcon
+                Icon={RestrictedIcon}
+                width="1.125rem"
+                height="1.125rem"
+                className={'hidden md:flex'} />
+              <span class="md:hidden">
+                {$__$?.presale.errors.shouldAgree}
+              </span>
+            </Slide>
           </Button>
         </div>
       </div>
     </div>
-  {/if}
-  {#if !canContribute}
-    <div transition:fade class="absolute inset-0 flex justify-center items-center h-full">
-      {#if !$signerAddress$?.length && isFunding}
-        <span>
+  {:else}
+    <div transition:fade class="absolute inset-0">
+      {#if !$signerAddress$?.length && $canContribute$ !== ContributeActionErrors.NOT_FUNDING && !$isNotFunding$}
+        <span
+          class="absolute inset-0 flex justify-center items-center text-center"
+          transition:fade|local>
           {$__$?.web3Provider.connect.connectButton.notConnected}
         </span>
-      {/if}
-      {#if !isFunding}
-        <span>{$__$?.presale.contribution.unavailable}</span>
+      {:else if $canContribute$ === ContributeActionErrors.NOT_FUNDING || $isNotFunding$}
+        <span
+          class="absolute inset-0 flex justify-center items-center text-center"
+          transition:fade|local>{$__$?.presale.contribution.unavailable}</span>
+      {:else if $canContribute$ === ContributeActionErrors.NO_KYC}
+        <span
+          class="absolute inset-0 flex justify-center items-center text-center"
+          transition:fade|local>{$__$?.presale.errors.kyc}</span>
+      {:else if $canContribute$ === Web3Errors.RESOURCE_NOT_FOUND || $canContribute$ === undefined}
+        <span
+          class="absolute inset-0 flex justify-center items-center text-center"
+          transition:fade|local>
+          <LoadingSpinner />
+        </span>
+      {:else}
+        <span
+          class="absolute inset-0 flex justify-center items-center text-center"
+          transition:fade|local>{$__$?.main.genericErrorMessage}</span>
       {/if}
     </div>
   {/if}

@@ -1,7 +1,9 @@
 import _ from 'lodash'
 import { ReplaySubject } from 'rxjs'
 import type { LazyEval } from '$lib/types'
-import { unLazy } from '$lib/utils/un-lazy'
+import { unLazy } from '$lib/shared/utils/un-lazy'
+
+const memoryCacheEmptySentinel = Symbol('memoryCacheEmptySentinel')
 
 export class MemoryCache {
   private storage: { [key: string]: unknown } = {}
@@ -9,19 +11,6 @@ export class MemoryCache {
 
   constructor() {
     //
-  }
-
-  private _makeObservable(key: string) {
-    this.observables[key] = new ReplaySubject(1)
-    const observable = this.observables[key]!
-    try {
-      observable.next(this.get(key))
-    } catch {
-      //ignore
-    }
-    observable.subscribe({
-      next: value => this._store(key, value),
-    })
   }
 
   private _store(key: string, value: unknown): void {
@@ -72,9 +61,26 @@ export class MemoryCache {
     return key in this.storage
   }
 
-  public observe<T>(key: string): ReplaySubject<T> {
+  //DEBUG: test new changes
+  public observe<T>(
+    key: string,
+    initializer: LazyEval<T> | typeof memoryCacheEmptySentinel = memoryCacheEmptySentinel,
+  ): ReplaySubject<T> {
     if (!(key in this.observables)) {
-      this._makeObservable(key)
+      this.observables[key] = new ReplaySubject(1)
+      const observable = this.observables[key]!
+      try {
+        observable.next(
+          initializer !== memoryCacheEmptySentinel
+            ? this.getDefault<T>(key, initializer)
+            : this.get<T>(key),
+        )
+      } catch {
+        //ignore
+      }
+      observable.subscribe({
+        next: value => this._store(key, value),
+      })
     }
     return this.observables[key]! as ReplaySubject<T>
   }
