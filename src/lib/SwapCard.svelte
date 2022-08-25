@@ -1,3 +1,7 @@
+<script lang="ts" context="module">
+  const zone = Zone.current.fork({ name: 'User:SwapCard' })
+</script>
+
 <script lang="ts">
   import _ from 'lodash'
   import { fade, slide } from 'svelte/transition'
@@ -37,6 +41,7 @@
   import { isEqual } from './shared/utils/type-safe'
   import LoadingSpinner from './shared/LoadingSpinner.svelte'
   import Slide from './shared/Slide.svelte'
+  import { fork, forkWrap, runAs, wrapWith } from './utils/zone'
 
   export let sale$: Observable<Sale<Contract>>
 
@@ -56,7 +61,7 @@
 
   $: approve$ = quoteValue$
     ? sale$.pipe(
-        map(sale => sale.approve(quoteValue$)),
+        map(wrapWith(zone, sale => sale.approve(quoteValue$))),
         map(x => x.call),
       )
     : undefined
@@ -71,7 +76,7 @@
   $: shouldApprove = $canContributeAmount$ === ContributeActionErrors.LOW_ALLOWANCE
   $: canContrib = $canContributeAmount$ === true
 
-  $: swap = () => {
+  $: swap = wrapWith(zone, () => {
     if (shouldApprove) {
       const isApprovalDone$ = canContributeAmount$.pipe(
         skip(1),
@@ -162,7 +167,7 @@
       )
     }
     return
-  }
+  })
 </script>
 
 <Card

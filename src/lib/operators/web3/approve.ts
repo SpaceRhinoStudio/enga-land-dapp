@@ -8,6 +8,7 @@ import { ActionStatus, ConditionedAction, Option$ } from '$lib/types'
 import { resolveAddress } from './resolve-address'
 import { signerAddress$ } from '$lib/observables/selected-web3-provider'
 import { mapNilToWeb3Error, Web3Errors } from '$lib/helpers/web3-errors'
+import { wrap } from '$lib/utils/zone'
 
 export const userApprove = (
   contract$: Option$<ERC20>,
@@ -40,8 +41,10 @@ export const userApprove = (
               : combineLatest([contract$, spenderAddress$, _amount$, signerAddress$]).pipe(
                   first(),
                   switchSomeMembers(
-                    exhaustMap(([erc20, spender, amount]) =>
-                      staticCall(erc20, 'approve', spender, amount),
+                    exhaustMap(
+                      wrap(([erc20, spender, amount]) =>
+                        staticCall(erc20, 'approve', spender, amount),
+                      ),
                     ),
                     executeWrite(),
                     //TODO: double check with event logs
