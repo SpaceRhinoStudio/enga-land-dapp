@@ -1,8 +1,8 @@
 # EngaLand Dapp
 
-This repository hosts the decentralized application for [EngaLand Protocol](https://enga.land).  
-latest stable version is hosted [here](https://app.enga.land/).  
-For more information about the protocol please visit the [EngaLand Wiki](https://docs.enga.land).
+This repository hosts the decentralized application for [EngaLand Protocol](https://enga-land-landing.pages.dev/).  
+latest staging version is hosted [here](https://staging.enga-land-dapp.pages.dev/).  
+For more information about the protocol please visit the [EngaLand Wiki](https://mehdizarei.gitbook.io/enga-land/).
 
 [![wakatime](https://wakatime.com/badge/user/5e4f5ed0-dd2e-4204-b88b-ee84d3aad996/project/f5ccbf8f-29bb-4c1c-88c5-cfee579afc19.svg)](https://wakatime.com/badge/user/5e4f5ed0-dd2e-4204-b88b-ee84d3aad996/project/f5ccbf8f-29bb-4c1c-88c5-cfee579afc19)
 
